@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Bugnet学习总结（4）数据访问层</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                Bugnet学习总结（4）数据访问层
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        25 Jul 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+            <p>Bugnet由于功能比较简单，所以在系统的架构上也很简单，没什么过于复杂的地方。</p>
+<p>DAL文件夹中的DataFactory文件通过读取Web.config中的Appsetting中的值反射生成生成数据库连接和操作对象。DataHelper，里面则是一些常用的Ado操作，进行了简单的封装，GenericDataAccessLayer是调用DataHelper里的函数完成数据CRUD操作的类。,需要提一下的是具体的数据库操作的代码是写在数据库的存储过程中的，而这一点也正是我不是很理解的地方，先前提到过的DataFactory和DataHelper特别是
+DataFactory的存在是提供跨库操作的，而它将数据库操作又用存储过程写在数据库里面这不是有点矛盾么。。。想象一下如果要迁移的话那存储过程不是都还要改。。。。。:(</p>
+<p>在看GenericDataAccessLayer的时候，刚开始我对其中一个语法结构不是很清楚，是到网上查了一些资料才弄懂的。该类在里面定义了一个静态对象，如果是别的对象我还可以理解，可是这个对象正式通过GenericDataAccessLayer实例化的。。</p>
+<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// BugNET Data Access Layer</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">GenericDataAccessLayer</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="n">GenericDataAccessLayer</span> <span class="n">instance</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>这个就是静态对象声明的地方</p>
+<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Instances this instance.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="c1">/// &lt;returns&gt;&lt;/returns&gt;</span>
+<span class="k">public</span> <span class="k">static</span> <span class="n">GenericDataAccessLayer</span> <span class="nf">Instance</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">instance</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">instance</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GenericDataAccessLayer</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">instance</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>在调用的时候如果为null会对对象进行初始化。</p>
+<p>刚开始我的想法是GenericDataAccessLayer里包含instance这个对象，那初始化的时候会构成一个不断递归的过程，为什么会编译通过呢？后来在网上找了一下，找到了答案。原来类里面定义的静态对象是在类级别而不是在对象级别的。如果那种写法不是写的静态对象，即语句写成了public
+GenericDataAccessLayer Instance()
+，那么肯定是有问题的，而如果你写在类这个级别的时候这个问题是不存在的。</p>
+<p>这样来说吧，假设你用GenericDataAccessLayer来初始化一个对象，就像上面那个函数里面写的那样</p>
+<div class="highlight"><pre><span class="n">GenericDataAccessLayer</span> <span class="n">objGenericDataAccessLayer</span>  <span class="p">=</span> <span class="k">new</span> <span class="n">GenericDataAccessLayer</span> <span class="p">();</span>
+</pre></div>
+
+
+<p>objGenericDataAccessLayer这个对象在初始化的时候只会为类里非static的变量分配内存空间，static因为前面已经说到时在类这个级别，所以不会对它进行空间分配，也不会出现我刚开始所担心的递归问题。</p>
+<p>当然了，其实代码中并 <code>GenericDataAccessLayer objGenericDataAccessLayer =
+new GenericDataAccessLayer();</code>这样的代码，除了初始化那个instance外，调用的代码一般写的是</p>
+<div class="highlight"><pre><span class="kt">int</span> <span class="n">TempId</span> <span class="p">=</span> <span class="n">GenericDataAccessLayer</span><span class="p">.</span><span class="n">Instance</span><span class="p">().</span><span class="n">CreateNewHistory</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</pre></div>
+
+
+<p>像这样的代码，我不明白的就是为什么不直接用工具类调用静态函数来写，还要在中间加一个Instance不知道这是什么意思。。望知道的朋友留言告知。</p>
+<p>数据访问就写到这了，下次写BLL.</p>
+        </div>
+        <!-- /.entry-content -->
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

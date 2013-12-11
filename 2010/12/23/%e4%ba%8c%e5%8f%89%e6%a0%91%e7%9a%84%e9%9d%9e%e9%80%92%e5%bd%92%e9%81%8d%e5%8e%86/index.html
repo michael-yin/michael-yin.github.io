@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>二叉树的非递归遍历</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                二叉树的非递归遍历
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        23 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>二叉树的遍历如果使用递归调用基本没什么问题，这里主要是讲如何使用非递归方法实现二叉树的遍历。</p>
+<p>由于递归调用程序实际上使用了栈来保存方法中的变量值，在非递归遍历的方法中我们需要基于栈的方法。先来看看这个方法</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        /// <summary>
+        /// 非递归中序遍历二叉树
+        /// </summary>
+        /// <param name="root"></param>
+        static void InOrderTraverse(BinaryTreeNode root)
+        {
+            BinaryTreeNode temp = root;
+            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+            stack.Push(root);
+            while (stack.Count &gt; 0)
+            {
+                while (temp != null)
+                {
+                    temp = temp.left;
+                    stack.Push(temp);
+                }
+                stack.Pop();
+                //如果为0证明这时右边节点为null
+                if (stack.Count &gt; 0)
+                {
+                    temp = stack.Pop();
+                    Console.WriteLine(temp.data);
+                    temp = temp.right;
+                    stack.Push(temp);
+                }
+            }
+        }</p>
+<div class="highlight"><pre><span class="err">节点</span><span class="nx">temp</span><span class="err">在这里是起一个标识的作用，首先沿根节点往左下方进行查找，将存在的节点压入栈，里面的那个</span><span class="k">while</span><span class="err">循环结束后栈的最顶端一定是一个</span><span class="kt">null</span><span class="err">，所以栈</span><span class="nb">pop</span><span class="err">一下，然后这时进行读取操作，读取后压入读取节点的右子节点，进入下一个</span><span class="k">while</span><span class="err">循环，</span><span class="nx">temp</span><span class="err">指向右子节点。</span>
+
+<span class="err">在这里使用栈能保证左边子节点访问后找到父节点，父节点访问后也弹出栈，将右子节点压入。这里右子节点的压入和前面一部分是对应的，保证</span><span class="nx">stack.Pop</span><span class="p">()</span><span class="err">这句语句的正确性。如果我们不想在栈中压入多余的那个</span><span class="kt">null</span><span class="err">这时该怎么办呢？将程序改成这样</span>
+
+<span class="err">~~~~</span> <span class="p">{</span><span class="bp">.</span><span class="nx">brush</span><span class="p">:</span> <span class="bp">.</span><span class="nx">csharp</span><span class="p">;</span> <span class="bp">.</span><span class="nx">auto</span><span class="na">-links</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">collapse</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="bp">.</span><span class="nb">first</span><span class="na">-line</span><span class="p">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="bp">.</span><span class="nx">gutter</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">html</span><span class="na">-script</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">light</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="bp">.</span><span class="nx">ruler</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">smart</span><span class="na">-tabs</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">tab</span><span class="na">-size</span><span class="p">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="bp">.</span><span class="nx">toolbar</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;}</span>
+        <span class="c1">/// &lt;summary&gt;</span>
+        <span class="c1">/// 非递归中序遍历二叉树</span>
+        <span class="c1">/// &lt;/summary&gt;</span>
+        <span class="c1">/// &lt;param name=&quot;root&quot;&gt;&lt;/param&gt;</span>
+        <span class="nx">static</span> <span class="bp">void</span> <span class="nx">InOrderTraverse2</span><span class="p">(</span><span class="nx">BinaryTreeNode</span> <span class="nb">root</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="nx">BinaryTreeNode</span> <span class="n">temp</span> <span class="o">=</span> <span class="nx">root.left</span><span class="p">;</span>
+            <span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">BinaryTreeNode</span><span class="o">&gt;</span> <span class="n">stack</span> <span class="o">=</span> <span class="nb">new</span> <span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">BinaryTreeNode</span><span class="o">&gt;</span><span class="p">();</span>
+            <span class="nx">stack.Push</span><span class="p">(</span><span class="nb">root</span><span class="p">);</span>
+            <span class="k">while</span> <span class="p">(</span><span class="nx">stack.Count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">temp</span> <span class="o">!=</span> <span class="kt">null</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">while</span> <span class="p">(</span><span class="nx">temp</span> <span class="o">!=</span> <span class="kt">null</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="nx">stack.Push</span><span class="p">(</span><span class="nx">temp</span><span class="p">);</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="nx">temp.left</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="nx">stack.Pop</span><span class="p">();</span>
+                <span class="nx">Console.WriteLine</span><span class="p">(</span><span class="nx">temp.data</span><span class="p">);</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="nx">temp.right</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</pre></div>
+
+
+<p>只有确定是非null才将节点压入栈，但是这里会有一个问题，当temp指向根节点的右节点的时候，栈是空的，我们需要在while循环处多加一个判断，如果temp是null证明右节点不存在，循环结束。</p>
+<p>到这里，程序基本上已经比较完美了，不过我还是要在这里折腾一下。</p>
+<p>while循环中的while循环的条件是temp是否为null,所以，我可以用一个if/else来换一下</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        static void InOrderTraverse3(BinaryTreeNode root)
+        {
+            BinaryTreeNode temp = root.left;
+            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+            stack.Push(root);
+            while (stack.Count &gt; 0 || temp != null)
+            {
+                if (temp != null)
+                {
+                    stack.Push(temp);
+                    temp = temp.left;
+                }
+                else
+                {
+                    temp = stack.Pop();
+                    Console.WriteLine(temp.data);
+                    temp = temp.right;
+                }
+            }
+        }</p>
+<div class="highlight"><pre><span class="err">呵呵，有意思吧。编程真奇妙</span><span class="o">\</span><span class="err">~</span>
+
+<span class="err">上面三个都是二叉树的非递归中序遍历方法，非递归先序遍历和中序差不多，开始从上往下把节点入栈的时候对节点进行操作就行了，比如第二个的中序遍历改成先序遍历就是</span>
+
+<span class="err">~~~~</span> <span class="p">{</span><span class="bp">.</span><span class="nx">brush</span><span class="p">:</span> <span class="bp">.</span><span class="nx">csharp</span><span class="p">;</span> <span class="bp">.</span><span class="nx">auto</span><span class="na">-links</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">collapse</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="bp">.</span><span class="nb">first</span><span class="na">-line</span><span class="p">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="bp">.</span><span class="nx">gutter</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">html</span><span class="na">-script</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">light</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="bp">.</span><span class="nx">ruler</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">smart</span><span class="na">-tabs</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">tab</span><span class="na">-size</span><span class="p">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="bp">.</span><span class="nx">toolbar</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;}</span>
+        <span class="c1">/// &lt;summary&gt;</span>
+        <span class="c1">/// 非递归先序遍历二叉树</span>
+        <span class="c1">/// &lt;/summary&gt;</span>
+        <span class="c1">/// &lt;param name=&quot;root&quot;&gt;&lt;/param&gt;</span>
+        <span class="nx">static</span> <span class="bp">void</span> <span class="nx">PreOrderTraverse</span><span class="p">(</span><span class="nx">BinaryTreeNode</span> <span class="nb">root</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="nx">BinaryTreeNode</span> <span class="n">temp</span> <span class="o">=</span> <span class="nx">root.left</span><span class="p">;</span>
+            <span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">BinaryTreeNode</span><span class="o">&gt;</span> <span class="n">stack</span> <span class="o">=</span> <span class="nb">new</span> <span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">BinaryTreeNode</span><span class="o">&gt;</span><span class="p">();</span>
+            <span class="nx">Console.WriteLine</span><span class="p">(</span><span class="nx">root.data</span><span class="p">);</span>
+            <span class="nx">stack.Push</span><span class="p">(</span><span class="nb">root</span><span class="p">);</span>
+            <span class="k">while</span> <span class="p">(</span><span class="nx">stack.Count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">temp</span> <span class="o">!=</span> <span class="kt">null</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">while</span> <span class="p">(</span><span class="nx">temp</span> <span class="o">!=</span> <span class="kt">null</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="nx">Console.WriteLine</span><span class="p">(</span><span class="nx">temp.data</span><span class="p">);</span>
+                    <span class="nx">stack.Push</span><span class="p">(</span><span class="nx">temp</span><span class="p">);</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="nx">temp.left</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="nx">stack.Pop</span><span class="p">();</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="nx">temp.right</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</pre></div>
+
+
+<p>其他的几种对着中序改一下就行了</p>
+<p>下面来讲一讲后序遍历，后序遍历由于遍历父节点是在遍历子节点之后，而且左节点和右节点遍历后的行为不一样，所以需要用变量来记录前一次访问的节点，根据前一次节点和现在的节点的关系来确定具体执行什么操作</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        static void PostOrderTraversa1(BinaryTreeNode root)
+        {
+            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+            stack.Push(root);
+            BinaryTreeNode prev = null;
+            BinaryTreeNode curr = null;
+            while (stack.Count &gt; 0)
+            {
+                curr = stack.Peek();
+                if (prev == null || prev.left == curr || prev.right == curr)
+                {
+                    if (curr.left != null)
+                    {
+                        stack.Push(curr.left);
+                    }
+                    else if (curr.right != null)
+                    {
+                        stack.Push(curr.right);
+                    }
+                    else
+                    {
+                        Console.WriteLine(curr.data);
+                        stack.Pop();
+                    }
+                }
+                else if (curr.left == prev)
+                {
+                    if (curr.right != null)
+                    {
+                        stack.Push(curr.right);
+                    }
+                    else
+                    {
+                        Console.WriteLine(curr.data);
+                        stack.Pop();
+                    }
+                }
+                else if (curr.right == prev)
+                {
+                    Console.WriteLine(curr.data);
+                    stack.Pop();
+                }
+                prev = curr;
+            }
+        }</p>
+<div class="highlight"><pre><span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+<span class="err">这个方法我继续折腾，可以简化成这样</span>
+</pre></div>
+
+
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        static void PostOrderTraversa2(BinaryTreeNode root)
+        {
+            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+            stack.Push(root);
+            BinaryTreeNode prev = null;
+            BinaryTreeNode curr = null;
+            while (stack.Count &gt; 0)
+            {
+                curr = stack.Peek();
+                if (prev == null || prev.left == curr || prev.right == curr)
+                {
+                    if (curr.left != null)
+                        stack.Push(curr.left);
+                    else if (curr.right != null)
+                        stack.Push(curr.right);
+                }
+                else if (curr.left == prev)
+                {
+                    if (curr.right != null)
+                        stack.Push(curr.right);
+                }
+                else
+                {
+                    Console.WriteLine(curr.data);
+                    stack.Pop();
+                }
+                prev = curr;
+            }
+        }</p>
+<div class="highlight"><pre><span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+<span class="err">恩恩，有意思</span><span class="o">~</span>
+</pre></div>
+
+
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+好了，最后来一个压轴的吧。老实说我开始想过这么搞，但是没有想清楚就否定了，后来在网上看到别人这么写才看懂。</p>
+<div class="highlight"><pre><span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+<span class="err">使用双栈来完成后序遍历，看好了，当当当当</span><span class="o">~</span>
+</pre></div>
+
+
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        /// <summary>
+        /// 使用双栈
+        /// </summary>
+        /// <param name="root"></param>
+        static void PostOrderTraversa3(BinaryTreeNode root)
+        {
+            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+            Stack<BinaryTreeNode> output = new Stack<BinaryTreeNode>();
+            stack.Push(root);
+            BinaryTreeNode curr = null;
+            while (stack.Count &gt; 0)
+            {
+                curr = stack.Pop();
+                output.Push(curr);
+                if (curr.left != null)
+                    stack.Push(curr.left);
+                if (curr.right != null)
+                    stack.Push(curr.right);
+            }
+            while (output.Count &gt; 0)
+            {
+                Console.WriteLine(output.Peek().data);
+                output.Pop();
+            }
+        }
+~~~~</p>
+<p>园子里的二叉树的非递归遍历我看了几个，代码的可读性不是很好，所以学习完了之后进行了一个整理，希望能给园子做点贡献\~</p>
+        </div>
+        <!-- /.entry-content -->
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Michaelyin Blog - checkio</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<div class="col-lg-9">
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/07/14/%e7%9b%b4%e7%ba%bf%e7%9b%b8%e4%ba%a4%e9%97%ae%e9%a2%98/">直线相交问题</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        14 Jul 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+    <span class="label label-default">bullet-and-wall</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/checkio.html">
+    <span class="label label-default">checkio</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>最近在checkio上扫题的时候，碰到一个判断直线是否相交的问题，题目请<a href="http://www.checkio.org/mission/task/info/bullet-and-wall/python-3/">猛击这里</a>，这个题目以前上学的时候做到手软的好么，二话不说直接开写，先根据坐标上的两个点，算出斜率，然后得出直线表达式，最后根据两个直线表达式算出是否存在相交点，然后加上斜率为无穷大的情况等等，最后写出的代码如下。</p>
+<p>[code lang="py"]<br />
+def checkio(data):<br />
+xw1, yw1 = data[0]<br />
+xw2, yw2 = data[1]<br />
+xa, ya = data[2]<br />
+xb, yb = data[3]</p>
+<p>if(xw1 - xw2 == 0 and xb - xa == 0):<br />
+# vertical vertical<br />
+return False<br />
+elif(xw1 - xw2 == 0 ...</p>
+                    <a href="http://blog.michaelyin.info/2013/07/14/%e7%9b%b4%e7%ba%bf%e7%9b%b8%e4%ba%a4%e9%97%ae%e9%a2%98/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/06/30/%e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2/">数组分割</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        30 Jun 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/checkio.html">
+    <span class="label label-default">checkio</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+    <span class="label label-default">动态规划</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+    <span class="label label-default">数组分割</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>最近在做Python
+Challenge的时候无意中发现了checkio这个练习PY的地方，题目不难，正好可以在工作之余修炼下PY功力。。</p>
+<p>loading-cargo这个题目的意思比较简单
+，有一个无序、元素个数为2n的正整数数组，要求：如何能把这个数组分割为两个子数组，子数组的元素个数不限，并使两个子数组之和最接近</p>
+<h6>1:Solve</h6>
+<h6></h6>
+<p>根据题目给出的Hint，可以使用暴力破解的方式穷举出所有可能的组合，并算出其和，使用PY提供的库可以很方便的做到，代码如下</p>
+<p>[code lang="py"]import itertools</p>
+<p>def checkio(data):<br />
+total = sum(data)<br />
+diff = total<br />
+for i in range(1, len(data)):<br />
+for value in itertools.combinations(data, i):<br />
+diff_sub = sum(value)<br />
+diff_sub = total ...</p>
+                    <a href="http://blog.michaelyin.info/2013/06/30/%e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+
+</div>
+<div class="col-lg-3 well well-sm" id="sidebar"><aside>
+    <section>
+        <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="hgyinjian-gmail.com">
+                    <i class="icon-mail-sign icon-1x"></i>
+                    Mail
+                </a>
+            </li>
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Categories
+                </h4>
+            </li>
+        
+            <li>
+                <a href="http://blog.michaelyin.info/category/java.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Java
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/linux.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Linux
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/net.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    思考心得
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    算法相关
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    未分类
+                </a>
+            </li>
+        </ul>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4>
+                    <i class="icon-tags icon-large"></i>
+                    Tags
+                </h4>
+            </li>
+
+
+            <li class="list-group-item">
+                <a href="http://blog.michaelyin.info/tag/bugnet.html">
+                    <span class="label label-default">Bugnet</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/google-map.html">
+                    <span class="label label-default">Google Map</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+            </li> 
+
+        </ul>
+    </section>
+</aside></div>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

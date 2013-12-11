@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Heritrix之旅之Processor</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                Heritrix之旅之Processor
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        10 Oct 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>实际的url的处理是在toethread中进行的，toethread从Frontier中请求待处理的url,并将其放到一系列Processor中进行处理</p>
+<p>可以以流水线上的处理流程来想象Processor，流水线上的产品就是url，由于处理的processor主要着重于不同的阶段和功能，所以，heritrix将其processor分成了五个大类。</p>
+<p>1 Pre-fetch</p>
+<p>这里面包含一些需要在像web服务器发出请求之前的一些处理的processor,比如检查url的scope</p>
+<p>2 Fetch</p>
+<p>这里面的是获取web信息的processor,不同的processor支持不同的协议，比如FetchHTTP支持http,FetchDNS支持dns</p>
+<p>3 Extractor</p>
+<p>这个里面就是涉及到对抓取的web信息进行内容的提取了，可以对其中的链接进行处理，放到以后进行抓取，也可以根据自己的业务逻辑进行相应的扩展</p>
+<p>4 Write/index</p>
+<p>将抓取的信息存储到硬盘中</p>
+<p>\5. Post-processing</p>
+<p>将Extractor中找到的url放入到Frontier中待以后进行抓取，进行processor的清理工作</p>
+<p>所有的处理类都是继承了Processor，这样就能以一定的抽象统一对所有的processor进行管理，而每个具体的processor只需要根据自己的需要重写相应的处理方法即可</p>
+<p>CrawlController在setupCrawlModules中会初始化processorChains，ProcessorChainList这个实例就是整个处理器的一个容器，它下面根据上面所说的分类构成了5个ProcessorChain，需要注意的是初始化的时候顺序是很重要的，因为这个顺序关系到url处理时候的顺序。ProcessorChain中包含了所需要的processor</p>
+<p>多线程相关</p>
+<p>Processor的实例在CrawlController中会存放在ProcessorChain中，如果有特殊需要为了保证每个线程有属于自己的Processor,只需要实现InstancePerThread这个端口即可</p>
+<p>[code lang="java"] private Processor getProcessor(Processor processor)
+{<br />
+if(!(processor instanceof InstancePerThread)) {<br />
+// just use the shared Processor<br />
+return processor;<br />
+}<br />
+// must use local copy of processor<br />
+Processor localProcessor = (Processor) localProcessors.get(<br />
+processor.getClass().getName());<br />
+if (localProcessor == null) {<br />
+localProcessor = processor.spawn(this.getSerialNumber());<br />
+localProcessors.put(processor.getClass().getName(),localProcessor);<br />
+}<br />
+return localProcessor;<br />
+}[/code]</p>
+<p>这个方法对于需要新建的Processor通过反射重新建立实例并存放在ToeThread的localProcessors中</p>
+<p>当时在看一个扩展Processor的时候觉得很奇怪的就是本来下意识的觉得多个线程公用一个东西应该使用同步，所以看到Processor并没有使用同步的关键字觉得很奇怪，后来仔细想了一下觉得这个地方其实是有它的道理的。因为同步是为了什么？为了共享资源访问的时候不出问题，而这里处理url的过程中Processor的处理本来就没什么共享的东西需要进行同步，所以这样设计是没有问题的。这也告诉我们，对于多线程调用的一些方法，同步关键字并不是必须的，同步的本质是对于共享资源访问时的同步</p>
+        </div>
+        <!-- /.entry-content -->
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

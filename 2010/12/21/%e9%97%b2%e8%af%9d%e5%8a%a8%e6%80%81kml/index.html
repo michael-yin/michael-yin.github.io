@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>闲话动态KML</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                闲话动态KML
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        21 Dec 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/net.html">
+    <span class="label label-default">.Net</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/google-map.html">
+    <span class="label label-default">Google Map</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/kml.html">
+    <span class="label label-default">Kml</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+            <p>最近在Google
+Map开发中开发中用到了动态生成KML在地图中动态显示数据，下面来简单的把其中的知识点讲一下。</p>
+<p>KML是一种采用XML
+语法与格式的语言，它被用来描述地理信息，如点，线，多边形等等，可以被Google
+map和Google Earth等软件识别并显示。我们可以在Google
+Earth把我们感兴趣的一些地点标识出来，然后生成KML文件，通过分享这个文件来让别人在Google
+map或者google earth中看到我们标注的信息。下面是一个简单的KML文件。</p>
+<p>[code lang="xml"]<br />
+&lt;?xml version="1.0" encoding="UTF-8"?><br />
+&lt;kml xmlns="http://www.opengis.net/kml/2.2"><br />
+&lt;Placemark><br />
+&lt;name>Simple placemark&lt;/name><br />
+&lt;description>Attached to the ground. Intelligently places itself<br />
+at the height of the underlying terrain.&lt;/description><br />
+&lt;Point><br />
+&lt;coordinates>-122.0822035425683,37.42228990140251,0&lt;/coordinates><br />
+&lt;/Point><br />
+&lt;/Placemark><br />
+&lt;/kml><br />
+[/code]</p>
+<p>Placemark标识地图上的标记，name和description是名字和描述，coordinates是具体的经纬度，这只是一个很简单的KML文件，具体的KML标记可以去<a href="http://code.google.com/apis/kml/documentation/kmlreference.html">KML
+Reference</a>查看Google的官方文档。</p>
+<p>Google
+map支持将KML文件读取将数据进行转换后显示在Map上，由于KML文件必须是外网可以访问的，而开发调试时在本机上完成，所以这里采用了一个折中的办法，在程序中先生成kml文件，然后将生成的kml文件上传到服务器，然后将相应的url改成kml文件的地址。在这里还需要注意的是有些服务器是默认是不支持kml文件的，所以我们需要对kml文件进行注册。</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2010/12/201012211605368583.png"><img alt="201012211605368583" src="http://blog.michaelyin.info/wp-content/uploads/2010/12/201012211605368583.png" /></a></p>
+<p>在项目里面新建了一个ashx,在ProcessRequest方法里面生成KML文件，在这里生成的模型采用的是流模型。贴出部分代码</p>
+<p>[code lang="csharp"]<br />
+context.Response.Clear();<br />
+context.Response.ContentType = "text/xml";<br />
+context.Response.Charset = "utf-8";<br />
+context.Response.AddHeader("Content-Disposition", "attachment;
+filename=" + "Test.kml");<br />
+using (XmlTextWriter data = new
+XmlTextWriter(context.Response.OutputStream,
+System.Text.Encoding.UTF8))<br />
+{<br />
+//设置输出的缩进<br />
+data.Formatting = Formatting.Indented;<br />
+data.WriteStartDocument();<br />
+data.WriteStartElement("kml");<br />
+data.WriteAttributeString("xmlns", "http://www.opengis.net/kml/2.2");<br />
+data.WriteStartElement("Document");<br />
+data.WriteElementString("name", "name");<br />
+data.WriteElementString("description", "description");<br />
+[/code]</p>
+<p>生成部分和一般的生成XML文件类似，没有太多需要注意的地方。</p>
+<p>Google
+map读取KML文件后会在地图上显示出来，但是到这里的时候我遇到了一个问题，由于Google
+map采用了缓存，我修改了KML文件点击页面进行刷新似乎数据还是刚才的数据，而没有读取最新的kml来生成地图，而这个缓存我自己并不能控制，找了一下，园子里好像也没有人提到类似问题，后来在Google
+上搜到了一个管用的方法。在脚本中请求KML的url后面跟上一个随机数，比如像这样</p>
+<p>[code lang="csharp"] var mykmlurl =
+'http://********/files/Test.kml?key=' + Math.random();[/code]</p>
+<p>这样每次都是读取的最新的数据了.</p>
+<p>加载kml数据后，地图为了显示所有的kml中的数据，原先设置的center和zoom会失效，这时通过设置KmlLayer的preserveViewport可以解决这个问题。</p>
+<p>参考资料</p>
+<p><a href="http://gis.stackexchange.com/questions/333/how-to-dynamically-refresh-reload-a-kml-layer-in-openlayers">How to Dynamically refresh / reload a KML layer in
+OpenLayers.</a></p>
+        </div>
+        <!-- /.entry-content -->
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

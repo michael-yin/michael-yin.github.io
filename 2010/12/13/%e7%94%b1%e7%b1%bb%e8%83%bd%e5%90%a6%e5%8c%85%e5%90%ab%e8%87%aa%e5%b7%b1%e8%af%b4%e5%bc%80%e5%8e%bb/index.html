@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>由类能否包含自己说开去</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                由类能否包含自己说开去
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        13 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>下午在Coding的时候突然想到了一个问题，类到底能不能包含自己?在什么情况下能包自己？</p>
+<p>当时正在实现一个类似链表的功能，在一个节点中需要有下个节点的引用的数据，比如像这样子的代码。</p>
+<p Next_="Next;
+" Node="Node" _="
+" data_="data;
+" int="int" public="public">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+    public class Node</p>
+<div class="highlight"><pre><span class="err">在</span><span class="n">Node</span><span class="err">中有一个</span><span class="n">Node</span><span class="err">类型的引用地址，用来找到这个节点的下一个节点。默认构造函数调用后会将</span><span class="n">data</span><span class="err">置</span><span class="mi">0</span><span class="p">,</span><span class="n">Next</span><span class="err">置</span><span class="n">null</span><span class="p">,</span><span class="err">当时我写到这里突然想起来好像在哪里看到过类中包含类自己是不行的。于是在</span><span class="n">Console</span><span class="err">中跑了一遍，运行结果是对的。断点显示初始化的值是我预计的结果。那到底在什么情况下类不能包含自己呢？要知道答案，我们还是先要说说初始化背后的故事。</span>
+
+<span class="err">在我初始化节点的时候我调用的是</span><span class="n">new</span>
+<span class="n">Node</span><span class="p">()</span><span class="err">这个方法，这个时候</span><span class="p">.</span><span class="n">Net</span><span class="err">会首先计算类中成员需要的内存空间，这里就是</span><span class="kt">int</span><span class="err">类型和</span><span class="n">Node</span><span class="err">引用类型的地址的空间</span><span class="p">(</span><span class="err">实际还有别的，不过和我们讨论的问题无关，故在这里省略</span><span class="p">)</span><span class="err">，然后在内存中分配内存空间，分配了内存空间后就会对类中的变量进行初始化，比如我的代码中写的是</span><span class="n">public</span>
+<span class="kt">int</span> <span class="n">data</span> <span class="o">=</span>
+<span class="mi">3</span><span class="p">;</span><span class="err">那么</span><span class="n">data</span><span class="err">这个变量就会在这时被赋值</span><span class="mi">3</span><span class="p">,</span><span class="err">就变量初始化后然后会调用类的相应的构造函数，因为我这里没有实现构造函数，所以最后的值就是</span><span class="n">data</span><span class="err">的值为</span><span class="mi">0</span><span class="p">,</span><span class="n">Node</span><span class="err">的值为</span><span class="n">null</span><span class="p">(</span><span class="err">引用类型的默认初始化值都是</span><span class="n">null</span><span class="p">).</span>
+
+<span class="err">到这里我们已经把类的初始化过程弄的比较清楚了，现在要做的就是如何改变代码使程序异常。我们把注意力放到</span><span class="n">public</span>
+<span class="n">Node</span> <span class="n">Next</span><span class="p">;</span> <span class="err">这一句上，这里我没有加</span><span class="n">new</span>
+<span class="n">Node</span><span class="p">(),</span><span class="err">这个方法，所以</span><span class="n">Next</span><span class="err">的值为</span><span class="mi">0</span><span class="err">，现在我们在后面把初始化类的代码加上。就像这样</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+    <span class="n">public</span> <span class="n">class</span> <span class="n">Node</span>
+    <span class="p">{</span>       
+        <span class="n">public</span> <span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+        <span class="n">public</span> <span class="n">Node</span> <span class="n">Next</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Node</span><span class="p">();</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>好了，现在让我们来想一下Next这个地方的值是怎么样的，data置0后，new
+Node需要返回给Next一个内存中的地址，所以它需要再次运行类的初始化的代码，在内存中重新开辟区域，给data置0,然后里面显然也有一个Node类型的引用，当给data赋值后，我也需要给那个Next赋值，然后又需要在内存中开辟区域。这样永无止境，直到内存耗而报错。</p>
+<p>到这里关于类能否包含自己相信我们已经找到了答案了。另外需要在提的一点就是如果类中的自己是静态变量呢？静态变量是属于类级别的，它的初始化是在类初始化的时候，如果没有调用构造函数，变量置null,如果调用了构造函数，则按构造函数进行初始化。如果构造函数中出现了上面的这种情况，一样的会报异常。</p>
+<p>类中能否包含自己听来多是一种经验，但是如果你真正弄清楚了里面的过程以及为什么为异常的原因，相信你犯错的机会会小的多。</p>
+        </div>
+        <!-- /.entry-content -->
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

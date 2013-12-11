@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>初始化那些事儿</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                初始化那些事儿
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        27 May 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>先来看看这段代码</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Circle objTest = new Circle();
+            Console.ReadLine();
+        }
+    }
+    public class Print
+    {
+        public Print(String text)
+        {
+            Console.WriteLine(text);
+        }
+    }
+    public class Shape
+    {
+        //静态字段
+         static Print staticSbj = new Print("1");
+        //对象级别的变量
+         Print obj = new Print("2");
+        static Shape()
+        {
+            //静态构造函数中进行初始化
+            staticSbj = new Print("3");
+        }
+        public Shape()
+        {
+            //构造函数
+              staticSbj = new Print("4");
+            obj = new Print("5");
+        }
+    }</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">Circle</span> <span class="o">:</span> <span class="n">Shape</span>
+<span class="p">{</span>
+    <span class="c1">//静态字段</span>
+     <span class="k">static</span> <span class="n">Print</span> <span class="n">staticObj2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;6&quot;</span><span class="p">);</span>
+    <span class="n">Print</span> <span class="n">obj2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;7&quot;</span><span class="p">);</span>
+    <span class="k">static</span> <span class="nf">Circle</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">staticObj2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;8&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">public</span> <span class="nf">Circle</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">staticObj2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;9&quot;</span><span class="p">);</span>
+        <span class="n">obj2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;10&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="err">看到这里请先试着推理一下程序运行的结果，按照你所掌握的知识。这里开始我们慢慢分析初始化中的几个知识点而不要先急着揭晓答案。</span>
+
+<span class="err">对象初始化和类的初始化，对象初始化所对应的是对象，而类初始化所对应的是类。类在什么时候进行初始化呢？在程序中第一次需要用到类中的静态字段或者实例化类的对象的时候。类在程序中只需要初始化一次，类初始化的时候它的静态字段就会被分配内存并赋予相应的值。初始化的方式有两种，一种是直接在声明的地方直接进行赋值操作，还有一种是在静态构造函数中进行统一的初始化操作。在代码中就像这样</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+      <span class="c1">//静态字段</span>
+         <span class="k">static</span> <span class="n">Print</span> <span class="n">staticObj2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;6&quot;</span><span class="p">);</span>
+        <span class="k">static</span> <span class="nf">Circle</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">staticObj2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;8&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+</pre></div>
+
+
+<p>在两种方式都存在的方式下，是先执行声明变量那个地方的代码，然后执行静态构造方法里面的代码，有人可能会问了，如果上面那个static
+Print staticObj2 = new Print("6"); 我声明的时候不赋值，只写static Print
+staticObj2;会怎样？那么它先执行到静态变量那个地方的时候会给staticObj2
+一个默认值，因为是引用，所以是null，然后到静态构造方法里面给其赋值。关于静态构造方法在这里我想说的是它实现的功能和声明时候的赋值是差不多的，由于它不具备对象构造函数通过传入参数对对象进行动态构造的功能，所以个人觉得基本上也就是将静态字段的赋值操作集中到了一起，编程的时候更好看一些。</p>
+<p>对象级别初始化里面也是类似的，所以这里就不在多说了。</p>
+<p>然后上面的代码有继承。所以继承情况下到底是怎么处理的呢？</p>
+<p>对于这个问题，大家只需要把握一条原则，那就是在子类对象调用对象构造函数之前，必须保证子类的对象是已经完成了”初始化”的，为什么这里打引号，因为还没有经过对象构造方法，所以不能称为完成了初始化。如果是子类后来附加的变量，比如上面的obj2
+这个变量，这个就是在继承的时候在父类基础上增加的一个，如果是通过父类继承过来的变量，那么就要经过父类的构造方法处理。</p>
+<p>好了，现在来揭晓答案吧。上面的程序执行的结果是<span style="color: #ff0000;" color="#ff0000">6
+8 7 1 3 2 4 5 9 10</span></p>
+<p>.Net中的初始化和java中后不同(java的稍后会提)是一种“自顶向下”的初始化，能在上面初始化的我就不会等到下面搞好了在来进行。先初始化父类的对象的字段，静态字段不用说肯定先进行，也只用进行这一次类初始化，类初始化的细节上面已经讲到了，这里大家对着结果看看应该就能了解了，然后是初始化obj2
+这个变量，这里已经进入对象的初始化阶段了，由于还继承了父类的一些变量，所以现在需要把那些变量都进行初始化，所以要进行父类对象的初始化。这里由于父类这个类本身就没进行初始胡啊，所以又要把类初始化，然后初始化对象，最后，调用子类的构造方法，对父类和子类的变量在一起进行初始化。</p>
+<p>Java中的初始化的策略其实几个关键点和我上面先说的也是一样的，只是它不是按照自顶向下，而是一个从下往上的顺序。</p>
+<p>下面我贴出移植到java下的代码</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+public class Test {</p>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * @param args</span>
+<span class="cm"> */</span>
+<span class="n">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Circle</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Circle</span><span class="p">();</span>      
+<span class="p">}</span>
+</pre></div>
+
+
+<p>}</p>
+<p>class Print {
+    public Print(String text) {
+        System.out.println(text);
+    }
+}</p>
+<p>class Shape {
+       //静态字段
+    static Print staticSbj = new Print("1");
+    //对象级别的变量
+    Print obj = new Print("2");
+    static
+    {
+        //静态构造函数中进行初始化
+        staticSbj = new Print("3");
+    }
+    public Shape()
+    {
+        //构造函数
+        staticSbj = new Print("4");
+        obj = new Print("5");
+    }
+}</p>
+<p>class Circle extends Shape {
+      //静态字段
+    static Print staticObj2 = new Print("6");
+    Print obj2 = new Print("7");
+    static
+    {
+        staticObj2 = new Print("8");
+    }
+    public Circle()
+    {
+        staticObj2 = new Print("9");
+        obj2 = new Print("10");
+    }
+}
+~~~~</p>
+<p><span style="font-family: 'Courier New';" face="Courier New">在java下面运行的结果为<span style="color: #ff0000;" color="#ff0000">1
+3 6 8 2 4 5 7 9 10</span></span></p>
+<p><span style="color: #000000; font-family: 'Courier New';" color="#000000" face="Courier New">java下面的运行结果看起来更好理解，先类，然后对象，层次很清楚。</span></p>
+<p><span style="color: #000000; font-family: 'Courier New';" color="#000000" face="Courier New">关于初始化的实现的细节我想上面这两个例子已经呈现的很清楚了，但是这里我也有稍许疑问，为什么.net会采取相对java有所不同的策略，有什么深层次的考虑？本人水品有限，还是希望园子的高人能解答一二。</span></p>
+<p><span style="color: #000000; font-family: 'Courier New';" color="#000000" face="Courier New">在这里另外贴出一篇Blog，它提到了.net里面那个初始化顺序的不同</span></p>
+<p><a href="http://blogs.msdn.com/b/ericlippert/archive/2008/02/15/why-do-initializers-run-in-the-opposite-order-as-constructors-part-one.aspx">http://blogs.msdn.com/b/ericlippert/archive/2008/02/15/why-do-initializers-run-in-the-opposite-order-as-constructors-part-one.aspx</a></p>
+        </div>
+        <!-- /.entry-content -->
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

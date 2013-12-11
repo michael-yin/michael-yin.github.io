@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>算法学习之合并排序</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                算法学习之合并排序
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        30 Oct 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>在我的前面的一篇Post中我讲了排序算法中很基本的<a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/20/1856789.html">插入排序</a>，插入排序实现的算法思想是增量方法，即排好子数组之后，加入一个新的元素，然后再进行一个排序操作，保证重新生成按序排列的数组。</p>
+<p>这篇Post我将简单的讲讲排序算法另外一种算法，合并算法，合并算法采用分治法的思路，即问题划分成n个规模较小而结构和原来问题相似的子问题，递归解决这些子问题，然后合并结果，最终得到原来问题的解。</p>
+<p>合并算法主要分为三个部分，第一个部分是分解，将运来的问题分解成两个包含n/2个元素的数组的排序的问题，然后分别递归调用函数解决这两个数组的排序问题，最后一步，就是将已经排好序的数组重新进行组合，使其成为按序排列的数组。</p>
+<p>这三步中代码量较多的就是合并的代码了，合并的问题其实我们也可以把它想象成把两堆已经按从小到大的顺序排好的扑克牌排成一堆扑克牌的问题，每次比较最上面的那个牌，小的就拿走放到输出堆中，重复这个比较过程直到某一堆牌为空，然后把另外一堆牌直接放到输出堆中这个比较过程就结束了，想清楚了了这个过程的话理解代码就不难了。</p>
+<p>下面我将合并的代码贴出来</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+ //将两个数组按照顺序重新进行排列
+        public static void Merge(int[] rawArray, int firstIndex, int middleIndex, int lastIndex)
+        {
+            //把middle指向的元素划分到前面的一个数组去
+              int firstArrayCount = middleIndex - firstIndex + 1;
+            int secondArrayCount = lastIndex - middleIndex;</p>
+<div class="highlight"><pre>        <span class="kt">int</span><span class="p">[]</span> <span class="n">firstArray</span> <span class="o">=</span> <span class="n">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">firstArrayCount</span><span class="p">];</span>
+        <span class="kt">int</span><span class="p">[]</span> <span class="n">secondArray</span> <span class="o">=</span> <span class="n">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">secondArrayCount</span><span class="p">];</span>
+
+        <span class="c1">//将原来数组的元素分别复制到两个分开的数组当中去</span>
+         <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">firstArrayCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">firstArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rawArray</span><span class="p">[</span><span class="n">firstIndex</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">secondArrayCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">secondArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rawArray</span><span class="p">[</span><span class="n">middleIndex</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+
+        <span class="kt">int</span> <span class="n">firstArrayIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">secondArrayIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">rawArrayIndex</span> <span class="o">=</span> <span class="n">firstIndex</span><span class="p">;</span>
+
+       <span class="c1">//开始进行合并</span>
+        <span class="c1">//通过while条件判断是否有数组已经全部遍历完毕,如果已经有一个数组输出完毕那么会跳出while循环</span>
+          <span class="k">while</span> <span class="p">(</span><span class="n">firstArrayIndex</span> <span class="o">&lt;</span> <span class="n">firstArrayCount</span> <span class="o">&amp;&amp;</span> <span class="n">secondArrayIndex</span> <span class="o">&lt;</span> <span class="n">secondArrayCount</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">firstArray</span><span class="p">[</span><span class="n">firstArrayIndex</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">secondArray</span><span class="p">[</span><span class="n">secondArrayIndex</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="c1">//将值赋给原来的数组对应的位置，完毕后index都加1</span>
+                <span class="n">rawArray</span><span class="p">[</span><span class="n">rawArrayIndex</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">firstArray</span><span class="p">[</span><span class="n">firstArrayIndex</span><span class="o">++</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">rawArray</span><span class="p">[</span><span class="n">rawArrayIndex</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">secondArray</span><span class="p">[</span><span class="n">secondArrayIndex</span><span class="o">++</span><span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="c1">//跳出while循环后，这时有一个数组已经全部输出完毕，由于另外一个数组一定是按大小排序的数组，所以将剩下的元素直接循环赋值到原来的数组中去</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">firstArrayIndex</span> <span class="o">&lt;</span> <span class="n">firstArrayCount</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">rawArray</span><span class="p">[</span><span class="n">rawArrayIndex</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">firstArray</span><span class="p">[</span><span class="n">firstArrayIndex</span><span class="o">++</span><span class="p">];</span>
+        <span class="p">}</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">secondArrayIndex</span> <span class="o">&lt;</span> <span class="n">secondArrayCount</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">rawArray</span><span class="p">[</span><span class="n">rawArrayIndex</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">secondArray</span><span class="p">[</span><span class="n">secondArrayCount</span><span class="o">++</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="err">看懂了上面的合并，下面这个递归调用就没什么了，函数将数组进行拆分，然后递归调用函数进行子数组的排序，子数组排序完成后调用合并函数将数组进行合并</span>
+
+<span class="err">~~~~</span> <span class="p">{</span><span class="bp">.</span><span class="nx">brush</span><span class="p">:</span> <span class="bp">.</span><span class="nx">csharp</span><span class="p">;</span> <span class="bp">.</span><span class="nx">auto</span><span class="na">-links</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">collapse</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="bp">.</span><span class="nb">first</span><span class="na">-line</span><span class="p">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="bp">.</span><span class="nx">gutter</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">html</span><span class="na">-script</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">light</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="bp">.</span><span class="nx">ruler</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">smart</span><span class="na">-tabs</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">tab</span><span class="na">-size</span><span class="p">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="bp">.</span><span class="nx">toolbar</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;}</span>
+        <span class="c1">/// &lt;summary&gt;</span>
+        <span class="c1">/// </span>
+        <span class="c1">/// &lt;/summary&gt;</span>
+        <span class="c1">/// &lt;param name=&quot;rawArray&quot;&gt;需要排序的数组&lt;/param&gt;</span>
+        <span class="c1">/// &lt;param name=&quot;firstIndex&quot;&gt;左边界&lt;/param&gt;</span>
+        <span class="c1">/// &lt;param name=&quot;lastIndex&quot;&gt;右边界&lt;/param&gt;</span>
+        <span class="k">public</span> <span class="nf">static</span> <span class="bp">void</span> <span class="nx">MergeSort</span><span class="p">(</span><span class="nx">int</span><span class="err">[</span><span class="cp">]</span> rawArray, int firstIndex, int lastIndex)
+        {
+            if (firstIndex <span class="nt">&lt; lastIndex</span><span class="err">)</span>
+            <span class="err">{</span>
+                <span class="err">int</span> <span class="na">middleIndex =</span> <span class="s">(firstIndex</span> <span class="err">+</span> <span class="err">lastIndex)</span> <span class="err">/</span> <span class="err">2;</span>
+                <span class="err">//递归调用函数</span>
+                  <span class="err">MergeSort(rawArray,</span> <span class="err">firstIndex,</span> <span class="err">middleIndex);</span>
+                <span class="err">MergeSort(rawArray,</span> <span class="err">middleIndex</span> <span class="err">+</span> <span class="err">1,</span> <span class="err">lastIndex);</span>
+                <span class="err">//合并</span>
+                  <span class="err">Merge(rawArray,</span> <span class="err">firstIndex,</span> <span class="err">middleIndex,</span> <span class="err">lastIndex);</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+</pre></div>
+
+
+<p>合并排序体现的主要是一个将问题进行拆分解决的思路，通过递归调用函数来解决子问题，最后合并结果，从而得到原问题的解。</p>
+<p>题外话：身边很多人在学数据结构和算法的时候对算法的语言有着特殊的要求，个人觉得学习算法学习的是一种解决问题的思路，而不是具体的代码实现,this
+is the point….</p>
+        </div>
+        <!-- /.entry-content -->
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

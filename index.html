@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Michaelyin Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<div class="col-lg-9">
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/12/10/How-to-hack-python-module-code/">How to hack python module code</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        10 Dec 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/python.html">
+    <span class="label label-default">Python</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><h2>Intro</h2>
+<p>There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The package code is in ...</p>
+                    <a href="http://blog.michaelyin.info/2013/12/10/How-to-hack-python-module-code/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/07/14/%e7%9b%b4%e7%ba%bf%e7%9b%b8%e4%ba%a4%e9%97%ae%e9%a2%98/">直线相交问题</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        14 Jul 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+    <span class="label label-default">bullet-and-wall</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/checkio.html">
+    <span class="label label-default">checkio</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>最近在checkio上扫题的时候，碰到一个判断直线是否相交的问题，题目请<a href="http://www.checkio.org/mission/task/info/bullet-and-wall/python-3/">猛击这里</a>，这个题目以前上学的时候做到手软的好么，二话不说直接开写，先根据坐标上的两个点，算出斜率，然后得出直线表达式，最后根据两个直线表达式算出是否存在相交点，然后加上斜率为无穷大的情况等等，最后写出的代码如下。</p>
+<p>[code lang="py"]<br />
+def checkio(data):<br />
+xw1, yw1 = data[0]<br />
+xw2, yw2 = data[1]<br />
+xa, ya = data[2]<br />
+xb, yb = data[3]</p>
+<p>if(xw1 - xw2 == 0 and xb - xa == 0):<br />
+# vertical vertical<br />
+return False<br />
+elif(xw1 - xw2 == 0 ...</p>
+                    <a href="http://blog.michaelyin.info/2013/07/14/%e7%9b%b4%e7%ba%bf%e7%9b%b8%e4%ba%a4%e9%97%ae%e9%a2%98/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/07/07/codekata-bloom-filter/">CodeKata-Bloom Filter</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        07 Jul 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+    <span class="label label-default">Bloom Filter</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/codekata.html">
+    <span class="label label-default">CodeKata</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Bloom
+Filter在是一种在海量数据处理中很常用的算法，主要用来提供对集合数据的查询，其内在原理和bitmap十分类似。</p>
+<h6></h6>
+<h6></h6>
+<h3>基本原理：</h3>
+<p>如下图所示，长为m bit的byte数组，里面的bit位数值全部置0</p>
+<p><a class="fancy" href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image3.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb3.png" title="image" /></a></p>
+<p>现在需要将a这个值写入到byte数组里面去，使用k个不同的hash函数，对a进行hash值计算，并确保得到的hash值位于{1,m}这个区间之间。假设现在k个hash函数，那么得到的hash值一共有k个，即 <mathjax>$h_{1}(a)$</mathjax> ，在byte数组里面将这些值对应的bit位全部置为1，完成这一步，a的值就已经写入到byte数组里面去了。如果有多个值，重复该过程，如果写入过程中发现某bit位已经是1，可以不用管。</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image4.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb4.png" title="image" /></a></p>
+<p>当我要查询数组里面是否包含值为b的时候，同样对b进行k个不同的hash计算，得到k个不同的hash值(注：写入和查询使用的k个hash函数是相同的)，针对这k个值在byte数组中进行查看，看对应的bit位是否置1，如果有一处是0，那就证明该元素不包含在byte数组中，如果全部是1，那就证明该元素可能包含在byte数组中(此处注意，对于返回结果为True的情况是有误差的，误差和使用hash函数个数和byte数组长度和输入个数有关系，后面会详细讨论)</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image5.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb5.png" title="image" /></a></p>
+<h3>数学证明：</h3>
+<p>现有输入n个，将其通过Bloom
+Filter的方式插入到大小为m的byte数组中，插入中使用k个hash值进行置0。</p>
+<p>在将n个值全部插入到byte数组中去以后 ...</p>
+                    <a href="http://blog.michaelyin.info/2013/07/07/codekata-bloom-filter/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/07/07/floating-point/">Floating Point学习笔记</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        07 Jul 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/float.html">
+    <span class="label label-default">float</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>写代码的时候发现对Float的原理和使用方式没有一个系统的理解，找了资料学习后将知识点在这里进行整理</p>
+<h3>Float存储原理：</h3>
+<p>提到Float的存储方式首先必须提一下IEEE
+754这个标准，该标准的出现主要解决了不同计算机之间浮点数表示方式和计算方式无法兼容的问题，现在的计算机内的浮点数的存储方式都是支持这个标准的。</p>
+<p>一个浮点数主要由三部分组成：<mathjax>$$V = (-1)\^{s}\\times M\\times 2\^{E}$$</mathjax></p>
+<p>s表示浮点数的正负</p>
+<p>M表示小数部分</p>
+<p>E是2的指数，用来表示2的乘方</p>
+<p>如果将这三部分对应到存储的bit位上去，那么s对应一个bit位，用来表示浮点数的正负，k个bit位用来表示表示2的乘方，这k个bit位统一用exp来表示，n个bit位用来表示小数部分，统一用fra来表示</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb.png" title="image" /></a></p>
+<p>现在已经知道浮点数的存储位一共有三部分组成，而浮点数本身也被分成了三种类型，三种不同类型的存储方式都有其自身的特点</p>
+<p>1：Normalized Values</p>
+<p>这是最普通的情况，当exp部分的bit位不全为0和不全为1的时候，在这种情况下，exp部分的值E
+= e-Bias，这里e是exp部分的无符号整形值，<mathjax>$$Bias = 2\^{k-1}-1$$</mathjax></p>
+<p>frac表示小数部分的值，如果bit位的小数的值为f，frac部分的实际值M = f +1</p>
+<p>2：Denormalized ...</p>
+                    <a href="http://blog.michaelyin.info/2013/07/07/floating-point/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/06/30/%e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2%e7%9a%84%e4%b8%80%e4%ba%9b%e9%94%99%e8%af%af%e8%a7%a3%e6%b3%95/">数组分割的一些错误解法</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        30 Jun 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+    <span class="label label-default">数组分割</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>问题：有一个没有排序，元素个数为2N的正整数数组。要求把它分割为元素个数为N的两个数组，并使两个子数组的和最接近。</p>
+<p>这个问题的正确解法<a href="http://blog.michaelyin.info/2013/06/30/%E6%95%B0%E7%BB%84%E5%88%86%E5%89%B2/">前面一篇博文</a>已经有写，这里主要是把错误的解法和原因进行一下分析。</p>
+<h6>天平法：</h6>
+<p>这种思路主要就是将2N数组进行排序，从大到小，然后从大到小进行排放，类似将砝码从大到小放到天平上，比如这篇博文<a href="http://sxnuwhui.blog.163.com/blog/static/13706837320126611925456/">猛击这里</a></p>
+<p>点评：最后要的是两边差值最接近，和砝码本身的大小并无直接联系，这种解法很容易找到反例：</p>
+<p>200 190 180 170 160 10</p>
+<p>200 180 160 并不是最优解</p>
+<h6>差值法：</h6>
+<p>前面天平法的缺陷也给了我一点启示，如果是两个一组一起放到天平上的话，启示应该按照两个砝码的差值来进行拜访，排序不应该针对单个砝码，而应该针对砝码的差值</p>
+<p>1：将砝码分成A,B两组</p>
+<p>2：两组的砝码按照位置进行对应，比如A[0]和B[0]进行对应</p>
+<p>3:
+对应的A[0]和B ...</p>
+                    <a href="http://blog.michaelyin.info/2013/06/30/%e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2%e7%9a%84%e4%b8%80%e4%ba%9b%e9%94%99%e8%af%af%e8%a7%a3%e6%b3%95/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/06/30/%e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2/">数组分割</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        30 Jun 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/checkio.html">
+    <span class="label label-default">checkio</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+    <span class="label label-default">动态规划</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+    <span class="label label-default">数组分割</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>最近在做Python
+Challenge的时候无意中发现了checkio这个练习PY的地方，题目不难，正好可以在工作之余修炼下PY功力。。</p>
+<p>loading-cargo这个题目的意思比较简单
+，有一个无序、元素个数为2n的正整数数组，要求：如何能把这个数组分割为两个子数组，子数组的元素个数不限，并使两个子数组之和最接近</p>
+<h6>1:Solve</h6>
+<h6></h6>
+<p>根据题目给出的Hint，可以使用暴力破解的方式穷举出所有可能的组合，并算出其和，使用PY提供的库可以很方便的做到，代码如下</p>
+<p>[code lang="py"]import itertools</p>
+<p>def checkio(data):<br />
+total = sum(data)<br />
+diff = total<br />
+for i in range(1, len(data)):<br />
+for value in itertools.combinations(data, i):<br />
+diff_sub = sum(value)<br />
+diff_sub = total ...</p>
+                    <a href="http://blog.michaelyin.info/2013/06/30/%e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/05/01/%e6%9b%b4%e6%8d%a2%e9%82%ae%e7%ae%b1%e9%82%a3%e4%ba%9b%e4%ba%8b%e5%84%bf/">更换邮箱那些事儿</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        01 May 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+    <span class="label label-default">账号</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/you-xiang.html">
+    <span class="label label-default">邮箱</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/ya-hu.html">
+    <span class="label label-default">雅虎</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>由于中国雅虎的邮箱服务马上就要停止，趁着放假有时间，决定把散落各处的账号进行整理，并将原先和雅虎邮箱绑定的账号绑定到另外的邮箱上去，防止由于邮箱失效造成以后不能找回账号的登录密码。</p>
+<p>更换登录账号绑定的邮箱，方便用户进行数据迁移，这是一个原始用户需求，各个应用对于这个需求有着不同的解决方案。</p>
+<p>想到我的众多可爱师妹们，以及那些众多好图，人人账号是我最先进行修改的</p>
+<p>1: 进入账号设置页面以后，看到有个修改账号功能，点开以后，直接囧了</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/05/7.png"><img alt="7" src="http://blog.michaelyin.info/wp-content/uploads/2013/05/7_thumb.png" title="7" /></a></p>
+<p>2：修改个密码还要申诉，实在有点不太理解。没办法，那就申诉吧，结果接下来，我被深深的囧到了</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/05/8.jpg"><img alt="8" src="http://blog.michaelyin.info/wp-content/uploads/2013/05/8_thumb.jpg" title="8" /></a></p>
+<p>3:
+一个简单的功能，竟然被做的如此复杂，这一刻，我认定它的产品经理的头，被门夹了。。。</p>
+<p>接着，是经常用来听歌的虾米网，更改邮箱后，能使用新的邮箱来登录了，不过在个人设置里面，个人邮箱竟然还是显示的是偶的雅虎邮箱地址。。。。汗。。。虾米网有测试人员么？</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/05/image.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/05/image_thumb.png" title="image" /></a></p>
+<p>抛开这两个有硬伤的不谈，其他的产品，在修改邮箱上，主要是在一个地方有所不同：</p>
+<p>假设用户原先使用的是邮箱A，现在想迁移到邮箱B，那么在迁移过程中，是否需要首先通过向邮箱A发送邮件进行认证？</p>
+<p>豆瓣，CSDN，当当，是需要强制在邮箱A端通过链接认证的方式走流程的 ...</p>
+                    <a href="http://blog.michaelyin.info/2013/05/01/%e6%9b%b4%e6%8d%a2%e9%82%ae%e7%ae%b1%e9%82%a3%e4%ba%9b%e4%ba%8b%e5%84%bf/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/04/21/%e7%94%b1%e8%80%81%e6%af%9b%e6%a1%83%e6%83%b3%e5%88%b0%e7%9a%84/">由老毛桃想到的</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        21 Apr 2013
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>由于装Ubuntu
+12.04的时候好像是由于硬盘参数不对导致无法安装，需要在进入系统前使用工具进行修复。不过哥的PC光驱已经不能正常弹出，除非使用大头针，更坑爹的是，上次搬家的时候把系统启动盘弄丢了。。。</p>
+<p>然后再搜索能否通过硬盘的方式加载Windows
+PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进入网站看了一下以后，顿时觉得自己OUT了。。。</p>
+<p>这个软件可以将常用的工具放到U盘中，在BIOS中配置好以后就能够通过U盘自动（<a href="http://www.laomaotao.net/help/2012/1225/1414.html">猛击这里</a>），效果和光盘启动是一样的，里面也带了各种常用的工具。对于一般的系统修复，检查来说，已经足够了。除此之外，这个软件提供了对ISO的处理，并能将ISO烧录到U盘中进行启动。省去了刻录光盘的繁琐。（ISO模式暂未亲测）</p>
+<p>也正是因为这个软件，让我觉得以后买PC，光驱或许不是必选项了。。。回想前几年，基本只是在对系统进行引导启动的时候用一用光驱。</p>
+<p>软件背后，让我反思的是我们看问题的思维。以前看起来理所当然的解决方案，放到现在未必就是最合理的，唯一能做的，就是不断地提高自己。</p>
+                    <a href="http://blog.michaelyin.info/2013/04/21/%e7%94%b1%e8%80%81%e6%af%9b%e6%a1%83%e6%83%b3%e5%88%b0%e7%9a%84/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/04/15/%e8%80%81%e6%9d%bf%e7%9a%84%e9%82%a3%e4%ba%9b%e9%a1%b9%e7%9b%ae%ef%bc%88%e4%b8%80%ef%bc%89/">老板的那些项目（一）</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        15 Apr 2013
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>决定把上学时候做项目的经验教训做个系列的总结，权当给师弟们贡献个反面教材。</p>
+<p>某日，老板把我叫过去，说接了一个项目，是另外一个老师H介绍过来的，已经提供了源代码，我需要在原有的代码上面进行二次开发，再详细问了一下添加的功能以后，考虑到功能并不复杂，并且以前实现过，所以我二话没说就答应了下来。</p>
+<p>回到实验室，打开源代码，扫了几行代码，就蛋疼了。页面后台直接上SQL语句就算了，控件命名各种数字1到9我就不计较了，最最NB的是，在一个上传附件的页面，它为了在几次PostBack事件里面保存变量值（就是第一次提交后保存的值在第二次提交的时候仍然能读取到），那位先前的童鞋使用了static这个灰常NB的东西。保存确实能保存了，可你摊上事儿了你知道么。</p>
+<p>我深吸了一口气，然后在源代码里面搜索了下，幸亏上传附件的页面不多，这样的话，就把它改了吧。随后，我将上传临时文件的路径写到了页面的Viewstate里面，最后在确定按钮事件里面对其进行统一的处理，解决了static变量在多线程下的问题，由于中间还涉及到前面童鞋的代码写的“太好”，导致中间一个页面由于需要修改流程的时候我改了半天，都没改好，一怒之下将页面代码重写，并且还上了一个轻型的ORM框架。</p>
+<p>几日之后，H老师来我们实验室了解项目进度，老板让我去汇报，我首先将前面那个人的代码的几个问题说了一下，然后特别提到了那个static的问题，并说了我的解决办法，也解释了我为什么花了几天时间来解决。当时，由于我这样做，导致的直接原因就是H老师觉得我的进度太慢 ...</p>
+                    <a href="http://blog.michaelyin.info/2013/04/15/%e8%80%81%e6%9d%bf%e7%9a%84%e9%82%a3%e4%ba%9b%e9%a1%b9%e7%9b%ae%ef%bc%88%e4%b8%80%ef%bc%89/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">CodeKata-Data Munging</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        03 Mar 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/codekata.html">
+    <span class="label label-default">CodeKata</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。</p>
+<p>第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据</p>
+<p>第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。</p>
+<p>第三个问题是对前两个问题的代码进行分析，提取出共用的部分，进行重用。考察前两个问题的代码，发现文件读取，正则处理，都是很类似的逻辑，所以将这部分进行提取抽象成一个类，将正则，相关参数和文件路径抽象成类，这样的话代码维护性也比较好，废话不多说，上代码</p>
+<p>[code lang="py"]import re</p>
+<p>class Input():<br />
+def __init__(self, path, expression, key, firstindex, secindex):<br />
+self.path = path<br />
+self.expression = expression<br />
+self.key = key<br />
+self ...</p>
+                    <a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev disabled"><a href="#">&laquo;</a></li>
+                <li class="active"><a
+                        href="http://blog.michaelyin.info/index.html">1</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index2.html">2</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index3.html">3</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index4.html">4</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index5.html">5</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index6.html">6</a></li>
+                <li class="next"><a
+                        href="http://blog.michaelyin.info/index2.html">&raquo;</a></li>
+        </ul>
+</div>
+<div class="col-lg-3 well well-sm" id="sidebar"><aside>
+    <section>
+        <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="hgyinjian-gmail.com">
+                    <i class="icon-mail-sign icon-1x"></i>
+                    Mail
+                </a>
+            </li>
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Categories
+                </h4>
+            </li>
+        
+            <li>
+                <a href="http://blog.michaelyin.info/category/java.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Java
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/linux.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Linux
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/net.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    思考心得
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    算法相关
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    未分类
+                </a>
+            </li>
+        </ul>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4>
+                    <i class="icon-tags icon-large"></i>
+                    Tags
+                </h4>
+            </li>
+
+
+            <li class="list-group-item">
+                <a href="http://blog.michaelyin.info/tag/bugnet.html">
+                    <span class="label label-default">Bugnet</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/google-map.html">
+                    <span class="label label-default">Google Map</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+            </li> 
+
+        </ul>
+    </section>
+</aside></div>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

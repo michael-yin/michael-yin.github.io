@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Michaelyin Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<div class="col-lg-9">
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/03/13/blogengine%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%bb%e9%a2%98%e7%9a%84%e5%ae%9e%e7%8e%b0/">BlogEngine中自定义主题的实现</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        13 Mar 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。</p>
+<p>在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016552366.png" /></a></p>
+<p>post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。</p>
+<p>页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false ...</p>
+                    <a href="http://blog.michaelyin.info/2011/03/13/blogengine%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%bb%e9%a2%98%e7%9a%84%e5%ae%9e%e7%8e%b0/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/03/10/charint%e8%bd%ac%e6%8d%a2/">char,int转换</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        10 Mar 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>写一个Console小程序的时候需要用户输入数字，然后在程序中进行获取，本来以为很简单的，没想到也发生了一些曲折。。</p>
+<p>在Console类中，Console.Read获取的用户输入的单个字符，.net内存中的字符的存储都是采用的Unicode编码，所以这个方法返回的是该字符的Unicode编码的十进制值，对于Unicode不是很了解的朋友可以参考我的另外一篇Post<a href="http://www.cnblogs.com/MichaelYin/archive/2010/12/06/1897928.html">字符编码那些事儿</a>，如果我需要得到这个字符具体是多少，只需要调用Convert.ToChar就可以了。来看个例子</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        int a = Console.Read();</p>
+<div class="highlight"><pre>    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</pre></div>
+
+
+<p>~~~~</p>
+<p>在Console窗口中按Ctrl+空格打开中文输入法，这样可以在Console中输入中文，然后敲随便一个中文 ...</p>
+                    <a href="http://blog.michaelyin.info/2011/03/10/charint%e8%bd%ac%e6%8d%a2/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/03/02/%e8%bf%99%e4%b8%8d%e6%98%af%e5%9f%ba%e7%a1%80%e4%b8%ad%e7%9a%84%e5%9f%ba%e7%a1%80%e4%b9%88/">这不是基础中的基础么</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        02 Mar 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>中午在园子里逛的时候看到了一个评论头条的<a href="http://www.cnblogs.com/jirigala/archive/2011/03/01/1968192.html">博文</a>，吉日嘎拉纠正了自己的错误认识。里面涉及到的东西说实话确实很基础，不过我看了下评论却没有将问题解释清楚，至于标题借用了老赵的评论。</p>
+<p>先说说方法表，方法表位于内存中的Loader
+Heap，它包含着类对应的方法，在类加载的时候会在Load
+Heap上创建和相应的类对应的方法表。当类实例化的时候，托管堆上除了将对象实例化所需要的字段分配内存以外，还会给一个叫做TypeHandle的给实例，这样新建的实例就可以根据TypeHandle在Loader
+Heap中找到它所对应的类型的方法表，进而找到对应的方法。</p>
+<p>在这里借用下Anytao的图。。可能大家看的更懂一些\~</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/03/20110303000835615.jpg"><img alt="20110303000835615" src="http://blog.michaelyin.info/wp-content/uploads/2011/03/20110303000835615.jpg" /></a></p>
+<p>到这里停顿一下，说开了实例方法和静态方法其实在内存中都是存储在这个类所对应的方法表上，而且重要的是，它们在内存里面都只有一份，实例调用的方法也是通过TypeHandle找到对应的方法表而完成的方法的调用的。</p>
+<p>在来说说方法的调用，在大学学过C的都必定折腾过实参，形参，也知道为什么有的时候为什么调用C语言函数的时候要传入指针，如果你把那个地方搞的比较清楚的话那么这里想必也难不倒你了。C语言函数调用的时候是在内存上重新开辟一块区域，然后在这个里面运行函数并进行相应的处理并返回结果，运行完成之后释放所有的局部变量。在.Net里面方法的调用也是这个过程，分配动态内存进行方法的处理。</p>
+<p>吉日嘎拉博文中纠结的并发还是排队其实仔细想象就会有答案，这两种处理方式产生的原因是因为对资源的占用问题，就是说不同线程里面有没有可能产生资源占用的问题，上面已经说到了方法调用是分配到内存里面进行处理，不同的方法在内存中所处的位置显然是不相同的。所以一般情况下这个是能够并发的，除非是在不同的内存中又涉及到了访问公有区域的位置，比如访问静态变量。</p>
+<p>到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变\~</p>
+                    <a href="http://blog.michaelyin.info/2011/03/02/%e8%bf%99%e4%b8%8d%e6%98%af%e5%9f%ba%e7%a1%80%e4%b8%ad%e7%9a%84%e5%9f%ba%e7%a1%80%e4%b9%88/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">闲话Hashtable与Dictionary</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        14 Feb 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/dictionary.html">
+    <span class="label label-default">Dictionary</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/hashtable.html">
+    <span class="label label-default">Hashtable</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。</p>
+<p>Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。</p>
+<h5>链接法(chaining)</h5>
+<p>在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。</p>
+<p>链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102142222064549.png" /></a></p>
+<h5>开放寻址法(open addressing)</h5>
+<p>在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。</p>
+<p>在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key ...</p>
+                    <a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/02/12/linux%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e6%80%bb%e7%bb%93/">Linux基础知识总结</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        12 Feb 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/linux.html">
+    <span class="label label-default">Linux</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><h2>用户和角色</h2>
+<p>Linux中的用户和角色的概念和一般权限系统中的概念基本差不多，用户可以属于多个角色，从而根据所属的角色在系统中拥有不同的权限。这其中有一个用户拥有系统最大的权限，那就是root.</p>
+<p>Linux是一个多任务多用户的操作系统，其中的服务在运行的时候会获得一个PID，而这个PID也是有拥有者身份的，换句话说，是这个用户启动的这个服务，有上面我们可以知道，这些服务也就相应的具有这个用户所具有的一些权限，可以做这个用户被允许所作的一些事情，但是，如果这个PID被入侵的话，那么入侵者也就具有了相应PID的权限，如果这个PID的拥有者的权限太高的话，比如是root,那么入侵者就可以再Linux中为所欲为，所以，尽量的将服务的PID权限降低，这样的话可以保证即使服务被入侵也不会让入侵者得到较大的权限，使系统更加安全。</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549134038.png"><img alt="201102121549134038" src="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549134038.png" /></a></p>
+<p>查看用户可以打开/etc/passwd，查看角色信息可以查看/etc/group/不同Linux可能会有所不同，我所使用的是Ubuntu
+10.10</p>
+<h2>文件属性和权限</h2>
+<p>在shell中输入ls -al可以查看当前目录下的所有文件</p>
+<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549193934.png"><img alt="201102121549193934" src="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549193934.png" /></a></p>
+<p>文件的权限由10位的字符串构成，比如-rwxrwxrwx这样的字符串，由于权限粒度精确到了用户，所以一共有10位。第一位表示这个文件的属性，比如d代表directory,-则代表是一个文件，接下来的9位则是三个为一组，且都为rwx的组合，r代表可读，w代表可写,x代表可运行，第一组是文件拥有人的权限 ...</p>
+                    <a href="http://blog.michaelyin.info/2011/02/12/linux%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e6%80%bb%e7%bb%93/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/23/%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e9%9d%9e%e9%80%92%e5%bd%92%e9%81%8d%e5%8e%86/">二叉树的非递归遍历</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        23 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>二叉树的遍历如果使用递归调用基本没什么问题，这里主要是讲如何使用非递归方法实现二叉树的遍历。</p>
+<p>由于递归调用程序实际上使用了栈来保存方法中的变量值，在非递归遍历的方法中我们需要基于栈的方法。先来看看这个方法</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        /// <summary>
+        /// 非递归中序遍历二叉树
+        /// </summary>
+        /// <param name="root"></param>
+        static void InOrderTraverse(BinaryTreeNode root)
+        {
+            BinaryTreeNode temp = root;
+            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+            stack.Push(root);
+            while (stack.Count &gt; 0)
+            {
+                while (temp != null ...</binarytreenode></binarytreenode></p>
+                    <a href="http://blog.michaelyin.info/2010/12/23/%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e9%9d%9e%e9%80%92%e5%bd%92%e9%81%8d%e5%8e%86/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/21/%e9%97%b2%e8%af%9d%e5%8a%a8%e6%80%81kml/">闲话动态KML</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        21 Dec 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/net.html">
+    <span class="label label-default">.Net</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/google-map.html">
+    <span class="label label-default">Google Map</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/kml.html">
+    <span class="label label-default">Kml</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>最近在Google
+Map开发中开发中用到了动态生成KML在地图中动态显示数据，下面来简单的把其中的知识点讲一下。</p>
+<p>KML是一种采用XML
+语法与格式的语言，它被用来描述地理信息，如点，线，多边形等等，可以被Google
+map和Google Earth等软件识别并显示。我们可以在Google
+Earth把我们感兴趣的一些地点标识出来，然后生成KML文件，通过分享这个文件来让别人在Google
+map或者google earth中看到我们标注的信息。下面是一个简单的KML文件。</p>
+<p>[code lang="xml"]<br />
+&lt;?xml version="1.0" encoding="UTF-8"?><br />
+&lt;kml xmlns="http://www.opengis.net/kml/2.2"><br />
+&lt;Placemark><br />
+&lt;name>Simple placemark&lt;/name><br />
+&lt;description>Attached to the ground. Intelligently places itself ...</p>
+                    <a href="http://blog.michaelyin.info/2010/12/21/%e9%97%b2%e8%af%9d%e5%8a%a8%e6%80%81kml/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f/">算法学习之快速排序</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        20 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>快速排序通常是用于排序的最佳实用选择，因为它的平均性能相当好。</p>
+<p>快速排序和先前讲到的合并排序一样，体现了算法设计中的分治的思想。我们首先将问题进行分解，将数组划分成两个部分A[p…q-1]和A[q+1…r]，使得A[p…q-1]中的元素小于等于A[q]，然后分别解决前面一个数组和后面一个数组的排序，最后进行合并，由于这两个数组是就地排序(in
+place)的，所以不用像合并排序中一样进行过多的合并的操作。</p>
+<p>由于中间的分别排序的部分可以使用递归实现，所以快速排序中关键的地方就是如何将数组进行分解了。</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        /// <summary>
+        /// 对数组进行分组,返回分界处的index ...</summary></p>
+                    <a href="http://blog.michaelyin.info/2010/12/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/13/%e7%94%b1%e7%b1%bb%e8%83%bd%e5%90%a6%e5%8c%85%e5%90%ab%e8%87%aa%e5%b7%b1%e8%af%b4%e5%bc%80%e5%8e%bb/">由类能否包含自己说开去</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        13 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>下午在Coding的时候突然想到了一个问题，类到底能不能包含自己?在什么情况下能包自己？</p>
+<p>当时正在实现一个类似链表的功能，在一个节点中需要有下个节点的引用的数据，比如像这样子的代码。</p>
+<p Next_="Next;
+" Node="Node" _="
+" data_="data;
+" int="int" public="public">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+    public class Node</p>
+<div class="highlight"><pre><span class="err">在</span><span class="n">Node</span><span class="err">中有一个</span><span class="n">Node</span><span class="err">类型的引用地址，用来找到这个节点的下一个节点。默认构造函数调用后会将 ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/12/13/%e7%94%b1%e7%b1%bb%e8%83%bd%e5%90%a6%e5%8c%85%e5%90%ab%e8%87%aa%e5%b7%b1%e8%af%b4%e5%bc%80%e5%8e%bb/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/08/%e7%ae%97%e6%b3%95%e6%8e%92%e5%ba%8f%e4%b9%8b%e5%a0%86%e6%8e%92%e5%ba%8f/">算法排序之堆排序</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        08 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>堆排序的重点在于对堆的理解，首先堆是一种数组对象，同时，它也可以被视为一棵完全二叉树，树中的每个节点从上到下，从左到右和数组中的每个元素是一一对应的，二叉树的每一层都是填满的，除了最后一层以外。</p>
+<p>比如数组中的第一个元素就是二叉树的根节点，第二个就是元素就是根节点的左边的子节点，而第三个节点就是根节点的右边的子节点，然后第四个节点就是根节点的左边的子节点的左边的子节点，这样以此类推。</p>
+<p>通过给定的节点的数组下标，我们可以求出该节点的左边子节点的坐标和右边子节点的坐标。</p>
+<p 1_="1;
+" _="+" _2="(2" parent_="parent)" return="return">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        public static int ...
+                    <a href="http://blog.michaelyin.info/2010/12/08/%e7%ae%97%e6%b3%95%e6%8e%92%e5%ba%8f%e4%b9%8b%e5%a0%86%e6%8e%92%e5%ba%8f/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="http://blog.michaelyin.info/index3.html">&laquo;</a>
+                </li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index.html">1</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index2.html">2</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index3.html">3</a></li>
+                <li class="active"><a
+                        href="http://blog.michaelyin.info/index4.html">4</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index5.html">5</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index6.html">6</a></li>
+                <li class="next"><a
+                        href="http://blog.michaelyin.info/index5.html">&raquo;</a></li>
+        </ul>
+</div>
+<div class="col-lg-3 well well-sm" id="sidebar"><aside>
+    <section>
+        <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="hgyinjian-gmail.com">
+                    <i class="icon-mail-sign icon-1x"></i>
+                    Mail
+                </a>
+            </li>
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Categories
+                </h4>
+            </li>
+        
+            <li>
+                <a href="http://blog.michaelyin.info/category/java.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Java
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/linux.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Linux
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/net.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    思考心得
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    算法相关
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    未分类
+                </a>
+            </li>
+        </ul>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4>
+                    <i class="icon-tags icon-large"></i>
+                    Tags
+                </h4>
+            </li>
+
+
+            <li class="list-group-item">
+                <a href="http://blog.michaelyin.info/tag/bugnet.html">
+                    <span class="label label-default">Bugnet</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/google-map.html">
+                    <span class="label label-default">Google Map</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+            </li> 
+
+        </ul>
+    </section>
+</aside></div>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>

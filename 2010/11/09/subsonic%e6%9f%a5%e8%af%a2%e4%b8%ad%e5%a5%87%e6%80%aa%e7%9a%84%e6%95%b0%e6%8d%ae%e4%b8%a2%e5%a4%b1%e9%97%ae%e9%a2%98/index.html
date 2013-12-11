@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Subsonic查询中奇怪的数据丢失问题</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                Subsonic查询中奇怪的数据丢失问题
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        09 Nov 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>昨天在项目中遇到了一个很奇怪的问题，用Subsonic查询出来的对象中部分字段值出现了丢失，比如我写这样一个查询语句</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+ViewIceCalculate objViewIce = new Select().Top("1").From<ViewIceCalculate>().ExecuteSingle<ViewIceCalculate>();</p>
+<div class="highlight"><pre><span class="err">后面的查询跟</span><span class="n">Sql</span><span class="err">语句差不多的，返回一个对象，但是从程序</span><span class="n">Debug</span><span class="err">中来看的话，有些属性并没有取到值，这个有点奇怪的现象引起了我的兴趣，在网上找了一下，找到了对应的源码，将</span><span class="n">SubSonic</span>
+<span class="n">Project</span><span class="err">加载到我实验的</span><span class="n">Console</span><span class="err">的</span><span class="n">Project</span><span class="err">中去，查询中所调用的东西都在里面。</span>
+
+<span class="err">然后再</span><span class="n">Subsonic</span><span class="err">中去看了一下，由于是从</span><span class="n">new</span>
+<span class="n">Select</span><span class="err">开始的查询</span><span class="p">,</span><span class="err">所以先看看</span><span class="n">Select</span><span class="err">这个类把，发现</span><span class="n">Select</span><span class="err">这个类继承自</span><span class="n">SqlQuery</span><span class="p">,</span><span class="err">又跑到</span><span class="n">SqlQuery</span><span class="err">这个类中一窥究竟。在</span><span class="n">SqlQuery</span><span class="err">我没有看到</span><span class="n">Top</span><span class="p">,</span><span class="err">不过发现了一个名叫</span><span class="n">From</span><span class="err">的方法，看来有戏啊，继续发现之旅。。。看看这里里面有没有</span><span class="n">ExecuteSingle</span><span class="err">，结果还真有，一路找寻，找到了一个叫</span><span class="n">BuildSqlStatement</span><span class="err">的方法，看样子</span><span class="n">Sql</span><span class="err">语句的拼凑是在这里完成的，果断设断点，然后启动调试，到这里将生成的</span><span class="n">Sql</span><span class="err">语句贴到</span><span class="n">SQl</span><span class="err">中运行，数据是可以全部查出来的，那么问题就不出在这里了。。</span>
+
+<span class="err">数据查寻出来后返回的是一个</span><span class="n">IDataReader</span><span class="err">的接口，</span><span class="n">ExecuteSingle</span><span class="err">中还有另外一个叫做</span><span class="n">BuildTypedResult</span><span class="err">的方法，在代码中找到方法的代码，然后设了断点，然后。。。我知道悲剧为什么发生了。。。。</span>
+
+<span class="err">先上代码吧。</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+ <span class="n">PropertyInfo</span><span class="p">[]</span> <span class="n">cachedProps</span> <span class="o">=</span> <span class="n">new</span> <span class="n">PropertyInfo</span><span class="p">[</span><span class="n">rdr</span><span class="p">.</span><span class="n">FieldCount</span><span class="p">];</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rdr</span><span class="p">.</span><span class="n">FieldCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                    <span class="n">cachedProps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">iType</span><span class="p">.</span><span class="n">GetProperty</span><span class="p">(</span><span class="n">rdr</span><span class="p">.</span><span class="n">GetName</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">Public</span> <span class="o">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">Instance</span> <span class="o">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">IgnoreCase</span><span class="p">);</span>
+</pre></div>
+
+
+<p>rdr是返回的IDataReader的对象，先根据字段数初始化一个PropertyInfo数组，然后后面一段，是根据DataReader中的Name来或获取属性。执行到这里的时候属性数组中有些属性竟然丢失了，我找到生成的对应的类的代码看了下，发现这其实是一个不起眼的误会。。。。</p>
+<p>在数据库的表和字段的命名中，有的人是喜欢加前缀的，而一般前缀加了之后后面的字段就跟在一个下划线后面，比如Sys_User标识系统模块中的用户表，这样是没问题，但是Subsonic中生成的代码默认情况下是将下划线移除了的，所以表名和字段名是SysUser这样，在类中的属性名子成了这样，但是如果Datareader中的名字是Sys_User时，获取属性获取不到就是很自然的事情了。。。</p>
+<p>发现问题所在我在Subsonic的代码生成器中看了下，发现生成器Substage中Global下有个removeunderscore这个选项，默认是true，改成False生成代码里就会保留下划线。。其实解决方法很简单，但是知道了这其中的原理对我来说或许更显宝贵。。。。</p>
+        </div>
+        <!-- /.entry-content -->
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+</body>
+</html>
