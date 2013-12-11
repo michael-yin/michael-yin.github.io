@@ -110,47 +110,33 @@ localProcessors.put(processor.getClass().getName(),localProcessor);<br />
 return localProcessor;<br />
 }[/code]</p>
 <p>这个方法对于需要新建的Processor通过反射重新建立实例并存放在ToeThread的localProcessors中</p>
-<p>当时在看一个扩展Processor的时候觉得很奇怪的就是本来下意识的觉得多个线程公用一个东西应该使用同步，所以看到Processor并没有使用同步的关键字觉得很奇怪，后来仔细想了一下觉得这个地方其实是有它的道理的。因为同步是为了什么？为了共享资源访问的时候不出问题，而这里处理url的过程中Processor的处理本来就没什么共享的东西需要进行同步，所以这样设计是没有问题的。这也告诉我们，对于多线程调用的一些方法，同步关键字并不是必须的，同步的本质是对于共享资源访问时的同步
-Title: Heritrix之旅之Processor
-Date: 2011-10-10 07:47
-Author: MichaelYin
-Category: 未分类
-Slug: heritrix%e4%b9%8b%e6%97%85%e4%b9%8bprocessor</p>
-<p>实际的url的处理是在toethread中进行的，toethread从Frontier中请求待处理的url,并将其放到一系列Processor中进行处理</p>
-<p>可以以流水线上的处理流程来想象Processor，流水线上的产品就是url，由于处理的processor主要着重于不同的阶段和功能，所以，heritrix将其processor分成了五个大类。</p>
-<p>1 Pre-fetch</p>
-<p>这里面包含一些需要在像web服务器发出请求之前的一些处理的processor,比如检查url的scope</p>
-<p>2 Fetch</p>
-<p>这里面的是获取web信息的processor,不同的processor支持不同的协议，比如FetchHTTP支持http,FetchDNS支持dns</p>
-<p>3 Extractor</p>
-<p>这个里面就是涉及到对抓取的web信息进行内容的提取了，可以对其中的链接进行处理，放到以后进行抓取，也可以根据自己的业务逻辑进行相应的扩展</p>
-<p>4 Write/index</p>
-<p>将抓取的信息存储到硬盘中</p>
-<p>\5. Post-processing</p>
-<p>将Extractor中找到的url放入到Frontier中待以后进行抓取，进行processor的清理工作</p>
-<p>所有的处理类都是继承了Processor，这样就能以一定的抽象统一对所有的processor进行管理，而每个具体的processor只需要根据自己的需要重写相应的处理方法即可</p>
-<p>CrawlController在setupCrawlModules中会初始化processorChains，ProcessorChainList这个实例就是整个处理器的一个容器，它下面根据上面所说的分类构成了5个ProcessorChain，需要注意的是初始化的时候顺序是很重要的，因为这个顺序关系到url处理时候的顺序。ProcessorChain中包含了所需要的processor</p>
-<p>多线程相关</p>
-<p>Processor的实例在CrawlController中会存放在ProcessorChain中，如果有特殊需要为了保证每个线程有属于自己的Processor,只需要实现InstancePerThread这个端口即可</p>
-<p>[code lang="java"] private Processor getProcessor(Processor processor)
-{<br />
-if(!(processor instanceof InstancePerThread)) {<br />
-// just use the shared Processor<br />
-return processor;<br />
-}<br />
-// must use local copy of processor<br />
-Processor localProcessor = (Processor) localProcessors.get(<br />
-processor.getClass().getName());<br />
-if (localProcessor == null) {<br />
-localProcessor = processor.spawn(this.getSerialNumber());<br />
-localProcessors.put(processor.getClass().getName(),localProcessor);<br />
-}<br />
-return localProcessor;<br />
-}[/code]</p>
-<p>这个方法对于需要新建的Processor通过反射重新建立实例并存放在ToeThread的localProcessors中</p>
 <p>当时在看一个扩展Processor的时候觉得很奇怪的就是本来下意识的觉得多个线程公用一个东西应该使用同步，所以看到Processor并没有使用同步的关键字觉得很奇怪，后来仔细想了一下觉得这个地方其实是有它的道理的。因为同步是为了什么？为了共享资源访问的时候不出问题，而这里处理url的过程中Processor的处理本来就没什么共享的东西需要进行同步，所以这样设计是没有问题的。这也告诉我们，对于多线程调用的一些方法，同步关键字并不是必须的，同步的本质是对于共享资源访问时的同步</p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'heritrix%e4%b9%8b%e6%97%85%e4%b9%8bprocessor';
+            var disqus_url = 'http://blog.michaelyin.info/2011/10/10/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bprocessor/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -163,7 +149,7 @@ return localProcessor;<br />
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -197,7 +183,7 @@ return localProcessor;<br />
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -209,5 +195,18 @@ return localProcessor;<br />
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>

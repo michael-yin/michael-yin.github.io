@@ -93,30 +93,33 @@ Control），虽然权限管理如果做极端点的话其实一个用户ID和�
 <p><a href="http://baike.baidu.com/view/2108713.htm">权限管理</a></p>
 <p><a href="http://www.cnblogs.com/tsoukw/archive/2010/09/27/1836485.html">闲话权限设计三层境界</a></p>
 <p><a href="http://baike.baidu.com/view/73432.htm">RBAC</a></p>
-<p><a href="http://www.javaeye.com/topic/360021">对权限管理认识的一些误区</a>
-Title: 权限设计学习总结
-Date: 2010-10-05 15:22
-Author: MichaelYin
-Category: 未分类
-Slug: %e6%9d%83%e9%99%90%e8%ae%be%e8%ae%a1%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93</p>
-<p>看着师兄师姐忙着笔试，找工作，不知不觉已经过去一年了。。明年就轮到自己了。。。加油。。。</p>
-<p>以前对权限两字的理解一直不是很清楚，甚至可以说是错误，连用户登录我一直都都以为是属于权限管理里面的，前几天看了园子里面的两篇文章，顺便又乘机查了下相关的资料，感觉对于权限这两个字又有了全新的认识。</p>
-<p>先来百度百科里面对权限管理的解释：权限管理，一般指根据系统设置的安全规则或者安全策略，用户<strong>可以访问而且只能访问</strong>自己被授权的资源，不多不少。权限管理几乎出现在任何系统里面，只要有用户和密码的系统。PS用户登陆属于用户身份认证，本质上并不属于权限管理，不应该将盖帘混淆。</p>
-<p>其实说简单点，权限管理也就是让有权限的用户得到授权的资源，这个资源可以是具体的数据，也可以是某种抽象的功能。它的本质就是这个。如何判断用户是否有权限并将没有权限的用户阻止掉访问资源，这个就是权限的管控，比如Asp.Net中可以通过Page_Load,HttpModule等等进行管控，实现的方式是多种多样的，但是实现的本质其实并没有多大的差别。</p>
-<p>管控的大致步骤就是首先得到用户，然后得到资源，对资源和用户进行匹配，如果不匹配则进行阻止的操作，比如跳向提示页面，或者隐藏相应的控件。</p>
-<p>项目中经常使用的权限判定方法就是将需要进行权限管理页面继承自一个实现了管控方法的页面基类BasePage,判定方法写在页面初始化的事件中，然后根据复写的属性值来进行判定，实现管控。</p>
-<p>提到权限设计，有个名词在这里也就有必要交代一下。RBAC,基于角色的访问控制（Role-Based
-Access
-Control），虽然权限管理如果做极端点的话其实一个用户ID和一个资源对应ID的对应表就足够，但是如果设计到用户权限的变更的话或者其他的权限管理操作的话，那么单纯的用户ID和资源ID对应的表结构就不是很好了。而RBAC则在用户ID和资源ID中添加了一个角色，通过将用户ID添加进角色与否和对角色，资源ID的分配来提供了更灵活的模型结构。</p>
-<p>一般来说，RBAC在数据库中比较多的做法是用五张数据表，用户表，角色表，权限表，然后是两张连接表，这也基本可以认为是一种比较经典的结构吧。当然了，对于特定的系统来说，有些表也是不一定都需要的，比如权限表有的时候并不一定是会分离的。</p>
-<p>理论知识懂了许多，以后做项目希望能更清晰的来对待这部分。</p>
-<p>下面是我学习中搜集的一些有用的资源，现把地址贴出来</p>
-<p><a href="http://baike.baidu.com/view/2108713.htm">权限管理</a></p>
-<p><a href="http://www.cnblogs.com/tsoukw/archive/2010/09/27/1836485.html">闲话权限设计三层境界</a></p>
-<p><a href="http://baike.baidu.com/view/73432.htm">RBAC</a></p>
 <p><a href="http://www.javaeye.com/topic/360021">对权限管理认识的一些误区</a></p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = '%e6%9d%83%e9%99%90%e8%ae%be%e8%ae%a1%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93';
+            var disqus_url = 'http://blog.michaelyin.info/2010/10/05/%e6%9d%83%e9%99%90%e8%ae%be%e8%ae%a1%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -129,7 +132,7 @@ Control），虽然权限管理如果做极端点的话其实一个用户ID和�
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -163,7 +166,7 @@ Control），虽然权限管理如果做极端点的话其实一个用户ID和�
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -175,5 +178,18 @@ Control），虽然权限管理如果做极端点的话其实一个用户ID和�
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>

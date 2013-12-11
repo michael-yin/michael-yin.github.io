@@ -91,28 +91,33 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <p>Report放的是报表文件和浏览报表的页面。</p>
 <p>Shared放的是所用到的母版页。</p>
 <p>UserControls放的是用户控件，需要提到的xslt文件，FCKeditor。</p>
-<p>Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类，Pop3Reader下放的是读取邮件时需要用到的类，DAL和BLL是干什么的就不用我多说了吧。。
-Title: Bugnet学习总结（3）项目文件结构
-Date: 2010-07-19 11:07
-Author: MichaelYin
-Category: 未分类
-Slug: bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%883%ef%bc%89%e9%a1%b9%e7%9b%ae%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84</p>
-<p>用VS打开Bugnet项目文件，可以看到四个Project,BugNET_WAP是Web项目，HttpModule.Authentication是自定义的认证模块，好像是可以在其中选择WindowsSAM和ActiveDirectory两种认证方式，这个模块我没怎么看，感兴趣的朋友请自己研究下，HttpModule.MailBoxReader是邮件读取的模块，UnitTests是单元测试Project.</p>
-<p>另外的三个文件结构相对比较简单，就不在这里多做说明了，现在在这里主要对BugNET_WAP进行较详细的说明。</p>
-<p>Bugnet使用的数据库是Sql
-server2005,如果你下载的是source代码，你是不需要Install过程的，建议使用Sql
-server将它附加到你本机数据库中（数据库在APP_Data文件夹中），然后将Web.config中的链接字符串修改成连接你本机数据库就OK。关于Bugnet安装版的安装过程，园子里面已经有人发了，大家自己去找找。</p>
-<p>Administration文件夹里面主要是项目管理相关的页面和用户控件，关于Project创建和管理的页面都在这里面。</p>
-<p>Bugs则主要是提交Issue和管理Issue的页面和用户控件。</p>
-<p>Config文件夹中的Log4Net.config是log4net的配置文件。</p>
-<p>Errors文件夹放的是显示错误的页面。</p>
-<p>Install放的是Bugnet安装和升级需要的文件，如果下载的是发布版本的Bugnet，第一次需要运行Install.aspx来进行安装。</p>
-<p>Report放的是报表文件和浏览报表的页面。</p>
-<p>Shared放的是所用到的母版页。</p>
-<p>UserControls放的是用户控件，需要提到的xslt文件，FCKeditor。</p>
 <p>Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类，Pop3Reader下放的是读取邮件时需要用到的类，DAL和BLL是干什么的就不用我多说了吧。。</p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%883%ef%bc%89%e9%a1%b9%e7%9b%ae%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84';
+            var disqus_url = 'http://blog.michaelyin.info/2010/07/19/bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%883%ef%bc%89%e9%a1%b9%e7%9b%ae%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -125,7 +130,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -159,7 +164,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -171,5 +176,18 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>

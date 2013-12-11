@@ -88,37 +88,7 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span class="err">在</span><span class="n">Console</span><span class="err">窗口中按</span><span class="n">Ctrl</span><span class="o">+</span><span class="err">空格打开中文输入法，这样可以在</span><span class="n">Console</span><span class="err">中输入中文，然后敲随便一个中文，比如’我’</span><span class="p">,</span><span class="err">设置断点可以发现运行到第二行的时候变量</span><span class="n">c</span><span class="err">的值是’我’</span><span class="p">,</span><span class="err">这样基本就告诉我们了其中的一些基本的原理。就想我前面说的</span><span class="n">Console</span><span class="p">.</span><span class="n">Read</span><span class="err">返回的是’我’这个字符的</span><span class="n">Unicode</span><span class="err">编码的值，如果我们输入’</span><span class="mi">3</span><span class="err">’</span><span class="p">,</span><span class="err">那么</span><span class="n">a</span><span class="err">并不是</span><span class="mi">3</span><span class="err">，而是</span><span class="mi">3</span><span class="err">的</span><span class="n">Unicode</span><span class="err">编码的值，也就是</span><span class="mi">51</span><span class="err">。</span>
-
-<span class="err">这个</span><span class="mi">51</span><span class="err">在程序中已经是</span><span class="kt">int</span><span class="err">类型了，如果我们需要重新得到原始的</span><span class="n">Char</span><span class="err">，使用方法</span><span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="err">就可以。</span>
-
-<span class="err">实际中另外一种情况是，我在</span><span class="n">Console</span><span class="err">中输入数字，希望在程序中重新得到数字</span><span class="p">,</span><span class="err">这时候，上面的方法就不行了，因为它只能得到</span><span class="kt">char</span><span class="p">.</span>
-
-<span class="err">有的朋友可能会说，</span><span class="n">Convert</span><span class="err">类中包含了基本类型的转换，直接用不就行了么，的确</span><span class="p">,</span><span class="n">Convert</span><span class="err">类中确实有</span><span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="err">方法用于将</span><span class="kt">char</span><span class="err">转换为</span><span class="kt">int</span><span class="p">,</span><span class="err">但是，这个转换是基于</span><span class="mi">2</span><span class="err">进制实际值的转换，也就是说，我将字符’</span><span class="mi">3</span><span class="err">’放进去，得到的结果是字符’</span><span class="mi">3</span><span class="err">’的二进制表示的</span><span class="kt">int</span><span class="err">值，也就是</span><span class="mf">51.</span>
-
-<span class="err">园子里有的人用的是</span><span class="kt">int</span><span class="p">.</span><span class="n">parse</span><span class="err">的方法，这个方法使用每次必须将</span><span class="kt">char</span><span class="err">转换成</span><span class="n">string</span><span class="err">类型才行，实现是可以实现，但是每次都转换成</span><span class="n">string</span>
-<span class="err">感觉十分的丑陋。</span>
-
-<span class="err">在文档里面找了一下，发现了这个方法。</span><span class="n">GetNumericValue</span><span class="err">，直接提供了</span><span class="kt">char</span><span class="err">到</span><span class="kt">int</span><span class="err">的转换，可以将字符’</span><span class="mi">3</span><span class="err">’直接转换为</span><span class="kt">double</span><span class="err">类型。</span>
-<span class="nl">Title:</span> <span class="kt">char</span><span class="p">,</span><span class="kt">int</span><span class="err">转换</span>
-<span class="nl">Date:</span> <span class="mi">2011</span><span class="o">-</span><span class="mo">03</span><span class="o">-</span><span class="mi">10</span> <span class="mo">02</span><span class="o">:</span><span class="mi">42</span>
-<span class="nl">Author:</span> <span class="n">MichaelYin</span>
-<span class="nl">Category:</span> <span class="err">未分类</span>
-<span class="nl">Slug:</span> <span class="n">charint</span><span class="o">%</span><span class="n">e8</span><span class="o">%</span><span class="n">bd</span><span class="o">%</span><span class="n">ac</span><span class="o">%</span><span class="n">e6</span><span class="o">%</span><span class="mi">8</span><span class="n">d</span><span class="o">%</span><span class="n">a2</span>
-
-<span class="err">写一个</span><span class="n">Console</span><span class="err">小程序的时候需要用户输入数字，然后在程序中进行获取，本来以为很简单的，没想到也发生了一些曲折。。</span>
-
-<span class="err">在</span><span class="n">Console</span><span class="err">类中，</span><span class="n">Console</span><span class="p">.</span><span class="n">Read</span><span class="err">获取的用户输入的单个字符，</span><span class="p">.</span><span class="n">net</span><span class="err">内存中的字符的存储都是采用的</span><span class="n">Unicode</span><span class="err">编码，所以这个方法返回的是该字符的</span><span class="n">Unicode</span><span class="err">编码的十进制值，对于</span><span class="n">Unicode</span><span class="err">不是很了解的朋友可以参考我的另外一篇</span><span class="n">Post</span><span class="p">[</span><span class="err">字符编码那些事儿</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//www.cnblogs.com/MichaelYin/archive/2010/12/06/1897928.html)，如果我需要得到这个字符具体是多少，只需要调用Convert.ToChar就可以了。来看个例子</span>
-
-<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
-<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
-<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
-        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
-
-        <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
-</pre></div>
-
-
+<p>~~~~</p>
 <p>在Console窗口中按Ctrl+空格打开中文输入法，这样可以在Console中输入中文，然后敲随便一个中文，比如’我’,设置断点可以发现运行到第二行的时候变量c的值是’我’,这样基本就告诉我们了其中的一些基本的原理。就想我前面说的Console.Read返回的是’我’这个字符的Unicode编码的值，如果我们输入’3’,那么a并不是3，而是3的Unicode编码的值，也就是51。</p>
 <p>这个51在程序中已经是int类型了，如果我们需要重新得到原始的Char，使用方法Convert.ToChar就可以。</p>
 <p>实际中另外一种情况是，我在Console中输入数字，希望在程序中重新得到数字,这时候，上面的方法就不行了，因为它只能得到char.</p>
@@ -128,6 +98,30 @@
 <p>在文档里面找了一下，发现了这个方法。GetNumericValue，直接提供了char到int的转换，可以将字符’3’直接转换为double类型。</p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'charint%e8%bd%ac%e6%8d%a2';
+            var disqus_url = 'http://blog.michaelyin.info/2011/03/10/charint%e8%bd%ac%e6%8d%a2/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -140,7 +134,7 @@
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -174,7 +168,7 @@
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -186,5 +180,18 @@
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>

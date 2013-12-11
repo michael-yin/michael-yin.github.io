@@ -103,52 +103,36 @@
                 }
                 arrayToSort[i + 1] = key;
             }
-        }</p>
-<div class="highlight"><pre><span class="err">本篇讲的是插入排序，插入排序的作用就是将一个本来没有顺序的数组经过处理使其内部元素按照大小顺序统一排列，它的设计思想是采用的增量</span><span class="p">(</span><span class="nx">incremental</span><span class="p">)</span><span class="err">方法，通过循环每次新增一个元素到子数组中，每次将新增这个元素插入到子数组中合适的位置，形成排好序的子数组，这样不停的循环知道数组中的元素全部排序完毕。</span>
-
-<span class="err">算法分析：插入排序的的最坏情况发上在逆序数组的时候，这个时候时间是一个关于</span><span class="nb">n</span><span class="err">的二次函数。</span>
-<span class="nb">Title</span><span class="p">:</span> <span class="err">算法学习之插入排序</span>
-<span class="kt">Date</span><span class="p">:</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">20</span> <span class="mi">08</span><span class="p">:</span><span class="mi">02</span>
-<span class="nx">Author</span><span class="p">:</span> <span class="nx">MichaelYin</span>
-<span class="nx">Category</span><span class="p">:</span> <span class="err">未分类</span>
-<span class="nx">Slug</span><span class="p">:</span> <span class="o">%</span><span class="nx">e7</span><span class="o">%</span><span class="nx">ae</span><span class="o">%</span><span class="mi">97</span><span class="o">%</span><span class="nx">e6</span><span class="o">%</span><span class="nx">b3</span><span class="o">%</span><span class="mi">95</span><span class="o">%</span><span class="nx">e5</span><span class="o">%</span><span class="nx">ad</span><span class="o">%</span><span class="nx">a6</span><span class="o">%</span><span class="nx">e4</span><span class="o">%</span><span class="nx">b9</span><span class="o">%</span><span class="nx">a0</span><span class="o">%</span><span class="nx">e4</span><span class="o">%</span><span class="nx">b9</span><span class="o">%</span><span class="mi">8</span><span class="nx">b</span><span class="o">%</span><span class="nx">e6</span><span class="o">%</span><span class="mi">8</span><span class="nb">f</span><span class="o">%</span><span class="mi">92</span><span class="o">%</span><span class="nx">e5</span><span class="o">%</span><span class="mi">85</span><span class="o">%</span><span class="nx">a5</span><span class="o">%</span><span class="nx">e6</span><span class="o">%</span><span class="mi">8</span><span class="nx">e</span><span class="o">%</span><span class="mi">92</span><span class="o">%</span><span class="nx">e5</span><span class="o">%</span><span class="nx">ba</span><span class="o">%</span><span class="mi">8</span><span class="nb">f</span>
-
-<span class="err">最近开始学习算法方面的东西，用的资料是算法导论，在这里也顺便把学习过程中的心得，体会等，在这里做个总结，并给出自己用</span><span class="nx">c</span><span class="o">\</span><span class="err">#实现的代码。</span>
-
-<span class="err">说个简单点的例子，就拿算法导论一书中的</span><span class="nx">Poker</span><span class="err">的例子来说吧。刚开始我们的手上有一张牌，而这张牌肯定是没有排序的大小顺序问题的，桌子上放的牌就是剩下的都没有排序的那些牌，我们将牌从桌子上拿起来，然后从右往左边看，看到一个比我们刚摸上来的牌小的牌后，把手上这个牌右边的牌都朝右边挪动一个位子，然后把刚摸起来的这张牌插入到空出来的这个位置中去。</span>
-
-<span class="err">下面给出实现的代码</span>
-
-<span class="err">~~~~</span> <span class="p">{</span><span class="bp">.</span><span class="nx">brush</span><span class="p">:</span> <span class="bp">.</span><span class="nx">csharp</span><span class="p">;</span> <span class="bp">.</span><span class="nx">auto</span><span class="na">-links</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">collapse</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
-<span class="bp">.</span><span class="nb">first</span><span class="na">-line</span><span class="p">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="bp">.</span><span class="nx">gutter</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">html</span><span class="na">-script</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">light</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
-<span class="bp">.</span><span class="nx">ruler</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">smart</span><span class="na">-tabs</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">tab</span><span class="na">-size</span><span class="p">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="bp">.</span><span class="nx">toolbar</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;}</span>
-       <span class="c1">/// &lt;summary&gt;</span>
-       <span class="c1">/// 插入排序</span>
-        <span class="c1">/// &lt;/summary&gt;</span>
-        <span class="c1">/// &lt;param name=&quot;arrayToSort&quot;&gt;需要排序的数组&lt;/param&gt;</span>
-        <span class="k">public</span> <span class="nf">static</span> <span class="bp">void</span> <span class="nx">InsertionSort</span><span class="p">(</span><span class="nx">int</span><span class="err">[</span><span class="cp">]</span> arrayToSort)
-        {
-            //从第二个元素开始
-            for (int j = 1; j <span class="nt">&lt; arrayToSort.Length</span><span class="err">;</span> <span class="err">j++)</span>
-            <span class="err">{</span>
-                <span class="err">int</span> <span class="na">key =</span> <span class="s">arrayToSort</span><span class="cp">[</span><span class="nx">j</span><span class="cp">]</span><span class="s">;</span>
-                <span class="err">int</span> <span class="na">i =</span> <span class="s">j</span> <span class="err">-</span> <span class="err">1;</span>
-                <span class="err">//注意防止索引越界</span>
-                <span class="err">while</span> <span class="err">(i</span> <span class="nt">&gt;</span> -1 <span class="err">&amp;&amp;</span> arrayToSort<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span> &gt; key)
-                {
-                    arrayToSort<span class="cp">[</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="cp">]</span> = arrayToSort<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>;
-                    i--;
-                }
-                arrayToSort<span class="cp">[</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="cp">]</span> = key;
-            }
         }
-</pre></div>
-
-
+~~~~</p>
 <p>本篇讲的是插入排序，插入排序的作用就是将一个本来没有顺序的数组经过处理使其内部元素按照大小顺序统一排列，它的设计思想是采用的增量(incremental)方法，通过循环每次新增一个元素到子数组中，每次将新增这个元素插入到子数组中合适的位置，形成排好序的子数组，这样不停的循环知道数组中的元素全部排序完毕。</p>
 <p>算法分析：插入排序的的最坏情况发上在逆序数组的时候，这个时候时间是一个关于n的二次函数。</p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = '%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e6%8f%92%e5%85%a5%e6%8e%92%e5%ba%8f';
+            var disqus_url = 'http://blog.michaelyin.info/2010/10/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e6%8f%92%e5%85%a5%e6%8e%92%e5%ba%8f/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -161,7 +145,7 @@
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -195,7 +179,7 @@
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -207,5 +191,18 @@
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>

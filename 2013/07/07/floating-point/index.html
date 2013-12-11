@@ -138,72 +138,33 @@ Programming</a></p>
 <p><a href="http://www.johndcook.com/blog/2009/07/21/ieee-arithmetic-python/">IEEE floating point arithmetic in
 Python</a></p>
 <p><a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">What Every Computer Scientist Should Know About
-Floating</a>
-Title: Floating Point学习笔记
-Date: 2013-07-07 20:16
-Author: MichaelYin
-Category: 思考心得
-Tags: float
-Slug: floating-point</p>
-<p>写代码的时候发现对Float的原理和使用方式没有一个系统的理解，找了资料学习后将知识点在这里进行整理</p>
-<h3>Float存储原理：</h3>
-<p>提到Float的存储方式首先必须提一下IEEE
-754这个标准，该标准的出现主要解决了不同计算机之间浮点数表示方式和计算方式无法兼容的问题，现在的计算机内的浮点数的存储方式都是支持这个标准的。</p>
-<p>一个浮点数主要由三部分组成：<mathjax>$$V = (-1)\^{s}\\times M\\times 2\^{E}$$</mathjax></p>
-<p>s表示浮点数的正负</p>
-<p>M表示小数部分</p>
-<p>E是2的指数，用来表示2的乘方</p>
-<p>如果将这三部分对应到存储的bit位上去，那么s对应一个bit位，用来表示浮点数的正负，k个bit位用来表示表示2的乘方，这k个bit位统一用exp来表示，n个bit位用来表示小数部分，统一用fra来表示</p>
-<p><a href="http://blog.michaelyin.info/images/2013/07/image.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb.png" title="image" /></a></p>
-<p>现在已经知道浮点数的存储位一共有三部分组成，而浮点数本身也被分成了三种类型，三种不同类型的存储方式都有其自身的特点</p>
-<p>1：Normalized Values</p>
-<p>这是最普通的情况，当exp部分的bit位不全为0和不全为1的时候，在这种情况下，exp部分的值E
-= e-Bias，这里e是exp部分的无符号整形值，<mathjax>$$Bias = 2\^{k-1}-1$$</mathjax></p>
-<p>frac表示小数部分的值，如果bit位的小数的值为f，frac部分的实际值M = f +1</p>
-<p>2：Denormalized Values</p>
-<p>当exp部分全为0的时候，这时候的浮点数就是Denormalized Values，exp对应的值E
-= 1- Bias，Bias的值和上面一样的定义</p>
-<p>frac部分的实际值M = f(和前一种有区别，至于为什么后面会讲到)</p>
-<p>Denormalized Values一个很重要的作用就是用来表示非常接近0的值</p>
-<p>3：Special Values</p>
-<p>当exp全部为0，frac全部为0的时候，根据s的值分别表示正无穷和负无穷大，如果frac部位0，frac为0，则表示NaN(Not
-a Number)</p>
-<p><a href="http://blog.michaelyin.info/images/2013/07/image1.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb1.png" title="image" /></a></p>
-<p>范例：</p>
-<p>假设现在有一个8bit的浮点数，其中1位表示正负，4位表示乘方，3位表示小数部分，那么Bias
-= 7</p>
-<p>当exp为0时，E = 1 – Bias = –6</p>
-<p>当exp不为0时，E = e – Bias</p>
-<p>需要注意的是Largest denormalized 这个地方，是 Denormalized 和Normalized
-的交界处，可以发现Denormalized
-关于E的定义使得两种不同类型的浮点数很平滑的过渡，没有因为是两种类型中间产生一段较大的区域没有覆盖到</p>
-<p><a href="http://blog.michaelyin.info/images/2013/07/image2.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb2.png" title="image" /></a></p>
-<p>知道了Float的存储方式后，在计算机内表示实际的实数是需要进行舍入的，即用计算机内能表示的最接近的数的二进制存储方式来表示实际的数，这样一来精度产生的误差肯定是客观存在的了。两个数学意义上不相等的数，在计算机内却有可能是一样的。</p>
-<h3>Python中的float：</h3>
-<p>Python的官方doc里面说Python的float使用C的double实现，那么浮点数的存储方式也是符合IEEE
-754的。</p>
-<p>Infinite(即无穷大或无穷小)在Py里表示为inf，NaN，表示为nan</p>
-<p>比如 x = 1e200 ; y = x*x</p>
-<p>y即为inf</p>
-<p>z = y ; z/= y</p>
-<p>由于y已经是无穷大，除法是没有意义的，所以z = nan</p>
-<p>sys.float_info包含Py关于浮点数的一些数值，比如所支持的最大值最小值等</p>
-<h3>编程中关于浮点数需要注意的几点：</h3>
-<p>1: 第一点在很多编程书中都有讲到,那就是浮点数的比较不能用if(a ==
-b)这样的方式，因为浮点数都是有精度缺失的，两个数学意义上相等的浮点数在计算机里面可能会有微小的差别，所以只要相距在一定的范围内，都可以认为是相等的，这样写比较合理</p>
-<p>[code lang="py"]<br />
-if(abs(a-b) &lt;= tolerance): do something<br />
-[/code]</p>
-<p>2:在浮点数的四种运算中，减法是相对来说问题比较大的一种(注：正负数相加本质也是作减法)，它产生精度丢失的问题比其他三种都大，而且越相近的两个浮点数相减，精度丢失越大，特殊情况，如果两个相隔很近的浮点数数学意义上不同但是计算机里的存储比特位一样，那么减法会导致精度全部丢失。</p>
-<h6>Related Posts:</h6>
-<p><a href="http://www.codeproject.com/Articles/29637/Five-Tips-for-Floating-Point-Programming">Five Tips for Floating Point
-Programming</a></p>
-<p><a href="http://www.johndcook.com/blog/2009/07/21/ieee-arithmetic-python/">IEEE floating point arithmetic in
-Python</a></p>
-<p><a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">What Every Computer Scientist Should Know About
 Floating</a></p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'floating-point';
+            var disqus_url = 'http://blog.michaelyin.info/2013/07/07/floating-point/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -216,7 +177,7 @@ Floating</a></p>
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -250,7 +211,7 @@ Floating</a></p>
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -262,5 +223,18 @@ Floating</a></p>
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>

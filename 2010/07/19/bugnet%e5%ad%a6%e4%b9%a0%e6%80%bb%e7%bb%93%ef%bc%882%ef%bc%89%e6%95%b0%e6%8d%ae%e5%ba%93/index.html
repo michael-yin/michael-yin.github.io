@@ -89,26 +89,33 @@
 <p>HostSettings保存着Bugnet整体相关的设置。Log则是Log4net进行日志记录的地方。</p>
 <p>表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的，在这一点上我也是有点不理解，如果说使用存储过程是为了性能，那它代码可以优化的地方不是没有，比如它使用的是自带的分页，而没有自己写分页，这样在数据量达到一定程度时性能肯定会首影响，而且更让我感到有点疑惑的是，代码里面使用了Datafaactory来生成需要的对象，那你为什么具体的数据操作代码要放到数据库里面去？不是要分离么？</p>
 <p>视图的话只有BugsView一个，就是将Bug表有联系的表连接起来方便查询。。</p>
-<p>数据库大致感觉要说的就这些。。:)
-Title: Bugnet学习总结（2）数据库
-Date: 2010-07-19 07:50
-Author: MichaelYin
-Category: 未分类
-Slug: bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%882%ef%bc%89%e6%95%b0%e6%8d%ae%e5%ba%93</p>
-<p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
-<p><a href="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/%E6%9C%AA%E5%91%BD%E5%90%8D.jpg"><img alt="未命名" src="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/%E6%9C%AA%E5%91%BD%E5%90%8D_thumb.jpg" title="未命名" /></a></p>
-<p>接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。</p>
-<p>aspnet_Users和UserRoles，Roles，RolePermission,Permission,UserProjects组成了基于Project的权限管理模块所需要的表，表名所对应的意思看起来是一目了然的，在这里也就不多说了。。</p>
-<p><a href="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/%E6%9C%AA%E5%91%BD%E5%90%8D_1.jpg"><img alt="未命名" src="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/%E6%9C%AA%E5%91%BD%E5%90%8D_thumb_1.jpg" title="未命名" /></a></p>
-<p>在Bugnet里你创建一个Project的话，项目创建者可以在里面事先添加一些你自定义的属性，你可以决定项目成员在提交内容的时候是否必须填写这个自定义属性，这个自定义属性值你可以设定成Text,Dropdownlist,等等，关于这个功能，具体是在ProjectCustomFields，ProjectCustomFieldSelection，ProjectCustomFieldType，ProjectCustomFieldValues这几个表中实现的。</p>
-<p><a href="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/QQ%E6%88%AA%E5%9B%BE%E6%9C%AA%E5%91%BD%E5%90%8D_2.jpg"><img alt="QQ截图未命名" src="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/QQ%E6%88%AA%E5%9B%BE%E6%9C%AA%E5%91%BD%E5%90%8D_thumb.jpg" title="QQ截图未命名" /></a></p>
-<p>剩下的表基本上都是以Bug为中心，BugAttachment保存上传的附件，BugComment保存评论，BugHistory保存Issue的历史，BugNotification保存Issue相关的需要通知的User,Component保存Project的分类，RelatedBug保存相关Issue关系。另外的几个表都是比如Status，Type都是起着字典表的作用。标识着Issue的状态和类别。</p>
-<p>HostSettings保存着Bugnet整体相关的设置。Log则是Log4net进行日志记录的地方。</p>
-<p>表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的，在这一点上我也是有点不理解，如果说使用存储过程是为了性能，那它代码可以优化的地方不是没有，比如它使用的是自带的分页，而没有自己写分页，这样在数据量达到一定程度时性能肯定会首影响，而且更让我感到有点疑惑的是，代码里面使用了Datafaactory来生成需要的对象，那你为什么具体的数据操作代码要放到数据库里面去？不是要分离么？</p>
-<p>视图的话只有BugsView一个，就是将Bug表有联系的表连接起来方便查询。。</p>
 <p>数据库大致感觉要说的就这些。。:)</p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%882%ef%bc%89%e6%95%b0%e6%8d%ae%e5%ba%93';
+            var disqus_url = 'http://blog.michaelyin.info/2010/07/19/bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%882%ef%bc%89%e6%95%b0%e6%8d%ae%e5%ba%93/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -121,7 +128,7 @@ Slug: bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%882%ef%bc%89%e6%95%b0%e6%
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -155,7 +162,7 @@ Slug: bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%882%ef%bc%89%e6%95%b0%e6%
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -167,5 +174,18 @@ Slug: bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%882%ef%bc%89%e6%95%b0%e6%
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>

@@ -102,50 +102,8 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
             Object key = readyClassQueues.poll(DEFAULT_WAIT,TimeUnit.MILLISECONDS);
             if (key != null) {
                 readyQ = (WorkQueue)this.allQueues.get(key);
-            }</p>
-<div class="highlight"><pre><span class="err">上面是</span><span class="n">next</span><span class="err">方法中的一段代码，可用的</span><span class="n">queue</span><span class="err">的</span><span class="n">key</span><span class="err">会放到</span><span class="n">readyClassQueues</span><span class="err">这个</span><span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">String</span><span class="err">\</span><span class="o">&gt;</span><span class="err">中去，如果一个</span><span class="n">queue</span><span class="err">在处理的话就不会被其他的</span><span class="n">toethread</span><span class="err">同时占用，这样有效的保证了</span><span class="n">politeness</span>
-
-<span class="err">另外这里的</span><span class="n">queue</span><span class="err">还有几种状态</span><span class="n">active</span> <span class="n">snooze</span>
-<span class="n">inactive</span><span class="err">，现在来简单说说这几种队列的区别，运行过程中一般情况下的</span><span class="n">queue</span><span class="err">都是</span><span class="n">active</span><span class="err">的，回到</span><span class="n">finished</span><span class="err">方法中，如果我不想爬虫对一个网站过度抓取，那么我需要对其抓取时间进行判断，如果一个</span><span class="n">uri</span><span class="err">的抓取时间太短的话，那么我需要暂时让这个</span><span class="n">queue</span><span class="err">小睡一下，这就是</span><span class="n">snooze</span><span class="err">的来历，调用</span><span class="n">snoozeQueue</span><span class="err">方法可以让</span><span class="n">queue</span><span class="err">进入</span><span class="n">snooze</span><span class="err">状态，在过一定时间后进行唤醒，重新进入</span><span class="n">active</span><span class="err">状态，进入</span><span class="n">activae</span><span class="err">状态的</span><span class="n">queue</span><span class="err">可以重新将其中包含的</span><span class="n">uri</span><span class="err">提供给</span><span class="n">toethread</span><span class="err">进行抓取。处于</span><span class="n">active</span><span class="err">状态的</span><span class="n">queue</span><span class="err">的个数是定的，如果超出预先设定的一些参数，则把其设置成</span><span class="n">inactive</span><span class="p">,</span><span class="err">当系统条件允许的时候重新进行</span><span class="n">activate</span>
-
-<span class="err">下面接着来说说</span><span class="n">QueueAssignmentPolicy</span><span class="err">，前面已经说过</span><span class="n">QueueAssignmentPolicy</span><span class="err">针对每个</span><span class="n">uri</span><span class="err">都会生成一个</span><span class="n">key</span><span class="p">,</span><span class="err">根据这个</span><span class="n">key</span><span class="err">来将</span><span class="n">key</span><span class="err">相同的</span><span class="n">uri</span><span class="err">组成一个队列，这样的话就能保证</span><span class="n">politeness</span><span class="err">，但是这样在有些情况下会产生一些问题，比如对一个网站进行定向抓取的时候，由于</span><span class="n">hostname</span><span class="err">是一个，那么极有可能造成只有一个</span><span class="n">toethread</span><span class="err">实际进行抓取，这样的抓取效率是很低的。因此，网上流传很广的解决方法就是使用</span><span class="n">ELF</span>
-<span class="n">hash</span><span class="err">算法将</span><span class="n">url</span><span class="err">进行散列，使得</span><span class="n">uri</span><span class="err">分散到各个对垒中去，这样在实际中确实能显著的提高抓取速度。但是这个地方也会带来一些问题，网站的管理员有可能会封你的</span><span class="n">IP</span>
-<span class="nl">Title:</span> <span class="n">Heritrix</span><span class="err">之旅之</span><span class="n">Frontier</span>
-<span class="nl">Date:</span> <span class="mi">2011</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">25</span> <span class="mi">13</span><span class="o">:</span><span class="mi">16</span>
-<span class="nl">Author:</span> <span class="n">MichaelYin</span>
-<span class="nl">Category:</span> <span class="n">Java</span>
-<span class="nl">Tags:</span> <span class="n">Heritrix</span><span class="p">,</span> <span class="n">Java</span>
-<span class="nl">Slug:</span> <span class="n">heritrix</span><span class="o">%</span><span class="n">e4</span><span class="o">%</span><span class="n">b9</span><span class="o">%</span><span class="mi">8</span><span class="n">b</span><span class="o">%</span><span class="n">e6</span><span class="o">%</span><span class="mi">97</span><span class="o">%</span><span class="mi">85</span><span class="o">%</span><span class="n">e4</span><span class="o">%</span><span class="n">b9</span><span class="o">%</span><span class="mi">8</span><span class="n">bfrontier</span>
-
-<span class="err">上一篇</span><span class="n">Blog</span><span class="err">中说到了抓取任务的核心类</span><span class="n">CrawlController</span><span class="err">，这次我们来说说</span><span class="n">Frontier</span><span class="p">.</span><span class="n">Frontier</span><span class="err">是每次抓取时必须要用到的组件，每个</span><span class="n">Frontier</span><span class="err">知道哪个</span><span class="n">URI</span><span class="err">它正在处理，</span><span class="n">ToeThreads</span><span class="err">向</span><span class="n">Frontier</span><span class="err">请求</span><span class="n">URI</span><span class="err">，然后通过处理链对其进行处理，并将发现的连接通过</span><span class="n">scheduled</span><span class="err">返回到</span><span class="n">Frontier</span><span class="err">中，</span><span class="n">Frontier</span><span class="err">本身管理一个关于</span><span class="n">uri</span><span class="err">的列表，这个列表中的</span><span class="n">uri</span><span class="err">将被抓取。这就意味着</span><span class="n">Frontier</span><span class="err">控制了抓取的整体进度。</span>
-
-<span class="p">[</span><span class="o">!</span><span class="p">[</span><span class="mi">201108252116205982</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//blog.michaelyin.info/images/2011/08/201108252116205982.png)](http://blog.michaelyin.info/images/2011/08/201108252116205982.png)</span>
-
-<span class="n">Heritrix</span><span class="err">把</span><span class="n">Frontier</span><span class="err">抽象成了</span><span class="n">interface</span><span class="err">，创建新的</span><span class="n">Frontier</span><span class="err">只需要实现这个接口就行。里面两个很重要的方法一个是</span><span class="n">schedule</span><span class="p">()</span><span class="err">，该方法接受一个</span><span class="n">URI</span><span class="err">并存起来以后进行抓取，另外一个是</span><span class="n">next</span><span class="err">，改方法返回一个</span><span class="n">URI</span><span class="err">供抓取，另外</span><span class="n">finished</span><span class="err">这个方法用来处理一个已经处理完毕的</span><span class="n">uri</span>
-
-<span class="p">[</span><span class="o">!</span><span class="p">[</span><span class="mi">201110071040391231</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//blog.michaelyin.info/images/2011/08/201110071040391231.png)](http://blog.michaelyin.info/images/2011/08/201110071040391231.png)</span>
-
-<span class="err">对于待抓取的</span><span class="n">URI</span><span class="err">需要进行一个排序以决定被抓取</span><span class="n">URI</span><span class="err">的先后顺序，所以又必要在</span><span class="n">Frontier</span><span class="err">中实现一种策略在避免对于一个主机进行过度抓取，在</span><span class="n">Heritrix</span><span class="err">中使用了一种称为</span><span class="n">queue</span><span class="err">的概念，</span><span class="n">Frontier</span><span class="err">中有着若干个</span><span class="n">queue</span><span class="p">,</span><span class="err">将待抓取的</span><span class="n">uri</span><span class="err">根据一定的算法算出一个</span><span class="n">key</span>
-<span class="p">,</span><span class="err">然后根据这个</span><span class="n">key</span><span class="err">将</span><span class="n">url</span><span class="err">放入到</span><span class="n">queue</span><span class="err">中去，每一个</span><span class="n">queuq</span><span class="err">中的</span><span class="n">url</span><span class="err">的</span><span class="n">key</span><span class="err">都是相同的当一个</span><span class="n">queue</span><span class="err">中有</span><span class="n">uri</span><span class="err">正在抓取的时候，其他</span><span class="n">toethread</span><span class="err">是不能从中获取</span><span class="n">uri</span><span class="err">的，这样就有效的防止了对一个</span><span class="n">queue</span><span class="err">的过渡的抓取，我们可以配置</span><span class="n">heritrix</span><span class="err">使用的策略，比如根据</span><span class="n">hostname</span><span class="err">进行区分，或者</span><span class="n">IP</span><span class="err">地址等等。默认情况下，使用的是</span><span class="n">hostname</span><span class="err">。这个根据</span><span class="n">url</span><span class="err">得到</span><span class="n">key</span><span class="err">的类具体是由</span><span class="n">Queue</span><span class="o">-</span><span class="n">assignment</span><span class="o">-</span><span class="n">policy</span><span class="err">来管理的。</span>
-
-<span class="err">下面来具体的说说</span><span class="n">Frontier</span><span class="err">中</span><span class="n">queue</span><span class="err">的实现，</span><span class="n">WorkQueueFrontier</span><span class="err">这个类实现了关于</span><span class="n">queue</span><span class="err">的一些逻辑，里面提供了一些方法，我们只需要对其进行覆写就可以，</span><span class="n">BdbFrontier</span><span class="err">对部分方法进行了覆写，使用了</span><span class="n">Berkeley</span>
-<span class="n">DB</span><span class="err">数据库来存存储信息，有效的避免了内存溢出，</span><span class="n">WorkQueue</span><span class="err">是队列的一个抽象类，也是提供了队列所需要的基本的方法，子类只需要对其中部分方法进行覆写即可，具体的实现可以看</span><span class="n">BdbWorkQueue</span><span class="err">这个类的实现</span>
-
-<span class="err">我们先来看看</span><span class="n">WorkQueueFrontier</span><span class="err">中的</span><span class="n">schedule</span><span class="err">方法，这个方法是将</span><span class="n">uri</span><span class="err">放入到</span><span class="n">frontier</span><span class="err">中去以供以后抓取，首先会通过</span><span class="n">UriUniqFilter</span><span class="err">进行一次判断，查看这个</span><span class="n">uri</span><span class="err">是否被抓取过，如果被抓取过则不会将其插入到队列中如果不是则调用</span><span class="n">receive</span><span class="err">方法将其插入到队列中去</span>
-
-<span class="err">在队列中的</span><span class="n">uri</span><span class="err">会在</span><span class="n">next</span><span class="err">方法中被</span><span class="n">toethread</span><span class="err">取出然后进行处理，处理完之后会调用</span><span class="n">finished</span><span class="err">方法通知已经处理完毕</span>
-
-<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
-<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
-<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
-            <span class="n">WorkQueue</span> <span class="n">readyQ</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
-            <span class="n">Object</span> <span class="n">key</span> <span class="o">=</span> <span class="n">readyClassQueues</span><span class="p">.</span><span class="n">poll</span><span class="p">(</span><span class="n">DEFAULT_WAIT</span><span class="p">,</span><span class="n">TimeUnit</span><span class="p">.</span><span class="n">MILLISECONDS</span><span class="p">);</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">readyQ</span> <span class="o">=</span> <span class="p">(</span><span class="n">WorkQueue</span><span class="p">)</span><span class="n">this</span><span class="p">.</span><span class="n">allQueues</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
-            <span class="p">}</span>
-</pre></div>
-
-
+            }
+~~~~</p>
 <p>上面是next方法中的一段代码，可用的queue的key会放到readyClassQueues这个BlockingQueue&lt;String>中去，如果一个queue在处理的话就不会被其他的toethread同时占用，这样有效的保证了politeness</p>
 <p>另外这里的queue还有几种状态active snooze
 inactive，现在来简单说说这几种队列的区别，运行过程中一般情况下的queue都是active的，回到finished方法中，如果我不想爬虫对一个网站过度抓取，那么我需要对其抓取时间进行判断，如果一个uri的抓取时间太短的话，那么我需要暂时让这个queue小睡一下，这就是snooze的来历，调用snoozeQueue方法可以让queue进入snooze状态，在过一定时间后进行唤醒，重新进入active状态，进入activae状态的queue可以重新将其中包含的uri提供给toethread进行抓取。处于active状态的queue的个数是定的，如果超出预先设定的一些参数，则把其设置成inactive,当系统条件允许的时候重新进行activate</p>
@@ -153,6 +111,30 @@ inactive，现在来简单说说这几种队列的区别，运行过程中一般
 hash算法将url进行散列，使得uri分散到各个对垒中去，这样在实际中确实能显著的提高抓取速度。但是这个地方也会带来一些问题，网站的管理员有可能会封你的IP</p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier';
+            var disqus_url = 'http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -165,7 +147,7 @@ hash算法将url进行散列，使得uri分散到各个对垒中去，这样在�
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -199,7 +181,7 @@ hash算法将url进行散列，使得uri分散到各个对垒中去，这样在�
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -211,5 +193,18 @@ hash算法将url进行散列，使得uri分散到各个对垒中去，这样在�
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>

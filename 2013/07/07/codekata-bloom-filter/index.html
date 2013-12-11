@@ -169,100 +169,33 @@ Filter的方式插入到大小为m的byte数组中，插入中使用k个hash值�
 </ol>
 <h6>Related Posts:</h6>
 <p><a href="http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html">Bloom
-Filters</a>
-Title: CodeKata-Bloom Filter
-Date: 2013-07-07 22:10
-Author: MichaelYin
-Category: Python
-Tags: Bloom Filter, CodeKata
-Slug: codekata-bloom-filter</p>
-<p>Bloom
-Filter在是一种在海量数据处理中很常用的算法，主要用来提供对集合数据的查询，其内在原理和bitmap十分类似。</p>
-<h6></h6>
-<h6></h6>
-<h3>基本原理：</h3>
-<p>如下图所示，长为m bit的byte数组，里面的bit位数值全部置0</p>
-<p><a class="fancy" href="http://blog.michaelyin.info/images/2013/07/image3.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb3.png" title="image" /></a></p>
-<p>现在需要将a这个值写入到byte数组里面去，使用k个不同的hash函数，对a进行hash值计算，并确保得到的hash值位于{1,m}这个区间之间。假设现在k个hash函数，那么得到的hash值一共有k个，即 <mathjax>$h_{1}(a)$</mathjax> ，在byte数组里面将这些值对应的bit位全部置为1，完成这一步，a的值就已经写入到byte数组里面去了。如果有多个值，重复该过程，如果写入过程中发现某bit位已经是1，可以不用管。</p>
-<p><a href="http://blog.michaelyin.info/images/2013/07/image4.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb4.png" title="image" /></a></p>
-<p>当我要查询数组里面是否包含值为b的时候，同样对b进行k个不同的hash计算，得到k个不同的hash值(注：写入和查询使用的k个hash函数是相同的)，针对这k个值在byte数组中进行查看，看对应的bit位是否置1，如果有一处是0，那就证明该元素不包含在byte数组中，如果全部是1，那就证明该元素可能包含在byte数组中(此处注意，对于返回结果为True的情况是有误差的，误差和使用hash函数个数和byte数组长度和输入个数有关系，后面会详细讨论)</p>
-<p><a href="http://blog.michaelyin.info/images/2013/07/image5.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb5.png" title="image" /></a></p>
-<h3>数学证明：</h3>
-<p>现有输入n个，将其通过Bloom
-Filter的方式插入到大小为m的byte数组中，插入中使用k个hash值进行置0。</p>
-<p>在将n个值全部插入到byte数组中去以后，某一个特定的bit位还是为0的概率为：</p>
-<p><mathjax>$$(1-\frac{1}{m})^{kn}$$</mathjax></p>
-<p>反过来某一个bit位会被置1的概率是</p>
-<p><mathjax>$$1-(1-\frac{1}{m})^{kn}$$</mathjax></p>
-<p>如果一个本来不存在的元素k个hash函数对应的值都为1，那么误差变会产生，发生的概率为：</p>
-<p><mathjax>$$(1-(1-\frac{1}{m})^{kn})^{k}\approx (1-e^{kn/m}){k}$$</mathjax></p>
-<p>下面附上部分k和n/m对应的误差概率表</p>
-<p><a href="http://blog.michaelyin.info/images/2013/07/image6.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb6.png" title="image" /></a></p>
-<p>实际使用中，根据所能够容忍的误差率来进行k和m的选择</p>
-<h3>代码实现：</h3>
-<p>下面附上一个单词检测功能的程序，使用Bloom Filter实现：  </p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">hashlib</span>
-<span class="k">class</span> <span class="nc">WordDic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
-        <span class="c">#import the wordlist and set the bit</span>
-        <span class="n">array</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)):</span>
-            <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dic</span> <span class="o">=</span> <span class="n">array</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">remainls</span> <span class="o">=</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_readfile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_readfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
-        <span class="k">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
-            <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-            <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">lines</span><span class="p">):</span>
-                <span class="k">break</span>
-            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">checkword</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">init</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_hash1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_hash2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_hash3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha224</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">checkword</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="c">#check if the word is in this word dict,when init = True set the bit value</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_hash1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash3</span><span class="p">]</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">hash_func</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hash_func</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">init</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
-                <span class="n">div</span><span class="p">,</span> <span class="n">remain</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="p">[</span><span class="n">div</span><span class="p">]</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remainls</span><span class="p">[</span><span class="n">remain</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
-                <span class="n">div</span><span class="p">,</span> <span class="n">remain</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-                <span class="k">if</span><span class="p">(</span><span class="ow">not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="p">[</span><span class="n">div</span><span class="p">]</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="bp">self</span><span class="o">.</span><span class="n">remainls</span><span class="p">[</span><span class="n">remain</span><span class="p">])):</span>
-                    <span class="k">return</span> <span class="bp">False</span>
-            <span class="k">return</span> <span class="bp">True</span>
-
-<span class="n">obj</span> <span class="o">=</span> <span class="n">WordDic</span><span class="p">(</span><span class="s">&quot;wordlist.txt&quot;</span><span class="p">,</span> <span class="mi">64000</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">obj</span><span class="o">.</span><span class="n">checkword</span><span class="p">(</span><span class="s">&quot;appleadsfadfs&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<h3>总结：</h3>
-<ol>
-<li>Bloom
-    Filter使用bitmap的方式将所存储的数据的若干个HASH值存储起来，来进行集合内数据的查询，判断数据是否在集合内</li>
-<li>实际使用中根据实际情况进行k,m的选择</li>
-</ol>
-<h6>Related Posts:</h6>
-<p><a href="http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html">Bloom
 Filters</a></p>
         </div>
         <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'codekata-bloom-filter';
+            var disqus_url = 'http://blog.michaelyin.info/2013/07/07/codekata-bloom-filter/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
     </article>
 </section>
             </div>
@@ -275,7 +208,7 @@ Filters</a></p>
             Copyright © 
             <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;Theme Twenty Twelve
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>
     </div>
 </div>
@@ -309,7 +242,7 @@ Filters</a></p>
                 event.preventDefault();
                 var keywords = " " + $("#txtSearch").val();
                 var url = encodeURIComponent(keywords);
-                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info/t" + url;
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
                 window.location.href = url; 
         }});
 
@@ -321,5 +254,18 @@ Filters</a></p>
     });
     </script>
 
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </body>
 </html>
