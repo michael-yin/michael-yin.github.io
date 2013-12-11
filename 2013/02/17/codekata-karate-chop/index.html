@@ -97,6 +97,31 @@ return slice_binary_search(target, list[0:middle])</p>
 <p>print slice_binary_search(1, [1, 3, 5])<br />
 print slice_binary_search(5, [1, 3, 5])<br />
 print slice_binary_search(2, [1, 3, 5])[/code]</p>
+<p>上面方法，稍作修改可写出迭代方式的算法，仅仅是开阔思维，分片操作会造成额外的开销，生产环境下不建议使用。
+Title: CodeKata-Karate Chop
+Date: 2013-02-17 13:47
+Author: MichaelYin
+Category: 未分类
+Slug: codekata-karate-chop</p>
+<p>这个题目的意思是让读者用尽可能的多的方法实现二分查找算法，并对每种算法的优劣进行比较，题目详情可点击<a href="http://codekata.pragprog.com/2007/01/kata_two_karate.html">这里</a>。二分法查找其实并不难，比较常见的就是两种方法，递归和迭代，并且方法中通过边界索引值进行计算，不会对原有的array进行任何修改。</p>
+<p>在Python里面，优雅的切片运算符提供了另外一种方法的思路。在调用时不停的对需要进行比较的列表进行切片操作，不管是递归还是迭代，得到的都是切片后的列表。</p>
+<p>代码如下：</p>
+<p>[code lang="py"]def slice_binary_search(target, list, count=0):<br />
+length = len(list)<br />
+if(length == 0):<br />
+return -1<br />
+else:<br />
+middle = (length-1)/2<br />
+if(target ==list[middle]):<br />
+return count+ middle<br />
+elif(target &gt; list[middle]):<br />
+return slice_binary_search(target, list[middle+1:length], middle +
+1)<br />
+else:<br />
+return slice_binary_search(target, list[0:middle])</p>
+<p>print slice_binary_search(1, [1, 3, 5])<br />
+print slice_binary_search(5, [1, 3, 5])<br />
+print slice_binary_search(2, [1, 3, 5])[/code]</p>
 <p>上面方法，稍作修改可写出迭代方式的算法，仅仅是开阔思维，分片操作会造成额外的开销，生产环境下不建议使用。</p>
         </div>
         <!-- /.entry-content -->

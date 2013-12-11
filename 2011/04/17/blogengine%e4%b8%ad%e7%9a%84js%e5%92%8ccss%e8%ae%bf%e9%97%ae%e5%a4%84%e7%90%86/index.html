@@ -151,6 +151,85 @@ SetHeaders方法通过客户端缓存策略进一步提高了性能</p>
 </pre></div>
 
 
+<p>js的处理的JavaScriptHandler和Csshandler基本是差不多的，这里就不在重复了，不过由于js和css又有一点区别。css文件的链接是放在页面的Head里面，所以通过遍历Head统一修改url就可以完成统一请求HttpHandler，而js有点特殊，它可能需要放在页面底部（事实上Blogengine中的脚本引用都是放在底部的，在网上查了一下，据说是下载js会阻塞其他资源的下载，将导致整体响应时间变长），所以js的统一修改访问url是通过AddJavaScriptInclude这个方法来实现的。AddJavaScriptInclude修改js的路径为通过httphandler访问。
+Title: BlogEngine中的js和css访问处理
+Date: 2011-04-17 09:14
+Author: MichaelYin
+Category: 未分类
+Slug: blogengine%e4%b8%ad%e7%9a%84js%e5%92%8ccss%e8%ae%bf%e9%97%ae%e5%a4%84%e7%90%86</p>
+<p>BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。</p>
+<p>BlogEngine中的Css文件是和BlogEngine的主题这个功能相关的，主题文件夹下每个相应文件夹下都有一个style.css被site.master所引用，BlogBasePage在运行的时候根据选定的主题的名字加载相应主题下的模板页，模板页中的Head中是有相应的样式表的链接的，然后再BlogBasePage的Onload方法中，通过CompressCss遍历Head中的控件，找到css，然后统一修改css的访问的路径通过httphandler来访问。</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+      protected virtual void CompressCss()
+        {
+            if (Request.QueryString["theme"] != null)
+                return;</p>
+<div class="highlight"><pre>        <span class="n">foreach</span> <span class="p">(</span><span class="n">Control</span> <span class="n">control</span> <span class="n">in</span> <span class="n">Page</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Controls</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">HtmlControl</span> <span class="n">c</span> <span class="o">=</span> <span class="n">control</span> <span class="n">as</span> <span class="n">HtmlControl</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">!=</span> <span class="n">null</span> <span class="o">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">null</span> <span class="o">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">].</span><span class="n">Equals</span><span class="p">(</span><span class="s">&quot;text/css&quot;</span><span class="p">,</span> <span class="n">StringComparison</span><span class="p">.</span><span class="n">OrdinalIgnoreCase</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">].</span><span class="n">StartsWith</span><span class="p">(</span><span class="s">&quot;http://&quot;</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="n">string</span> <span class="n">url</span> <span class="o">=</span> <span class="n">Utils</span><span class="p">.</span><span class="n">RelativeWebRoot</span> <span class="o">+</span> <span class="s">&quot;themes/&quot;</span> <span class="o">+</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Theme</span> <span class="o">+</span> <span class="s">&quot;/css.axd?name=&quot;</span> <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">];</span>
+                    <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s">&quot;.css&quot;</span><span class="p">,</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Version</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;.css&quot;</span><span class="p">);</span>
+                    <span class="n">c</span><span class="p">.</span><span class="n">EnableViewState</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">Css</span><span class="err">处理的</span><span class="n">handler</span><span class="err">的名字叫</span><span class="n">CssHandler</span><span class="p">,</span><span class="err">它通过查询字符串来获得需要访问的文件名，然后再缓存中进行查找，没有的话在本地文件中进行查找，并在查找成功后将数据流插入到缓存中去，为了防止文件修改，加入了缓存依赖。</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+              <span class="c1">// In cache?</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">Cache</span><span class="p">[</span><span class="n">context</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">RawUrl</span><span class="p">]</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="c1">// Not found in cache, let&#39;s load it up</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">fileName</span><span class="p">.</span><span class="n">StartsWith</span><span class="p">(</span><span class="s">&quot;http&quot;</span><span class="p">,</span> <span class="n">StringComparison</span><span class="p">.</span><span class="n">OrdinalIgnoreCase</span><span class="p">))</span>
+                    <span class="p">{</span>
+                        <span class="n">css</span> <span class="o">=</span> <span class="n">RetrieveRemoteCss</span><span class="p">(</span><span class="n">fileName</span><span class="p">);</span>
+                    <span class="p">}</span>
+                    <span class="k">else</span>
+                    <span class="p">{</span>
+                        <span class="n">css</span> <span class="o">=</span> <span class="n">RetrieveLocalCss</span><span class="p">(</span><span class="n">fileName</span><span class="p">);</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">else</span>
+                <span class="p">{</span>
+                    <span class="c1">// Found in cache</span>
+                    <span class="n">css</span> <span class="o">=</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="n">context</span><span class="p">.</span><span class="n">Cache</span><span class="p">[</span><span class="n">context</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">RawUrl</span><span class="p">];</span>
+                <span class="p">}</span>
+</pre></div>
+
+
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+SetHeaders方法通过客户端缓存策略进一步提高了性能</p>
+<div class="highlight"><pre><span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+            <span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">VaryByHeaders</span><span class="p">[</span><span class="s">&quot;Accept-Encoding&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+            <span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetExpires</span><span class="p">(</span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToUniversalTime</span><span class="p">().</span><span class="n">AddDays</span><span class="p">(</span><span class="mi">7</span><span class="p">));</span>
+            <span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetMaxAge</span><span class="p">(</span><span class="n">new</span> <span class="n">TimeSpan</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+            <span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetRevalidation</span><span class="p">(</span><span class="n">HttpCacheRevalidation</span><span class="p">.</span><span class="n">AllCaches</span><span class="p">);</span>
+
+            <span class="n">string</span> <span class="n">etag</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot; + hash.ToString() + &quot;&quot;&quot;</span><span class="p">;</span>
+            <span class="n">string</span> <span class="n">incomingEtag</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">Headers</span><span class="p">[</span><span class="s">&quot;If-None-Match&quot;</span><span class="p">];</span>
+
+            <span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetETag</span><span class="p">(</span><span class="n">etag</span><span class="p">);</span>
+            <span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetCacheability</span><span class="p">(</span><span class="n">HttpCacheability</span><span class="p">.</span><span class="n">Public</span><span class="p">);</span>
+</pre></div>
+
+
 <p>js的处理的JavaScriptHandler和Csshandler基本是差不多的，这里就不在重复了，不过由于js和css又有一点区别。css文件的链接是放在页面的Head里面，所以通过遍历Head统一修改url就可以完成统一请求HttpHandler，而js有点特殊，它可能需要放在页面底部（事实上Blogengine中的脚本引用都是放在底部的，在网上查了一下，据说是下载js会阻塞其他资源的下载，将导致整体响应时间变长），所以js的统一修改访问url是通过AddJavaScriptInclude这个方法来实现的。AddJavaScriptInclude修改js的路径为通过httphandler访问。</p>
         </div>
         <!-- /.entry-content -->

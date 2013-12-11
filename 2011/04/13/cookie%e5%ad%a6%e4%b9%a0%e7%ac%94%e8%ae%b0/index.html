@@ -92,8 +92,44 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
 .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
     HttpCookie SingleValueCookie = Request.Cookies["test1"];
     SingleValueCookie.Expires = DateTime.MinValue;
-    Response.Cookies.Add(SingleValueCookie);
-~~~~</p>
+    Response.Cookies.Add(SingleValueCookie);</p>
+<div class="highlight"><pre><span class="err">实际中过期时间的设置没起到作用，后来还是使用</span><span class="n">AddDay</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="err">来解决的这个问题，也不知道是为什么，很奇怪\</span><span class="o">~</span>
+
+<span class="err">用到的相关资料</span>
+
+<span class="p">[</span><span class="n">http</span><span class="o">:</span><span class="c1">//www.cnblogs.com/leleroyn/articles/1156630.html](http://www.cnblogs.com/leleroyn/articles/1156630.html)</span>
+
+<span class="p">[</span><span class="n">http</span><span class="o">:</span><span class="c1">//www.cnblogs.com/wuxiaoqian726/articles/1778687.html](http://www.cnblogs.com/wuxiaoqian726/articles/1778687.html)</span>
+<span class="nl">Title:</span> <span class="n">Cookie</span><span class="err">学习笔记</span>
+<span class="nl">Date:</span> <span class="mi">2011</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mi">13</span> <span class="mi">12</span><span class="o">:</span><span class="mi">29</span>
+<span class="nl">Author:</span> <span class="n">MichaelYin</span>
+<span class="nl">Category:</span> <span class="err">未分类</span>
+<span class="nl">Slug:</span> <span class="n">cookie</span><span class="o">%</span><span class="n">e5</span><span class="o">%</span><span class="n">ad</span><span class="o">%</span><span class="n">a6</span><span class="o">%</span><span class="n">e4</span><span class="o">%</span><span class="n">b9</span><span class="o">%</span><span class="n">a0</span><span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="n">ac</span><span class="o">%</span><span class="mi">94</span><span class="o">%</span><span class="n">e8</span><span class="o">%</span><span class="n">ae</span><span class="o">%</span><span class="n">b0</span>
+
+<span class="n">Cookie</span><span class="err">用来用来将少量的数据存储到客户端的硬盘上，其形式是用户名@网站地址</span><span class="p">[</span><span class="err">数字</span><span class="p">].</span><span class="n">txt</span><span class="err">这个样子，当</span><span class="n">Cookie</span><span class="err">想对应的网站的时候，浏览器将存储在客户端的</span><span class="n">Cookie</span><span class="err">发送到服务器，服务器可以读取</span><span class="n">Cookie</span>
+<span class="err">中的数据并进行修改，由于</span><span class="n">Cookie</span><span class="err">是存储在客户端机器上的，所以在客户端也可以读写相应的</span><span class="n">Cookei</span><span class="err">文件</span><span class="p">.</span>
+
+<span class="n">Cookie</span><span class="err">中信息的保存是以键值对这样的形式来存储的。</span>
+
+<span class="n">Cookie</span><span class="err">的</span><span class="n">expires</span><span class="err">制定了</span><span class="n">cookie</span><span class="err">的生存期，如果不设置的话，</span><span class="n">cookie</span><span class="err">只在浏览器访问网站期间存在，关闭浏览器后，这个</span><span class="n">cookie</span><span class="err">就失效。如果设置了的话，浏览器会把</span><span class="n">cookie</span><span class="err">保存到相应的文件夹中</span><span class="p">(</span><span class="err">不同的浏览器保存的路径不一样</span><span class="p">)</span><span class="err">，一旦超过了</span><span class="n">expires</span><span class="err">中设置的日期，浏览器会将</span><span class="n">cookie</span><span class="err">删除。</span>
+
+<span class="n">Cookie</span><span class="err">的</span><span class="n">Domain</span><span class="err">和</span><span class="n">Path</span><span class="err">标志了</span><span class="n">Cookie</span><span class="err">可以共用的范围，具体的信息可以查看</span><span class="p">[</span><span class="err">这里</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//www.cnblogs.com/winner2009/archive/2011/04/11/2011452.html)</span>
+
+<span class="err">在服务器端是不能直接删除客户端的</span><span class="n">Cookie</span><span class="err">的，一般是通过将</span><span class="n">Cookie</span><span class="err">的到期日期设置为一个过去的日期，让客户端的浏览器来删除</span><span class="n">Cookie</span><span class="err">。当用户下一次向设置该</span>
+<span class="n">Cookie</span> <span class="err">的域或路径内的页发出请求时，浏览器将确定该</span> <span class="n">Cookie</span>
+<span class="err">已到期并将其移除。在这里需要注意的是，如果设置了过期时间，你在</span><span class="n">Request</span><span class="err">读取这个</span><span class="n">Cookie</span><span class="err">的时候通过它的过期那个属性来获取它的过期时间是获取不到的，因为客户端浏览器发送给服务器的</span><span class="n">Cookie</span><span class="err">是不包含过期时间的，而服务器发送给客户端浏览器的</span><span class="n">Cookie</span><span class="err">是包含过期时间的。</span>
+
+<span class="err">实际项目中删除</span><span class="n">Cookie</span><span class="err">的是后也碰到了一个很奇怪的问题，网上流传的很多代码都是这样</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+    <span class="n">HttpCookie</span> <span class="n">SingleValueCookie</span> <span class="o">=</span> <span class="n">Request</span><span class="p">.</span><span class="n">Cookies</span><span class="p">[</span><span class="s">&quot;test1&quot;</span><span class="p">];</span>
+    <span class="n">SingleValueCookie</span><span class="p">.</span><span class="n">Expires</span> <span class="o">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">MinValue</span><span class="p">;</span>
+    <span class="n">Response</span><span class="p">.</span><span class="n">Cookies</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">SingleValueCookie</span><span class="p">);</span>
+</pre></div>
+
+
 <p>实际中过期时间的设置没起到作用，后来还是使用AddDay(-1)来解决的这个问题，也不知道是为什么，很奇怪\~</p>
 <p>用到的相关资料</p>
 <p><a href="http://www.cnblogs.com/leleroyn/articles/1156630.html">http://www.cnblogs.com/leleroyn/articles/1156630.html</a></p>

@@ -89,6 +89,23 @@ myReader, "Temperature");</p>
 <p>Mschart使用过程中发现的唯一有点点不爽的就是它的中间的线默认是画上去的，也就是那个Gridline,如果你的背景是纯色的还好，将颜色设置成一样就没事了，如果是渐变的背景，就没有办法找到合适的方法，只能把颜色调的淡一点，不过效果始终不是太好看。</p>
 <p>在来说说Zedgraph，这个控件以前在我看的bugnet中作者使用它来生成统计图表信息，当时也没多做了解，这几天花时间看了下，这个控件整体思路和Mschart其实差不多，都是后台动态绑定数据生成图片然后显示到页面上面，由于项目不是大批量的访问，所以性能方面我也没有作过多的分析和了解。</p>
 <p>它主要是通过后台编程来实现功能，不像Mschart很多可以通过声明来实现，MasterPane是一个主要的作图的pane,它是一个容器类，里面装着若干个GraphPane，这个GraphPane其实就和mschart中的ChartArea差不多，都是一个一个的小图，你还可以对MasterPane进行排列，管理图表的排列情况，PointPairList是数据容器，x轴和y轴对应的数据就装在这个里面然后进行绑定。调用的时候，对于Zedgraph需要将方法注册到控件的RenderGraph事件中去。</p>
+<p>总体来说实现效果和mschart其实差不多，只不过个人感觉Mschart好看一点点，而ZedGraph显得简练一些。
+Title: MSchart与Zedgraph使用初探及比较
+Date: 2010-11-25 01:59
+Author: MichaelYin
+Category: 未分类
+Slug: mschart%e4%b8%8ezedgraph%e4%bd%bf%e7%94%a8%e5%88%9d%e6%8e%a2%e5%8f%8a%e6%af%94%e8%be%83</p>
+<p>最近项目中的统计图表功能需要重新进行下调整，所以这两天花时间学习了下关于统计图表方面的东西。</p>
+<p>统计图表的实现方式常用的有Flash方式和图片方式，我这两天主要是把MsChart和Zedgraph研究了一下，简单说下MSchart，这个图表解决方案是微软官方提供的图表解决方案，使用的时候需要.Net3.5
+Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需要把需要用到的dll手动加到bin文件夹中去），然后需要安装一个文件，也就是把几个需要用到的dll放到机器里面去。然后有一个安装文件在你的VS中安装控件，这样你就可以通过拖拉的方式直接在项目中使用mschart，需要注意的是在拖拉控件的同时它会修改你的Web.Config文件，当然了，如果你不想在toolbox中加入控件，也可以不安装VS控件，直接在项目中编码的方式来使用就行了，在重复一遍，Mschart.exe那个是必须要装的。如果你想进一步了解Mschart的使用，微软网站上有一个关于这个控件使用的样例项目，里面关于这个控件的例子已经写的很全面了。</p>
+<p>相比于Zedgraph，Mschart对前台声明式的编程支持的更好，很多东西都可以通过在前台声明来控制。Chart这个标记代表了整个控件，Legends这个标记是整个Chart的说明，Series代表Chart中的一连串数据，比如折线图中的一连串数据点就是一个Series，你可以向里面插入Points这个对象，来完成数据的绑定。ChartArea是作图区域，一个Chart控件中可以有几个ChartArea,比如如果有两个ChartArea的话生成的图就会有两个图表，AxisY和AxisX下提供了基本的控制样式的属性.</p>
+<p>Mschart支持多种数据源的绑定，而且和.Net本身的结合的夜更紧密，比如</p>
+<p>Chart1.Series["Series1"].Points.DataBindXY(myReader, "TimeDetail",
+myReader, "Temperature");</p>
+<p>这句代码就是直接通过一个DataReader绑定到Chart控件中，你只需要指定DataReader和字段值，然后数据就会自己绑定到mschart上去，坐标轴的间距都可以自己根据具体的数据生成，你也可以通过编程手动的来制定左边的最小，最大值，以及坐标的间距，这些在我前面提到的样例代码中都有，有兴趣的可以自己去看。</p>
+<p>Mschart使用过程中发现的唯一有点点不爽的就是它的中间的线默认是画上去的，也就是那个Gridline,如果你的背景是纯色的还好，将颜色设置成一样就没事了，如果是渐变的背景，就没有办法找到合适的方法，只能把颜色调的淡一点，不过效果始终不是太好看。</p>
+<p>在来说说Zedgraph，这个控件以前在我看的bugnet中作者使用它来生成统计图表信息，当时也没多做了解，这几天花时间看了下，这个控件整体思路和Mschart其实差不多，都是后台动态绑定数据生成图片然后显示到页面上面，由于项目不是大批量的访问，所以性能方面我也没有作过多的分析和了解。</p>
+<p>它主要是通过后台编程来实现功能，不像Mschart很多可以通过声明来实现，MasterPane是一个主要的作图的pane,它是一个容器类，里面装着若干个GraphPane，这个GraphPane其实就和mschart中的ChartArea差不多，都是一个一个的小图，你还可以对MasterPane进行排列，管理图表的排列情况，PointPairList是数据容器，x轴和y轴对应的数据就装在这个里面然后进行绑定。调用的时候，对于Zedgraph需要将方法注册到控件的RenderGraph事件中去。</p>
 <p>总体来说实现效果和mschart其实差不多，只不过个人感觉Mschart好看一点点，而ZedGraph显得简练一些。</p>
         </div>
         <!-- /.entry-content -->

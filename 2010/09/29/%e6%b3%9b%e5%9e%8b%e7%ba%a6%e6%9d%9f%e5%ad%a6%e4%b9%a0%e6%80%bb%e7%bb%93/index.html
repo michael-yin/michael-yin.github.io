@@ -130,8 +130,64 @@
 <p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
 .first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
 .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-public abstract class BusinessBase<TYPE, KEY> : IDataErrorInfo, INotifyPropertyChanged, IChangeTracking, IDisposable where TYPE : BusinessBase<TYPE, KEY>, new()
-~~~~</p>
+public abstract class BusinessBase<TYPE, KEY> : IDataErrorInfo, INotifyPropertyChanged, IChangeTracking, IDisposable where TYPE : BusinessBase<TYPE, KEY>, new()</p>
+<div class="highlight"><pre><span class="p">[</span><span class="err">一个用代码讲解泛型约束的例子</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//www.cnblogs.com/wdxinren/archive/2005/05/29/164392.html)</span>
+<span class="nl">Title:</span> <span class="err">泛型约束学习总结</span>
+<span class="nl">Date:</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">29</span> <span class="mi">09</span><span class="o">:</span><span class="mi">18</span>
+<span class="nl">Author:</span> <span class="n">MichaelYin</span>
+<span class="nl">Category:</span> <span class="err">未分类</span>
+<span class="nl">Slug:</span> <span class="o">%</span><span class="n">e6</span><span class="o">%</span><span class="n">b3</span><span class="o">%</span><span class="mi">9</span><span class="n">b</span><span class="o">%</span><span class="n">e5</span><span class="o">%</span><span class="mi">9</span><span class="n">e</span><span class="o">%</span><span class="mi">8</span><span class="n">b</span><span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="n">ba</span><span class="o">%</span><span class="n">a6</span><span class="o">%</span><span class="n">e6</span><span class="o">%</span><span class="mi">9</span><span class="n">d</span><span class="o">%</span><span class="mf">9f</span><span class="o">%</span><span class="n">e5</span><span class="o">%</span><span class="n">ad</span><span class="o">%</span><span class="n">a6</span><span class="o">%</span><span class="n">e4</span><span class="o">%</span><span class="n">b9</span><span class="o">%</span><span class="n">a0</span><span class="o">%</span><span class="n">e6</span><span class="o">%</span><span class="mi">80</span><span class="o">%</span><span class="n">bb</span><span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="n">bb</span><span class="o">%</span><span class="mi">93</span>
+
+<span class="err">最近在学习代码的时候发现对泛型约束不是很了解，花时间在网上学习了下，现在在这里做个总结吧。</span>
+
+<span class="err">泛型约束主要就是用于在泛型类中对于泛型类所接受的参数的某些特性进行设置。先来说说为什么要使用泛型约束吧。打个比方，一个泛型基类中的某个方法的实现需要调用参数类型生成的实例的</span><span class="n">Compare</span><span class="err">方法，但是参数类型不是我们所能够控制的，我们需要在程序编译的时候加入对参数类型的检查，这个时候就要用到泛型约束了。</span>
+
+<span class="err">泛型约束基本上有五种：</span>
+
+<span class="o">-</span>   <span class="err">值类型约束：要求泛型参数必须是值类型，例如</span><span class="kt">int</span><span class="p">,</span><span class="kt">short</span><span class="err">以及自定义的</span><span class="n">stuct</span><span class="err">等</span>
+
+<span class="o">&gt;</span> <span class="n">public</span> <span class="n">class</span> <span class="n">MyClass2</span><span class="o">&lt;</span><span class="n">T</span><span class="err">\</span><span class="o">&gt;</span>   
+<span class="o">&gt;</span>  <span class="n">where</span> <span class="n">T</span> <span class="o">:</span> <span class="k">struct</span><span class="c1">//这个泛型类只接受值类型的泛型参数   </span>
+<span class="o">&gt;</span>  <span class="p">{</span>   
+<span class="o">&gt;</span>  <span class="p">}</span>
+
+<span class="o">-</span>   <span class="err">引用类型约束：要求泛型参数必须是引用类型，例如</span><span class="n">string</span><span class="p">,</span><span class="n">object</span><span class="p">,</span><span class="err">以及自定义的</span><span class="n">class</span>
+
+<span class="o">&gt;</span> <span class="n">public</span> <span class="n">class</span> <span class="n">MyClass</span><span class="o">&lt;</span><span class="n">T</span><span class="err">\</span><span class="o">&gt;</span>   
+<span class="o">&gt;</span>  <span class="n">where</span> <span class="n">T</span><span class="o">:</span><span class="n">class</span><span class="c1">//这个泛型类只接受引用类型的泛型参数   </span>
+<span class="o">&gt;</span>  <span class="p">{</span>   
+<span class="o">&gt;</span>  <span class="p">}</span>
+
+<span class="o">-</span>   <span class="err">构造函数约束：要求泛型参数必须有构造函数</span>
+
+<span class="o">&gt;</span> <span class="n">public</span> <span class="n">class</span> <span class="n">MyClass3</span><span class="o">&lt;</span><span class="n">T</span><span class="err">\</span><span class="o">&gt;</span>   
+<span class="o">&gt;</span>  <span class="n">where</span> <span class="n">T</span> <span class="o">:</span> <span class="n">new</span><span class="p">()</span>   
+<span class="o">&gt;</span>  <span class="p">{</span>   
+<span class="o">&gt;</span>  <span class="p">}</span>
+
+<span class="o">-</span>   <span class="err">接口约束：要求泛型参数必须实现某个接口</span>
+
+<span class="o">&gt;</span> <span class="n">public</span> <span class="n">class</span> <span class="n">MyClass4</span><span class="o">&lt;</span><span class="n">T</span><span class="err">\</span><span class="o">&gt;</span>   
+<span class="o">&gt;</span>  <span class="n">where</span> <span class="n">T</span> <span class="o">:</span> <span class="n">System</span><span class="p">.</span><span class="n">IComparable</span>   
+<span class="o">&gt;</span>  <span class="p">{</span>   
+<span class="o">&gt;</span>  <span class="p">}</span>
+
+<span class="o">-</span>   <span class="err">基类约束：要求泛型参数必须继承某个基类</span>
+
+<span class="o">&gt;</span> <span class="n">public</span> <span class="n">class</span> <span class="n">MyClass5</span><span class="o">&lt;</span><span class="n">T</span><span class="err">\</span><span class="o">&gt;</span>   
+<span class="o">&gt;</span>  <span class="n">where</span> <span class="n">T</span> <span class="o">:</span> <span class="n">Customer</span>   
+<span class="o">&gt;</span>  <span class="p">{</span>   
+<span class="o">&gt;</span>  <span class="p">}</span>
+
+<span class="n">BlogEngine</span><span class="err">中的</span><span class="n">BusinessBase</span><span class="err">泛型基类就使用到了泛型基类，下面我贴上代码</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+<span class="n">public</span> <span class="n">abstract</span> <span class="n">class</span> <span class="n">BusinessBase</span><span class="o">&lt;</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">KEY</span><span class="o">&gt;</span> <span class="o">:</span> <span class="n">IDataErrorInfo</span><span class="p">,</span> <span class="n">INotifyPropertyChanged</span><span class="p">,</span> <span class="n">IChangeTracking</span><span class="p">,</span> <span class="n">IDisposable</span> <span class="n">where</span> <span class="n">TYPE</span> <span class="o">:</span> <span class="n">BusinessBase</span><span class="o">&lt;</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">KEY</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">new</span><span class="p">()</span>
+</pre></div>
+
+
 <p><a href="http://www.cnblogs.com/wdxinren/archive/2005/05/29/164392.html">一个用代码讲解泛型约束的例子</a></p>
         </div>
         <!-- /.entry-content -->

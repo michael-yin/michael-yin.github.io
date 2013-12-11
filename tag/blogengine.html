@@ -116,7 +116,7 @@ Name="SendCommentMail"><br />
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。</p>
 <p>在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016552366.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /></a></p>
 <p>post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。</p>
 <p>页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。</p>
 <p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
@@ -214,14 +214,14 @@ Name="SendCommentMail"><br />
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
@@ -229,17 +229,32 @@ Name="SendCommentMail"><br />
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/linux.html">
                     <span class="label label-default">Linux</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/google-map.html">
                     <span class="label label-default">Google Map</span>
@@ -247,29 +262,14 @@ Name="SendCommentMail"><br />
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">Python</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>

@@ -79,7 +79,7 @@
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。</p>
 <p>在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016552366.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /></a></p>
 <p>post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。</p>
 <p>页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。</p>
 <p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
@@ -113,8 +113,7 @@
 </pre></div>
 
 
-<p>~~~~</p>
-<p>在Console窗口中按Ctrl+空格打开中文输入法，这样可以在Console中输入中文，然后敲随便一个中文 ...</p>
+<div class="highlight"><pre><span class="err">在</span><span class="n">Console</span><span class="err">窗口中按</span><span class="n">Ctrl ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2011/03/10/charint%e8%bd%ac%e6%8d%a2/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -140,11 +139,11 @@ Heap，它包含着类对应的方法，在类加载的时候会在Load
 Heap上创建和相应的类对应的方法表。当类实例化的时候，托管堆上除了将对象实例化所需要的字段分配内存以外，还会给一个叫做TypeHandle的给实例，这样新建的实例就可以根据TypeHandle在Loader
 Heap中找到它所对应的类型的方法表，进而找到对应的方法。</p>
 <p>在这里借用下Anytao的图。。可能大家看的更懂一些\~</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/03/20110303000835615.jpg"><img alt="20110303000835615" src="http://blog.michaelyin.info/wp-content/uploads/2011/03/20110303000835615.jpg" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg"><img alt="20110303000835615" src="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg" /></a></p>
 <p>到这里停顿一下，说开了实例方法和静态方法其实在内存中都是存储在这个类所对应的方法表上，而且重要的是，它们在内存里面都只有一份，实例调用的方法也是通过TypeHandle找到对应的方法表而完成的方法的调用的。</p>
 <p>在来说说方法的调用，在大学学过C的都必定折腾过实参，形参，也知道为什么有的时候为什么调用C语言函数的时候要传入指针，如果你把那个地方搞的比较清楚的话那么这里想必也难不倒你了。C语言函数调用的时候是在内存上重新开辟一块区域，然后在这个里面运行函数并进行相应的处理并返回结果，运行完成之后释放所有的局部变量。在.Net里面方法的调用也是这个过程，分配动态内存进行方法的处理。</p>
 <p>吉日嘎拉博文中纠结的并发还是排队其实仔细想象就会有答案，这两种处理方式产生的原因是因为对资源的占用问题，就是说不同线程里面有没有可能产生资源占用的问题，上面已经说到了方法调用是分配到内存里面进行处理，不同的方法在内存中所处的位置显然是不相同的。所以一般情况下这个是能够并发的，除非是在不同的内存中又涉及到了访问公有区域的位置，比如访问静态变量。</p>
-<p>到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变\~</p>
+<p>到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变 ...</p>
                     <a href="http://blog.michaelyin.info/2011/03/02/%e8%bf%99%e4%b8%8d%e6%98%af%e5%9f%ba%e7%a1%80%e4%b8%ad%e7%9a%84%e5%9f%ba%e7%a1%80%e4%b9%88/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -176,7 +175,7 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
 <h5>链接法(chaining)</h5>
 <p>在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。</p>
 <p>链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102142222064549.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/images/2011/02/201102142222064549.png" /></a></p>
 <h5>开放寻址法(open addressing)</h5>
 <p>在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。</p>
 <p>在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key ...</p>
@@ -206,12 +205,12 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
                 <div class="summary"><h2>用户和角色</h2>
 <p>Linux中的用户和角色的概念和一般权限系统中的概念基本差不多，用户可以属于多个角色，从而根据所属的角色在系统中拥有不同的权限。这其中有一个用户拥有系统最大的权限，那就是root.</p>
 <p>Linux是一个多任务多用户的操作系统，其中的服务在运行的时候会获得一个PID，而这个PID也是有拥有者身份的，换句话说，是这个用户启动的这个服务，有上面我们可以知道，这些服务也就相应的具有这个用户所具有的一些权限，可以做这个用户被允许所作的一些事情，但是，如果这个PID被入侵的话，那么入侵者也就具有了相应PID的权限，如果这个PID的拥有者的权限太高的话，比如是root,那么入侵者就可以再Linux中为所欲为，所以，尽量的将服务的PID权限降低，这样的话可以保证即使服务被入侵也不会让入侵者得到较大的权限，使系统更加安全。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549134038.png"><img alt="201102121549134038" src="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549134038.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/02/201102121549134038.png"><img alt="201102121549134038" src="http://blog.michaelyin.info/images/2011/02/201102121549134038.png" /></a></p>
 <p>查看用户可以打开/etc/passwd，查看角色信息可以查看/etc/group/不同Linux可能会有所不同，我所使用的是Ubuntu
 10.10</p>
 <h2>文件属性和权限</h2>
 <p>在shell中输入ls -al可以查看当前目录下的所有文件</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549193934.png"><img alt="201102121549193934" src="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549193934.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/02/201102121549193934.png"><img alt="201102121549193934" src="http://blog.michaelyin.info/images/2011/02/201102121549193934.png" /></a></p>
 <p>文件的权限由10位的字符串构成，比如-rwxrwxrwx这样的字符串，由于权限粒度精确到了用户，所以一共有10位。第一位表示这个文件的属性，比如d代表directory,-则代表是一个文件，接下来的9位则是三个为一组，且都为rwx的组合，r代表可读，w代表可写,x代表可运行，第一组是文件拥有人的权限 ...</p>
                     <a href="http://blog.michaelyin.info/2011/02/12/linux%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e6%80%bb%e7%bb%93/">
                         <span class="label label-primary tag-2">More...</span>
@@ -486,14 +485,14 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
@@ -501,17 +500,32 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/linux.html">
                     <span class="label label-default">Linux</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/google-map.html">
                     <span class="label label-default">Google Map</span>
@@ -519,29 +533,14 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">Python</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>

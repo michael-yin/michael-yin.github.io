@@ -120,8 +120,55 @@
 <p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
 .first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
 .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
- 
-~~~~</p>
+ </p>
+<div class="highlight"><pre><span class="n">Title</span><span class="o">:</span> <span class="n">C</span><span class="err">语言中自增的疑惑</span>
+<span class="n">Date</span><span class="o">:</span> <span class="mi">2011</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">14</span> <span class="mi">03</span><span class="o">:</span><span class="mi">43</span>
+<span class="n">Author</span><span class="o">:</span> <span class="n">MichaelYin</span>
+<span class="n">Category</span><span class="o">:</span> <span class="err">未分类</span>
+<span class="n">Slug</span><span class="o">:</span> <span class="n">c</span><span class="o">%</span><span class="n">e8</span><span class="o">%</span><span class="n">af</span><span class="o">%</span><span class="n">ad</span><span class="o">%</span><span class="n">e8</span><span class="o">%</span><span class="n">a8</span><span class="o">%</span><span class="mi">80</span><span class="o">%</span><span class="n">e4</span><span class="o">%</span><span class="n">b8</span><span class="o">%</span><span class="n">ad</span><span class="o">%</span><span class="n">e8</span><span class="o">%</span><span class="mi">87</span><span class="o">%</span><span class="n">aa</span><span class="o">%</span><span class="n">e5</span><span class="o">%</span><span class="n">a2</span><span class="o">%</span><span class="mi">9</span><span class="n">e</span><span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="mi">9</span><span class="n">a</span><span class="o">%</span><span class="mi">84</span><span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="mi">96</span><span class="o">%</span><span class="mi">91</span><span class="o">%</span><span class="n">e6</span><span class="o">%</span><span class="mi">83</span><span class="o">%</span><span class="mi">91</span>
+
+<span class="err">由于要准备笔试，所以捡起了好久不看的</span><span class="n">C</span><span class="err">语言，运算符优先级真的是挺蛋疼的，这不，今天在那折腾的时候就被一个问题给纠结住了，自己不能解释这种现象，就发到园子里面请教一下大家了。</span>
+
+<span class="o">~~~~</span> <span class="o">{.</span><span class="n">brush</span><span class="o">:</span> <span class="o">.</span><span class="na">csharp</span><span class="o">;</span> <span class="o">.</span><span class="na">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="o">.</span><span class="na">true</span><span class="o">;</span> <span class="o">.</span><span class="na">collapse</span><span class="o">:</span> <span class="o">.</span><span class="na">false</span><span class="o">;</span>
+<span class="o">.</span><span class="na">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="o">.</span><span class="mi">0</span><span class="o">;</span> <span class="o">.</span><span class="na">gutter</span><span class="o">:</span> <span class="o">.</span><span class="na">true</span><span class="o">;</span> <span class="o">.</span><span class="na">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="o">.</span><span class="na">false</span><span class="o">;</span> <span class="o">.</span><span class="na">light</span><span class="o">:</span> <span class="o">.</span><span class="na">false</span><span class="o">;</span>
+<span class="o">.</span><span class="na">ruler</span><span class="o">:</span> <span class="o">.</span><span class="na">false</span><span class="o">;</span> <span class="o">.</span><span class="na">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="o">.</span><span class="na">true</span><span class="o">;</span> <span class="o">.</span><span class="na">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="o">.</span><span class="mi">4</span><span class="o">;</span> <span class="o">.</span><span class="na">toolbar</span><span class="o">:</span> <span class="o">.</span><span class="na">true</span><span class="o">;}</span>
+          <span class="n">int</span> <span class="n">y</span><span class="o">,</span><span class="n">r</span><span class="o">;</span>
+          <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="o">;</span>
+          <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+          <span class="n">r</span><span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">+(++</span><span class="n">y</span><span class="o">);</span>
+          <span class="n">printf</span><span class="o">(</span><span class="s2">&quot;%d&quot;</span><span class="o">,</span><span class="n">r</span><span class="o">);</span>
+          <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+</pre></div>
+
+
+<p>代码其实很简单，我写这个代码主要是想知道++y后的值对表达式中的其他地方的y是不是有影响的，这个代码在CodeBlock中执行的结果是10,由于(++y)其实的结果是4，所以前面用来计算的y的值其实是3,到这里，我就以为++y的值在y自增后在别处是没有影响的。</p>
+<p>但是，诡异的事情接下来发生了</p>
+<p>我将2*y改成了y</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+          int y,r;
+          y=3;
+          r=0;
+          r= y+(++y);
+          printf("%d",r);
+          return 0;</p>
+<div class="highlight"><pre><span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+<span class="err">运行的结果竟然是</span><span class="mi">8</span><span class="p">,</span><span class="err">这下我就觉得很纠结了，就没了一个乘法，这地方就成了这样么？我觉得这个地方如果和前面要统一的话就应该输出</span><span class="mi">7</span><span class="err">才对，后来在</span><span class="n">C</span><span class="err">#中写了相似的代码，结果是</span><span class="mi">7</span><span class="err">，但是对于</span><span class="n">C</span><span class="err">这个地方的处理确实很疑惑，也发在园子里面看看大家对此的看法。</span>
+</pre></div>
+
+
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+我的环境是Xp CodeBlock10</p>
+<div class="highlight"><pre><span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+<span class="err"> </span>
+</pre></div>
         </div>
         <!-- /.entry-content -->
     </article>

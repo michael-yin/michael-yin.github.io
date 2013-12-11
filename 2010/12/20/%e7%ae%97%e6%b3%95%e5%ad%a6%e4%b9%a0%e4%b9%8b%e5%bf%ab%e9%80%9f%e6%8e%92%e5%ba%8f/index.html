@@ -127,17 +127,84 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
 
 
 <p>下面就快速排序还顺带讲一点随机化的知识，虽然我们假定输入数据的所有排列顺序都是等可能的，但是在实际工程中，这个假设不一定总是成立，所以，我们需要在算法中人为的加入随机化成分，<font color="#ff0000">以便对于所有输入，它能获得较好的平均情况性能</font>。</p>
+<p Partition_array_="Partition(array," RandomFactory.GetRandomInt_firstIndex_="RandomFactory.GetRandomInt(firstIndex," Utils.Swap_ref="Utils.Swap(ref" _="=" _从中随机选出一个index_然后和最后一个元素互换_="//从中随机选出一个index,然后和最后一个元素互换
+" array_j_="array[j]," array_secIndex_="array[secIndex]);
+" firstIndex_="firstIndex," int="int" j="j" ref="ref" return="return" secIndex_="secIndex);
+">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        public static int RandomPartition(int[] array, int firstIndex, int secIndex)</p>
+<div class="highlight"><pre><span class="err">原理其实很简单，就是在分解之前随机的从数组中选取一个数和最后一个元素互换，这样的本质就是数组中的任何一个元素都有可能作比较的那个</span><span class="nb">Key</span><span class="err">。</span>
+<span class="nb">Title</span><span class="p">:</span> <span class="err">算法学习之快速排序</span>
+<span class="kt">Date</span><span class="p">:</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span> <span class="mi">14</span><span class="p">:</span><span class="mi">01</span>
+<span class="nx">Author</span><span class="p">:</span> <span class="nx">MichaelYin</span>
+<span class="nx">Category</span><span class="p">:</span> <span class="err">未分类</span>
+<span class="nx">Slug</span><span class="p">:</span> <span class="o">%</span><span class="nx">e7</span><span class="o">%</span><span class="nx">ae</span><span class="o">%</span><span class="mi">97</span><span class="o">%</span><span class="nx">e6</span><span class="o">%</span><span class="nx">b3</span><span class="o">%</span><span class="mi">95</span><span class="o">%</span><span class="nx">e5</span><span class="o">%</span><span class="nx">ad</span><span class="o">%</span><span class="nx">a6</span><span class="o">%</span><span class="nx">e4</span><span class="o">%</span><span class="nx">b9</span><span class="o">%</span><span class="nx">a0</span><span class="o">%</span><span class="nx">e4</span><span class="o">%</span><span class="nx">b9</span><span class="o">%</span><span class="mi">8</span><span class="nx">b</span><span class="o">%</span><span class="nx">e5</span><span class="o">%</span><span class="nx">bf</span><span class="o">%</span><span class="nx">ab</span><span class="o">%</span><span class="nx">e9</span><span class="o">%</span><span class="mi">80</span><span class="o">%</span><span class="mi">9</span><span class="nb">f</span><span class="o">%</span><span class="nx">e6</span><span class="o">%</span><span class="mi">8</span><span class="nx">e</span><span class="o">%</span><span class="mi">92</span><span class="o">%</span><span class="nx">e5</span><span class="o">%</span><span class="nx">ba</span><span class="o">%</span><span class="mi">8</span><span class="nb">f</span>
+
+<span class="err">快速排序通常是用于排序的最佳实用选择，因为它的平均性能相当好。</span>
+
+<span class="err">快速排序和先前讲到的合并排序一样，体现了算法设计中的分治的思想。我们首先将问题进行分解，将数组划分成两个部分</span><span class="nx">A</span><span class="err">[</span><span class="nx">p</span><span class="err">…</span><span class="nx">q</span><span class="o">-</span><span class="mi">1</span><span class="cp">]</span>和A<span class="cp">[</span><span class="nx">q</span><span class="o">+</span><span class="mi">1</span><span class="err">…</span><span class="nb">r</span><span class="cp">]</span>，使得A<span class="cp">[</span><span class="nx">p</span><span class="err">…</span><span class="nx">q</span><span class="o">-</span><span class="mi">1</span><span class="cp">]</span>中的元素小于等于A<span class="cp">[</span><span class="nx">q</span><span class="cp">]</span>，然后分别解决前面一个数组和后面一个数组的排序，最后进行合并，由于这两个数组是就地排序(in
+place)的，所以不用像合并排序中一样进行过多的合并的操作。
+
+由于中间的分别排序的部分可以使用递归实现，所以快速排序中关键的地方就是如何将数组进行分解了。
+
+~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        /// <span class="nt">&lt;summary&gt;</span>
+        /// 对数组进行分组,返回分界处的index
+        /// <span class="nt">&lt;/summary&gt;</span>
+        public static int Partition(int<span class="cp">[]</span> array, int firstIndex, int secIndex)
+        {
+            int key = array<span class="cp">[</span><span class="nx">secIndex</span><span class="cp">]</span>;
+            int k = firstIndex;
+            for (int j = firstIndex; j <span class="nt">&lt; secIndex</span><span class="err">;</span> <span class="err">j++)</span>
+            <span class="err">{</span>
+                <span class="err">if</span> <span class="err">(array</span><span class="cp">[</span><span class="nx">j</span><span class="cp">]</span> <span class="err">&lt;</span> <span class="err">key)</span>
+                <span class="err">{</span>
+                    <span class="err">Utils.Swap(ref</span> <span class="err">array</span><span class="cp">[</span><span class="nx">k</span><span class="cp">]</span><span class="err">,</span> <span class="err">ref</span> <span class="err">array</span><span class="cp">[</span><span class="nx">j</span><span class="cp">]</span><span class="err">);</span>
+                    <span class="err">k++;</span>
+                <span class="err">}</span>
+            <span class="err">}</span>
+            <span class="err">//将最后一个元素和对应的分解出的元素互换</span>
+            <span class="err">Utils.Swap(ref</span>  <span class="err">array</span><span class="cp">[</span><span class="nx">k</span><span class="cp">]</span><span class="err">,</span> <span class="err">ref</span> <span class="err">array</span><span class="cp">[</span><span class="nx">secIndex</span><span class="cp">]</span><span class="err">);</span>
+            <span class="err">return</span> <span class="err">k;</span>
+        <span class="err">}</span>
+</pre></div>
+
+
+<h1>先将最后一位的值取出来作为比较的Key,k左边全部是小于Key的值，由于开始还没有比较，所以k</h1>
+<p>firstIndex,如果发现有小于Key的值就和K指向的数进行替换，并且k值加1，最后的情况就是k左边的值就都比Key小，最后一行的Utils.Swap(ref
+array[k], ref
+array[secIndex]);将含有Key的值移到了中间，这样就实现了拆分数组并且前面小于等于A[k]的值。下面是快速排序的代码</p>
 <p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
 .first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
 .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-        public static int RandomPartition(int[] array, int firstIndex, int secIndex)
+        public static void Sort(int[] array, int firstIndex, int secIndex)
+        {
+            if (firstIndex &lt; secIndex)
+            {
+                int index = RandomPartition(array, firstIndex, secIndex);
+                //递归调用
+                Sort(array, firstIndex, index - 1);
+                Sort(array, index + 1, secIndex);
+            }
+        }</p>
+<div class="highlight"><pre><span class="err">下面就快速排序还顺带讲一点随机化的知识，虽然我们假定输入数据的所有排列顺序都是等可能的，但是在实际工程中，这个假设不一定总是成立，所以，我们需要在算法中人为的加入随机化成分，</span><span class="o">&lt;</span><span class="nx">font</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ff0000&quot;</span><span class="o">&gt;</span><span class="err">以便对于所有输入，它能获得较好的平均情况性能</span><span class="o">&lt;/</span><span class="nx">font</span><span class="o">&gt;</span><span class="err">。</span>
+
+<span class="err">~~~~</span> <span class="p">{</span><span class="bp">.</span><span class="nx">brush</span><span class="p">:</span> <span class="bp">.</span><span class="nx">csharp</span><span class="p">;</span> <span class="bp">.</span><span class="nx">auto</span><span class="na">-links</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">collapse</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="bp">.</span><span class="nb">first</span><span class="na">-line</span><span class="p">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="bp">.</span><span class="nx">gutter</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">html</span><span class="na">-script</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">light</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="bp">.</span><span class="nx">ruler</span><span class="p">:</span> <span class="bp">.</span><span class="nb">false</span><span class="p">;</span> <span class="bp">.</span><span class="nx">smart</span><span class="na">-tabs</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;</span> <span class="bp">.</span><span class="nx">tab</span><span class="na">-size</span><span class="p">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="bp">.</span><span class="nx">toolbar</span><span class="p">:</span> <span class="bp">.</span><span class="nb">true</span><span class="p">;}</span>
+        <span class="k">public</span> <span class="nf">static</span> <span class="nx">int</span> <span class="nx">RandomPartition</span><span class="p">(</span><span class="nx">int</span><span class="err">[</span><span class="cp">]</span> array, int firstIndex, int secIndex)
         {
             //从中随机选出一个index,然后和最后一个元素互换
             int j = RandomFactory.GetRandomInt(firstIndex, secIndex);
-            Utils.Swap(ref array[j], ref array[secIndex]);
+            Utils.Swap(ref array<span class="cp">[</span><span class="nx">j</span><span class="cp">]</span>, ref array<span class="cp">[</span><span class="nx">secIndex</span><span class="cp">]</span>);
             return Partition(array, firstIndex, secIndex);
         }
-~~~~</p>
+</pre></div>
+
+
 <p>原理其实很简单，就是在分解之前随机的从数组中选取一个数和最后一个元素互换，这样的本质就是数组中的任何一个元素都有可能作比较的那个Key。</p>
         </div>
         <!-- /.entry-content -->

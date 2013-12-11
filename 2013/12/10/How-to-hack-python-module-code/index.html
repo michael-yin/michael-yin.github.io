@@ -111,6 +111,42 @@ tox.ini
 python setup.py develop
 '''</p>
 <p>instead of <code>python setup.py install</code> .This command create a link in site-packages that link to the directory which contain pelican package code and add the path to the easy-install.pth.<a href="http://pythonhosted.org/setuptools/setuptools.html#development-mode">More Detail about Develop Mode</a></p>
+<p>Note that some package such as python Markdown use setuptools in setup.py
+Title: How to hack python module code
+Date: 2013-12-10 21:00
+Author: MichaelYin
+Category: Python
+Tags: Python
+Slug: How-to-hack-python-module-code</p>
+<h2>Intro</h2>
+<p>There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The package code is in the site-packages if you install it by default, which is not a good way. In this post I will show you how to hack a python code.</p>
+<h2>Develop Mode</h2>
+<p>When you get code through git or http download, usually the stucture of pythonn package is like this. Let's take a look at pelican package</p>
+<p>'''sh
+bumpr.rc
+CONTRIBUTING.rst
+dev_requirements.txt
+docs/
+.git/
+.gitattributes
+.gitignore
+LICENSE
+.mailmap
+MANIFEST.in
+pelican/
+README.rst
+samples/
+setup.cfg
+setup.py*
+THANKS
+tox.ini
+.travis.yml
+'''</p>
+<p>Now we exec </p>
+<p>'''sh
+python setup.py develop
+'''</p>
+<p>instead of <code>python setup.py install</code> .This command create a link in site-packages that link to the directory which contain pelican package code and add the path to the easy-install.pth.<a href="http://pythonhosted.org/setuptools/setuptools.html#development-mode">More Detail about Develop Mode</a></p>
 <p>Note that some package such as python Markdown use setuptools in setup.py</p>
         </div>
         <!-- /.entry-content -->

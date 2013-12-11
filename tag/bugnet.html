@@ -81,7 +81,14 @@
 <p>Bugnet中的Log的数据源是数据库中的Log表，在使用过程中我发现有时候有些需要被Log的数据并没有被写入到数据库中，有的时候是没有被立即写入到数据库中。我后来在另外的一个小项目中也使用了Log4net,我在Application_Start事件中写入了记录事件，系统进入后马上进入数据库进行查看，但是数据库中的表中病没有那一条表记录。后来我又在里面把数据源加入了生成txt文件，代码就动了下log4net的配置文件，但是每次改变txt文件都能记录下来，大家又兴趣可以试下，如果知道答案的麻烦请告诉我，谢谢了。。。</p>
 <p><a href="http://www.cnblogs.com/dragon/archive/2005/03/24/124254.html">Log4net学习指南</a></p>
 <p>Bugnet中的rss输出使用的是Rss.net，代码不是很难，有兴趣可以自己去研究下。。</p>
-<p>在此之前对于单元测试只是知道，对于如何实施并不是很清楚，在Bugnet里面刚好有机会看看别人如何进行单元测试，草草的看了下，发现只是简单的测试了几个类的功能，不过对于像了解单元测试的朋友来说基本上足够了。。。</p>
+<p>在此之前对于单元测试只是知道，对于如何实施并不是很清楚，在Bugnet里面刚好有机会看看别人如何进行单元测试，草草的看了下，发现只是简单的测试了几个类的功能，不过对于像了解单元测试的朋友来说基本上足够了。。。
+Title: Bugnet学习总结（7）杂
+Date: 2010-08-08 07:39
+Author: MichaelYin
+Category: .Net
+Tags: Bugnet
+Slug: bugnet-study-7</p>
+<p>Bugnet使用Log4net进行日志记录，Config文件夹下面是配置文件。Global ...</p>
                     <a href="http://blog.michaelyin.info/2010/08/08/bugnet-study-7/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -140,7 +147,15 @@
 <p>把几个不一样的类稍微提一下，BugCollection是一个集合类，继承自CollectionBase,提供了排序的方法，里面包含的类实现了IComparer接口。</p>
 <p>Globals这个类将公用的变量，数组，枚举放在了里面，方便编程的时候直接调用。</p>
 <p>HostSettings是读取项目配置的类，从DAL读取后数据放在了Cache中，值得借鉴。</p>
-<p>Mail是发送邮件的类，用xslt进行转换内容，然后调用.Net自带的函数进行邮件发送。</p>
+<p>Mail是发送邮件的类，用xslt进行转换内容，然后调用.Net自带的函数进行邮件发送。
+Title: Bugnet学习总结（5）逻辑层
+Date: 2010-07-25 12:34
+Author: MichaelYin
+Category: .Net
+Tags: Bugnet
+Slug: bugnet-study-5</p>
+<p>Bugnet的逻辑层在在BugNET.BusinessLogicLayer这个namespace下，大多数类基本上是和数据库中的表相对应的，类里面一般就私有变量，方法，和属性，类中的方法调用DAL层的方法完成CRUD操作，没什么太复杂的地方。</p>
+<p>把几个不一样的类稍微提一下，BugCollection是一个集合类 ...</p>
                     <a href="http://blog.michaelyin.info/2010/07/25/bugnet-study-5/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -281,14 +296,14 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
@@ -296,17 +311,32 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/linux.html">
                     <span class="label label-default">Linux</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/google-map.html">
                     <span class="label label-default">Google Map</span>
@@ -314,29 +344,14 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">Python</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>

@@ -124,6 +124,55 @@ return abs(sum(data1) - sum(data2))<br />
 <p>因为分组的时候A[0]和B[0]两者之间就有了一种联系，无论你后面如何进行替换，A[0]和B[0]是不可能同时出现在一个分组中的，这样就造成明明最佳答案是A[0]和B[0]在同一分组里面，但是这个差值法就是得不到最优解</p>
 <p>[80, 59, 57, 34, 97, 76, 9, 76]
 是不能得到最优解的，因为最优解的一个分组里面包含97
+80，有兴趣的读者可以自行验证
+Title: 数组分割的一些错误解法
+Date: 2013-06-30 18:01
+Author: MichaelYin
+Category: 思考心得
+Tags: 数组分割
+Slug: %e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2%e7%9a%84%e4%b8%80%e4%ba%9b%e9%94%99%e8%af%af%e8%a7%a3%e6%b3%95</p>
+<p>问题：有一个没有排序，元素个数为2N的正整数数组。要求把它分割为元素个数为N的两个数组，并使两个子数组的和最接近。</p>
+<p>这个问题的正确解法<a href="http://blog.michaelyin.info/2013/06/30/%E6%95%B0%E7%BB%84%E5%88%86%E5%89%B2/">前面一篇博文</a>已经有写，这里主要是把错误的解法和原因进行一下分析。</p>
+<h6>天平法：</h6>
+<p>这种思路主要就是将2N数组进行排序，从大到小，然后从大到小进行排放，类似将砝码从大到小放到天平上，比如这篇博文<a href="http://sxnuwhui.blog.163.com/blog/static/13706837320126611925456/">猛击这里</a></p>
+<p>点评：最后要的是两边差值最接近，和砝码本身的大小并无直接联系，这种解法很容易找到反例：</p>
+<p>200 190 180 170 160 10</p>
+<p>200 180 160 并不是最优解</p>
+<h6>差值法：</h6>
+<p>前面天平法的缺陷也给了我一点启示，如果是两个一组一起放到天平上的话，启示应该按照两个砝码的差值来进行拜访，排序不应该针对单个砝码，而应该针对砝码的差值</p>
+<p>1：将砝码分成A,B两组</p>
+<p>2：两组的砝码按照位置进行对应，比如A[0]和B[0]进行对应</p>
+<p>3:
+对应的A[0]和B[0]之间肯定是有差值的，针对差值的绝对值进行排序，按照从大到小</p>
+<p>4: 针对差值进行“砝码”的摆放，调整A[i] B[i]，保证差值总和的绝对值保持在最小</p>
+<p>代码如下：</p>
+<p>[code lang="py"]<br />
+def test1(data):<br />
+data = sorted(data)<br />
+data1 = data[0::2]<br />
+data2 = data[1::2]</p>
+<p>diff = []<br />
+for i in range(len(data1)):<br />
+diff.append(abs(data1[i] - data2[i]))<br />
+#bubble sort<br />
+for i in range(0, len(diff) - 1):<br />
+for j in range(i, len(diff)):<br />
+if(diff[i] &lt; diff[j]):<br />
+diff[i], diff[j] = diff[j] , diff[i]<br />
+data1[i], data1[j] = data1[j] , data1[i]<br />
+data2[i], data2[j] = data2[j] , data2[i]</p>
+<p>totaldiff = 0<br />
+for i in range(0, len(data1)):<br />
+if(abs(totaldiff + data1[i] - data2[i]) > abs(totaldiff + data2[i] -
+data1[i])):<br />
+data1[i], data2[i] = data2[i], data1[i]</p>
+<p>totaldiff = totaldiff + data1[i] - data2[i]<br />
+return abs(sum(data1) - sum(data2))<br />
+[/code]</p>
+<p>点评：此法初看的确有一些道理，因为不像前一种方法，着重于两数字之间的差值，而且从大到小的排序也解决了摆放的问题，那么，问题在哪里呢？在于分组</p>
+<p>因为分组的时候A[0]和B[0]两者之间就有了一种联系，无论你后面如何进行替换，A[0]和B[0]是不可能同时出现在一个分组中的，这样就造成明明最佳答案是A[0]和B[0]在同一分组里面，但是这个差值法就是得不到最优解</p>
+<p>[80, 59, 57, 34, 97, 76, 9, 76]
+是不能得到最优解的，因为最优解的一个分组里面包含97
 80，有兴趣的读者可以自行验证</p>
         </div>
         <!-- /.entry-content -->

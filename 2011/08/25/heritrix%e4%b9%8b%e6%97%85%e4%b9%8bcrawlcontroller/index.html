@@ -105,7 +105,58 @@ private transient ToePool toePool;</p>
 private transient ServerCache serverCache;</p>
 <p>// This gets passed into the initialize method.</p>
 <p>private transient SettingsHandler settingsHandler;</p>
-<div class="highlight"><pre><span class="p">[</span><span class="o">!</span><span class="p">[</span><span class="mi">201108251822437241</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//blog.michaelyin.info/wp-content/uploads/2011/08/201108251822437241.png)](http://blog.michaelyin.info/wp-content/uploads/2011/08/201108251822437241.png)</span>
+<div class="highlight"><pre><span class="p">[</span><span class="o">!</span><span class="p">[</span><span class="mi">201108251822437241</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//blog.michaelyin.info/images/2011/08/201108251822437241.png)](http://blog.michaelyin.info/images/2011/08/201108251822437241.png)</span>
+
+<span class="err">上面这个图就是</span><span class="n">CrawlController</span><span class="err">和抓取过程中的几个关键的组件的关系图，</span><span class="n">CrawlController</span><span class="err">包含了这几个组件并对整个抓取进行管理</span>
+
+<span class="n">CrawlController</span><span class="err">的初始化是在</span><span class="n">initialize</span><span class="err">方法中完成的，根据传入的</span><span class="n">SettingsHandler</span><span class="err">得到抓取必须的参数，进行初始化</span><span class="p">,</span><span class="err">然后完成其他的一些必须的初始化工作。</span>
+
+<span class="err">二次开发的时候我们也可以自己完成这些过程，但是有几个必须的过程是必须要走的，首先就是需要构造一个</span><span class="n">XMLSettingsHandler</span><span class="err">对象，将</span><span class="n">order</span><span class="p">.</span><span class="n">xml</span><span class="err">信息装入，然后构造一个</span><span class="n">CrawlController</span><span class="err">对象，然后将</span><span class="n">XMLSettingsHandler</span><span class="err">放入到</span><span class="n">CrawlController</span><span class="err">的</span><span class="n">initialize</span><span class="err">方法中去，当完成上述工作之后，</span><span class="n">CrawlController</span><span class="err">就可以准备开始进行抓取了。</span>
+
+<span class="err">其实上述所说的过程就是</span><span class="n">Heritrix</span><span class="err">类中</span><span class="n">doOneCrawl</span><span class="err">方法的实现的过程，我们可以直接将</span><span class="n">order</span><span class="p">.</span><span class="n">xml</span><span class="err">的文件路径放入方法然后进行抓取</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+      <span class="n">XMLSettingsHandler</span> <span class="n">handler</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLSettingsHandler</span><span class="p">(</span><span class="n">new</span> <span class="n">File</span><span class="p">(</span>
+                <span class="n">crawlOrderFile</span><span class="p">));</span>
+        <span class="n">handler</span><span class="p">.</span><span class="n">initialize</span><span class="p">();</span>
+        <span class="n">CrawlController</span> <span class="n">controller</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CrawlController</span><span class="p">();</span>
+        <span class="n">controller</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">handler</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">listener</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">controller</span><span class="p">.</span><span class="n">addCrawlStatusListener</span><span class="p">(</span><span class="n">listener</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">controller</span><span class="p">.</span><span class="n">requestCrawlStart</span><span class="p">();</span>
+</pre></div>
+
+
+<p>Title: Heritrix之旅之CrawlController
+Date: 2011-08-25 10:23
+Author: MichaelYin
+Category: Java
+Tags: Heritrix, Java
+Slug: heritrix%e4%b9%8b%e6%97%85%e4%b9%8bcrawlcontroller</p>
+<p>一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。</p>
+<p>Heritrix的一些介绍网上都有，我在这里也就不做介绍了，直接进入正题。</p>
+<p>Heritrix抓取任务的核心类就是CrawlController,这个对象将决定一个抓取任务的开始和结束</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+//order.xml文件的封装<br />
+private transient CrawlOrder order;
+//<br />
+private transient CrawlScope scope;
+//处理链列表 
+private transient ProcessorChainList processorChains;
+//为抓取线程提供uri  <br />
+private transient Frontier frontier;</p>
+<p>//线程池 <br />
+private transient ToePool toePool;</p>
+<p>//缓存，保存了当前抓取任务抓取过的Host名称和Server名称 <br />
+private transient ServerCache serverCache;</p>
+<p>// This gets passed into the initialize method.</p>
+<p>private transient SettingsHandler settingsHandler;</p>
+<div class="highlight"><pre><span class="p">[</span><span class="o">!</span><span class="p">[</span><span class="mi">201108251822437241</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//blog.michaelyin.info/images/2011/08/201108251822437241.png)](http://blog.michaelyin.info/images/2011/08/201108251822437241.png)</span>
 
 <span class="err">上面这个图就是</span><span class="n">CrawlController</span><span class="err">和抓取过程中的几个关键的组件的关系图，</span><span class="n">CrawlController</span><span class="err">包含了这几个组件并对整个抓取进行管理</span>
 

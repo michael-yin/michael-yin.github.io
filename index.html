@@ -148,11 +148,11 @@ Filter在是一种在海量数据处理中很常用的算法，主要用来提�
 <h6></h6>
 <h3>基本原理：</h3>
 <p>如下图所示，长为m bit的byte数组，里面的bit位数值全部置0</p>
-<p><a class="fancy" href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image3.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb3.png" title="image" /></a></p>
+<p><a class="fancy" href="http://blog.michaelyin.info/images/2013/07/image3.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb3.png" title="image" /></a></p>
 <p>现在需要将a这个值写入到byte数组里面去，使用k个不同的hash函数，对a进行hash值计算，并确保得到的hash值位于{1,m}这个区间之间。假设现在k个hash函数，那么得到的hash值一共有k个，即 <mathjax>$h_{1}(a)$</mathjax> ，在byte数组里面将这些值对应的bit位全部置为1，完成这一步，a的值就已经写入到byte数组里面去了。如果有多个值，重复该过程，如果写入过程中发现某bit位已经是1，可以不用管。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image4.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb4.png" title="image" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2013/07/image4.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb4.png" title="image" /></a></p>
 <p>当我要查询数组里面是否包含值为b的时候，同样对b进行k个不同的hash计算，得到k个不同的hash值(注：写入和查询使用的k个hash函数是相同的)，针对这k个值在byte数组中进行查看，看对应的bit位是否置1，如果有一处是0，那就证明该元素不包含在byte数组中，如果全部是1，那就证明该元素可能包含在byte数组中(此处注意，对于返回结果为True的情况是有误差的，误差和使用hash函数个数和byte数组长度和输入个数有关系，后面会详细讨论)</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image5.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb5.png" title="image" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2013/07/image5.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb5.png" title="image" /></a></p>
 <h3>数学证明：</h3>
 <p>现有输入n个，将其通过Bloom
 Filter的方式插入到大小为m的byte数组中，插入中使用k个hash值进行置0。</p>
@@ -189,7 +189,7 @@ Filter的方式插入到大小为m的byte数组中，插入中使用k个hash值�
 <p>M表示小数部分</p>
 <p>E是2的指数，用来表示2的乘方</p>
 <p>如果将这三部分对应到存储的bit位上去，那么s对应一个bit位，用来表示浮点数的正负，k个bit位用来表示表示2的乘方，这k个bit位统一用exp来表示，n个bit位用来表示小数部分，统一用fra来表示</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb.png" title="image" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2013/07/image.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb.png" title="image" /></a></p>
 <p>现在已经知道浮点数的存储位一共有三部分组成，而浮点数本身也被分成了三种类型，三种不同类型的存储方式都有其自身的特点</p>
 <p>1：Normalized Values</p>
 <p>这是最普通的情况，当exp部分的bit位不全为0和不全为1的时候，在这种情况下，exp部分的值E
@@ -309,13 +309,13 @@ diff_sub = total ...</p>
 <p>更换登录账号绑定的邮箱，方便用户进行数据迁移，这是一个原始用户需求，各个应用对于这个需求有着不同的解决方案。</p>
 <p>想到我的众多可爱师妹们，以及那些众多好图，人人账号是我最先进行修改的</p>
 <p>1: 进入账号设置页面以后，看到有个修改账号功能，点开以后，直接囧了</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/05/7.png"><img alt="7" src="http://blog.michaelyin.info/wp-content/uploads/2013/05/7_thumb.png" title="7" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2013/05/7.png"><img alt="7" src="http://blog.michaelyin.info/images/2013/05/7_thumb.png" title="7" /></a></p>
 <p>2：修改个密码还要申诉，实在有点不太理解。没办法，那就申诉吧，结果接下来，我被深深的囧到了</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/05/8.jpg"><img alt="8" src="http://blog.michaelyin.info/wp-content/uploads/2013/05/8_thumb.jpg" title="8" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2013/05/8.jpg"><img alt="8" src="http://blog.michaelyin.info/images/2013/05/8_thumb.jpg" title="8" /></a></p>
 <p>3:
 一个简单的功能，竟然被做的如此复杂，这一刻，我认定它的产品经理的头，被门夹了。。。</p>
 <p>接着，是经常用来听歌的虾米网，更改邮箱后，能使用新的邮箱来登录了，不过在个人设置里面，个人邮箱竟然还是显示的是偶的雅虎邮箱地址。。。。汗。。。虾米网有测试人员么？</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/05/image.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/05/image_thumb.png" title="image" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2013/05/image.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/05/image_thumb.png" title="image" /></a></p>
 <p>抛开这两个有硬伤的不谈，其他的产品，在修改邮箱上，主要是在一个地方有所不同：</p>
 <p>假设用户原先使用的是邮箱A，现在想迁移到邮箱B，那么在迁移过程中，是否需要首先通过向邮箱A发送邮件进行认证？</p>
 <p>豆瓣，CSDN，当当，是需要强制在邮箱A端通过链接认证的方式走流程的 ...</p>
@@ -344,7 +344,12 @@ diff_sub = total ...</p>
 PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进入网站看了一下以后，顿时觉得自己OUT了。。。</p>
 <p>这个软件可以将常用的工具放到U盘中，在BIOS中配置好以后就能够通过U盘自动（<a href="http://www.laomaotao.net/help/2012/1225/1414.html">猛击这里</a>），效果和光盘启动是一样的，里面也带了各种常用的工具。对于一般的系统修复，检查来说，已经足够了。除此之外，这个软件提供了对ISO的处理，并能将ISO烧录到U盘中进行启动。省去了刻录光盘的繁琐。（ISO模式暂未亲测）</p>
 <p>也正是因为这个软件，让我觉得以后买PC，光驱或许不是必选项了。。。回想前几年，基本只是在对系统进行引导启动的时候用一用光驱。</p>
-<p>软件背后，让我反思的是我们看问题的思维。以前看起来理所当然的解决方案，放到现在未必就是最合理的，唯一能做的，就是不断地提高自己。</p>
+<p>软件背后，让我反思的是我们看问题的思维。以前看起来理所当然的解决方案，放到现在未必就是最合理的，唯一能做的，就是不断地提高自己。
+Title: 由老毛桃想到的
+Date: 2013-04-21 23:31
+Author: MichaelYin
+Category: 未分类
+Slug: %e7%94 ...</p>
                     <a href="http://blog.michaelyin.info/2013/04/21/%e7%94%b1%e8%80%81%e6%af%9b%e6%a1%83%e6%83%b3%e5%88%b0%e7%9a%84/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -513,14 +518,14 @@ self ...</p>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
@@ -528,17 +533,32 @@ self ...</p>
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/linux.html">
                     <span class="label label-default">Linux</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/google-map.html">
                     <span class="label label-default">Google Map</span>
@@ -546,29 +566,14 @@ self ...</p>
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">Python</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>

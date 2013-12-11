@@ -80,12 +80,12 @@
                 <div class="summary"><h2>用户和角色</h2>
 <p>Linux中的用户和角色的概念和一般权限系统中的概念基本差不多，用户可以属于多个角色，从而根据所属的角色在系统中拥有不同的权限。这其中有一个用户拥有系统最大的权限，那就是root.</p>
 <p>Linux是一个多任务多用户的操作系统，其中的服务在运行的时候会获得一个PID，而这个PID也是有拥有者身份的，换句话说，是这个用户启动的这个服务，有上面我们可以知道，这些服务也就相应的具有这个用户所具有的一些权限，可以做这个用户被允许所作的一些事情，但是，如果这个PID被入侵的话，那么入侵者也就具有了相应PID的权限，如果这个PID的拥有者的权限太高的话，比如是root,那么入侵者就可以再Linux中为所欲为，所以，尽量的将服务的PID权限降低，这样的话可以保证即使服务被入侵也不会让入侵者得到较大的权限，使系统更加安全。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549134038.png"><img alt="201102121549134038" src="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549134038.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/02/201102121549134038.png"><img alt="201102121549134038" src="http://blog.michaelyin.info/images/2011/02/201102121549134038.png" /></a></p>
 <p>查看用户可以打开/etc/passwd，查看角色信息可以查看/etc/group/不同Linux可能会有所不同，我所使用的是Ubuntu
 10.10</p>
 <h2>文件属性和权限</h2>
 <p>在shell中输入ls -al可以查看当前目录下的所有文件</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549193934.png"><img alt="201102121549193934" src="http://blog.michaelyin.info/wp-content/uploads/2011/02/201102121549193934.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/02/201102121549193934.png"><img alt="201102121549193934" src="http://blog.michaelyin.info/images/2011/02/201102121549193934.png" /></a></p>
 <p>文件的权限由10位的字符串构成，比如-rwxrwxrwx这样的字符串，由于权限粒度精确到了用户，所以一共有10位。第一位表示这个文件的属性，比如d代表directory,-则代表是一个文件，接下来的9位则是三个为一组，且都为rwx的组合，r代表可读，w代表可写,x代表可运行，第一组是文件拥有人的权限 ...</p>
                     <a href="http://blog.michaelyin.info/2011/02/12/linux%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e6%80%bb%e7%bb%93/">
                         <span class="label label-primary tag-2">More...</span>
@@ -180,14 +180,14 @@
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
@@ -195,17 +195,32 @@
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/linux.html">
                     <span class="label label-default">Linux</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/google-map.html">
                     <span class="label label-default">Google Map</span>
@@ -213,29 +228,14 @@
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">Python</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>

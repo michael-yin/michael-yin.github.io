@@ -82,6 +82,16 @@
 <p>BlogEngine中其实很多处用到了Provider模式，而我希望就数据存储这部分把Provider给大家讲清楚，因为其他的地方和数据存储差不多，实现的方式大同小异。</p>
 <p>BlogEngine中的BlogProvider是一个继承自ProviderBase的抽象类，在ProviderBase基础上加入了整个系统所有需要的方法签名，这个地方需要注意的是它并没有提供方法的具体实现的代码。XmlBlogProvider和DbBlogProvider都继承了BlogProvider，并且提供了具体的关于XML和数据库的实现方法的具体的代码。好了，现在让我们回头看BlogService这个类，整个系统的数据操作时这样的，逻辑代码调用BlogService中相应的方法，然后BlogService调用LoadProviders读取配置（如果已经读取就不用再次读取），然后操作已经经过实例化的BlogProvider的实例。</p>
 <p>在这里笔者需要提醒的是抽象类其实是不能直接通过new关键字实例化的，通过不同的派生类的类型转换生成的抽象类虽然拥有一样名称的方法，但是具体的实现逻辑却并不是一样的，这其实就是一种面向抽象编程。这样做有什么好处呢？我们可以将针对不同数据存储方式的操作写到不同的继承自BlogProvider类的派生类中，然后在Web.Config中进行配置，程序中调用BlogProvider的方法进行逻辑方面的处理，而对于具体的数据存储的细节则不用关注太多。</p>
+<p>对于派生类转换成基类后方法的调用细节不是很清楚的朋友可以看看Anytao的这篇文章<a href="http://www.cnblogs.com/anytao/archive/2007/09/10/must_net_15.html">继承本质论</a>
+Title: BlogEngine中的Provider模式（下）
+Date: 2010-10-23 13:18
+Author: MichaelYin
+Category: 未分类
+Slug: blogengine%e4%b8%ad%e7%9a%84provider%e6%a8%a1%e5%bc%8f%ef%bc%88%e4%b8%8b%ef%bc%89</p>
+<p>前面一篇Post主要专注于读取Web.Config中的配置的过程，这一篇将从面向对象的角度来阐述Provider的实现细节。</p>
+<p>BlogEngine中其实很多处用到了Provider模式，而我希望就数据存储这部分把Provider给大家讲清楚，因为其他的地方和数据存储差不多，实现的方式大同小异。</p>
+<p>BlogEngine中的BlogProvider是一个继承自ProviderBase的抽象类，在ProviderBase基础上加入了整个系统所有需要的方法签名，这个地方需要注意的是它并没有提供方法的具体实现的代码。XmlBlogProvider和DbBlogProvider都继承了BlogProvider，并且提供了具体的关于XML和数据库的实现方法的具体的代码。好了，现在让我们回头看BlogService这个类，整个系统的数据操作时这样的，逻辑代码调用BlogService中相应的方法，然后BlogService调用LoadProviders读取配置（如果已经读取就不用再次读取），然后操作已经经过实例化的BlogProvider的实例。</p>
+<p>在这里笔者需要提醒的是抽象类其实是不能直接通过new关键字实例化的，通过不同的派生类的类型转换生成的抽象类虽然拥有一样名称的方法，但是具体的实现逻辑却并不是一样的，这其实就是一种面向抽象编程。这样做有什么好处呢？我们可以将针对不同数据存储方式的操作写到不同的继承自BlogProvider类的派生类中，然后在Web.Config中进行配置，程序中调用BlogProvider的方法进行逻辑方面的处理，而对于具体的数据存储的细节则不用关注太多。</p>
 <p>对于派生类转换成基类后方法的调用细节不是很清楚的朋友可以看看Anytao的这篇文章<a href="http://www.cnblogs.com/anytao/archive/2007/09/10/must_net_15.html">继承本质论</a></p>
         </div>
         <!-- /.entry-content -->

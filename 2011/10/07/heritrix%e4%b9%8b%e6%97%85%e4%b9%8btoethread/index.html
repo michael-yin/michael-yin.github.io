@@ -137,6 +137,71 @@
 </pre></div>
 
 
+<p>结合前面Frontier的图，可能看的就会明白一点了。
+Title: Heritrix之旅之ToeThread
+Date: 2011-10-07 02:37
+Author: MichaelYin
+Category: 未分类
+Slug: heritrix%e4%b9%8b%e6%97%85%e4%b9%8btoethread</p>
+<p>Heritrix是一个多线程的程序，里面使用工作线程来处理url，这些工作线程称为torThreads，这些toethread统一的被ToePool所管理,Toepool通过setSize方法来管理运行的toethread数目</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+  public void setSize(int newsize) {
+        targetSize = newsize;
+        int difference = newsize - getToeCount();
+        if (difference &gt; 0) {
+            // must create threads
+            for (int i = 1; i &lt;= difference; i++) {
+                startNewThread();
+            }
+        } else {
+            // must retire extra threads
+            int retainedToes = targetSize;
+            Thread[] toes = this.getToes();
+            for (int i = 0; i &lt; toes.length; i++) {
+                if (!(toes[i] instanceof ToeThread)) {
+                    continue;
+                }
+                retainedToes--;
+                if (retainedToes &gt;= 0) {
+                    continue; // this toe is spared
+                }
+                // otherwise:
+                ToeThread tt = (ToeThread) toes[i];
+                tt.retire();
+            }
+        }
+    }</p>
+<div class="highlight"><pre><span class="n">ToeThread</span><span class="err">从</span><span class="n">Frontier</span><span class="err">中获取待处理的</span><span class="n">url</span><span class="err">，然后</span><span class="n">ToeThread</span><span class="err">对</span><span class="n">url</span><span class="err">进行一系列的处理，当所有的处理流程完成之后，调用</span><span class="n">Frontier</span><span class="err">的</span><span class="n">finished</span><span class="err">方法告知</span><span class="n">url</span><span class="err">抓取完毕，</span><span class="n">ToeThread</span><span class="err">重新获取新的</span><span class="n">url</span>
+
+<span class="err">这是</span><span class="n">ToeThread</span><span class="err">中的</span><span class="n">run</span><span class="err">方法的代码</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+                <span class="c1">//从Frontier处获取待处理的url</span>
+                <span class="n">CrawlURI</span> <span class="n">curi</span> <span class="o">=</span> <span class="n">controller</span><span class="p">.</span><span class="n">getFrontier</span><span class="p">().</span><span class="n">next</span><span class="p">();</span>
+
+                <span class="n">synchronized</span><span class="p">(</span><span class="n">this</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">continueCheck</span><span class="p">();</span>
+                    <span class="n">setCurrentCuri</span><span class="p">(</span><span class="n">curi</span><span class="p">);</span>
+                <span class="p">}</span>
+
+                <span class="c1">//对url进行处理</span>
+                <span class="n">processCrawlUri</span><span class="p">();</span>
+
+                <span class="n">setStep</span><span class="p">(</span><span class="n">STEP_ABOUT_TO_RETURN_URI</span><span class="p">);</span>
+                <span class="n">continueCheck</span><span class="p">();</span>
+
+                <span class="c1">//通知Frontier已经完成</span>
+                <span class="n">synchronized</span><span class="p">(</span><span class="n">this</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">controller</span><span class="p">.</span><span class="n">getFrontier</span><span class="p">().</span><span class="n">finished</span><span class="p">(</span><span class="n">currentCuri</span><span class="p">);</span>
+                    <span class="n">setCurrentCuri</span><span class="p">(</span><span class="n">null</span><span class="p">);</span>
+                <span class="p">}</span>
+</pre></div>
+
+
 <p>结合前面Frontier的图，可能看的就会明白一点了。</p>
         </div>
         <!-- /.entry-content -->

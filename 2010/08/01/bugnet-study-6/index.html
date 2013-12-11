@@ -95,6 +95,26 @@
 
 
 <p>需要在这里提到的一点是在这里Gridview绑定数据使用的是自带的分页，其实现的机制是将数据首先全部从数据库中查出来然后全部给gvw,gvw然后根据currentpageindex从中选取需要的数据，不要的数据放在内存中，这样的实现方式在数据量小的时候还好，在大数据量的时候是有很大的影响的。<a href="http://www.cnblogs.com/lovecherry/archive/2006/08/25/486077.html">具体情况请点击这里</a></p>
+<p>Administration文件夹中的AddProject.aspx页面实现了一种动态加载用户控件的技术。根据用户操作到第几步动态加载相应的用户控件进行显示，这些用户控件实现IEditProjectControl这个自定义接口。方便进行操作。Asp.net中的Wizard好像也可以实现这个类似的功能，有时间看一下。。
+Title: Bugnet学习总结（6）用户控件
+Date: 2010-08-01 03:49
+Author: MichaelYin
+Category: .Net
+Tags: Bugnet
+Slug: bugnet-study-6</p>
+<p>用户控件作为Asp.net提供的一种自定义可重用的机制，在很多的项目中都得到了应用，Bugnet里面也使用了很多用户控件。</p>
+<p>UserControls文件夹里面放的除了fckeditor和xslt外，就是项目里面要用到的用户控件了，代码都不难，下面就把里面的DisplayBugs.ascx拿出来稍微讲一下。该控件在Bugnet中被用到的次数还是很多的，功能也比较简单，就是提供了一个有图表显示，有排序功能的列表。该用户控件是在Gridview的基础上做的开发，增加了一个BugCollection和EventHandler。BugCollection是Gridview需要绑定的数据源，而EventHandler则是使用了事件。调用该事件实现绑定数据的具体操作。</p>
+<div class="highlight"><pre> <span class="p">&lt;</span><span class="n">uc1</span><span class="p">:</span><span class="n">DisplayBugs</span> <span class="n">ID</span><span class="p">=</span><span class="s">&quot;InProgressBugs&quot;</span> <span class="n">HeaderBackColor</span><span class="p">=</span><span class="s">&quot;#eeeeee&quot;</span> <span class="n">CssClass</span><span class="p">=</span><span class="s">&quot;issues&quot;</span> <span class="n">OnRebindCommand</span><span class="p">=</span><span class="s">&quot;DisplayBugs_DataBind&quot;</span> <span class="n">runat</span><span class="p">=</span><span class="s">&quot;server&quot;</span> <span class="p">/&gt;</span>
+</pre></div>
+
+
+<p>上面是在MyBugs.aspx中重用DisplayBugs.ascx用户控件的代码，可以看到一行代码基本就搞定，而后台的代码只需要把相应的数据源给用户控件，然后执行DataBind就可以了。像这样</p>
+<div class="highlight"><pre><span class="n">BugsAssigned</span><span class="p">.</span><span class="n">DataSource</span> <span class="p">=</span> <span class="n">Bug</span><span class="p">.</span><span class="n">GetBugsByCriteria</span><span class="p">(-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">User</span><span class="p">.</span><span class="n">Identity</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="n">BugsAssigned</span><span class="p">.</span><span class="n">DataBind</span><span class="p">();</span>
+</pre></div>
+
+
+<p>需要在这里提到的一点是在这里Gridview绑定数据使用的是自带的分页，其实现的机制是将数据首先全部从数据库中查出来然后全部给gvw,gvw然后根据currentpageindex从中选取需要的数据，不要的数据放在内存中，这样的实现方式在数据量小的时候还好，在大数据量的时候是有很大的影响的。<a href="http://www.cnblogs.com/lovecherry/archive/2006/08/25/486077.html">具体情况请点击这里</a></p>
 <p>Administration文件夹中的AddProject.aspx页面实现了一种动态加载用户控件的技术。根据用户操作到第几步动态加载相应的用户控件进行显示，这些用户控件实现IEditProjectControl这个自定义接口。方便进行操作。Asp.net中的Wizard好像也可以实现这个类似的功能，有时间看一下。。</p>
         </div>
         <!-- /.entry-content -->

@@ -338,6 +338,272 @@ return Convert.ToChar(c);<br />
 #endregion<br />
 [/code]</p>
 <p>在研究一下两种针对中缀表达式求值的方法后我们可以通过思考得到一些结论，首先人脑的计算方式在计算机中并不是最优化的方法，除了递归调用带来的性能损失，对表达式多次遍历也是会带来性能损失。而先转换到后缀表达式后在对其进行求值则避免了上述问题，提高了整体的计算的性能。</p>
+<p>由于中缀表达式在我们看来更为习惯，但是后缀表达式在计算中的优势，所以编译程序常把程序源代码中的中缀表达式转换为后缀表达式再进行运算。当时看到这里的时候也想过为什么编译为什么不采用前缀表达式，后来想了一下前一篇BLOG讲到过前缀的扫描方向是从右至左，所以在程序中处理的话可能相对于后缀表达式不是很方便，所以后缀是最合适的选择。
+Title: 前缀，中缀，后缀表达式学习笔记(2)
+Date: 2012-05-03 07:51
+Author: MichaelYin
+Category: 未分类
+Slug: %e5%89%8d%e7%bc%80%ef%bc%8c%e4%b8%ad%e7%bc%80%ef%bc%8c%e5%90%8e%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b02</p>
+<p>前面一章已经将前缀，中缀，后缀表达式的基本概念进行了介绍，同时也介绍了编程中较常用的中缀表达式转换到后缀和前缀表达式的方法。接下来主要针对前缀，中缀和后缀表达式求值来进行相应的讨论。</p>
+<p>在上一篇BLOG中的开始就阐述了中缀表达式求值的过程，中缀表达式求值比较符合人脑的计算方式，而对于计算机来说并不是十分高效，需要多次对表达式进行遍历。下面贴出我自己实现的直接对中缀表达式按人脑计算方式进行求值的代码。</p>
+<p>[code lang="csharp"]<br />
+public static int Evaluate(char[] exp, int firstIndex, int lastIndex)<br />
+{<br />
+//外层如果是括号则去掉<br />
+if (exp[firstIndex] == '(' &amp;&amp; exp[lastIndex] == ')')<br />
+{<br />
+return Evaluate(exp, firstIndex + 1, lastIndex - 1);<br />
+}<br />
+//进行计算<br />
+int position = 0;<br />
+char result = AddOrSub(exp, firstIndex, lastIndex, ref position);<br />
+if (result != '#')<br />
+{<br />
+//计算<br />
+if (result == '+')<br />
+{<br />
+return Evaluate(exp, firstIndex, position - 1) + Evaluate(exp, position
++ 1, lastIndex);<br />
+}<br />
+if (result == '-')<br />
+{<br />
+return Evaluate(exp, firstIndex, position - 1) - Evaluate(exp, position
++ 1, lastIndex);<br />
+}<br />
+}</p>
+<p>result = MultiplyOrDevide(exp, firstIndex, lastIndex, ref position);<br />
+if (result != '#')<br />
+{<br />
+//计算<br />
+if (result == '*')<br />
+{<br />
+return Evaluate(exp, firstIndex, position - 1) * Evaluate(exp,
+position + 1, lastIndex);<br />
+}<br />
+if (result == '/')<br />
+{<br />
+return Evaluate(exp, firstIndex, position - 1) / Evaluate(exp, position
++ 1, lastIndex);<br />
+}<br />
+}<br />
+//生成实际数字值<br />
+if (exp[firstIndex] > '9' || exp[firstIndex] &lt; '0')<br />
+Console.WriteLine("Error");</p>
+<p>return RealNum(exp[firstIndex]);<br />
+}</p>
+<p>public static char AddOrSub(char[] exp, int firstIndex, int lastIndex,
+ref int position)<br />
+{<br />
+System.Collections.Stack objStack = new Stack();<br />
+//找到返回操作符，找不到返回#<br />
+for (int i = firstIndex; i &lt;= lastIndex; i++)<br />
+{<br />
+if (exp[i] == '(')<br />
+{<br />
+objStack.Push('(');<br />
+}<br />
+if (exp[i] == ')')<br />
+{<br />
+objStack.Pop();<br />
+}<br />
+if (exp[i] == '+' &amp;&amp; objStack.Count == 0)<br />
+{<br />
+position = i;<br />
+return '+';<br />
+}<br />
+if (exp[i] == '-' &amp;&amp; objStack.Count == 0)<br />
+{<br />
+position = i;<br />
+return '-';<br />
+}<br />
+}<br />
+//没有找到对应的操作符<br />
+return '#';<br />
+}</p>
+<p>public static char MultiplyOrDevide(char[] exp, int firstIndex, int
+lastIndex, ref int position)<br />
+{<br />
+//找到返回操作符，找不到返回#<br />
+System.Collections.Stack objStack = new Stack();<br />
+//找到返回操作符，找不到返回#<br />
+for (int i = firstIndex; i &lt;= lastIndex; i++)<br />
+{<br />
+if (exp[i] == '(')<br />
+{<br />
+objStack.Push('(');<br />
+}<br />
+if (exp[i] == ')')<br />
+{<br />
+objStack.Pop();<br />
+}<br />
+if (exp[i] == '*' &amp;&amp; objStack.Count == 0)<br />
+{<br />
+position = i;<br />
+return '*';<br />
+}<br />
+if (exp[i] == '/' &amp;&amp; objStack.Count == 0)<br />
+{<br />
+position = i;<br />
+return '/';<br />
+}<br />
+}<br />
+//没有找到对应的操作符<br />
+return '#';<br />
+}</p>
+<p>public static int RealNum(char num)<br />
+{<br />
+return 0 + (num - '0');<br />
+}<br />
+[/code]</p>
+<p>下面讲解如何对后缀表达式进行求值。建立一个栈，从左至右遍历表达式，如果遇到操作数则压入栈，如果遇到操作符则弹出相应的操作数进行计算，并将计算的结果重新入栈，最后的结果就在栈顶。前缀表达式和后缀类似，在这里就不赘述了。</p>
+<p>可以看出后缀表达式的求值也只需要对后缀表达式进行一次扫描，而前面我们已经知道中缀表达式转换到后缀表达式也是只需要扫描一次的。相对于上面的类似于人脑的计算方式，我们在这里可以考虑将中缀表达式转换为后缀表达式后再对其求值，这样来完成中缀表达式的求值。其实这种方式就是那本经典的清华严蔚敏的《数据结构》一书中对于四则运算的解决的思路。</p>
+<p>下面贴出用C#实现的中缀转后缀并求值的代码，该代码可以用来进行四则运算</p>
+<p>[code lang="csharp"]<br />
+public static void EvaluateExpression()<br />
+{<br />
+System.Collections.Stack stackA = new System.Collections.Stack();<br />
+System.Collections.Stack stackB = new System.Collections.Stack();<br />
+stackA.Push('#');<br />
+char user;<br />
+user = (char)Console.Read();<br />
+while (user != '#' || ((char)stackA.Peek() != '#'))<br />
+{<br />
+//操作符号<br />
+if (In(user))<br />
+{<br />
+//判断优先级<br />
+switch (Precede((char)stackA.Peek(), user))<br />
+{<br />
+case '>':<br />
+//顺序<br />
+char b = (char)stackB.Pop();<br />
+char a = (char)stackB.Pop();<br />
+char op = (char)stackA.Pop();</p>
+<p>stackB.Push(Operate(a, b, op));</p>
+<p>break;<br />
+case '=':<br />
+stackA.Pop();<br />
+user = (char)Console.Read();<br />
+break;<br />
+case '&lt;':<br />
+stackA.Push(user);<br />
+user = (char)Console.Read();<br />
+break;<br />
+}<br />
+}<br />
+else<br />
+{<br />
+if (user &lt; '0' || user > '9')<br />
+{<br />
+Console.WriteLine("Error");<br />
+return;<br />
+}<br />
+else<br />
+{<br />
+stackB.Push(user);<br />
+user = (char)Console.Read();<br />
+}<br />
+}</p>
+<p>}<br />
+Console.WriteLine((char)stackB.Pop());<br />
+Console.ReadLine();<br />
+}</p>
+<p>/// &lt;summary><br />
+/// 如果是操作符号，则返回true<br />
+/// &lt;/summary><br />
+/// &lt;param name="c">&lt;/param><br />
+/// &lt;returns>&lt;/returns><br />
+public static bool In(char c)<br />
+{<br />
+//该写法值得商榷<br />
+switch (c)<br />
+{<br />
+case '(':<br />
+return true;<br />
+case ')':<br />
+return true;<br />
+case '+':<br />
+return true;<br />
+case '-':<br />
+return true;<br />
+case '*':<br />
+return true;<br />
+case '/':<br />
+return true;<br />
+case '#':<br />
+return true;<br />
+}<br />
+return false;<br />
+}</p>
+<p>public static char Precede(char t1, char t2)<br />
+{<br />
+char f = '=';<br />
+switch (t2)<br />
+{<br />
+case '+':<br />
+case '-': if (t1 == '(' || t1 == '#')<br />
+f = '&lt;';<br />
+else<br />
+f = '>';<br />
+break;<br />
+case '*':<br />
+case '/': if (t1 == '*' || t1 == '/' || t1 == ')')<br />
+f = '>';<br />
+else<br />
+f = '&lt;';<br />
+break;<br />
+case '(': if (t1 == ')')<br />
+{<br />
+Console.WriteLine("error");<br />
+}<br />
+else<br />
+f = '&lt;';<br />
+break;<br />
+case ')':<br />
+switch (t1)<br />
+{<br />
+case '(': f = '=';<br />
+break;<br />
+case '#':<br />
+break;<br />
+default: f = '>';<br />
+break;<br />
+}<br />
+break;<br />
+case '#': switch (t1)<br />
+{<br />
+case '#': f = '=';<br />
+break;<br />
+case '(':<br />
+break;<br />
+default: f = '>';<br />
+break;<br />
+}<br />
+break;<br />
+}<br />
+return f;<br />
+}</p>
+<p>public static char Operate(char a, char b, char operate)<br />
+{<br />
+a = Convert.ToChar((int)a - 48);<br />
+b = Convert.ToChar((int)b - 48);<br />
+int c = 0;<br />
+switch (operate)<br />
+{<br />
+case '+': c = a + b + 48;<br />
+break;<br />
+case '-': c = a - b + 48;<br />
+break;<br />
+case '*': c = a * b + 48;<br />
+break;<br />
+case '/': c = a / b + 48;<br />
+break;<br />
+}<br />
+return Convert.ToChar(c);<br />
+}<br />
+#endregion<br />
+[/code]</p>
+<p>在研究一下两种针对中缀表达式求值的方法后我们可以通过思考得到一些结论，首先人脑的计算方式在计算机中并不是最优化的方法，除了递归调用带来的性能损失，对表达式多次遍历也是会带来性能损失。而先转换到后缀表达式后在对其进行求值则避免了上述问题，提高了整体的计算的性能。</p>
 <p>由于中缀表达式在我们看来更为习惯，但是后缀表达式在计算中的优势，所以编译程序常把程序源代码中的中缀表达式转换为后缀表达式再进行运算。当时看到这里的时候也想过为什么编译为什么不采用前缀表达式，后来想了一下前一篇BLOG讲到过前缀的扫描方向是从右至左，所以在程序中处理的话可能相对于后缀表达式不是很方便，所以后缀是最合适的选择。</p>
         </div>
         <!-- /.entry-content -->

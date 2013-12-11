@@ -102,8 +102,49 @@
             }
         }
         return max;
-    }
-~~~~</p>
+    }</p>
+<div class="highlight"><pre><span class="err">另外关于</span><span class="mf">2.14</span><span class="err">的扩展问题一也想在这里提一下，书上给出的思路貌似有点问题，我现在把我整理的思路提出来。首先求出没有同时经过首尾的最大和，这个可以用上面提到的方法做，然后我们需要求出经过首尾的最大和，但是可以看到全部节点的和是一个定值，这个问题其实可以转换为求出一个没有同时经过首尾的最小和，求出来以后用总数减去求出的最小值，然后拿这个值跟没有经过首尾的最大和进行比较，这样就能正确的求出结果。而这两个问题其实十分类似，所以其实可以放到一个</span><span class="k">for</span><span class="err">循环中完成，具体的代码这里就不写了。</span>
+<span class="nl">Title:</span> <span class="err">编程之美</span><span class="mf">2.14</span><span class="err">学习笔记</span>
+<span class="nl">Date:</span> <span class="mi">2011</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">17</span>
+<span class="nl">Author:</span> <span class="n">MichaelYin</span>
+<span class="nl">Category:</span> <span class="err">未分类</span>
+<span class="nl">Slug:</span> <span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="n">bc</span><span class="o">%</span><span class="mi">96</span><span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="n">a8</span><span class="o">%</span><span class="mi">8</span><span class="n">b</span><span class="o">%</span><span class="n">e4</span><span class="o">%</span><span class="n">b9</span><span class="o">%</span><span class="mi">8</span><span class="n">b</span><span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="n">be</span><span class="o">%</span><span class="mf">8e2</span><span class="o">-</span><span class="mi">14</span><span class="o">%</span><span class="n">e5</span><span class="o">%</span><span class="n">ad</span><span class="o">%</span><span class="n">a6</span><span class="o">%</span><span class="n">e4</span><span class="o">%</span><span class="n">b9</span><span class="o">%</span><span class="n">a0</span><span class="o">%</span><span class="n">e7</span><span class="o">%</span><span class="n">ac</span><span class="o">%</span><span class="mi">94</span><span class="o">%</span><span class="n">e8</span><span class="o">%</span><span class="n">ae</span><span class="o">%</span><span class="n">b0</span>
+
+<span class="err">再看编程之美</span><span class="mf">2.14</span><span class="err">的时候发现了一个书上没有讲到的思路，就在此记录一下，也希望能给读者扩宽一下思路。</span>
+
+<span class="mf">2.14</span><span class="err">的问题非常简单，就是给定一个数组，求这个数组的最大子数组之和。</span>
+
+<span class="err">书上的解法我就不赘述了，在这里主要讲一下我想到的思路。子数组之和最大，肯定有一个开始的元素，和一个结束的元素，特殊一点的话，两个是一个元素，这种特殊情况下最大子数组其实就是一个数了。然后最大从数组第一个数开始我们求和，从第一个元素到第</span><span class="n">N</span><span class="err">个元素，我们可以建立一个数组专门来存储这个求出来的和，而求出的和的右边到左边差距最大的情况的时候，我们就可以根据此得出最大子数组的和。</span>
+
+<span class="err">在遍历的过程中，我们需要定义一个变量来存储算出来的最小的和，因为我们想加的和与最小的和的差值才有可能求出最大的子数组的和。比如我们已经有了一个最小的和</span><span class="n">minSum</span><span class="p">,</span><span class="err">如果遍历过程中遇到了比这小的，那么我们就需要把这个进行替换。对于初始化的情况，我们的最小的和应该是为</span><span class="mi">0</span><span class="err">，这样就把每个数字都包含进来了。</span>
+
+<span class="err">程序运行的时候是从里面已经存在了一个元素开始的。这里需要注意的是</span><span class="n">minSum</span><span class="err">的处理，如果第一个元素是小于零的话相当于第一个</span><span class="n">sumOfArray</span><span class="err">求出的是小于</span><span class="mi">0</span><span class="err">的，那么我们就需要把</span><span class="n">minSum</span><span class="err">换成这个小于</span><span class="mi">0</span><span class="err">的数字。然后开始遍历操作。</span>
+
+<span class="err">遍历过程中总是将求出的和与</span><span class="n">minSum</span><span class="err">进行比较，如果能大于最大的那个差值则进行替换，最后返回的就是我们需要求出的子数组之和的最大值。</span>
+
+<span class="err">下面贴出我用</span><span class="n">Java</span><span class="err">实现的代码</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+  <span class="n">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">Test1</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">array</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">sumOfArray</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">array</span><span class="p">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">sumOfArray</span> <span class="o">+=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">sumOfArray</span> <span class="o">&lt;</span> <span class="n">min</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">min</span> <span class="o">=</span> <span class="n">sumOfArray</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">sumOfArray</span> <span class="o">-</span> <span class="n">min</span> <span class="o">&gt;</span> <span class="n">max</span><span class="p">)</span>
+                    <span class="n">max</span> <span class="o">=</span> <span class="n">sumOfArray</span> <span class="o">-</span> <span class="n">min</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">max</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
 <p>另外关于2.14的扩展问题一也想在这里提一下，书上给出的思路貌似有点问题，我现在把我整理的思路提出来。首先求出没有同时经过首尾的最大和，这个可以用上面提到的方法做，然后我们需要求出经过首尾的最大和，但是可以看到全部节点的和是一个定值，这个问题其实可以转换为求出一个没有同时经过首尾的最小和，求出来以后用总数减去求出的最小值，然后拿这个值跟没有经过首尾的最大和进行比较，这样就能正确的求出结果。而这两个问题其实十分类似，所以其实可以放到一个for循环中完成，具体的代码这里就不写了。</p>
         </div>
         <!-- /.entry-content -->

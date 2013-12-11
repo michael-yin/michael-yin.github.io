@@ -154,6 +154,88 @@ private void Load()
 
 <p>另外一个问题就是我在Bugnet系列的<a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784803.html">一篇文章</a>中提到的是否必须一定要用单例模式的问题，Bugnet对于DAL层采用了单例模式的实现方式，当时我并不知道Bugnet
 里的那个用法就是单例模式，当时就是觉得为什么不直接写成静态方法调用呢？那样也没什么问题，而且看的不是也很清楚么。到网上搜了一下，感觉大家也是各有说法，比如这个<a href="http://www.javaeye.com/topic/8400">Javaeye讨论帖</a>，再比如这个<a href="http://topic.csdn.net/t/20040823/11/3300427.html">CSDN的讨论帖</a>其中分歧在于大家对于需不需要完全OO的观点，有的人觉得静态方法对于OO来说实现方式太过于丑陋，而有的说做的事情本质其实差不多，一定要追求OO么？</p>
+<p>虽然后来决定以后类似的情况用单例模式来做，但是如果你问我以前我问的那个问题，我自己说实话也不能说服我自己，希望有朝一日自己能基于自己的经验提出自己的看法。
+Title: BlogEngine中的BlogSettings
+Date: 2010-11-26 12:44
+Author: MichaelYin
+Category: 未分类
+Slug: blogengine%e4%b8%ad%e7%9a%84blogsettings</p>
+<p>BlogEngine中的BlogSettings这个类是用来提供整个系统的设置参数的，参数的读取采用的是反射获取属性名称，然后遍历进行赋值，个人觉得这段代码值得学习</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+private void Load()
+        {
+            Type settingsType = this.GetType();</p>
+<div class="highlight"><pre>        <span class="c1">//------------------------------------------------------------</span>
+        <span class="c1">//  Enumerate through individual settings nodes</span>
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Specialized</span><span class="p">.</span><span class="n">StringDictionary</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">Providers</span><span class="p">.</span><span class="n">BlogService</span><span class="p">.</span><span class="n">LoadSettings</span><span class="p">();</span>
+
+        <span class="n">foreach</span> <span class="p">(</span><span class="n">string</span> <span class="n">key</span> <span class="n">in</span> <span class="n">dic</span><span class="p">.</span><span class="n">Keys</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">//------------------------------------------------------------</span>
+            <span class="c1">//  Extract the setting&#39;s name/value pair</span>
+            <span class="c1">//------------------------------------------------------------</span>
+            <span class="n">string</span> <span class="n">name</span> <span class="o">=</span> <span class="n">key</span><span class="p">;</span>
+            <span class="n">string</span> <span class="n">value</span> <span class="o">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+
+            <span class="c1">//------------------------------------------------------------</span>
+            <span class="c1">//  Enumerate through public properties of this instance</span>
+            <span class="c1">//------------------------------------------------------------</span>
+            <span class="n">foreach</span> <span class="p">(</span><span class="n">PropertyInfo</span> <span class="n">propertyInformation</span> <span class="n">in</span> <span class="n">settingsType</span><span class="p">.</span><span class="n">GetProperties</span><span class="p">())</span>
+            <span class="p">{</span>
+                <span class="c1">//------------------------------------------------------------</span>
+                <span class="c1">//  Determine if configured setting matches current setting based on name</span>
+                <span class="c1">//------------------------------------------------------------</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">propertyInformation</span><span class="p">.</span><span class="n">Name</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">StringComparison</span><span class="p">.</span><span class="n">OrdinalIgnoreCase</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="c1">//------------------------------------------------------------</span>
+                    <span class="c1">//  Attempt to apply configured setting</span>
+                    <span class="c1">//------------------------------------------------------------</span>
+                    <span class="n">try</span>
+                    <span class="p">{</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">propertyInformation</span><span class="p">.</span><span class="n">CanWrite</span><span class="p">)</span>
+                        <span class="p">{</span>
+                            <span class="n">propertyInformation</span><span class="p">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ChangeType</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">propertyInformation</span><span class="p">.</span><span class="n">PropertyType</span><span class="p">,</span> <span class="n">CultureInfo</span><span class="p">.</span><span class="n">CurrentCulture</span><span class="p">),</span> <span class="n">null</span><span class="p">);</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                    <span class="n">catch</span>
+                    <span class="p">{</span>
+                        <span class="c1">// TODO: Log exception to a common logging framework?</span>
+                    <span class="p">}</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">StorageLocation</span> <span class="o">=</span> <span class="n">Providers</span><span class="p">.</span><span class="n">BlogService</span><span class="p">.</span><span class="n">GetStorageLocation</span><span class="p">();</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="err">在</span><span class="n">admin</span><span class="err">中对配置进行修改了以后，修改的是</span><span class="n">BlogEngine</span><span class="err">中的那个唯一的对象，然后调用</span><span class="n">Save</span><span class="err">方法通过反射重新生成一个</span><span class="n">StringDictionary</span><span class="err">然后将里面的数据存储数据库中完成对系统参数的修改。</span>
+
+<span class="err">另外一个就是它采用了单例模式这个设计模式，借着这个机会好好学习了下，这里推荐两篇个人觉得很不错的文章</span><span class="p">[</span><span class="err">单件模式</span><span class="p">](</span><span class="n">http</span><span class="o">:</span><span class="c1">//www.cnblogs.com/Terrylee/archive/2005/12/09/293509.html)和这篇[单例模式（Singleton）](http://www.cnblogs.com/qinbaobei/archive/2010/05/07/1729376.html)，当然看完了以后可能也会和我一样产生一些疑问。比如说为什么BlogSettings没有考虑多线程的问题？它里面的代码直接就是</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+      <span class="n">public</span> <span class="k">static</span> <span class="n">BlogSettings</span> <span class="n">Instance</span>
+        <span class="p">{</span>
+            <span class="n">get</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">blogSettingsSingleton</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">blogSettingsSingleton</span> <span class="o">=</span> <span class="n">new</span> <span class="n">BlogSettings</span><span class="p">();</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">blogSettingsSingleton</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</pre></div>
+
+
+<p>另外一个问题就是我在Bugnet系列的<a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784803.html">一篇文章</a>中提到的是否必须一定要用单例模式的问题，Bugnet对于DAL层采用了单例模式的实现方式，当时我并不知道Bugnet
+里的那个用法就是单例模式，当时就是觉得为什么不直接写成静态方法调用呢？那样也没什么问题，而且看的不是也很清楚么。到网上搜了一下，感觉大家也是各有说法，比如这个<a href="http://www.javaeye.com/topic/8400">Javaeye讨论帖</a>，再比如这个<a href="http://topic.csdn.net/t/20040823/11/3300427.html">CSDN的讨论帖</a>其中分歧在于大家对于需不需要完全OO的观点，有的人觉得静态方法对于OO来说实现方式太过于丑陋，而有的说做的事情本质其实差不多，一定要追求OO么？</p>
 <p>虽然后来决定以后类似的情况用单例模式来做，但是如果你问我以前我问的那个问题，我自己说实话也不能说服我自己，希望有朝一日自己能基于自己的经验提出自己的看法。</p>
         </div>
         <!-- /.entry-content -->

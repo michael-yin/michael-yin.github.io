@@ -81,9 +81,9 @@
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/08/201108252116205982.png"><img alt="201108252116205982" src="http://blog.michaelyin.info/wp-content/uploads/2011/08/201108252116205982.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/08/201108252116205982.png"><img alt="201108252116205982" src="http://blog.michaelyin.info/images/2011/08/201108252116205982.png" /></a></p>
 <p>Heritrix把Frontier抽象成了interface，创建新的Frontier只需要实现这个接口就行。里面两个很重要的方法一个是schedule()，该方法接受一个URI并存起来以后进行抓取，另外一个是next，改方法返回一个URI供抓取，另外finished这个方法用来处理一个已经处理完毕的uri</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/08/201110071040391231.png"><img alt="201110071040391231" src="http://blog.michaelyin.info/wp-content/uploads/2011/08/201110071040391231.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/08/201110071040391231.png"><img alt="201110071040391231" src="http://blog.michaelyin.info/images/2011/08/201110071040391231.png" /></a></p>
 <p>对于待抓取的URI需要进行一个排序以决定被抓取URI的先后顺序，所以又必要在Frontier中实现一种策略在避免对于一个主机进行过度抓取，在Heritrix中使用了一种称为queue的概念，Frontier中有着若干个queue,将待抓取的uri根据一定的算法算出一个key
 ,然后根据这个key将url放入到queue中去，每一个queuq中的url的key都是相同的当一个queue中有uri正在抓取的时候，其他toethread是不能从中获取uri的，这样就有效的防止了对一个queue的过渡的抓取，我们可以配置heritrix使用的策略，比如根据hostname进行区分，或者IP地址等等。默认情况下，使用的是hostname。这个根据url得到key的类具体是由Queue-assignment-policy来管理的。</p>
 <p>下面来具体的说说Frontier中queue的实现，WorkQueueFrontier这个类实现了关于queue的一些逻辑，里面提供了一些方法，我们只需要对其进行覆写就可以，BdbFrontier对部分方法进行了覆写，使用了Berkeley
@@ -223,14 +223,14 @@ private transient ...</p>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
@@ -238,17 +238,32 @@ private transient ...</p>
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/linux.html">
                     <span class="label label-default">Linux</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/google-map.html">
                     <span class="label label-default">Google Map</span>
@@ -256,29 +271,14 @@ private transient ...</p>
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">Python</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">Python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>

@@ -84,7 +84,7 @@
 </div><!-- /.post-info --></div>
             <p>BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。</p>
 <p>在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016552366.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /></a></p>
 <p>post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。</p>
 <p>页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。</p>
 <p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
@@ -121,7 +121,54 @@
 
 <p>总的来说把post.aspx的功能拆开来看就行，PostViewBase是和Post显示相关的类，通过theme中的文件夹中的用户控件动态添加到post中，而BlogEngine.Core.Web.Controls.CommentViewBase则是管理的comment的显示，通过和theme中的CommentView.ascx动态添加到User
 controls中的CommentView.ascx(该控件在post.aspx)中来实现根据相应的样式名来添加相应的用户控件，并且实现良好的扩展性。</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016566444.png"><img alt="201103131016566444" src="http://blog.michaelyin.info/wp-content/uploads/2011/03/201103131016566444.png" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/201103131016566444.png"><img alt="201103131016566444" src="http://blog.michaelyin.info/images/2011/03/201103131016566444.png" /></a></p>
+<p>至于site.master的加载则是在所有需要使用统一样式的页面里面的page_load中写类似上述的代码，不过使用一个页面基类可以更好的完成这个功能，所以BlogBasePage中完成了这个功能。
+Title: BlogEngine中自定义主题的实现
+Date: 2011-03-13 02:17
+Author: MichaelYin
+Category: .Net
+Tags: BlogEngine
+Slug: blogengine%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%bb%e9%a2%98%e7%9a%84%e5%ae%9e%e7%8e%b0</p>
+<p>BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。</p>
+<p>在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。</p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /></a></p>
+<p>post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。</p>
+<p>页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+                string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/PostView.ascx";</p>
+<div class="highlight"><pre>            <span class="n">PostViewBase</span> <span class="n">postView</span> <span class="o">=</span> <span class="p">(</span><span class="n">PostViewBase</span><span class="p">)</span><span class="n">LoadControl</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+            <span class="n">postView</span><span class="p">.</span><span class="n">Post</span> <span class="o">=</span> <span class="n">Post</span><span class="p">;</span>
+            <span class="n">postView</span><span class="p">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">Post</span><span class="p">.</span><span class="n">Id</span><span class="p">.</span><span class="n">ToString</span><span class="p">().</span><span class="n">Replace</span><span class="p">(</span><span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
+            <span class="n">postView</span><span class="p">.</span><span class="n">Location</span> <span class="o">=</span> <span class="n">ServingLocation</span><span class="p">.</span><span class="n">SinglePost</span><span class="p">;</span>
+            <span class="n">pwPost</span><span class="p">.</span><span class="n">Controls</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">postView</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">post</span><span class="p">.</span><span class="n">aspx</span><span class="err">用到了在</span><span class="n">User</span>
+<span class="n">Controls</span><span class="err">文件夹下有</span><span class="n">CommentView</span><span class="err">的用户控件（这个和</span><span class="n">theme</span><span class="err">中的同名控件的功能略有不同，注意区别），这个控件的功能主要是提供显示</span><span class="n">Post</span><span class="err">对应的</span><span class="n">comment</span><span class="err">和提供添加</span><span class="n">comment</span><span class="err">的功能。它通过</span><span class="n">CallBack</span><span class="err">的机制来使得无刷新的动态添加</span><span class="n">comment</span><span class="err">成为可能。</span><span class="n">Callback</span><span class="err">中返回的字符串也是动态读取</span><span class="n">Theme</span><span class="err">中相应的主题的</span><span class="n">CommentView</span><span class="p">.</span><span class="n">ascs</span><span class="p">.</span>
+
+<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.0</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
+<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
+     <span class="n">string</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Utils</span><span class="p">.</span><span class="n">RelativeWebRoot</span> <span class="o">+</span> <span class="s">&quot;themes/&quot;</span> <span class="o">+</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Theme</span> <span class="o">+</span> <span class="s">&quot;/CommentView.ascx&quot;</span><span class="p">;</span>
+
+        <span class="n">CommentViewBase</span> <span class="n">control</span> <span class="o">=</span> <span class="p">(</span><span class="n">CommentViewBase</span><span class="p">)</span><span class="n">LoadControl</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+        <span class="n">control</span><span class="p">.</span><span class="n">Comment</span> <span class="o">=</span> <span class="n">comment</span><span class="p">;</span>
+        <span class="n">control</span><span class="p">.</span><span class="n">Post</span> <span class="o">=</span> <span class="n">Post</span><span class="p">;</span>
+
+        <span class="n">using</span> <span class="p">(</span><span class="n">StringWriter</span> <span class="n">sw</span> <span class="o">=</span> <span class="n">new</span> <span class="n">StringWriter</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="n">control</span><span class="p">.</span><span class="n">RenderControl</span><span class="p">(</span><span class="n">new</span> <span class="n">HtmlTextWriter</span><span class="p">(</span><span class="n">sw</span><span class="p">));</span>
+            <span class="n">_Callback</span> <span class="o">=</span> <span class="n">sw</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+        <span class="p">}</span>
+</pre></div>
+
+
+<p>总的来说把post.aspx的功能拆开来看就行，PostViewBase是和Post显示相关的类，通过theme中的文件夹中的用户控件动态添加到post中，而BlogEngine.Core.Web.Controls.CommentViewBase则是管理的comment的显示，通过和theme中的CommentView.ascx动态添加到User
+controls中的CommentView.ascx(该控件在post.aspx)中来实现根据相应的样式名来添加相应的用户控件，并且实现良好的扩展性。</p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/201103131016566444.png"><img alt="201103131016566444" src="http://blog.michaelyin.info/images/2011/03/201103131016566444.png" /></a></p>
 <p>至于site.master的加载则是在所有需要使用统一样式的页面里面的page_load中写类似上述的代码，不过使用一个页面基类可以更好的完成这个功能，所以BlogBasePage中完成了这个功能。</p>
         </div>
         <!-- /.entry-content -->

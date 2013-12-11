@@ -180,7 +180,132 @@ checkio([[9, 7], [2, 5], [5, 3], [2, 5]])<br />
 <p>1：计算过程中基本不可避免的会牵扯到浮点数的计算，而这种计算需要小心小心再小心。</p>
 <p>2：浮点数中的误差等等问题在判断是否相交的时候是很麻烦的，我在程序里面使用了round让测试用例跑过了，但是并不意味着这样做就是合适的。</p>
 <p>在查看checkio别人的slution的时候，发现此类题还有另外一种解法，即改变坐标系，用另外一种思路来考虑此问题，而且不用担心相交点的判定问题</p>
-<p><a href="http://blog.michaelyin.info/wp-content/uploads/2013/07/image7.png"><img alt="image" src="http://blog.michaelyin.info/wp-content/uploads/2013/07/image_thumb7.png" title="image" /></a></p>
+<p><a href="http://blog.michaelyin.info/images/2013/07/image7.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb7.png" title="image" /></a></p>
+<p>如果直线AB和W1W2相交，那么AB的角度是是介于AW2和AW1的</p>
+<p>[code lang="py"]<br />
+import math<br />
+def checkio(data):<br />
+xw1, yw1 = data[0]<br />
+xw2, yw2 = data[1]<br />
+xa, ya = data[2]<br />
+xb, yb = data[3]</p>
+<p>w1 = math.atan2(yw1-ya, xw1-xa) % (2*math.pi)<br />
+w2 = math.atan2(yw2-ya, xw2-xa) % (2*math.pi)<br />
+b = math.atan2(yb-ya, xb-xa) % (2*math.pi)</p>
+<p>l, r = min(w1, w2), max(w1, w2)<br />
+l, r = (r, (l + 2*math.pi)) if (l + 2*math.pi - r &lt; r - l) else (l,
+r)</p>
+<p># point on the wall edge<br />
+if data[2] in data[:2]: return True</p>
+<p># point on the wall<br />
+if abs((r-l) - math.pi) &lt; 1e-10: return True</p>
+<p># regular business<br />
+return (l &lt;= b &lt;= r) or (l &lt;= b + 2*math.pi &lt;= r)<br />
+if __name__ == '__main__':<br />
+assert checkio([[0,0], [0,2], [5,1], [3,1]]) == True, "First"<br />
+[/code]
+Title: 直线相交问题
+Date: 2013-07-14 22:43
+Author: MichaelYin
+Category: 算法相关
+Tags: bullet-and-wall, checkio
+Slug: %e7%9b%b4%e7%ba%bf%e7%9b%b8%e4%ba%a4%e9%97%ae%e9%a2%98</p>
+<p>最近在checkio上扫题的时候，碰到一个判断直线是否相交的问题，题目请<a href="http://www.checkio.org/mission/task/info/bullet-and-wall/python-3/">猛击这里</a>，这个题目以前上学的时候做到手软的好么，二话不说直接开写，先根据坐标上的两个点，算出斜率，然后得出直线表达式，最后根据两个直线表达式算出是否存在相交点，然后加上斜率为无穷大的情况等等，最后写出的代码如下。</p>
+<p>[code lang="py"]<br />
+def checkio(data):<br />
+xw1, yw1 = data[0]<br />
+xw2, yw2 = data[1]<br />
+xa, ya = data[2]<br />
+xb, yb = data[3]</p>
+<p>if(xw1 - xw2 == 0 and xb - xa == 0):<br />
+# vertical vertical<br />
+return False<br />
+elif(xw1 - xw2 == 0 and xb - xa != 0):<br />
+# ver hor<br />
+slope, d = cal_line(xa, ya, xb, yb)<br />
+y = xw1 * slope + d<br />
+dir = direction(data[2], data[3])<br />
+if(min(yw1, yw2) &lt;= y &lt;= max (yw1, yw2) and dir == 'left' and xw1 &lt;=
+xa):<br />
+return True<br />
+elif((min(yw1, yw2) &lt;= y &lt;= max (yw1, yw2) and dir == 'right' and xw1
+>= xa)):<br />
+return True<br />
+else:<br />
+return False<br />
+elif(xb - xa == 0 and xw1 - xw2 != 0):<br />
+# hor ver<br />
+slope, d = cal_line(xw1, yw1, xw2, yw2)<br />
+y = xa * slope + d<br />
+dir = direction(data[2], data[3])<br />
+if(min(xw1, xw2) &lt;= xa &lt;= max (xw1, xw2)and dir == 'down' and y &lt;=
+ya):<br />
+return True<br />
+elif(min(xw1, xw2) &lt;= xa &lt;= max (xw1, xw2) and dir == 'up' and y >=
+ya):<br />
+return True<br />
+else:<br />
+return False<br />
+else:<br />
+# other<br />
+return common(data)</p>
+<p>def common(data):<br />
+# common circumstance<br />
+xw1, yw1 = data[0]<br />
+xw2, yw2 = data[1]<br />
+xa, ya = data[2]<br />
+xb, yb = data[3]</p>
+<p>slope_wall = float(yw1 - yw2) / float(xw1 - xw2)<br />
+slopex = float(yb - ya) / float(xb - xa)</p>
+<p>d_wall = yw2 - slope_wall * xw2<br />
+d_x = yb - slopex * xb</p>
+<p>dir = direction(data[2], data[3])</p>
+<p>if(slope_wall == slopex and d_x != d_wall):<br />
+return False<br />
+elif(slope_wall == slopex and d_x == d_wall):<br />
+if(dir == "left" and min(xw1, xw2) &lt;= xa):<br />
+return True<br />
+elif(dir == "right" and max(xw1, xw2) >= xa):<br />
+return True<br />
+else:<br />
+return False<br />
+else:<br />
+point_x = round(float(d_wall - d_x) / float(slopex - slope_wall),
+1)<br />
+point_y = round(point_x * slope_wall + d_wall, 1)</p>
+<p>if(dir == "right" and point_x >= xa and min(xw1, xw2) &lt;= point_x &lt;=
+max(xw1, xw2) and min(yw1, yw2) &lt;= point_y &lt;= max(yw1, yw2)):<br />
+return True<br />
+elif(dir == "left" and point_x &lt;= xa and min(xw1, xw2) &lt;= point_x &lt;=
+max(xw1, xw2) and min(yw1, yw2) &lt;= point_y &lt;= max(yw1, yw2)):<br />
+return True<br />
+else:<br />
+return False</p>
+<p>def direction(start, end):<br />
+xa, ya = start<br />
+xb, yb = end</p>
+<p>if(xa == xb and xa > xb):<br />
+return 'down'<br />
+elif(xa == xb and xa &lt; xb):<br />
+return 'up'<br />
+elif(xa != xb and xa > xb):<br />
+return 'left'<br />
+elif(xa != xb and xa &lt; xb):<br />
+return 'right'</p>
+<p>def cal_line(x1, y1, x2, y2):<br />
+slope = float(y1 - y2) / float(x1 - x2)<br />
+d = y1 - slope * x1<br />
+return [slope, d]</p>
+<p># These "asserts" using only for self-checking and not necessary for
+auto-testing<br />
+if __name__ == '__main__':<br />
+checkio([[9, 7], [2, 5], [5, 3], [2, 5]])<br />
+[/code]</p>
+<p>在调试了若干遍以后，程序是能跑起来了，但是这个程序，有这样几个问题。</p>
+<p>1：计算过程中基本不可避免的会牵扯到浮点数的计算，而这种计算需要小心小心再小心。</p>
+<p>2：浮点数中的误差等等问题在判断是否相交的时候是很麻烦的，我在程序里面使用了round让测试用例跑过了，但是并不意味着这样做就是合适的。</p>
+<p>在查看checkio别人的slution的时候，发现此类题还有另外一种解法，即改变坐标系，用另外一种思路来考虑此问题，而且不用担心相交点的判定问题</p>
+<p><a href="http://blog.michaelyin.info/images/2013/07/image7.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb7.png" title="image" /></a></p>
 <p>如果直线AB和W1W2相交，那么AB的角度是是介于AW2和AW1的</p>
 <p>[code lang="py"]<br />
 import math<br />
