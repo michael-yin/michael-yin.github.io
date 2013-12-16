@@ -21,6 +21,8 @@
     <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
     <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
     
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin Blog ATOM Feed"/>
 
 </head>
 <body>
@@ -61,7 +63,37 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2013/12/10/How-to-hack-python-module-code/">How to hack python module code</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/">Install Nodejs on Ubuntu</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        14 Dec 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/nodejs.html">
+    <span class="label label-default">NodeJs</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>I just installed Nodejs on ubuntu through package manager <a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager">(more detail
+)</a> and found there were some problems.</p>
+<p>When using npm might get something like this</p>
+<div class="highlight"><pre>npm ERR! Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span>
+npm ERR!  <span class="o">{</span> <span class="o">[</span>Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span><span class="o">]</span>
+npm ERR!   errno: 3,
+npm ...</pre></div>
+                    <a href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2013/12/10/Make-python-module-editable/">Make python module editable</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -72,14 +104,14 @@
 
 <span class="published">
 <i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/python.html">
-    <span class="label label-default">Python</span>
+<a href="http://blog.michaelyin.info/tag/pip.html">
+    <span class="label label-default">pip</span>
 </a>
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><h2>Intro</h2>
-<p>There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The package code is in ...</p>
-                    <a href="http://blog.michaelyin.info/2013/12/10/How-to-hack-python-module-code/">
+                <div class="summary"><h3>Intro</h3>
+<p>There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The package code would be ...</p>
+                    <a href="http://blog.michaelyin.info/2013/12/10/Make-python-module-editable/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -375,40 +407,6 @@ PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">CodeKata-Data Munging</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        03 Mar 2013
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/codekata.html">
-    <span class="label label-default">CodeKata</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。</p>
-<p>第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据</p>
-<p>第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。</p>
-<p>第三个问题是对前两个问题的代码进行分析，提取出共用的部分，进行重用。考察前两个问题的代码，发现文件读取，正则处理，都是很类似的逻辑，所以将这部分进行提取抽象成一个类，将正则，相关参数和文件路径抽象成类，这样的话代码维护性也比较好，废话不多说，上代码</p>
-<p>[code lang="py"]import re</p>
-<p>class Input():<br />
-def __init__(self, path, expression, key, firstindex, secindex):<br />
-self.path = path<br />
-self.expression = expression<br />
-self.key = key<br />
-self ...</p>
-                    <a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev disabled"><a href="#">&laquo;</a></li>
@@ -424,6 +422,8 @@ self ...</p>
                         href="http://blog.michaelyin.info/index5.html">5</a></li>
                 <li class=""><a
                         href="http://blog.michaelyin.info/index6.html">6</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index7.html">7</a></li>
                 <li class="next"><a
                         href="http://blog.michaelyin.info/index2.html">&raquo;</a></li>
         </ul>
@@ -431,18 +431,6 @@ self ...</p>
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
         <ul class="nav">
-            <li class="list-group-item">
-                <h4> <i class="icon-home icon-large"></i>
-                    Social
-                </h4>
-            </li>
-
-            <li>
-                <a href="http://github.com/michael-yin">
-                    <i class="icon-github-sign icon-1x"></i>
-                    Github
-                </a>
-            </li>
 
             <li class="list-group-item">
                 <h4> <i class="icon-home icon-large"></i>
@@ -454,6 +442,12 @@ self ...</p>
                 <a href="http://blog.michaelyin.info/category/java.html">
                     <i class="icon-folder-open icon-large"></i>
                     Java
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/js.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Js
                 </a>
             </li>
             <li>
@@ -507,65 +501,68 @@ self ...</p>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/codekata.html">
                     <span class="label label-default">CodeKata</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
+                <a href="http://blog.michaelyin.info/tag/google-map.html">
+                    <span class="label label-default">Google Map</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/google-map.html">
-                    <span class="label label-default">Google Map</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
                     <span class="label label-default">bullet-and-wall</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">Python</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
             </li> 
 

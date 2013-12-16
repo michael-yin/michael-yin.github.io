@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/net.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2011-03-17T01:28:00+08:00</updated><entry><title>BlogEngine中的Extensinon实现</title><link href="http://blog.michaelyin.info/2011/03/17/blogengine%e4%b8%ad%e7%9a%84extensinon%e5%ae%9e%e7%8e%b0/" rel="alternate"></link><updated>2011-03-17T01:28:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2011-03-17:2011/03/17/blogengine%e4%b8%ad%e7%9a%84extensinon%e5%ae%9e%e7%8e%b0/</id><summary type="html">&lt;p&gt;BlogEngine中提供了比较良好的扩展机制，用户可以通过添加Extension对BlogEngine进行各种功能的添加，而且还可以对各种扩展进行统一的管理，下面就把实现的机制和原理说明一下。&lt;/p&gt;
+&lt;p&gt;ManagedExtension这个类对应了BlogEngine中的Extension,ExtensionSettings是ManagedExtension中的配置信息，而ExtensionParameter则是ExtensionSettings下面的参数信息。需要说明一下的是这三个类都是能够Serializable的，每个Extension的相关的属性，配置信息，配置参数最后都被序列化成了一个XML字符串，存储在数据库中。&lt;/p&gt;
+&lt;p&gt;[code lang="xml"]&lt;br /&gt;
+&amp;lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;br /&gt;
+&amp;lt;ManagedExtension
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&lt;br /&gt;
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"&lt;br /&gt;
+Name="SendCommentMail"&gt;&lt;br /&gt;
+&amp;lt;Version&gt;1.3&amp;lt;/Version&gt;&lt;br /&gt;
+&amp;lt;Priority&gt;0&amp;lt;/Priority&gt;&lt;br /&gt;
+&amp;lt;Description&gt;Sends an e-mail to the blog owner whenever a comment&lt;br /&gt;
+is added&amp;lt;/Description&gt;&lt;br /&gt;
+&amp;lt;Author&gt;BlogEngine.NET&amp;lt;/Author&gt;&lt;br /&gt;
+&amp;lt;AdminPage /&gt;&lt;br /&gt;
+&amp;lt;Enabled&gt;true&amp;lt;/Enabled&gt;&lt;br /&gt;
+&amp;lt;ShowSettings&gt;true&amp;lt;/ShowSettings&gt;&lt;br /&gt;
+&amp;lt;/ManagedExtension&gt;&lt;br /&gt;
+[/code]&lt;/p&gt;
+&lt;p&gt;由于Extension和widget的配置信息都是写在一个数据表中，而且都是以序列化对象的方式，所以BlogEngine在这里也采用了一个相对通用的类结构设计。BlogEngine.Core.DataStore下的ExtensionSettings和WidgetSettings都继承自SettingsBase，而SettingsBase里面有ISettingsBehavior接口使得继承的类可以自己实现添加相应的方法。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/03/20110317092828632.png"&gt;&lt;img alt="20110317092828632" src="http://blog.michaelyin.info/images/2011/03/20110317092828632.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;ExtensionManager这个类提供了关于Extension所需要的管理的功能&lt;/p&gt;
+&lt;p&gt;BlogEngine中的Extension都有ExtensionAttribute，这样在运行的时候就可以通过反射读取Extension相应的一些信息，比如版本号，Description。&lt;/p&gt;
+&lt;p&gt;在项目运行的时候，Global.asax中调用Utils的LoadExtensions方法，该方法通过反射所有的程序集并且从中寻找有ExtensionAttribute的class,然后根据寻找的class到ExtensionManager中查找该Extension是否被启用，如果被启用的话则进行实例化，这样的话会首先执行Extension中的静态构造函数，这样的话Extension就会将处理的方法注册到相应的事件中，这样就完成了一个比较灵活的Extension机制。&lt;/p&gt;
+&lt;p&gt;~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        ArrayList codeAssemblies = CodeAssemblies();
+            List&lt;SortedExtension&gt; sortedExtensions = new List&lt;SortedExtension&gt;();&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;        &lt;span class="n"&gt;foreach&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Assembly&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;codeAssemblies&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;types&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GetTypes&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+            &lt;span class="n"&gt;foreach&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Type&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;types&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;attributes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GetCustomAttributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;typeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ExtensionAttribute&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;foreach&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt; &lt;span class="n"&gt;attribute&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;attribute&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GetType&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ExtensionAttribute&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                    &lt;span class="p"&gt;{&lt;/span&gt;
+                        &lt;span class="n"&gt;ExtensionAttribute&lt;/span&gt; &lt;span class="n"&gt;ext&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ExtensionAttribute&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;attribute&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                        &lt;span class="n"&gt;sortedExtensions&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;SortedExtension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ext&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Priority&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FullName&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+                    &lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+
+            &lt;span class="n"&gt;sortedExtensions&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;delegate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SortedExtension&lt;/span&gt; &lt;span class="n"&gt;e1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SortedExtension&lt;/span&gt; &lt;span class="n"&gt;e2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Priority&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;e2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Priority&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CompareOrdinal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;e1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Priority&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CompareTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Priority&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="p"&gt;});&lt;/span&gt;
+
+            &lt;span class="n"&gt;foreach&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SortedExtension&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sortedExtensions&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ExtensionManager&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ExtensionEnabled&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CreateInstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;~~~~&lt;/p&gt;</summary><category term=".Net"></category><category term="BlogEngine"></category></entry><entry><title>BlogEngine中自定义主题的实现</title><link href="http://blog.michaelyin.info/2011/03/13/blogengine%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%bb%e9%a2%98%e7%9a%84%e5%ae%9e%e7%8e%b0/" rel="alternate"></link><updated>2011-03-13T02:17:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2011-03-13:2011/03/13/blogengine%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%bb%e9%a2%98%e7%9a%84%e5%ae%9e%e7%8e%b0/</id><summary type="html">&lt;p&gt;BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。&lt;/p&gt;
+&lt;p&gt;在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"&gt;&lt;img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。&lt;/p&gt;
+&lt;p&gt;页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。&lt;/p&gt;
+&lt;p&gt;~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+                string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/PostView.ascx";&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;            &lt;span class="n"&gt;PostViewBase&lt;/span&gt; &lt;span class="n"&gt;postView&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PostViewBase&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;LoadControl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="n"&gt;postView&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Post&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;postView&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Id&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ToString&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;Replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Empty&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="n"&gt;postView&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Location&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ServingLocation&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SinglePost&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;pwPost&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;postView&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;aspx&lt;/span&gt;&lt;span class="err"&gt;用到了在&lt;/span&gt;&lt;span class="n"&gt;User&lt;/span&gt;
+&lt;span class="n"&gt;Controls&lt;/span&gt;&lt;span class="err"&gt;文件夹下有&lt;/span&gt;&lt;span class="n"&gt;CommentView&lt;/span&gt;&lt;span class="err"&gt;的用户控件（这个和&lt;/span&gt;&lt;span class="n"&gt;theme&lt;/span&gt;&lt;span class="err"&gt;中的同名控件的功能略有不同，注意区别），这个控件的功能主要是提供显示&lt;/span&gt;&lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="err"&gt;对应的&lt;/span&gt;&lt;span class="n"&gt;comment&lt;/span&gt;&lt;span class="err"&gt;和提供添加&lt;/span&gt;&lt;span class="n"&gt;comment&lt;/span&gt;&lt;span class="err"&gt;的功能。它通过&lt;/span&gt;&lt;span class="n"&gt;CallBack&lt;/span&gt;&lt;span class="err"&gt;的机制来使得无刷新的动态添加&lt;/span&gt;&lt;span class="n"&gt;comment&lt;/span&gt;&lt;span class="err"&gt;成为可能。&lt;/span&gt;&lt;span class="n"&gt;Callback&lt;/span&gt;&lt;span class="err"&gt;中返回的字符串也是动态读取&lt;/span&gt;&lt;span class="n"&gt;Theme&lt;/span&gt;&lt;span class="err"&gt;中相应的主题的&lt;/span&gt;&lt;span class="n"&gt;CommentView&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="o"&gt;~~~~&lt;/span&gt; &lt;span class="p"&gt;{.&lt;/span&gt;&lt;span class="n"&gt;brush&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;csharp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;links&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;collapse&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;.0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gutter&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;light&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ruler&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;smart&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;tabs&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tab&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;.4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;toolbar&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;}&lt;/span&gt;
+     &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Utils&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RelativeWebRoot&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;themes/&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;BlogSettings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Instance&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Theme&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/CommentView.ascx&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+        &lt;span class="n"&gt;CommentViewBase&lt;/span&gt; &lt;span class="n"&gt;control&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;CommentViewBase&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;LoadControl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;control&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Comment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;comment&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;control&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Post&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+        &lt;span class="n"&gt;using&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;StringWriter&lt;/span&gt; &lt;span class="n"&gt;sw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;StringWriter&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;control&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RenderControl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;HtmlTextWriter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+            &lt;span class="n"&gt;_Callback&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ToString&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;总的来说把post.aspx的功能拆开来看就行，PostViewBase是和Post显示相关的类，通过theme中的文件夹中的用户控件动态添加到post中，而BlogEngine.Core.Web.Controls.CommentViewBase则是管理的comment的显示，通过和theme中的CommentView.ascx动态添加到User
+controls中的CommentView.ascx(该控件在post.aspx)中来实现根据相应的样式名来添加相应的用户控件，并且实现良好的扩展性。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/03/201103131016566444.png"&gt;&lt;img alt="201103131016566444" src="http://blog.michaelyin.info/images/2011/03/201103131016566444.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;至于site.master的加载则是在所有需要使用统一样式的页面里面的page_load中写类似上述的代码，不过使用一个页面基类可以更好的完成这个功能，所以BlogBasePage中完成了这个功能。&lt;/p&gt;</summary><category term="BlogEngine"></category></entry><entry><title>这不是基础中的基础么</title><link href="http://blog.michaelyin.info/2011/03/02/%e8%bf%99%e4%b8%8d%e6%98%af%e5%9f%ba%e7%a1%80%e4%b8%ad%e7%9a%84%e5%9f%ba%e7%a1%80%e4%b9%88/" rel="alternate"></link><updated>2011-03-02T16:09:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2011-03-02:2011/03/02/%e8%bf%99%e4%b8%8d%e6%98%af%e5%9f%ba%e7%a1%80%e4%b8%ad%e7%9a%84%e5%9f%ba%e7%a1%80%e4%b9%88/</id><summary type="html">&lt;p&gt;中午在园子里逛的时候看到了一个评论头条的&lt;a href="http://www.cnblogs.com/jirigala/archive/2011/03/01/1968192.html"&gt;博文&lt;/a&gt;，吉日嘎拉纠正了自己的错误认识。里面涉及到的东西说实话确实很基础，不过我看了下评论却没有将问题解释清楚，至于标题借用了老赵的评论。&lt;/p&gt;
+&lt;p&gt;先说说方法表，方法表位于内存中的Loader
+Heap，它包含着类对应的方法，在类加载的时候会在Load
+Heap上创建和相应的类对应的方法表。当类实例化的时候，托管堆上除了将对象实例化所需要的字段分配内存以外，还会给一个叫做TypeHandle的给实例，这样新建的实例就可以根据TypeHandle在Loader
+Heap中找到它所对应的类型的方法表，进而找到对应的方法。&lt;/p&gt;
+&lt;p&gt;在这里借用下Anytao的图。。可能大家看的更懂一些\~&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg"&gt;&lt;img alt="20110303000835615" src="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;到这里停顿一下，说开了实例方法和静态方法其实在内存中都是存储在这个类所对应的方法表上，而且重要的是，它们在内存里面都只有一份，实例调用的方法也是通过TypeHandle找到对应的方法表而完成的方法的调用的。&lt;/p&gt;
+&lt;p&gt;在来说说方法的调用，在大学学过C的都必定折腾过实参，形参，也知道为什么有的时候为什么调用C语言函数的时候要传入指针，如果你把那个地方搞的比较清楚的话那么这里想必也难不倒你了。C语言函数调用的时候是在内存上重新开辟一块区域，然后在这个里面运行函数并进行相应的处理并返回结果，运行完成之后释放所有的局部变量。在.Net里面方法的调用也是这个过程，分配动态内存进行方法的处理。&lt;/p&gt;
+&lt;p&gt;吉日嘎拉博文中纠结的并发还是排队其实仔细想象就会有答案，这两种处理方式产生的原因是因为对资源的占用问题，就是说不同线程里面有没有可能产生资源占用的问题，上面已经说到了方法调用是分配到内存里面进行处理，不同的方法在内存中所处的位置显然是不相同的。所以一般情况下这个是能够并发的，除非是在不同的内存中又涉及到了访问公有区域的位置，比如访问静态变量。&lt;/p&gt;
+&lt;p&gt;到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变\~&lt;/p&gt;</summary></entry><entry><title>闲话Hashtable与Dictionary</title><link href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/" rel="alternate"></link><updated>2011-02-14T14:22:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2011-02-14:2011/02/14/hashtable-dictionary/</id><summary type="html">&lt;p&gt;以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。&lt;/p&gt;
+&lt;p&gt;Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。&lt;/p&gt;
+&lt;h5&gt;链接法(chaining)&lt;/h5&gt;
+&lt;p&gt;在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。&lt;/p&gt;
+&lt;p&gt;链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/02/201102142222064549.png"&gt;&lt;img alt="201102142222064549" src="http://blog.michaelyin.info/images/2011/02/201102142222064549.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h5&gt;开放寻址法(open addressing)&lt;/h5&gt;
+&lt;p&gt;在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。&lt;/p&gt;
+&lt;p&gt;在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key,0)这个槽，如果不为空则探查号+1,继续查下一个槽，直到找到空槽，或者得知散列表已满。查找的过程和插入类似，查找关键字的时候如果我们碰到了空槽，查找就结束，因为如果关键字存在的话，那么也应该会出现在这个地方。&lt;/p&gt;
+&lt;p&gt;开放寻址法中比较特殊的是删除操作，如果删除数据置为null的话，那么就会有一个问题，比如我们插入过程中插入k的时候发现槽i已经被占用，我们插到后面的槽中，如果删除的时候我们简单的将槽i置为null,那么查找的时候关键字k就不会被找到。这个问题我们可以用一个标志位来解决。具体的实现会在下面讲到。&lt;/p&gt;
+&lt;h5&gt;双重散列&lt;/h5&gt;
+&lt;p&gt;开放寻址法的探查方法有多种，在这里只讲一下双重探查，因为这种方法是最好的方法之一，而且它被用在Hashtable中。&lt;/p&gt;
+&lt;p&gt;&lt;mathjax&gt;$$h(k,i) = (h\_{1}(k)+ i\*h\_{2}(k)) mod m$$&lt;/mathjax&gt;&lt;/p&gt;
+&lt;p&gt;这里&lt;mathjax&gt;$$h\_{1}$$&lt;/mathjax&gt;和&lt;mathjax&gt;$$h\_{2}$$&lt;/mathjax&gt;为辅助散列函数，第一次为&lt;mathjax&gt;$$h\_{1}$$&lt;/mathjax&gt;，后续的探查位置在&lt;mathjax&gt;$$h\_{1}$$&lt;/mathjax&gt;的基础上加上偏移量&lt;mathjax&gt;$$h\_{2}$$&lt;/mathjax&gt;,然后对m进行模运算。这里需要提一下的是为了查找整个散列表，&lt;mathjax&gt;$$h\_{2}$$&lt;/mathjax&gt;需要与槽的大小m互质，等下可以看到在Hashtable类中是如何满足这个条件的。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/02/201102142222074450.png"&gt;&lt;img alt="201102142222074450" src="http://blog.michaelyin.info/images/2011/02/201102142222074450.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在解释了链接法和开放寻址法后，来讲讲Hashtable和Dictionary。&lt;/p&gt;
+&lt;p&gt;Hashtable这个类采用的是开放寻址法来解决碰撞的问题，下面来看看Hashtable的一个构造函数&lt;/p&gt;
+&lt;p&gt;~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+            this.loadFactor = 0.72f * loadFactor;
+            double num = ((float) capacity) / this.loadFactor;
+            if (num &amp;gt; 2147483647.0)
+            {
+                throw new ArgumentException(Environment.GetResourceString("Arg_HTCapacityOverflow"));
+            }
+            int num2 = (num &amp;gt; 11.0) ? HashHelpers.GetPrime((int) num) : 11;
+            this.buckets = new bucket[num2];
+            this.loadsize = (int) (this.loadFactor * num2);
+            this.isWriterInProgress = false;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;构造函数会在传入装载因子的基础上乘以&lt;/span&gt;&lt;span class="mf"&gt;0.72&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;这个值是微软认为的比较理想的一个值。上面已经说过了在双重散列时需要保持$$&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="err"&gt;$$和槽的大小&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="err"&gt;互质，我们只需要保证&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="err"&gt;为质数，而$$&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="err"&gt;$$比&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="err"&gt;小，这样就能保证他们总是互质。在这里&lt;/span&gt;&lt;span class="n"&gt;HashHelpers&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GetPrime&lt;/span&gt;&lt;span class="err"&gt;实现的就是传回一个比&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="err"&gt;大的质数，这样能保证&lt;/span&gt;&lt;span class="n"&gt;num2&lt;/span&gt;&lt;span class="err"&gt;这个量总为一个质数，然后把槽数组建立起来。&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GetHash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="mh"&gt;0x7fffffff&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="err"&gt;这个相当于双散列公式中的$$&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="err"&gt;$$，&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;uint&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(((&lt;/span&gt;&lt;span class="n"&gt;seed&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashsize&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)));&lt;/span&gt;&lt;span class="err"&gt;则相当于$$&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="err"&gt;$$&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+
+&lt;span class="err"&gt;槽中的&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;_coll&lt;/span&gt;&lt;span class="err"&gt;用来存放&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="err"&gt;对应的&lt;/span&gt;&lt;span class="n"&gt;hashcode&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;最高位用来标识是否发生了碰撞，发生碰撞的槽的最高位会被置为&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="err"&gt;，搜索的时候，如果最高位为&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="err"&gt;那么搜寻函数会继续搜索，注意&lt;/span&gt;&lt;span class="n"&gt;contains&lt;/span&gt;&lt;span class="err"&gt;方法中的&lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="err"&gt;条件&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+
+&lt;span class="o"&gt;~~~~&lt;/span&gt; &lt;span class="p"&gt;{.&lt;/span&gt;&lt;span class="n"&gt;brush&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;csharp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;links&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;collapse&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;.1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gutter&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;light&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ruler&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;smart&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;tabs&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tab&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;.4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;toolbar&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;}&lt;/span&gt;
+            &lt;span class="k"&gt;do&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;bucket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;buckets&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bucket&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(((&lt;/span&gt;&lt;span class="n"&gt;bucket&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hash_coll&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="mh"&gt;0x7fffffff&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;num3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;KeyEquals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bucket&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;num2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;ulong&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;buckets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Length&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;bucket&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hash_coll&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;num4&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;buckets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Length&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;BTW,我当时看这个方法的时候觉得搜寻函数其实也可以通过跳过bucket.key ==
+this.buckets的项来写，因为在移除方法中如果bucket.hash_coll &amp;lt;
+0的话，那么bucket.key = this.buckets， 后来想了一下，bucket.hash_coll &amp;lt;
+0这样效率更高，这里就不说为什么了，爱思考的朋友在后面写下你的答案吧。&lt;/p&gt;
+&lt;p&gt;在Add方法里面需要对count进行检查，如果达到了设定的值，这个时候需要对Hashtable进行扩容，扩大的容量是当前容量的2倍以上的一个质数，然后对里面已经存在的元素重新进行hash操作，相当于重新插入新的槽数组中。对于Insert方法中的index这个变量的作用我在看代码的时候还是有点疑问的，如果有知道的朋友麻烦在留言中告知。&lt;/p&gt;
+&lt;p&gt;Dictionary&amp;lt;TKey,
+TValue&gt;这个泛型类采用的是链接法来解决碰撞，其中的bucket存储的是指向Entry的下标，Entry就相当于链表中的节点，Entry中存储的又有指向下一个产生碰撞的元素的下标。稍有不同的是，这里的Entry是一个数组。&lt;/p&gt;
+&lt;p&gt;~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+    public struct Entry&lt;TKey, TValue&gt;
+    {
+        public int hashCode;
+        public int next;
+        public TKey key;
+        public TValue value;
+    }
+~~~~&lt;/p&gt;
+&lt;p&gt;Dictionary的Add操作首先计算元素的Hash值，然后根据Hash值寻找bucket,找到相应的bucket后将值存入Entry中，并将bucket指向相应的Entry.查询操作逻辑是根据Hash值找到相应的bucket然后通过bucket到Entry数组中进行寻找。&lt;/p&gt;
+&lt;p&gt;稍微需要提一下的是Remove方法，为了将删除的节点的Entry进行重用，Dictionary中有一个freeList字段，删除的节点的下标值，为赋给freeList，在Add操作的时候如果freeList&gt;0则将数据插入到freeList指向的Entry中去。&lt;/p&gt;</summary><category term="Dictionary"></category><category term="Hashtable"></category></entry><entry><title>闲话动态KML</title><link href="http://blog.michaelyin.info/2010/12/21/%e9%97%b2%e8%af%9d%e5%8a%a8%e6%80%81kml/" rel="alternate"></link><updated>2010-12-21T08:06:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2010-12-21:2010/12/21/%e9%97%b2%e8%af%9d%e5%8a%a8%e6%80%81kml/</id><summary type="html">&lt;p&gt;最近在Google
+Map开发中开发中用到了动态生成KML在地图中动态显示数据，下面来简单的把其中的知识点讲一下。&lt;/p&gt;
+&lt;p&gt;KML是一种采用XML
+语法与格式的语言，它被用来描述地理信息，如点，线，多边形等等，可以被Google
+map和Google Earth等软件识别并显示。我们可以在Google
+Earth把我们感兴趣的一些地点标识出来，然后生成KML文件，通过分享这个文件来让别人在Google
+map或者google earth中看到我们标注的信息。下面是一个简单的KML文件。&lt;/p&gt;
+&lt;p&gt;[code lang="xml"]&lt;br /&gt;
+&amp;lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;br /&gt;
+&amp;lt;kml xmlns="http://www.opengis.net/kml/2.2"&gt;&lt;br /&gt;
+&amp;lt;Placemark&gt;&lt;br /&gt;
+&amp;lt;name&gt;Simple placemark&amp;lt;/name&gt;&lt;br /&gt;
+&amp;lt;description&gt;Attached to the ground. Intelligently places itself&lt;br /&gt;
+at the height of the underlying terrain.&amp;lt;/description&gt;&lt;br /&gt;
+&amp;lt;Point&gt;&lt;br /&gt;
+&amp;lt;coordinates&gt;-122.0822035425683,37.42228990140251,0&amp;lt;/coordinates&gt;&lt;br /&gt;
+&amp;lt;/Point&gt;&lt;br /&gt;
+&amp;lt;/Placemark&gt;&lt;br /&gt;
+&amp;lt;/kml&gt;&lt;br /&gt;
+[/code]&lt;/p&gt;
+&lt;p&gt;Placemark标识地图上的标记，name和description是名字和描述，coordinates是具体的经纬度，这只是一个很简单的KML文件，具体的KML标记可以去&lt;a href="http://code.google.com/apis/kml/documentation/kmlreference.html"&gt;KML
+Reference&lt;/a&gt;查看Google的官方文档。&lt;/p&gt;
+&lt;p&gt;Google
+map支持将KML文件读取将数据进行转换后显示在Map上，由于KML文件必须是外网可以访问的，而开发调试时在本机上完成，所以这里采用了一个折中的办法，在程序中先生成kml文件，然后将生成的kml文件上传到服务器，然后将相应的url改成kml文件的地址。在这里还需要注意的是有些服务器是默认是不支持kml文件的，所以我们需要对kml文件进行注册。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2010/12/201012211605368583.png"&gt;&lt;img alt="201012211605368583" src="http://blog.michaelyin.info/images/2010/12/201012211605368583.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在项目里面新建了一个ashx,在ProcessRequest方法里面生成KML文件，在这里生成的模型采用的是流模型。贴出部分代码&lt;/p&gt;
+&lt;p&gt;[code lang="csharp"]&lt;br /&gt;
+context.Response.Clear();&lt;br /&gt;
+context.Response.ContentType = "text/xml";&lt;br /&gt;
+context.Response.Charset = "utf-8";&lt;br /&gt;
+context.Response.AddHeader("Content-Disposition", "attachment;
+filename=" + "Test.kml");&lt;br /&gt;
+using (XmlTextWriter data = new
+XmlTextWriter(context.Response.OutputStream,
+System.Text.Encoding.UTF8))&lt;br /&gt;
+{&lt;br /&gt;
+//设置输出的缩进&lt;br /&gt;
+data.Formatting = Formatting.Indented;&lt;br /&gt;
+data.WriteStartDocument();&lt;br /&gt;
+data.WriteStartElement("kml");&lt;br /&gt;
+data.WriteAttributeString("xmlns", "http://www.opengis.net/kml/2.2");&lt;br /&gt;
+data.WriteStartElement("Document");&lt;br /&gt;
+data.WriteElementString("name", "name");&lt;br /&gt;
+data.WriteElementString("description", "description");&lt;br /&gt;
+[/code]&lt;/p&gt;
+&lt;p&gt;生成部分和一般的生成XML文件类似，没有太多需要注意的地方。&lt;/p&gt;
+&lt;p&gt;Google
+map读取KML文件后会在地图上显示出来，但是到这里的时候我遇到了一个问题，由于Google
+map采用了缓存，我修改了KML文件点击页面进行刷新似乎数据还是刚才的数据，而没有读取最新的kml来生成地图，而这个缓存我自己并不能控制，找了一下，园子里好像也没有人提到类似问题，后来在Google
+上搜到了一个管用的方法。在脚本中请求KML的url后面跟上一个随机数，比如像这样&lt;/p&gt;
+&lt;p&gt;[code lang="csharp"] var mykmlurl =
+'http://********/files/Test.kml?key=' + Math.random();[/code]&lt;/p&gt;
+&lt;p&gt;这样每次都是读取的最新的数据了.&lt;/p&gt;
+&lt;p&gt;加载kml数据后，地图为了显示所有的kml中的数据，原先设置的center和zoom会失效，这时通过设置KmlLayer的preserveViewport可以解决这个问题。&lt;/p&gt;
+&lt;p&gt;参考资料&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://gis.stackexchange.com/questions/333/how-to-dynamically-refresh-reload-a-kml-layer-in-openlayers"&gt;How to Dynamically refresh / reload a KML layer in
+OpenLayers.&lt;/a&gt;&lt;/p&gt;</summary><category term=".Net"></category><category term="Google Map"></category><category term="Kml"></category></entry><entry><title>Bugnet学习总结（7）杂</title><link href="http://blog.michaelyin.info/2010/08/08/bugnet-study-7/" rel="alternate"></link><updated>2010-08-08T07:39:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2010-08-08:2010/08/08/bugnet-study-7/</id><summary type="html">&lt;p&gt;Bugnet使用Log4net进行日志记录，Config文件夹下面是配置文件。Global.asax文件里面指明了配置文件的路径。基本的使用网上有相关的资料，自己查下基本就可以弄懂。不过我在这里是想说的是我在使用过程中遇到的一个问题。&lt;/p&gt;
+&lt;p&gt;Bugnet中的Log的数据源是数据库中的Log表，在使用过程中我发现有时候有些需要被Log的数据并没有被写入到数据库中，有的时候是没有被立即写入到数据库中。我后来在另外的一个小项目中也使用了Log4net,我在Application_Start事件中写入了记录事件，系统进入后马上进入数据库进行查看，但是数据库中的表中病没有那一条表记录。后来我又在里面把数据源加入了生成txt文件，代码就动了下log4net的配置文件，但是每次改变txt文件都能记录下来，大家又兴趣可以试下，如果知道答案的麻烦请告诉我，谢谢了。。。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.cnblogs.com/dragon/archive/2005/03/24/124254.html"&gt;Log4net学习指南&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bugnet中的rss输出使用的是Rss.net，代码不是很难，有兴趣可以自己去研究下。。&lt;/p&gt;
+&lt;p&gt;在此之前对于单元测试只是知道，对于如何实施并不是很清楚，在Bugnet里面刚好有机会看看别人如何进行单元测试，草草的看了下，发现只是简单的测试了几个类的功能，不过对于像了解单元测试的朋友来说基本上足够了。。。&lt;/p&gt;</summary><category term="Bugnet"></category></entry><entry><title>Bugnet学习总结（6）用户控件</title><link href="http://blog.michaelyin.info/2010/08/01/bugnet-study-6/" rel="alternate"></link><updated>2010-08-01T03:49:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2010-08-01:2010/08/01/bugnet-study-6/</id><summary type="html">&lt;p&gt;用户控件作为Asp.net提供的一种自定义可重用的机制，在很多的项目中都得到了应用，Bugnet里面也使用了很多用户控件。&lt;/p&gt;
+&lt;p&gt;UserControls文件夹里面放的除了fckeditor和xslt外，就是项目里面要用到的用户控件了，代码都不难，下面就把里面的DisplayBugs.ascx拿出来稍微讲一下。该控件在Bugnet中被用到的次数还是很多的，功能也比较简单，就是提供了一个有图表显示，有排序功能的列表。该用户控件是在Gridview的基础上做的开发，增加了一个BugCollection和EventHandler。BugCollection是Gridview需要绑定的数据源，而EventHandler则是使用了事件。调用该事件实现绑定数据的具体操作。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;uc1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;DisplayBugs&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;InProgressBugs&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;HeaderBackColor&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#eeeeee&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;CssClass&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;issues&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;OnRebindCommand&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;DisplayBugs_DataBind&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;runat&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;server&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上面是在MyBugs.aspx中重用DisplayBugs.ascx用户控件的代码，可以看到一行代码基本就搞定，而后台的代码只需要把相应的数据源给用户控件，然后执行DataBind就可以了。像这样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;BugsAssigned&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataSource&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Bug&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GetBugsByCriteria&lt;/span&gt;&lt;span class="p"&gt;(-&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Identity&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Empty&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;BugsAssigned&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataBind&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;需要在这里提到的一点是在这里Gridview绑定数据使用的是自带的分页，其实现的机制是将数据首先全部从数据库中查出来然后全部给gvw,gvw然后根据currentpageindex从中选取需要的数据，不要的数据放在内存中，这样的实现方式在数据量小的时候还好，在大数据量的时候是有很大的影响的。&lt;a href="http://www.cnblogs.com/lovecherry/archive/2006/08/25/486077.html"&gt;具体情况请点击这里&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Administration文件夹中的AddProject.aspx页面实现了一种动态加载用户控件的技术。根据用户操作到第几步动态加载相应的用户控件进行显示，这些用户控件实现IEditProjectControl这个自定义接口。方便进行操作。Asp.net中的Wizard好像也可以实现这个类似的功能，有时间看一下。。&lt;/p&gt;</summary><category term="Bugnet"></category></entry><entry><title>Bugnet学习总结（5）逻辑层</title><link href="http://blog.michaelyin.info/2010/07/25/bugnet-study-5/" rel="alternate"></link><updated>2010-07-25T12:34:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2010-07-25:2010/07/25/bugnet-study-5/</id><summary type="html">&lt;p&gt;Bugnet的逻辑层在在BugNET.BusinessLogicLayer这个namespace下，大多数类基本上是和数据库中的表相对应的，类里面一般就私有变量，方法，和属性，类中的方法调用DAL层的方法完成CRUD操作，没什么太复杂的地方。&lt;/p&gt;
+&lt;p&gt;把几个不一样的类稍微提一下，BugCollection是一个集合类，继承自CollectionBase,提供了排序的方法，里面包含的类实现了IComparer接口。&lt;/p&gt;
+&lt;p&gt;Globals这个类将公用的变量，数组，枚举放在了里面，方便编程的时候直接调用。&lt;/p&gt;
+&lt;p&gt;HostSettings是读取项目配置的类，从DAL读取后数据放在了Cache中，值得借鉴。&lt;/p&gt;
+&lt;p&gt;Mail是发送邮件的类，用xslt进行转换内容，然后调用.Net自带的函数进行邮件发送。&lt;/p&gt;</summary><category term="Bugnet"></category></entry><entry><title>Bugnet学习总结（4）数据访问层</title><link href="http://blog.michaelyin.info/2010/07/25/bugnet-study-4/" rel="alternate"></link><updated>2010-07-25T11:52:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2010-07-25:2010/07/25/bugnet-study-4/</id><summary type="html">&lt;p&gt;Bugnet由于功能比较简单，所以在系统的架构上也很简单，没什么过于复杂的地方。&lt;/p&gt;
+&lt;p&gt;DAL文件夹中的DataFactory文件通过读取Web.config中的Appsetting中的值反射生成生成数据库连接和操作对象。DataHelper，里面则是一些常用的Ado操作，进行了简单的封装，GenericDataAccessLayer是调用DataHelper里的函数完成数据CRUD操作的类。,需要提一下的是具体的数据库操作的代码是写在数据库的存储过程中的，而这一点也正是我不是很理解的地方，先前提到过的DataFactory和DataHelper特别是
+DataFactory的存在是提供跨库操作的，而它将数据库操作又用存储过程写在数据库里面这不是有点矛盾么。。。想象一下如果要迁移的话那存储过程不是都还要改。。。。。:(&lt;/p&gt;
+&lt;p&gt;在看GenericDataAccessLayer的时候，刚开始我对其中一个语法结构不是很清楚，是到网上查了一些资料才弄懂的。该类在里面定义了一个静态对象，如果是别的对象我还可以理解，可是这个对象正式通过GenericDataAccessLayer实例化的。。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;/// &amp;lt;summary&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;/// BugNET Data Access Layer&lt;/span&gt;
+&lt;span class="c1"&gt;/// &amp;lt;/summary&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;GenericDataAccessLayer&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="n"&gt;GenericDataAccessLayer&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这个就是静态对象声明的地方&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;/// &amp;lt;summary&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;/// Instances this instance.&lt;/span&gt;
+&lt;span class="c1"&gt;/// &amp;lt;/summary&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;/// &amp;lt;returns&amp;gt;&amp;lt;/returns&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="n"&gt;GenericDataAccessLayer&lt;/span&gt; &lt;span class="nf"&gt;Instance&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;instance&lt;/span&gt; &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="k"&gt;null&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;instance&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;GenericDataAccessLayer&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在调用的时候如果为null会对对象进行初始化。&lt;/p&gt;
+&lt;p&gt;刚开始我的想法是GenericDataAccessLayer里包含instance这个对象，那初始化的时候会构成一个不断递归的过程，为什么会编译通过呢？后来在网上找了一下，找到了答案。原来类里面定义的静态对象是在类级别而不是在对象级别的。如果那种写法不是写的静态对象，即语句写成了public
+GenericDataAccessLayer Instance()
+，那么肯定是有问题的，而如果你写在类这个级别的时候这个问题是不存在的。&lt;/p&gt;
+&lt;p&gt;这样来说吧，假设你用GenericDataAccessLayer来初始化一个对象，就像上面那个函数里面写的那样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;GenericDataAccessLayer&lt;/span&gt; &lt;span class="n"&gt;objGenericDataAccessLayer&lt;/span&gt;  &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;GenericDataAccessLayer&lt;/span&gt; &lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;objGenericDataAccessLayer这个对象在初始化的时候只会为类里非static的变量分配内存空间，static因为前面已经说到时在类这个级别，所以不会对它进行空间分配，也不会出现我刚开始所担心的递归问题。&lt;/p&gt;
+&lt;p&gt;当然了，其实代码中并 &lt;code&gt;GenericDataAccessLayer objGenericDataAccessLayer =
+new GenericDataAccessLayer();&lt;/code&gt;这样的代码，除了初始化那个instance外，调用的代码一般写的是&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;TempId&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="n"&gt;GenericDataAccessLayer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Instance&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;CreateNewHistory&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;像这样的代码，我不明白的就是为什么不直接用工具类调用静态函数来写，还要在中间加一个Instance不知道这是什么意思。。望知道的朋友留言告知。&lt;/p&gt;
+&lt;p&gt;数据访问就写到这了，下次写BLL.&lt;/p&gt;</summary><category term="Bugnet"></category></entry></feed>

@@ -21,6 +21,8 @@
     <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
     <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
     
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin Blog ATOM Feed"/>
 
 </head>
 <body>
@@ -60,6 +62,36 @@
         <div class="container">
             <div class="row">
 <div class="col-lg-9">
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/09/14/c%e8%af%ad%e8%a8%80%e4%b8%ad%e8%87%aa%e5%a2%9e%e7%9a%84%e7%96%91%e6%83%91/">C语言中自增的疑惑</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        14 Sep 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>由于要准备笔试，所以捡起了好久不看的C语言，运算符优先级真的是挺蛋疼的，这不，今天在那折腾的时候就被一个问题给纠结住了，自己不能解释这种现象，就发到园子里面请教一下大家了。</p>
+<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+          int y,r;
+          y=3;
+          r=0;
+          r= 2*y+(++y);
+          printf("%d",r);
+          return 0;</p>
+<div class="highlight"><pre><span class="err">代码其实很简单，我写这个代码主要是想知道</span><span class="o">++</span><span class="n">y</span><span class="err">后的值对表达式中的其他地方的</span><span class="n">y ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/09/14/c%e8%af%ad%e8%a8%80%e4%b8%ad%e8%87%aa%e5%a2%9e%e7%9a%84%e7%96%91%e6%83%91/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
             <article>
                 <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier/">Heritrix之旅之Frontier</a></h2>
                 <div class="well well-sm"><div>
@@ -339,43 +371,6 @@ xmlns:xsd="http://www ...</p>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/17/blogengine%e4%b8%ad%e7%9a%84extensinon%e5%ae%9e%e7%8e%b0/">BlogEngine中的Extensinon实现</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        17 Mar 2011
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/net.html">
-    <span class="label label-default">.Net</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">BlogEngine</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>BlogEngine中提供了比较良好的扩展机制，用户可以通过添加Extension对BlogEngine进行各种功能的添加，而且还可以对各种扩展进行统一的管理，下面就把实现的机制和原理说明一下。</p>
-<p>ManagedExtension这个类对应了BlogEngine中的Extension,ExtensionSettings是ManagedExtension中的配置信息，而ExtensionParameter则是ExtensionSettings下面的参数信息。需要说明一下的是这三个类都是能够Serializable的，每个Extension的相关的属性，配置信息，配置参数最后都被序列化成了一个XML字符串，存储在数据库中。</p>
-<p>[code lang="xml"]<br />
-&lt;?xml version="1.0" encoding="utf-16"?><br />
-&lt;ManagedExtension
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br />
-xmlns:xsd="http://www.w3.org/2001/XMLSchema"<br />
-Name="SendCommentMail"><br />
-&lt;Version>1.3&lt;/Version><br />
-&lt;Priority>0&lt;/Priority><br />
-&lt;Description>Sends an ...</p>
-                    <a href="http://blog.michaelyin.info/2011/03/17/blogengine%e4%b8%ad%e7%9a%84extensinon%e5%ae%9e%e7%8e%b0/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index2.html">&laquo;</a>
@@ -392,6 +387,8 @@ Name="SendCommentMail"><br />
                         href="http://blog.michaelyin.info/index5.html">5</a></li>
                 <li class=""><a
                         href="http://blog.michaelyin.info/index6.html">6</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index7.html">7</a></li>
                 <li class="next"><a
                         href="http://blog.michaelyin.info/index4.html">&raquo;</a></li>
         </ul>
@@ -399,18 +396,6 @@ Name="SendCommentMail"><br />
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
         <ul class="nav">
-            <li class="list-group-item">
-                <h4> <i class="icon-home icon-large"></i>
-                    Social
-                </h4>
-            </li>
-
-            <li>
-                <a href="http://github.com/michael-yin">
-                    <i class="icon-github-sign icon-1x"></i>
-                    Github
-                </a>
-            </li>
 
             <li class="list-group-item">
                 <h4> <i class="icon-home icon-large"></i>
@@ -422,6 +407,12 @@ Name="SendCommentMail"><br />
                 <a href="http://blog.michaelyin.info/category/java.html">
                     <i class="icon-folder-open icon-large"></i>
                     Java
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/js.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Js
                 </a>
             </li>
             <li>
@@ -475,65 +466,68 @@ Name="SendCommentMail"><br />
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/codekata.html">
                     <span class="label label-default">CodeKata</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">BlogEngine</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
+                <a href="http://blog.michaelyin.info/tag/google-map.html">
+                    <span class="label label-default">Google Map</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/google-map.html">
-                    <span class="label label-default">Google Map</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
                     <span class="label label-default">bullet-and-wall</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">Python</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
             </li> 
 

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/python.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2013-12-10T21:00:00+08:00</updated><entry><title>Make python module editable</title><link href="http://blog.michaelyin.info/2013/12/10/Make-python-module-editable/" rel="alternate"></link><updated>2013-12-10T21:00:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2013-12-10:2013/12/10/Make-python-module-editable/</id><summary type="html">&lt;h3&gt;Intro&lt;/h3&gt;
+&lt;p&gt;There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The package code would be in the site-packages if you install it by default, which is not a good way for python hacker. In this post I will show you how to install a module to make it editable&lt;/p&gt;
+&lt;h3&gt;Develop Mode&lt;/h3&gt;
+&lt;p&gt;When you get code through git or http download, usually the stucture of pythonn package is like this. Let's take a look at pelican package&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;bumpr.rc
+CONTRIBUTING.rst
+dev_requirements.txt
+docs/
+.git/
+.gitattributes
+.gitignore
+LICENSE
+.mailmap
+MANIFEST.in
+pelican/
+README.rst
+samples/
+setup.cfg
+setup.py*
+THANKS
+tox.ini
+.travis.yml
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we exec &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;python setup.py develop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Compared with &lt;code&gt;python setup.py install&lt;/code&gt; , this command create a link in site-packages that link to the directory which contain pelican package code and add the path to the easy-install.pth.&lt;/p&gt;
+&lt;p&gt;Note that some package such as python Markdown do not use setuptools in setup.py, so when you type &lt;code&gt;python setup.py develop&lt;/code&gt; it will throw exception. There are two ways to solve this problem. One is replace the setup&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;distutils.core&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Another way is using pip, which is better.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pip install -e .
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In most cases, &lt;code&gt;pip install -e .&lt;/code&gt; is just my first choice, for more info, just try &lt;code&gt;pip install -h&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Related Posts&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://pythonhosted.org/setuptools/setuptools.html#development-mode"&gt;More Detail about Develop Mode&lt;/a&gt;&lt;/p&gt;</summary><category term="pip"></category></entry><entry><title>CodeKata-Bloom Filter</title><link href="http://blog.michaelyin.info/2013/07/07/codekata-bloom-filter/" rel="alternate"></link><updated>2013-07-07T22:10:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2013-07-07:2013/07/07/codekata-bloom-filter/</id><summary type="html">&lt;p&gt;Bloom
+Filter在是一种在海量数据处理中很常用的算法，主要用来提供对集合数据的查询，其内在原理和bitmap十分类似。&lt;/p&gt;
+&lt;h6&gt;&lt;/h6&gt;
+&lt;h6&gt;&lt;/h6&gt;
+&lt;h3&gt;基本原理：&lt;/h3&gt;
+&lt;p&gt;如下图所示，长为m bit的byte数组，里面的bit位数值全部置0&lt;/p&gt;
+&lt;p&gt;&lt;a class="fancy" href="http://blog.michaelyin.info/images/2013/07/image3.png"&gt;&lt;img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb3.png" title="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;现在需要将a这个值写入到byte数组里面去，使用k个不同的hash函数，对a进行hash值计算，并确保得到的hash值位于{1,m}这个区间之间。假设现在k个hash函数，那么得到的hash值一共有k个，即 &lt;mathjax&gt;$h_{1}(a)$&lt;/mathjax&gt; ，在byte数组里面将这些值对应的bit位全部置为1，完成这一步，a的值就已经写入到byte数组里面去了。如果有多个值，重复该过程，如果写入过程中发现某bit位已经是1，可以不用管。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2013/07/image4.png"&gt;&lt;img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb4.png" title="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;当我要查询数组里面是否包含值为b的时候，同样对b进行k个不同的hash计算，得到k个不同的hash值(注：写入和查询使用的k个hash函数是相同的)，针对这k个值在byte数组中进行查看，看对应的bit位是否置1，如果有一处是0，那就证明该元素不包含在byte数组中，如果全部是1，那就证明该元素可能包含在byte数组中(此处注意，对于返回结果为True的情况是有误差的，误差和使用hash函数个数和byte数组长度和输入个数有关系，后面会详细讨论)&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2013/07/image5.png"&gt;&lt;img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb5.png" title="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;数学证明：&lt;/h3&gt;
+&lt;p&gt;现有输入n个，将其通过Bloom
+Filter的方式插入到大小为m的byte数组中，插入中使用k个hash值进行置0。&lt;/p&gt;
+&lt;p&gt;在将n个值全部插入到byte数组中去以后，某一个特定的bit位还是为0的概率为：&lt;/p&gt;
+&lt;p&gt;&lt;mathjax&gt;$$(1-\frac{1}{m})^{kn}$$&lt;/mathjax&gt;&lt;/p&gt;
+&lt;p&gt;反过来某一个bit位会被置1的概率是&lt;/p&gt;
+&lt;p&gt;&lt;mathjax&gt;$$1-(1-\frac{1}{m})^{kn}$$&lt;/mathjax&gt;&lt;/p&gt;
+&lt;p&gt;如果一个本来不存在的元素k个hash函数对应的值都为1，那么误差变会产生，发生的概率为：&lt;/p&gt;
+&lt;p&gt;&lt;mathjax&gt;$$(1-(1-\frac{1}{m})^{kn})^{k}\approx (1-e^{kn/m}){k}$$&lt;/mathjax&gt;&lt;/p&gt;
+&lt;p&gt;下面附上部分k和n/m对应的误差概率表&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2013/07/image6.png"&gt;&lt;img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb6.png" title="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;实际使用中，根据所能够容忍的误差率来进行k和m的选择&lt;/p&gt;
+&lt;h3&gt;代码实现：&lt;/h3&gt;
+&lt;p&gt;下面附上一个单词检测功能的程序，使用Bloom Filter实现：  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;hashlib&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;WordDic&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c"&gt;#import the wordlist and set the bit&lt;/span&gt;
+        &lt;span class="n"&gt;array&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;bytearray&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zfill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+            &lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;array&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remainls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_readfile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_readfile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="k"&gt;break&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;checkword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_hash1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;md5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hexdigest&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_hash2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hexdigest&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_hash3&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sha224&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hexdigest&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;checkword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c"&gt;#check if the word is in this word dict,when init = True set the bit value&lt;/span&gt;
+        &lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_hash1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_hash2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_hash3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;hash_func&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;ls&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;div&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;remain&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;divmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;div&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;|=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remainls&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;remain&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;div&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;remain&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;divmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ow"&gt;not&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;div&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remainls&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;remain&lt;/span&gt;&lt;span class="p"&gt;])):&lt;/span&gt;
+                    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+
+&lt;span class="n"&gt;obj&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;WordDic&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wordlist.txt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;64000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;checkword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;appleadsfadfs&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;总结：&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Bloom
+    Filter使用bitmap的方式将所存储的数据的若干个HASH值存储起来，来进行集合内数据的查询，判断数据是否在集合内&lt;/li&gt;
+&lt;li&gt;实际使用中根据实际情况进行k,m的选择&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h6&gt;Related Posts:&lt;/h6&gt;
+&lt;p&gt;&lt;a href="http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html"&gt;Bloom
+Filters&lt;/a&gt;&lt;/p&gt;</summary><category term="Bloom Filter"></category><category term="CodeKata"></category></entry><entry><title>CodeKata-Data Munging</title><link href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/" rel="alternate"></link><updated>2013-03-03T14:43:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2013-03-03:2013/03/03/codekata-data-munging/</id><summary type="html">&lt;p&gt;这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。&lt;/p&gt;
+&lt;p&gt;第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据&lt;/p&gt;
+&lt;p&gt;第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。&lt;/p&gt;
+&lt;p&gt;第三个问题是对前两个问题的代码进行分析，提取出共用的部分，进行重用。考察前两个问题的代码，发现文件读取，正则处理，都是很类似的逻辑，所以将这部分进行提取抽象成一个类，将正则，相关参数和文件路径抽象成类，这样的话代码维护性也比较好，废话不多说，上代码&lt;/p&gt;
+&lt;p&gt;[code lang="py"]import re&lt;/p&gt;
+&lt;p&gt;class Input():&lt;br /&gt;
+def __init__(self, path, expression, key, firstindex, secindex):&lt;br /&gt;
+self.path = path&lt;br /&gt;
+self.expression = expression&lt;br /&gt;
+self.key = key&lt;br /&gt;
+self.firstindex = firstindex&lt;br /&gt;
+self.secindex = secindex&lt;/p&gt;
+&lt;p&gt;class Recorder(object):&lt;br /&gt;
+def __init__(self, input):&lt;br /&gt;
+self.key = None&lt;br /&gt;
+self.value = None&lt;br /&gt;
+self.input = input&lt;br /&gt;
+def add(self, key, first_value, sec_value):&lt;br /&gt;
+value = abs(int(first_value) - int(sec_value))&lt;br /&gt;
+if(self.key == None or value &amp;lt; self.value):&lt;br /&gt;
+self.key = key&lt;br /&gt;
+self.value = value&lt;/p&gt;
+&lt;p&gt;def process(self):&lt;br /&gt;
+patten = re.compile(self.input.expression)&lt;br /&gt;
+file = open(self.input.path, 'r')&lt;br /&gt;
+for line in file.readlines():&lt;br /&gt;
+match = patten.search(line)&lt;br /&gt;
+if(match):&lt;br /&gt;
+self.add(match.group(self.input.key),
+match.group(self.input.firstindex), match.group(self.input.secindex))&lt;br /&gt;
+file.close()&lt;br /&gt;
+print "find the key %s" % self.key&lt;/p&gt;
+&lt;p&gt;input = Input(r'D:football.dat',&lt;br /&gt;
+r'd.s(w+)s+(d+s+){4}(d+)s{2}-s{2}(d+)',&lt;br /&gt;
+1,&lt;br /&gt;
+3,&lt;br /&gt;
+4)&lt;br /&gt;
+recorder = Recorder(input)&lt;br /&gt;
+recorder.process()[/code]&lt;/p&gt;
+&lt;p&gt;处理不同的文件，使用不同的input传入进去就行了&lt;/p&gt;
+&lt;p&gt;另附正则学习资源&lt;/p&gt;
+&lt;p&gt;张子阳写的正则表达式的教程&lt;a href="http://www.tracefact.net/Misc/Regular-Expression-Tutorial.aspx"&gt;猛戳这里&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Regex Match Tracer
+，很好用的正则工具&lt;a href="http://www.regexlab.com/zh/mtracer/"&gt;猛戳这里&lt;/a&gt;&lt;/p&gt;</summary><category term="CodeKata"></category></entry></feed>
