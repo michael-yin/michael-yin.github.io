@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Michaelyin Blog</title>
+    <title>Michaelyin's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -22,7 +22,7 @@
     <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
     
     <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Michaelyin Blog ATOM Feed"/>
+              title="Michaelyin's Blog ATOM Feed"/>
 
 </head>
 <body>
@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
@@ -307,7 +307,7 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/07/19/bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%883%ef%bc%89%e9%a1%b9%e7%9b%ae%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84/">Bugnet学习总结（3）项目文件结构</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-3/">Bugnet学习总结（3）项目文件结构</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -317,6 +317,10 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>用VS打开Bugnet项目文件，可以看到四个Project,BugNET_WAP是Web项目，HttpModule.Authentication是自定义的认证模块，好像是可以在其中选择WindowsSAM和ActiveDirectory两种认证方式，这个模块我没怎么看，感兴趣的朋友请自己研究下，HttpModule.MailBoxReader是邮件读取的模块，UnitTests是单元测试Project.</p>
@@ -333,14 +337,14 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <p>Shared放的是所用到的母版页。</p>
 <p>UserControls放的是用户控件，需要提到的xslt文件，FCKeditor。</p>
 <p>Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类，Pop3Reader下放的是读取邮件时需要用到的类，DAL和BLL是干什么的就不用我多说了吧。。</p>
-                    <a href="http://blog.michaelyin.info/2010/07/19/bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%883%ef%bc%89%e9%a1%b9%e7%9b%ae%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84/">
+                    <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-3/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/07/19/bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%882%ef%bc%89%e6%95%b0%e6%8d%ae%e5%ba%93/">Bugnet学习总结（2）数据库</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">Bugnet学习总结（2）数据库</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -350,6 +354,10 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
@@ -362,14 +370,14 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <p>剩下的表基本上都是以Bug为中心，BugAttachment保存上传的附件，BugComment保存评论，BugHistory保存Issue的历史，BugNotification保存Issue相关的需要通知的User,Component保存Project的分类，RelatedBug保存相关Issue关系。另外的几个表都是比如Status，Type都是起着字典表的作用。标识着Issue的状态和类别。</p>
 <p>HostSettings保存着Bugnet整体相关的设置。Log则是Log4net进行日志记录的地方。</p>
 <p>表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的，在这一点上我也是有点不理解，如果说使用存储过程是为了性能，那它代码可以优化的地方不是没有，比如它使用的是自带的分页，而没有自己写分页，这样在数据量达到一定程度时性能肯定会首影响 ...</p>
-                    <a href="http://blog.michaelyin.info/2010/07/19/bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%882%ef%bc%89%e6%95%b0%e6%8d%ae%e5%ba%93/">
+                    <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/07/18/bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%881%ef%bc%89-%e5%89%8d%e8%a8%80%e7%b4%a2%e5%bc%95/">Bugnet学习总结（1） 前言&索引</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">Bugnet学习总结（1） 前言&索引</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -379,6 +387,10 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。</p>
@@ -399,7 +411,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784819.html">Bugnet学习总结（5）逻辑层</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/01/1789842.html">Bugnet学习总结（6）用户控件</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7）杂</a></p>
-                    <a href="http://blog.michaelyin.info/2010/07/18/bugnet%e5%ad%a6%e4%b9%a0%e6%80%bb%e7%bb%93%ef%bc%881%ef%bc%89-%e5%89%8d%e8%a8%80%e7%b4%a2%e5%bc%95/">
+                    <a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -430,6 +442,18 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
         <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
 
             <li class="list-group-item">
                 <h4> <i class="icon-home icon-large"></i>
@@ -500,50 +524,38 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
+                    <span class="label label-default">Blogengine</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/google-map.html">
-                    <span class="label label-default">Google Map</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
@@ -551,17 +563,29 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
                 </a>
             </li> 
 
@@ -576,7 +600,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
     <div class="container">
         <p class="text-muted">
             Copyright © 
-            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>

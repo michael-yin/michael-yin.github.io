@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>BlogEngine中的widget机制</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                BlogEngine中的widget机制
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        19 Mar 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+            <p>BlogEngine中的widget机制支持在页面可添加一些小的widget，这个功能当时还是特别吸引我的，现在简单的说下实现的原理。</p>
+<p>所有的widget都在一个WidgetZone的容器内，这个容器继承自PlaceHolder，而这个容器是在自定义theme中的模板页中用到的，当这个控件加载的时候，它从数据库中找到关于widget的配置信息。这个配置信息也是DataStore的方式提取和存储的。</p>
+<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;</span>
+<span class="nt">&lt;WidgetData</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="na">xmlns:xsd=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;Settings&gt;</span><span class="ni">&amp;lt;</span>widgets<span class="ni">&amp;gt;&amp;lt;</span>widget
+  id=&quot;b7d72394-7556-4a5b-87ed-c63cbdc915fb&quot; title=&quot;Administration&quot;
+  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Administration<span class="ni">&amp;lt;</span>/widget<span class="ni">&amp;gt;&amp;lt;</span>widget
+  id=&quot;f8dffe75-8e8c-4732-a3ff-77df966f7220&quot; title=&quot;Calendar&quot;
+  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Calendar<span class="ni">&amp;lt;</span>/widget<span class="ni">&amp;gt;&amp;lt;</span>widget
+  id=&quot;292c7de9-8d1c-444e-bb66-1c23c28c7c7b&quot; title=&quot;Month List&quot;
+  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Month List<span class="ni">&amp;lt;</span>/widget<span class="ni">&amp;gt;&amp;lt;</span>widget
+  id=&quot;2b7bef82-7cf2-4e76-88e8-61ec0436a73a&quot; title=&quot;Tag cloud&quot;
+  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Tag cloud<span class="ni">&amp;lt;</span>/widget<span class="ni">&amp;gt;&amp;lt;</span>widget
+  id=&quot;c7830f7c-2ef5-4c16-85d2-bcbca25d0c6f&quot; title=&quot;Search&quot;
+  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Search<span class="ni">&amp;lt;</span>/widget<span class="ni">&amp;gt;&amp;lt;</span>/widgets<span class="ni">&amp;gt;</span><span class="nt">&lt;/Settings&gt;</span>
+<span class="nt">&lt;/WidgetData&gt;</span>
+</pre></div>
+
+
+<p>读取了配置信息后，根据所能够取到的wieget的信息动态的读取widget</p>
+<p>所有的widget放在widgets文件夹下，widget.ascx负责显示widget,edit.ascx负责对widget进行配置，负责显示的widget继承自WidgetBase，它提供了widget所必须的一些信息，比如title,name和widgetId等等.</p>
+<p>下面是动态读取widget的代码</p>
+<div class="highlight"><pre><span class="n">XmlNodeList</span> <span class="n">zone</span> <span class="p">=</span> <span class="n">XML_DOCUMENT</span><span class="p">.</span><span class="n">SelectNodes</span><span class="p">(</span><span class="s">&quot;//widget&quot;</span><span class="p">);</span>
+          <span class="k">foreach</span> <span class="p">(</span><span class="n">XmlNode</span> <span class="n">widget</span> <span class="k">in</span> <span class="n">zone</span><span class="p">)</span>
+          <span class="p">{</span>
+              <span class="kt">string</span> <span class="n">fileName</span> <span class="p">=</span> <span class="n">Utils</span><span class="p">.</span><span class="n">RelativeWebRoot</span> <span class="p">+</span> <span class="s">&quot;widgets/&quot;</span> <span class="p">+</span> <span class="n">widget</span><span class="p">.</span><span class="n">InnerText</span> <span class="p">+</span> <span class="s">&quot;/widget.ascx&quot;</span><span class="p">;</span>
+              <span class="k">try</span>
+              <span class="p">{</span>
+                  <span class="n">WidgetBase</span> <span class="n">control</span> <span class="p">=</span> <span class="p">(</span><span class="n">WidgetBase</span><span class="p">)</span><span class="n">Page</span><span class="p">.</span><span class="n">LoadControl</span><span class="p">(</span><span class="n">fileName</span><span class="p">);</span>
+                  <span class="n">control</span><span class="p">.</span><span class="n">WidgetID</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Guid</span><span class="p">(</span><span class="n">widget</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;id&quot;</span><span class="p">].</span><span class="n">InnerText</span><span class="p">);</span>
+                  <span class="n">control</span><span class="p">.</span><span class="n">ID</span> <span class="p">=</span> <span class="n">control</span><span class="p">.</span><span class="n">WidgetID</span><span class="p">.</span><span class="n">ToString</span><span class="p">().</span><span class="n">Replace</span><span class="p">(</span><span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
+                  <span class="n">control</span><span class="p">.</span><span class="n">Title</span> <span class="p">=</span> <span class="n">widget</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">].</span><span class="n">InnerText</span><span class="p">;</span>
+                                      <span class="n">control</span><span class="p">.</span><span class="n">Zone</span> <span class="p">=</span> <span class="n">_ZoneName</span><span class="p">;</span>
+
+                  <span class="k">if</span> <span class="p">(</span><span class="n">control</span><span class="p">.</span><span class="n">IsEditable</span><span class="p">)</span>
+                      <span class="n">control</span><span class="p">.</span><span class="n">ShowTitle</span> <span class="p">=</span> <span class="kt">bool</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">widget</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;showTitle&quot;</span><span class="p">].</span><span class="n">InnerText</span><span class="p">);</span>
+                  <span class="k">else</span>
+                      <span class="n">control</span><span class="p">.</span><span class="n">ShowTitle</span> <span class="p">=</span> <span class="n">control</span><span class="p">.</span><span class="n">DisplayHeader</span><span class="p">;</span>
+
+                  <span class="n">control</span><span class="p">.</span><span class="n">LoadWidget</span><span class="p">();</span>
+                  <span class="k">this</span><span class="p">.</span><span class="n">Controls</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">control</span><span class="p">);</span>
+              <span class="p">}</span>
+              <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span>
+              <span class="p">{</span>
+                  <span class="n">Literal</span> <span class="n">lit</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Literal</span><span class="p">();</span>
+                  <span class="n">lit</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="s">&quot;&lt;p style=&quot;</span><span class="n">color</span><span class="p">:</span><span class="n">red</span><span class="s">&quot;&gt;Widget &quot;</span> <span class="p">+</span> <span class="n">widget</span><span class="p">.</span><span class="n">InnerText</span> <span class="p">+</span> <span class="s">&quot; not found.&lt;p&gt;&quot;</span><span class="p">;</span>
+                  <span class="n">lit</span><span class="p">.</span><span class="n">Text</span> <span class="p">+=</span> <span class="n">ex</span><span class="p">.</span><span class="n">Message</span><span class="p">;</span>
+                  <span class="n">lit</span><span class="p">.</span><span class="n">Text</span> <span class="p">+=</span> <span class="s">&quot;&lt;a class=&quot;</span><span class="n">delete</span><span class="s">&quot; href=&quot;</span><span class="n">javascript</span><span class="p">:</span><span class="k">void</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="s">&quot; onclick=&quot;</span><span class="n">BlogEngine</span><span class="p">.</span><span class="n">widgetAdmin</span><span class="p">.</span><span class="n">removeWidget</span><span class="p">(</span><span class="err">&#39;</span><span class="s">&quot; + widget.Attributes[&quot;</span><span class="n">id</span><span class="s">&quot;].InnerText + &quot;</span><span class="err">&#39;</span><span class="p">);</span><span class="k">return</span> <span class="k">false</span><span class="s">&quot; title=&quot;&quot; + Resources.labels.delete + &quot;</span> <span class="n">widget</span><span class="s">&quot;&gt;X&lt;/a&gt;&quot;</span><span class="p">;</span>
+
+                  <span class="k">this</span><span class="p">.</span><span class="n">Controls</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">lit</span><span class="p">);</span>
+              <span class="p">}</span>
+          <span class="p">}</span>
+</pre></div>
+
+
+<p>Widget的编辑功能则是通过js脚本访问Admin下WidgetEditor.aspx页面，然后通过该页面来进行修改配置。</p>
+<p>Widget的添加则是通过脚本将添加的Widget的type通过ajax的形式返回到WidgetEditor页面，然后进行处理返回控件的html代码，完成widget的添加，实现过程不是很复杂，主要是理解它的整套机制。</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'blogengine-widget';
+            var disqus_url = 'http://blog.michaelyin.info/2011/03/19/blogengine-widget/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

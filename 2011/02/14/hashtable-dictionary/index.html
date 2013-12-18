@@ -22,7 +22,7 @@
     <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
     
     <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Michaelyin Blog ATOM Feed"/>
+              title="Michaelyin's Blog ATOM Feed"/>
 
 </head>
 <body>
@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
@@ -89,81 +89,70 @@
 </div><!-- /.post-info --></div>
             <p>以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。</p>
 <p>Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。</p>
-<h5>链接法(chaining)</h5>
+<h3>链接法(chaining)</h3>
 <p>在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。</p>
 <p>链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。</p>
 <p><a href="http://blog.michaelyin.info/images/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/images/2011/02/201102142222064549.png" /></a></p>
-<h5>开放寻址法(open addressing)</h5>
+<h3>开放寻址法(open addressing)</h3>
 <p>在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。</p>
 <p>在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key,0)这个槽，如果不为空则探查号+1,继续查下一个槽，直到找到空槽，或者得知散列表已满。查找的过程和插入类似，查找关键字的时候如果我们碰到了空槽，查找就结束，因为如果关键字存在的话，那么也应该会出现在这个地方。</p>
 <p>开放寻址法中比较特殊的是删除操作，如果删除数据置为null的话，那么就会有一个问题，比如我们插入过程中插入k的时候发现槽i已经被占用，我们插到后面的槽中，如果删除的时候我们简单的将槽i置为null,那么查找的时候关键字k就不会被找到。这个问题我们可以用一个标志位来解决。具体的实现会在下面讲到。</p>
-<h5>双重散列</h5>
+<h3>双重散列</h3>
 <p>开放寻址法的探查方法有多种，在这里只讲一下双重探查，因为这种方法是最好的方法之一，而且它被用在Hashtable中。</p>
-<p><mathjax>$$h(k,i) = (h\_{1}(k)+ i\*h\_{2}(k)) mod m$$</mathjax></p>
-<p>这里<mathjax>$$h\_{1}$$</mathjax>和<mathjax>$$h\_{2}$$</mathjax>为辅助散列函数，第一次为<mathjax>$$h\_{1}$$</mathjax>，后续的探查位置在<mathjax>$$h\_{1}$$</mathjax>的基础上加上偏移量<mathjax>$$h\_{2}$$</mathjax>,然后对m进行模运算。这里需要提一下的是为了查找整个散列表，<mathjax>$$h\_{2}$$</mathjax>需要与槽的大小m互质，等下可以看到在Hashtable类中是如何满足这个条件的。</p>
+<p><mathjax>$$h(k,i) = (h_{1}(k)+ i*h_{2}(k)) mod m$$</mathjax></p>
+<p>这里<mathjax>$h_{1}$</mathjax>和<mathjax>$h_{2}$</mathjax>为辅助散列函数，第一次为<mathjax>$h_{1}$</mathjax>，后续的探查位置在<mathjax>$h_{1}$</mathjax>的基础上加上偏移量<mathjax>$h_{2}$</mathjax>,然后对m进行模运算。这里需要提一下的是为了查找整个散列表，<mathjax>$h_{2}$</mathjax>需要与槽的大小m互质，等下可以看到在Hashtable类中是如何满足这个条件的。</p>
 <p><a href="http://blog.michaelyin.info/images/2011/02/201102142222074450.png"><img alt="201102142222074450" src="http://blog.michaelyin.info/images/2011/02/201102142222074450.png" /></a></p>
 <p>在解释了链接法和开放寻址法后，来讲讲Hashtable和Dictionary。</p>
 <p>Hashtable这个类采用的是开放寻址法来解决碰撞的问题，下面来看看Hashtable的一个构造函数</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-            this.loadFactor = 0.72f * loadFactor;
-            double num = ((float) capacity) / this.loadFactor;
-            if (num &gt; 2147483647.0)
-            {
-                throw new ArgumentException(Environment.GetResourceString("Arg_HTCapacityOverflow"));
-            }
-            int num2 = (num &gt; 11.0) ? HashHelpers.GetPrime((int) num) : 11;
-            this.buckets = new bucket[num2];
-            this.loadsize = (int) (this.loadFactor * num2);
-            this.isWriterInProgress = false;</p>
-<div class="highlight"><pre><span class="err">构造函数会在传入装载因子的基础上乘以</span><span class="mf">0.72</span><span class="p">,</span><span class="err">这个值是微软认为的比较理想的一个值。上面已经说过了在双重散列时需要保持$$</span><span class="n">h</span><span class="err">\</span><span class="n">_</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span><span class="err">$$和槽的大小</span><span class="n">m</span><span class="err">互质，我们只需要保证</span><span class="n">m</span><span class="err">为质数，而$$</span><span class="n">h</span><span class="err">\</span><span class="n">_</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span><span class="err">$$比</span><span class="n">m</span><span class="err">小，这样就能保证他们总是互质。在这里</span><span class="n">HashHelpers</span><span class="p">.</span><span class="n">GetPrime</span><span class="err">实现的就是传回一个比</span><span class="n">num</span><span class="err">大的质数，这样能保证</span><span class="n">num2</span><span class="err">这个量总为一个质数，然后把槽数组建立起来。</span>
-
-<span class="p">(</span><span class="n">this</span><span class="p">.</span><span class="n">GetHash</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7fffffff</span><span class="p">)</span><span class="err">这个相当于双散列公式中的$$</span><span class="n">h</span><span class="err">\</span><span class="n">_</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="err">$$，</span><span class="mi">1</span> <span class="o">+</span>
-<span class="p">((</span><span class="n">uint</span><span class="p">)</span> <span class="p">(((</span><span class="n">seed</span> <span class="err">\</span><span class="o">&gt;</span><span class="err">\</span><span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">hashsize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)));</span><span class="err">则相当于$$</span><span class="n">h</span><span class="err">\</span><span class="n">_</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span><span class="err">$$</span><span class="p">,</span>
-
-<span class="err">槽中的</span><span class="n">hash</span><span class="err">\</span><span class="n">_coll</span><span class="err">用来存放</span><span class="n">key</span><span class="err">对应的</span><span class="n">hashcode</span><span class="p">,</span><span class="err">最高位用来标识是否发生了碰撞，发生碰撞的槽的最高位会被置为</span><span class="mi">1</span><span class="err">，搜索的时候，如果最高位为</span><span class="mi">1</span><span class="err">那么搜寻函数会继续搜索，注意</span><span class="n">contains</span><span class="err">方法中的</span><span class="k">while</span><span class="err">条件</span><span class="p">,</span>
-
-<span class="o">~~~~</span> <span class="p">{.</span><span class="n">brush</span><span class="o">:</span> <span class="p">.</span><span class="n">csharp</span><span class="p">;</span> <span class="p">.</span><span class="k">auto</span><span class="o">-</span><span class="n">links</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">collapse</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
-<span class="p">.</span><span class="n">first</span><span class="o">-</span><span class="n">line</span><span class="o">:</span> <span class="mf">.1</span><span class="p">;</span> <span class="p">.</span><span class="n">gutter</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">html</span><span class="o">-</span><span class="n">script</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">light</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span>
-<span class="p">.</span><span class="n">ruler</span><span class="o">:</span> <span class="p">.</span><span class="nb">false</span><span class="p">;</span> <span class="p">.</span><span class="n">smart</span><span class="o">-</span><span class="n">tabs</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;</span> <span class="p">.</span><span class="n">tab</span><span class="o">-</span><span class="n">size</span><span class="o">:</span> <span class="mf">.4</span><span class="p">;</span> <span class="p">.</span><span class="n">toolbar</span><span class="o">:</span> <span class="p">.</span><span class="nb">true</span><span class="p">;}</span>
-            <span class="k">do</span>
-            <span class="p">{</span>
-                <span class="n">bucket</span> <span class="o">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">bucket</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
-                <span class="p">{</span>
-                    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-                <span class="p">}</span>
-                <span class="k">if</span> <span class="p">(((</span><span class="n">bucket</span><span class="p">.</span><span class="n">hash_coll</span> <span class="o">&amp;</span> <span class="mh">0x7fffffff</span><span class="p">)</span> <span class="o">==</span> <span class="n">num3</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">this</span><span class="p">.</span><span class="n">KeyEquals</span><span class="p">(</span><span class="n">bucket</span><span class="p">.</span><span class="n">key</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
-                <span class="p">{</span>
-                    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-                <span class="p">}</span>
-                <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">((</span><span class="n">index</span> <span class="o">+</span> <span class="n">num2</span><span class="p">)</span> <span class="o">%</span> <span class="p">((</span><span class="n">ulong</span><span class="p">)</span> <span class="n">buckets</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
-            <span class="p">}</span>
-            <span class="k">while</span> <span class="p">((</span><span class="n">bucket</span><span class="p">.</span><span class="n">hash_coll</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">++</span><span class="n">num4</span> <span class="o">&lt;</span> <span class="n">buckets</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
+<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="n">loadFactor</span> <span class="p">=</span> <span class="m">0.72f</span> <span class="p">*</span> <span class="n">loadFactor</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">num</span> <span class="p">=</span> <span class="p">((</span><span class="kt">float</span><span class="p">)</span> <span class="n">capacity</span><span class="p">)</span> <span class="p">/</span> <span class="k">this</span><span class="p">.</span><span class="n">loadFactor</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">num</span> <span class="p">&gt;</span> <span class="m">2147483647.0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">ArgumentException</span><span class="p">(</span><span class="n">Environment</span><span class="p">.</span><span class="n">GetResourceString</span><span class="p">(</span><span class="s">&quot;Arg_HTCapacityOverflow&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="n">num2</span> <span class="p">=</span> <span class="p">(</span><span class="n">num</span> <span class="p">&gt;</span> <span class="m">11.0</span><span class="p">)</span> <span class="p">?</span> <span class="n">HashHelpers</span><span class="p">.</span><span class="n">GetPrime</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span> <span class="n">num</span><span class="p">)</span> <span class="p">:</span> <span class="m">11</span><span class="p">;</span>
+<span class="k">this</span><span class="p">.</span><span class="n">buckets</span> <span class="p">=</span> <span class="k">new</span> <span class="n">bucket</span><span class="p">[</span><span class="n">num2</span><span class="p">];</span>
+<span class="k">this</span><span class="p">.</span><span class="n">loadsize</span> <span class="p">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">loadFactor</span> <span class="p">*</span> <span class="n">num2</span><span class="p">);</span>
+<span class="k">this</span><span class="p">.</span><span class="n">isWriterInProgress</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
 </pre></div>
 
 
-<p>BTW,我当时看这个方法的时候觉得搜寻函数其实也可以通过跳过bucket.key ==
-this.buckets的项来写，因为在移除方法中如果bucket.hash_coll &lt;
-0的话，那么bucket.key = this.buckets， 后来想了一下，bucket.hash_coll &lt;
-0这样效率更高，这里就不说为什么了，爱思考的朋友在后面写下你的答案吧。</p>
+<p>构造函数会在传入装载因子的基础上乘以0.72,这个值是微软认为的比较理想的一个值。上面已经说过了在双重散列时需要保持<mathjax>$h_{2}$</mathjax>和槽的大小m互质，我们只需要保证m为质数，而<mathjax>$h_{2}$</mathjax>比m小，这样就能保证他们总是互质。在这里HashHelpers.GetPrime实现的就是传回一个比num大的质数，这样能保证num2这个量总为一个质数，然后把槽数组建立起来。</p>
+<p>(this.GetHash(key) &amp; 0x7fffffff)这个相当于双散列公式中的<mathjax>$h_{1}$</mathjax>，1 +
+((uint) (((seed &gt;&gt; 5) + 1) % (hashsize - 1)));则相当于<mathjax>$h_{2}$</mathjax>,</p>
+<p>槽中的hash_coll用来存放key对应的hashcode,最高位用来标识是否发生了碰撞，发生碰撞的槽的最高位会被置为1，搜索的时候，如果最高位为1那么搜寻函数会继续搜索，注意contains方法中的while条件,</p>
+<div class="highlight"><pre><span class="k">do</span>
+<span class="p">{</span>
+    <span class="n">bucket</span> <span class="p">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">bucket</span><span class="p">.</span><span class="n">key</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(((</span><span class="n">bucket</span><span class="p">.</span><span class="n">hash_coll</span> <span class="p">&amp;</span> <span class="m">0</span><span class="n">x7fffffff</span><span class="p">)</span> <span class="p">==</span> <span class="n">num3</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="n">KeyEquals</span><span class="p">(</span><span class="n">bucket</span><span class="p">.</span><span class="n">key</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">index</span> <span class="p">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">((</span><span class="n">index</span> <span class="p">+</span> <span class="n">num2</span><span class="p">)</span> <span class="p">%</span> <span class="p">((</span><span class="kt">ulong</span><span class="p">)</span> <span class="n">buckets</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="k">while</span> <span class="p">((</span><span class="n">bucket</span><span class="p">.</span><span class="n">hash_coll</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(++</span><span class="n">num4</span> <span class="p">&lt;</span> <span class="n">buckets</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
+</pre></div>
+
+
+<p>BTW,我当时看这个方法的时候觉得搜寻函数其实也可以通过跳过bucket.key == this.buckets的项来写，因为在移除方法中如果bucket.hash_coll &lt; 0的话，那么bucket.key = this.buckets， 后来想了一下，bucket.hash_coll &lt;0这样效率更高，这里就不说为什么了，爱思考的朋友在后面写下你的答案吧。</p>
 <p>在Add方法里面需要对count进行检查，如果达到了设定的值，这个时候需要对Hashtable进行扩容，扩大的容量是当前容量的2倍以上的一个质数，然后对里面已经存在的元素重新进行hash操作，相当于重新插入新的槽数组中。对于Insert方法中的index这个变量的作用我在看代码的时候还是有点疑问的，如果有知道的朋友麻烦在留言中告知。</p>
-<p>Dictionary&lt;TKey,
-TValue>这个泛型类采用的是链接法来解决碰撞，其中的bucket存储的是指向Entry的下标，Entry就相当于链表中的节点，Entry中存储的又有指向下一个产生碰撞的元素的下标。稍有不同的是，这里的Entry是一个数组。</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-    public struct Entry<TKey, TValue>
-    {
-        public int hashCode;
-        public int next;
-        public TKey key;
-        public TValue value;
-    }
-~~~~</p>
+<p>Dictionary<TKey,TValue>这个泛型类采用的是链接法来解决碰撞，其中的bucket存储的是指向Entry的下标，Entry就相当于链表中的节点，Entry中存储的又有指向下一个产生碰撞的元素的下标。稍有不同的是，这里的Entry是一个数组。</p>
+<div class="highlight"><pre>    <span class="k">public</span> <span class="k">struct</span> <span class="nc">Entry</span><span class="p">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="kt">int</span> <span class="n">hashCode</span><span class="p">;</span>
+        <span class="k">public</span> <span class="kt">int</span> <span class="n">next</span><span class="p">;</span>
+        <span class="k">public</span> <span class="n">TKey</span> <span class="n">key</span><span class="p">;</span>
+        <span class="k">public</span> <span class="n">TValue</span> <span class="k">value</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
 <p>Dictionary的Add操作首先计算元素的Hash值，然后根据Hash值寻找bucket,找到相应的bucket后将值存入Entry中，并将bucket指向相应的Entry.查询操作逻辑是根据Hash值找到相应的bucket然后通过bucket到Entry数组中进行寻找。</p>
-<p>稍微需要提一下的是Remove方法，为了将删除的节点的Entry进行重用，Dictionary中有一个freeList字段，删除的节点的下标值，为赋给freeList，在Add操作的时候如果freeList>0则将数据插入到freeList指向的Entry中去。</p>
+<p>稍微需要提一下的是Remove方法，为了将删除的节点的Entry进行重用，Dictionary中有一个freeList字段，删除的节点的下标值，为赋给freeList，在Add操作的时候如果freeList&gt;0则将数据插入到freeList指向的Entry中去。</p>
         </div>
         <!-- /.entry-content -->
     <hr />
@@ -200,7 +189,7 @@ TValue>这个泛型类采用的是链接法来解决碰撞，其中的bucket存�
     <div class="container">
         <p class="text-muted">
             Copyright © 
-            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>这不是基础中的基础么</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                这不是基础中的基础么
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        02 Mar 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>中午在园子里逛的时候看到了一个评论头条的<a href="http://www.cnblogs.com/jirigala/archive/2011/03/01/1968192.html">博文</a>，吉日嘎拉纠正了自己的错误认识。里面涉及到的东西说实话确实很基础，不过我看了下评论却没有将问题解释清楚，至于标题借用了老赵的评论。</p>
+<p>先说说方法表，方法表位于内存中的Loader
+Heap，它包含着类对应的方法，在类加载的时候会在Load
+Heap上创建和相应的类对应的方法表。当类实例化的时候，托管堆上除了将对象实例化所需要的字段分配内存以外，还会给一个叫做TypeHandle的给实例，这样新建的实例就可以根据TypeHandle在Loader
+Heap中找到它所对应的类型的方法表，进而找到对应的方法。</p>
+<p>在这里借用下Anytao的图。。可能大家看的更懂一些\~</p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg"><img alt="20110303000835615" src="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg" /></a></p>
+<p>到这里停顿一下，说开了实例方法和静态方法其实在内存中都是存储在这个类所对应的方法表上，而且重要的是，它们在内存里面都只有一份，实例调用的方法也是通过TypeHandle找到对应的方法表而完成的方法的调用的。</p>
+<p>在来说说方法的调用，在大学学过C的都必定折腾过实参，形参，也知道为什么有的时候为什么调用C语言函数的时候要传入指针，如果你把那个地方搞的比较清楚的话那么这里想必也难不倒你了。C语言函数调用的时候是在内存上重新开辟一块区域，然后在这个里面运行函数并进行相应的处理并返回结果，运行完成之后释放所有的局部变量。在.Net里面方法的调用也是这个过程，分配动态内存进行方法的处理。</p>
+<p>吉日嘎拉博文中纠结的并发还是排队其实仔细想象就会有答案，这两种处理方式产生的原因是因为对资源的占用问题，就是说不同线程里面有没有可能产生资源占用的问题，上面已经说到了方法调用是分配到内存里面进行处理，不同的方法在内存中所处的位置显然是不相同的。所以一般情况下这个是能够并发的，除非是在不同的内存中又涉及到了访问公有区域的位置，比如访问静态变量。</p>
+<p>到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变\~</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'static-function';
+            var disqus_url = 'http://blog.michaelyin.info/2011/03/02/static-function/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

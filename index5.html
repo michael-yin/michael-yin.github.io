@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Michaelyin Blog</title>
+    <title>Michaelyin's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -22,7 +22,7 @@
     <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
     
     <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Michaelyin Blog ATOM Feed"/>
+              title="Michaelyin's Blog ATOM Feed"/>
 
 </head>
 <body>
@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
@@ -116,7 +116,7 @@ character set）就出现了，它的出现就是为了解决刚刚说到的这�
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/11/26/blogengine%e4%b8%ad%e7%9a%84blogsettings/">BlogEngine中的BlogSettings</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">BlogEngine中的BlogSettings</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -126,22 +126,33 @@ character set）就出现了，它的出现就是为了解决刚刚说到的这�
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">Blogengine</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>BlogEngine中的BlogSettings这个类是用来提供整个系统的设置参数的，参数的读取采用的是反射获取属性名称，然后遍历进行赋值，个人觉得这段代码值得学习</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-private void Load()
-        {
-            Type settingsType = this.GetType();</p>
-<div class="highlight"><pre>        <span class="c1">//------------------------------------------------------------</span>
-        <span class="c1">//  Enumerate through individual settings nodes</span>
-        <span class="c1">//------------------------------------------------------------</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Specialized</span><span class="p">.</span><span class="n">StringDictionary</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">Providers</span><span class="p">.</span><span class="n">BlogService</span><span class="p">.</span><span class="n">LoadSettings</span><span class="p">();</span>
+<div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">Load</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Type</span> <span class="n">settingsType</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">();</span>
 
-        <span class="n">foreach</span> <span class="p">(</span><span class="n">string</span> <span class="n">key</span> <span class="n">in ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/11/26/blogengine%e4%b8%ad%e7%9a%84blogsettings/">
+    <span class="c1">//------------------------------------------------------------</span>
+    <span class="c1">//  Enumerate through individual settings nodes</span>
+    <span class="c1">//------------------------------------------------------------</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Specialized</span><span class="p">.</span><span class="n">StringDictionary</span> <span class="n">dic</span> <span class="p">=</span> <span class="n">Providers</span><span class="p">.</span><span class="n">BlogService</span><span class="p">.</span><span class="n">LoadSettings</span><span class="p">();</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">key</span> <span class="k">in</span> <span class="n">dic</span><span class="p">.</span><span class="n">Keys</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="c1">//  Extract the setting&#39;s name/value pair</span>
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="kt">string</span> <span class="n">name</span> <span class="p">=</span> <span class="n">key</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="k">value</span> <span class="p">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="c1">//  Enumerate through public properties of this ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -226,7 +237,7 @@ ViewIceCalculate objViewIce = new Select().Top("1").From<ViewIceCalculate>().Exe
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/10/23/blogengine%e4%b8%ad%e7%9a%84provider%e6%a8%a1%e5%bc%8f%ef%bc%88%e4%b8%8b%ef%bc%89/">BlogEngine中的Provider模式（下）</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-2/">BlogEngine中的Provider模式（下）</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -236,6 +247,10 @@ ViewIceCalculate objViewIce = new Select().Top("1").From<ViewIceCalculate>().Exe
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>前面一篇Post主要专注于读取Web.Config中的配置的过程，这一篇将从面向对象的角度来阐述Provider的实现细节。</p>
@@ -243,14 +258,14 @@ ViewIceCalculate objViewIce = new Select().Top("1").From<ViewIceCalculate>().Exe
 <p>BlogEngine中的BlogProvider是一个继承自ProviderBase的抽象类，在ProviderBase基础上加入了整个系统所有需要的方法签名，这个地方需要注意的是它并没有提供方法的具体实现的代码。XmlBlogProvider和DbBlogProvider都继承了BlogProvider，并且提供了具体的关于XML和数据库的实现方法的具体的代码。好了，现在让我们回头看BlogService这个类，整个系统的数据操作时这样的，逻辑代码调用BlogService中相应的方法，然后BlogService调用LoadProviders读取配置（如果已经读取就不用再次读取），然后操作已经经过实例化的BlogProvider的实例。</p>
 <p>在这里笔者需要提醒的是抽象类其实是不能直接通过new关键字实例化的，通过不同的派生类的类型转换生成的抽象类虽然拥有一样名称的方法，但是具体的实现逻辑却并不是一样的，这其实就是一种面向抽象编程。这样做有什么好处呢？我们可以将针对不同数据存储方式的操作写到不同的继承自BlogProvider类的派生类中，然后在Web.Config中进行配置，程序中调用BlogProvider的方法进行逻辑方面的处理，而对于具体的数据存储的细节则不用关注太多。</p>
 <p>对于派生类转换成基类后方法的调用细节不是很清楚的朋友可以看看Anytao的这篇文章<a href="http://www.cnblogs.com/anytao/archive/2007/09/10/must_net_15.html">继承本质论</a></p>
-                    <a href="http://blog.michaelyin.info/2010/10/23/blogengine%e4%b8%ad%e7%9a%84provider%e6%a8%a1%e5%bc%8f%ef%bc%88%e4%b8%8b%ef%bc%89/">
+                    <a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-2/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/10/23/blogengine%e4%b8%ad%e7%9a%84provider%e6%a8%a1%e5%bc%8f%ef%bc%88%e4%b8%8a%ef%bc%89/">BlogEngine中的Provider模式（上）</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-1/">BlogEngine中的Provider模式（上）</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -260,23 +275,30 @@ ViewIceCalculate objViewIce = new Select().Top("1").From<ViewIceCalculate>().Exe
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>BlogEngine中的数据存储部分使用了Provider模式来支持多种数据存储方式，比如Sql
 server,XML等。只需要通过修改Web.Config文件中的响应配置节就可以按需求进行数据存储方式的改变。</p>
-<p>&lt;configSections> <br />
-&lt;sectionGroup name="BlogEngine"> <br />
-&lt;section name="blogProvider" requirePermission="false"
-type="BlogEngine.Core.Providers.BlogProviderSection, BlogEngine.Core"
-allowDefinition="MachineToApplication"
-restartOnExternalChanges="true"/> <br />
-&lt;/sectionGroup> <br />
-&lt;/configSections></p>
-<p>首先在Web.Config中定义BlogEngine这个自定义节点，sectionGroup这个是存放section元素的容器，它不是必须要写的。section则是将配置节中的配置信息和配置处理程序提供关联。这里我们可以看到，它将blogProvider这个配置节和BlogProviderSection这个类提供了关联,name
-= “blogProvider”说明配置节为blogProvider</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .1; .gutter: .true; .html-script: .false ...</p>
-                    <a href="http://blog.michaelyin.info/2010/10/23/blogengine%e4%b8%ad%e7%9a%84provider%e6%a8%a1%e5%bc%8f%ef%bc%88%e4%b8%8a%ef%bc%89/">
+<div class="highlight"><pre><span class="nt">&lt;configSections&gt;</span> 
+    <span class="nt">&lt;sectionGroup</span> <span class="na">name=</span><span class="s">&quot;BlogEngine&quot;</span><span class="nt">&gt;</span> 
+        <span class="nt">&lt;section</span> <span class="na">name=</span><span class="s">&quot;blogProvider&quot;</span> <span class="na">requirePermission=</span><span class="s">&quot;false&quot;</span> <span class="na">type=</span><span class="s">&quot;BlogEngine.Core.Providers.BlogProviderSection, BlogEngine.Core&quot;</span> <span class="na">allowDefinition=</span><span class="s">&quot;MachineToApplication&quot;</span> <span class="na">restartOnExternalChanges=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span> 
+    <span class="nt">&lt;/sectionGroup&gt;</span> 
+<span class="nt">&lt;/configSections&gt;</span>
+</pre></div>
+
+
+<p>首先在Web.Config中定义BlogEngine这个自定义节点，sectionGroup这个是存放section元素的容器，它不是必须要写的。section则是将配置节中的配置信息和配置处理程序提供关联。这里我们可以看到，它将blogProvider这个配置节和BlogProviderSection这个类提供了关联,name= “blogProvider”说明配置节为blogProvider</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">BlogProviderSection</span> <span class="p">:</span> <span class="n">ConfigurationSection</span>
+<span class="p">{</span>
+    <span class="c1">/// &lt;summary&gt;</span>
+    <span class="c1">/// A collection of registered providers.</span>
+    <span class="c1">/// &lt;/summary&gt;</span>
+<span class="na">    [ConfigurationProperty ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-1/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -366,6 +388,18 @@ restartOnExternalChanges="true"/> <br />
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
         <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
 
             <li class="list-group-item">
                 <h4> <i class="icon-home icon-large"></i>
@@ -436,50 +470,38 @@ restartOnExternalChanges="true"/> <br />
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
+                    <span class="label label-default">Blogengine</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/google-map.html">
-                    <span class="label label-default">Google Map</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
@@ -487,17 +509,29 @@ restartOnExternalChanges="true"/> <br />
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
                 </a>
             </li> 
 
@@ -512,7 +546,7 @@ restartOnExternalChanges="true"/> <br />
     <div class="container">
         <p class="text-muted">
             Copyright © 
-            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>

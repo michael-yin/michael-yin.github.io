@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Michaelyin Blog - Dictionary</title>
+    <title>Michaelyin's Blog - Dictionary</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -22,7 +22,7 @@
     <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
     
     <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Michaelyin Blog ATOM Feed"/>
+              title="Michaelyin's Blog ATOM Feed"/>
 
 </head>
 <body>
@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
@@ -84,11 +84,11 @@
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。</p>
 <p>Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。</p>
-<h5>链接法(chaining)</h5>
+<h3>链接法(chaining)</h3>
 <p>在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。</p>
 <p>链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。</p>
 <p><a href="http://blog.michaelyin.info/images/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/images/2011/02/201102142222064549.png" /></a></p>
-<h5>开放寻址法(open addressing)</h5>
+<h3>开放寻址法(open addressing)</h3>
 <p>在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。</p>
 <p>在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key ...</p>
                     <a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">
@@ -102,6 +102,18 @@
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
         <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
 
             <li class="list-group-item">
                 <h4> <i class="icon-home icon-large"></i>
@@ -172,50 +184,38 @@
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
+                    <span class="label label-default">Blogengine</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/google-map.html">
-                    <span class="label label-default">Google Map</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
@@ -223,17 +223,29 @@
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
                 </a>
             </li> 
 
@@ -248,7 +260,7 @@
     <div class="container">
         <p class="text-muted">
             Copyright © 
-            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>

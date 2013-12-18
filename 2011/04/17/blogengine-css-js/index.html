@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>BlogEngine中的js和css访问处理</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                BlogEngine中的js和css访问处理
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        17 Apr 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">Blogengine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+            <p>BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。</p>
+<p>BlogEngine中的Css文件是和BlogEngine的主题这个功能相关的，主题文件夹下每个相应文件夹下都有一个style.css被site.master所引用，BlogBasePage在运行的时候根据选定的主题的名字加载相应主题下的模板页，模板页中的Head中是有相应的样式表的链接的，然后再BlogBasePage的Onload方法中，通过CompressCss遍历Head中的控件，找到css，然后统一修改css的访问的路径通过httphandler来访问。</p>
+<div class="highlight"><pre><span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">CompressCss</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">QueryString</span><span class="p">[</span><span class="s">&quot;theme&quot;</span><span class="p">]</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">Control</span> <span class="n">control</span> <span class="k">in</span> <span class="n">Page</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Controls</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">HtmlControl</span> <span class="n">c</span> <span class="p">=</span> <span class="n">control</span> <span class="k">as</span> <span class="n">HtmlControl</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">].</span><span class="n">Equals</span><span class="p">(</span><span class="s">&quot;text/css&quot;</span><span class="p">,</span> <span class="n">StringComparison</span><span class="p">.</span><span class="n">OrdinalIgnoreCase</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(!</span><span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">].</span><span class="n">StartsWith</span><span class="p">(</span><span class="s">&quot;http://&quot;</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="kt">string</span> <span class="n">url</span> <span class="p">=</span> <span class="n">Utils</span><span class="p">.</span><span class="n">RelativeWebRoot</span> <span class="p">+</span> <span class="s">&quot;themes/&quot;</span> <span class="p">+</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Theme</span> <span class="p">+</span> <span class="s">&quot;/css.axd?name=&quot;</span> <span class="p">+</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">];</span>
+                <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">url</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s">&quot;.css&quot;</span><span class="p">,</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Version</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;.css&quot;</span><span class="p">);</span>
+                <span class="n">c</span><span class="p">.</span><span class="n">EnableViewState</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Css处理的handler的名字叫CssHandler,它通过查询字符串来获得需要访问的文件名，然后再缓存中进行查找，没有的话在本地文件中进行查找，并在查找成功后将数据流插入到缓存中去，为了防止文件修改，加入了缓存依赖。</p>
+<div class="highlight"><pre><span class="c1">// In cache?</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">Cache</span><span class="p">[</span><span class="n">context</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">RawUrl</span><span class="p">]</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Not found in cache, let&#39;s load it up</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fileName</span><span class="p">.</span><span class="n">StartsWith</span><span class="p">(</span><span class="s">&quot;http&quot;</span><span class="p">,</span> <span class="n">StringComparison</span><span class="p">.</span><span class="n">OrdinalIgnoreCase</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="n">css</span> <span class="p">=</span> <span class="n">RetrieveRemoteCss</span><span class="p">(</span><span class="n">fileName</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">css</span> <span class="p">=</span> <span class="n">RetrieveLocalCss</span><span class="p">(</span><span class="n">fileName</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="c1">// Found in cache</span>
+    <span class="n">css</span> <span class="p">=</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">context</span><span class="p">.</span><span class="n">Cache</span><span class="p">[</span><span class="n">context</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">RawUrl</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>SetHeaders方法通过客户端缓存策略进一步提高了性能</p>
+<div class="highlight"><pre><span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">VaryByHeaders</span><span class="p">[</span><span class="s">&quot;Accept-Encoding&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+<span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetExpires</span><span class="p">(</span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToUniversalTime</span><span class="p">().</span><span class="n">AddDays</span><span class="p">(</span><span class="m">7</span><span class="p">));</span>
+<span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetMaxAge</span><span class="p">(</span><span class="k">new</span> <span class="n">TimeSpan</span><span class="p">(</span><span class="m">7</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">));</span>
+<span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetRevalidation</span><span class="p">(</span><span class="n">HttpCacheRevalidation</span><span class="p">.</span><span class="n">AllCaches</span><span class="p">);</span>
+
+<span class="kt">string</span> <span class="n">etag</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot; + hash.ToString() + &quot;&quot;&quot;</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">incomingEtag</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">Headers</span><span class="p">[</span><span class="s">&quot;If-None-Match&quot;</span><span class="p">];</span>
+
+<span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetETag</span><span class="p">(</span><span class="n">etag</span><span class="p">);</span>
+<span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Cache</span><span class="p">.</span><span class="n">SetCacheability</span><span class="p">(</span><span class="n">HttpCacheability</span><span class="p">.</span><span class="n">Public</span><span class="p">);</span>
+</pre></div>
+
+
+<p>js的处理的JavaScriptHandler和Csshandler基本是差不多的，这里就不在重复了，不过由于js和css又有一点区别。css文件的链接是放在页面的Head里面，所以通过遍历Head统一修改url就可以完成统一请求HttpHandler，而js有点特殊，它可能需要放在页面底部（事实上Blogengine中的脚本引用都是放在底部的，在网上查了一下，据说是下载js会阻塞其他资源的下载，将导致整体响应时间变长），所以js的统一修改访问url是通过AddJavaScriptInclude这个方法来实现的。AddJavaScriptInclude修改js的路径为通过httphandler访问。</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'blogengine-css-js';
+            var disqus_url = 'http://blog.michaelyin.info/2011/04/17/blogengine-css-js/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

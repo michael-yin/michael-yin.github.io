@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Michaelyin Blog</title>
+    <title>Michaelyin's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -22,7 +22,7 @@
     <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
     
     <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Michaelyin Blog ATOM Feed"/>
+              title="Michaelyin's Blog ATOM Feed"/>
 
 </head>
 <body>
@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
@@ -63,7 +63,7 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/17/blogengine%e4%b8%ad%e7%9a%84extensinon%e5%ae%9e%e7%8e%b0/">BlogEngine中的Extensinon实现</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/03/17/blogengine-Extensinon/">BlogEngine中的Extensinon实现</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -74,33 +74,28 @@
 
 <span class="published">
 <i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/net.html">
-    <span class="label label-default">.Net</span>
-</a>
 <a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">BlogEngine</span>
+    <span class="label label-default">Blogengine</span>
 </a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>BlogEngine中提供了比较良好的扩展机制，用户可以通过添加Extension对BlogEngine进行各种功能的添加，而且还可以对各种扩展进行统一的管理，下面就把实现的机制和原理说明一下。</p>
 <p>ManagedExtension这个类对应了BlogEngine中的Extension,ExtensionSettings是ManagedExtension中的配置信息，而ExtensionParameter则是ExtensionSettings下面的参数信息。需要说明一下的是这三个类都是能够Serializable的，每个Extension的相关的属性，配置信息，配置参数最后都被序列化成了一个XML字符串，存储在数据库中。</p>
-<p>[code lang="xml"]<br />
-&lt;?xml version="1.0" encoding="utf-16"?><br />
-&lt;ManagedExtension
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br />
-xmlns:xsd="http://www.w3.org/2001/XMLSchema"<br />
-Name="SendCommentMail"><br />
-&lt;Version>1.3&lt;/Version><br />
-&lt;Priority>0&lt;/Priority><br />
-&lt;Description>Sends an ...</p>
-                    <a href="http://blog.michaelyin.info/2011/03/17/blogengine%e4%b8%ad%e7%9a%84extensinon%e5%ae%9e%e7%8e%b0/">
+<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;</span>
+<span class="nt">&lt;ManagedExtension</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="na">xmlns:xsd=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span>
+<span class="na">Name=</span><span class="s">&quot;SendCommentMail&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;Version&gt;</span>1.3<span class="nt">&lt;/Version&gt;</span>
+  <span class="nt">&lt;Priority&gt;</span>0<span class="nt">&lt;/Priority&gt;</span>
+  <span class="nt">&lt;Description&gt;</span>Sends an e-mail to the ...</pre></div>
+                    <a href="http://blog.michaelyin.info/2011/03/17/blogengine-Extensinon/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/13/blogengine%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%bb%e9%a2%98%e7%9a%84%e5%ae%9e%e7%8e%b0/">BlogEngine中自定义主题的实现</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/03/13/blogengine-theme/">BlogEngine中自定义主题的实现</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -121,9 +116,9 @@ Name="SendCommentMail"><br />
 <p><a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /></a></p>
 <p>post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。</p>
 <p>页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false ...</p>
-                    <a href="http://blog.michaelyin.info/2011/03/13/blogengine%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%bb%e9%a2%98%e7%9a%84%e5%ae%9e%e7%8e%b0/">
+<div class="highlight"><pre><span class="kt">string</span> <span class="n">path</span> <span class="p">=</span> <span class="n">Utils</span><span class="p">.</span><span class="n">RelativeWebRoot</span> <span class="p">+</span> <span class="s">&quot;themes/&quot;</span> <span class="p">+</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Theme</span> <span class="p">+</span> <span class="s">&quot;/PostView.ascx&quot;</span><span class="p">;</span>
+<span class="n">PostViewBase</span> <span class="n">postView</span> <span class="p">=</span> <span class="p">(</span><span class="n">PostViewBase</span><span class="p">)</span><span class="n">LoadControl ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/03/13/blogengine-theme/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -161,7 +156,7 @@ Name="SendCommentMail"><br />
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/02/%e8%bf%99%e4%b8%8d%e6%98%af%e5%9f%ba%e7%a1%80%e4%b8%ad%e7%9a%84%e5%9f%ba%e7%a1%80%e4%b9%88/">这不是基础中的基础么</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/03/02/static-function/">这不是基础中的基础么</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -184,7 +179,7 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
 <p>在来说说方法的调用，在大学学过C的都必定折腾过实参，形参，也知道为什么有的时候为什么调用C语言函数的时候要传入指针，如果你把那个地方搞的比较清楚的话那么这里想必也难不倒你了。C语言函数调用的时候是在内存上重新开辟一块区域，然后在这个里面运行函数并进行相应的处理并返回结果，运行完成之后释放所有的局部变量。在.Net里面方法的调用也是这个过程，分配动态内存进行方法的处理。</p>
 <p>吉日嘎拉博文中纠结的并发还是排队其实仔细想象就会有答案，这两种处理方式产生的原因是因为对资源的占用问题，就是说不同线程里面有没有可能产生资源占用的问题，上面已经说到了方法调用是分配到内存里面进行处理，不同的方法在内存中所处的位置显然是不相同的。所以一般情况下这个是能够并发的，除非是在不同的内存中又涉及到了访问公有区域的位置，比如访问静态变量。</p>
 <p>到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变\~</p>
-                    <a href="http://blog.michaelyin.info/2011/03/02/%e8%bf%99%e4%b8%8d%e6%98%af%e5%9f%ba%e7%a1%80%e4%b8%ad%e7%9a%84%e5%9f%ba%e7%a1%80%e4%b9%88/">
+                    <a href="http://blog.michaelyin.info/2011/03/02/static-function/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -212,11 +207,11 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。</p>
 <p>Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。</p>
-<h5>链接法(chaining)</h5>
+<h3>链接法(chaining)</h3>
 <p>在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。</p>
 <p>链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。</p>
 <p><a href="http://blog.michaelyin.info/images/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/images/2011/02/201102142222064549.png" /></a></p>
-<h5>开放寻址法(open addressing)</h5>
+<h3>开放寻址法(open addressing)</h3>
 <p>在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。</p>
 <p>在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key ...</p>
                     <a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">
@@ -259,7 +254,7 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/23/%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e9%9d%9e%e9%80%92%e5%bd%92%e9%81%8d%e5%8e%86/">二叉树的非递归遍历</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/12/23/binary-tree-linear-walk/">二叉树的非递归遍历</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -269,33 +264,43 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/binary-tree.html">
+    <span class="label label-default">Binary tree</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>二叉树的遍历如果使用递归调用基本没什么问题，这里主要是讲如何使用非递归方法实现二叉树的遍历。</p>
 <p>由于递归调用程序实际上使用了栈来保存方法中的变量值，在非递归遍历的方法中我们需要基于栈的方法。先来看看这个方法</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-        /// <summary>
-        /// 非递归中序遍历二叉树
-        /// </summary>
-        /// <param name="root"></param>
-        static void InOrderTraverse(BinaryTreeNode root)
-        {
-            BinaryTreeNode temp = root;
-            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
-            stack.Push(root);
-            while (stack.Count &gt; 0)
-            {
-                while (temp != null ...</binarytreenode></binarytreenode></p>
-                    <a href="http://blog.michaelyin.info/2010/12/23/%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e9%9d%9e%e9%80%92%e5%bd%92%e9%81%8d%e5%8e%86/">
+<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// 非递归中序遍历二叉树</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="c1">/// &lt;param name=&quot;root&quot;&gt;&lt;/param&gt;</span>
+<span class="k">static</span> <span class="k">void</span> <span class="nf">InOrderTraverse</span><span class="p">(</span><span class="n">BinaryTreeNode</span> <span class="n">root</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BinaryTreeNode</span> <span class="n">temp</span> <span class="p">=</span> <span class="n">root</span><span class="p">;</span>
+    <span class="n">Stack</span><span class="p">&lt;</span><span class="n">BinaryTreeNode</span><span class="p">&gt;</span> <span class="n">stack</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="p">&lt;</span><span class="n">BinaryTreeNode</span><span class="p">&gt;();</span>
+    <span class="n">stack</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">stack</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">temp</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">temp</span> <span class="p">=</span> <span class="n">temp</span><span class="p">.</span><span class="n">left</span><span class="p">;</span>
+            <span class="n">stack</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">stack</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
+        <span class="c1">//如果为0证明这时右边节点为null</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">stack</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">temp ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/12/23/binary-tree-linear-walk/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/21/%e9%97%b2%e8%af%9d%e5%8a%a8%e6%80%81kml/">闲话动态KML</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/12/21/google-kml/">闲话动态KML</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -309,9 +314,6 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
 <a href="http://blog.michaelyin.info/tag/net.html">
     <span class="label label-default">.Net</span>
 </a>
-<a href="http://blog.michaelyin.info/tag/google-map.html">
-    <span class="label label-default">Google Map</span>
-</a>
 <a href="http://blog.michaelyin.info/tag/kml.html">
     <span class="label label-default">Kml</span>
 </a>
@@ -324,13 +326,13 @@ Map开发中开发中用到了动态生成KML在地图中动态显示数据，�
 map和Google Earth等软件识别并显示。我们可以在Google
 Earth把我们感兴趣的一些地点标识出来，然后生成KML文件，通过分享这个文件来让别人在Google
 map或者google earth中看到我们标注的信息。下面是一个简单的KML文件。</p>
-<p>[code lang="xml"]<br />
-&lt;?xml version="1.0" encoding="UTF-8"?><br />
-&lt;kml xmlns="http://www.opengis.net/kml/2.2"><br />
-&lt;Placemark><br />
-&lt;name>Simple placemark&lt;/name><br />
-&lt;description>Attached to the ground. Intelligently places itself ...</p>
-                    <a href="http://blog.michaelyin.info/2010/12/21/%e9%97%b2%e8%af%9d%e5%8a%a8%e6%80%81kml/">
+<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;kml</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.opengis.net/kml/2.2&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;Placemark&gt;</span>
+    <span class="nt">&lt;name&gt;</span>Simple placemark<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;description&gt;</span>Attached to the ground. Intelligently places itself 
+       at the height ...</pre></div>
+                    <a href="http://blog.michaelyin.info/2010/12/21/google-kml/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -418,6 +420,18 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
         <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
 
             <li class="list-group-item">
                 <h4> <i class="icon-home icon-large"></i>
@@ -488,50 +502,38 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
+                    <span class="label label-default">Blogengine</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/google-map.html">
-                    <span class="label label-default">Google Map</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
@@ -539,17 +541,29 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
                 </a>
             </li> 
 
@@ -564,7 +578,7 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
     <div class="container">
         <p class="text-muted">
             Copyright © 
-            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>

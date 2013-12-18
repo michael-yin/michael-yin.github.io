@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Michaelyin Blog - 未分类</title>
+    <title>Michaelyin's Blog - 未分类</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -22,7 +22,7 @@
     <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
     
     <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Michaelyin Blog ATOM Feed"/>
+              title="Michaelyin's Blog ATOM Feed"/>
 
 </head>
 <body>
@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin Blog</a>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
@@ -146,99 +146,6 @@
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/07/09/blogengine%e5%ad%a6%e4%b9%a0%e7%b3%bb%e5%88%97/">BlogEngine学习系列</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        09 Jul 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859464.html">BlogEngine中的Provider模式（上）</a></p>
-<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859492.html">BlogEngine中的Provider模式（下）</a></p>
-<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/11/26/1889217.html">BlogEngine中的BlogSettings</a></p>
-<p><a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/13/1982589.html">BlogEngine中自定义主题的实现</a><a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/17/1986689.html">BlogEngine中的Extensinon实现</a></p>
-<p><a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/19/1989046.html">BlogEngine中的widget机制</a></p>
-<p><a href="http://www.cnblogs.com/MichaelYin/archive/2011/04/17/2018986.html">BlogEngine中的js和css访问处理</a></p>
-                    <a href="http://blog.michaelyin.info/2011/07/09/blogengine%e5%ad%a6%e4%b9%a0%e7%b3%bb%e5%88%97/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/05/27/%e5%88%9d%e5%a7%8b%e5%8c%96%e9%82%a3%e4%ba%9b%e4%ba%8b%e5%84%bf/">初始化那些事儿</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        27 May 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>先来看看这段代码</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Circle objTest = new Circle();
-            Console.ReadLine();
-        }
-    }
-    public class Print
-    {
-        public Print(String text)
-        {
-            Console.WriteLine(text);
-        }
-    }
-    public class Shape
-    {
-        //静态字段 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/05/27/%e5%88%9d%e5%a7%8b%e5%8c%96%e9%82%a3%e4%ba%9b%e4%ba%8b%e5%84%bf/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/04/17/blogengine%e4%b8%ad%e7%9a%84js%e5%92%8ccss%e8%ae%bf%e9%97%ae%e5%a4%84%e7%90%86/">BlogEngine中的js和css访问处理</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        17 Apr 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。</p>
-<p>BlogEngine中的Css文件是和BlogEngine的主题这个功能相关的，主题文件夹下每个相应文件夹下都有一个style.css被site.master所引用，BlogBasePage在运行的时候根据选定的主题的名字加载相应主题下的模板页，模板页中的Head中是有相应的样式表的链接的，然后再BlogBasePage的Onload方法中，通过CompressCss遍历Head中的控件，找到css，然后统一修改css的访问的路径通过httphandler来访问。</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-      protected virtual void CompressCss()
-        {
-            if (Request.QueryString["theme"] != null ...</p>
-                    <a href="http://blog.michaelyin.info/2011/04/17/blogengine%e4%b8%ad%e7%9a%84js%e5%92%8ccss%e8%ae%bf%e9%97%ae%e5%a4%84%e7%90%86/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="http://blog.michaelyin.info/2011/04/13/cookie%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">Cookie学习笔记</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -263,33 +170,6 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
 <p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
 .first-line: .0; .gutter ...</p>
                     <a href="http://blog.michaelyin.info/2011/04/13/cookie%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/19/blogengine%e4%b8%ad%e7%9a%84widget%e6%9c%ba%e5%88%b6/">BlogEngine中的widget机制</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        19 Mar 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>BlogEngine中的widget机制支持在页面可添加一些小的widget，这个功能当时还是特别吸引我的，现在简单的说下实现的原理。</p>
-<p>所有的widget都在一个WidgetZone的容器内，这个容器继承自PlaceHolder，而这个容器是在自定义theme中的模板页中用到的，当这个控件加载的时候，它从数据库中找到关于widget的配置信息。这个配置信息也是DataStore的方式提取和存储的。</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-&lt;?xml version="1.0" encoding="utf-16"?&gt;
-<WidgetData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns:xsd="http://www ...</p>
-                    <a href="http://blog.michaelyin.info/2011/03/19/blogengine%e4%b8%ad%e7%9a%84widget%e6%9c%ba%e5%88%b6/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -327,11 +207,11 @@ xmlns:xsd="http://www ...</p>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/23/%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e9%9d%9e%e9%80%92%e5%bd%92%e9%81%8d%e5%8e%86/">二叉树的非递归遍历</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/12/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f/">算法学习之快速排序</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
-        23 Dec 2010
+        20 Dec 2010
     </span>
 
 
@@ -339,24 +219,123 @@ xmlns:xsd="http://www ...</p>
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>二叉树的遍历如果使用递归调用基本没什么问题，这里主要是讲如何使用非递归方法实现二叉树的遍历。</p>
-<p>由于递归调用程序实际上使用了栈来保存方法中的变量值，在非递归遍历的方法中我们需要基于栈的方法。先来看看这个方法</p>
+                <div class="summary"><p>快速排序通常是用于排序的最佳实用选择，因为它的平均性能相当好。</p>
+<p>快速排序和先前讲到的合并排序一样，体现了算法设计中的分治的思想。我们首先将问题进行分解，将数组划分成两个部分A[p…q-1]和A[q+1…r]，使得A[p…q-1]中的元素小于等于A[q]，然后分别解决前面一个数组和后面一个数组的排序，最后进行合并，由于这两个数组是就地排序(in
+place)的，所以不用像合并排序中一样进行过多的合并的操作。</p>
+<p>由于中间的分别排序的部分可以使用递归实现，所以快速排序中关键的地方就是如何将数组进行分解了。</p>
 <p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
 .first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
 .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
         /// <summary>
-        /// 非递归中序遍历二叉树
-        /// </summary>
-        /// <param name="root"></param>
-        static void InOrderTraverse(BinaryTreeNode root)
-        {
-            BinaryTreeNode temp = root;
-            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
-            stack.Push(root);
-            while (stack.Count &gt; 0)
-            {
-                while (temp != null ...</binarytreenode></binarytreenode></p>
-                    <a href="http://blog.michaelyin.info/2010/12/23/%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e9%9d%9e%e9%80%92%e5%bd%92%e9%81%8d%e5%8e%86/">
+        /// 对数组进行分组,返回分界处的index ...</summary></p>
+                    <a href="http://blog.michaelyin.info/2010/12/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/13/%e7%94%b1%e7%b1%bb%e8%83%bd%e5%90%a6%e5%8c%85%e5%90%ab%e8%87%aa%e5%b7%b1%e8%af%b4%e5%bc%80%e5%8e%bb/">由类能否包含自己说开去</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        13 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>下午在Coding的时候突然想到了一个问题，类到底能不能包含自己?在什么情况下能包自己？</p>
+<p>当时正在实现一个类似链表的功能，在一个节点中需要有下个节点的引用的数据，比如像这样子的代码。</p>
+<p Next_="Next;
+" Node="Node" _="
+" data_="data;
+" int="int" public="public">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+    public class Node</p>
+<div class="highlight"><pre><span class="err">在</span><span class="n">Node</span><span class="err">中有一个</span><span class="n">Node</span><span class="err">类型的引用地址，用来找到这个节点的下一个节点。默认构造函数调用后会将 ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/12/13/%e7%94%b1%e7%b1%bb%e8%83%bd%e5%90%a6%e5%8c%85%e5%90%ab%e8%87%aa%e5%b7%b1%e8%af%b4%e5%bc%80%e5%8e%bb/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/08/%e7%ae%97%e6%b3%95%e6%8e%92%e5%ba%8f%e4%b9%8b%e5%a0%86%e6%8e%92%e5%ba%8f/">算法排序之堆排序</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        08 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>堆排序的重点在于对堆的理解，首先堆是一种数组对象，同时，它也可以被视为一棵完全二叉树，树中的每个节点从上到下，从左到右和数组中的每个元素是一一对应的，二叉树的每一层都是填满的，除了最后一层以外。</p>
+<p>比如数组中的第一个元素就是二叉树的根节点，第二个就是元素就是根节点的左边的子节点，而第三个节点就是根节点的右边的子节点，然后第四个节点就是根节点的左边的子节点的左边的子节点，这样以此类推。</p>
+<p>通过给定的节点的数组下标，我们可以求出该节点的左边子节点的坐标和右边子节点的坐标。</p>
+<p 1_="1;
+" _="+" _2="(2" parent_="parent)" return="return">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
+.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
+.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+        public static int ...
+                    <a href="http://blog.michaelyin.info/2010/12/08/%e7%ae%97%e6%b3%95%e6%8e%92%e5%ba%8f%e4%b9%8b%e5%a0%86%e6%8e%92%e5%ba%8f/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/06/%e5%ad%97%e7%ac%a6%e7%bc%96%e7%a0%81%e9%82%a3%e4%ba%9b%e4%ba%8b%e5%84%bf/">字符编码那些事儿</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        06 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>这几天专门花时间好好看了下字符编码的东西，在这里写篇随笔把知识好好梳理一下。</p>
+<p>讲到字符编码，还是从最基本的ASCII讲起咯。</p>
+<p>在计算机刚开始使用时候，人们必须用计算机里面的01这样的二进制组合来表示一些基本的英文字母和字符,当然了，每个人都可以有自己的一套编码标准来完成这个看似简单的功能，不过，为了不同的计算机系统之间能够相互通信而不产生混乱，那么所有的计算机就必须采用相同的编码标准，所以美国的标准化组织就出台了ASCII编码标准，统一规定了上述符号和字母用哪些二进制来表示。在这里要加的一点是，标准ASCII只用了7位，最前面的一位是用来做奇偶校验的。比如英文字母a在ASCII编码中用二进制01100001表示，十六进制就是61.</p>
+<p>使用了ASCII编码后，原本的问题得到了很好的解决。但是，这里又有了新的问题，它并不能对其他非英语国家有很好的支持。比如，我如何编码汉字，日本文字，朝鲜文字，阿拉伯语，还有俄罗斯语等等。由于汉字这样的文字数目较多，用一个Byte(也就是8
+bit)来提供编码方案显然是不现实的，这时，双字节字符集（DBCS：double-byte
+character set）就出现了，它的出现就是为了解决刚刚说到的这个问题的。</p>
+<p>先来解释下什么是DBCS,DBCS简单的说就是使用两个Byte来表示一个字符，而且DBCS的最初的还是ASCII代码，所以说DBCS是兼容ASCII的。而且它表示ASCII只用了一个Byte,这里说一个问题，假设给了你一连串的Byte数组，你解码的时候如何知道这个Byte的解码需要用到他的下一个Byte呢 ...</p>
+                    <a href="http://blog.michaelyin.info/2010/12/06/%e5%ad%97%e7%ac%a6%e7%bc%96%e7%a0%81%e9%82%a3%e4%ba%9b%e4%ba%8b%e5%84%bf/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/11/25/mschart%e4%b8%8ezedgraph%e4%bd%bf%e7%94%a8%e5%88%9d%e6%8e%a2%e5%8f%8a%e6%af%94%e8%be%83/">MSchart与Zedgraph使用初探及比较</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        25 Nov 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>最近项目中的统计图表功能需要重新进行下调整，所以这两天花时间学习了下关于统计图表方面的东西。</p>
+<p>统计图表的实现方式常用的有Flash方式和图片方式，我这两天主要是把MsChart和Zedgraph研究了一下，简单说下MSchart，这个图表解决方案是微软官方提供的图表解决方案，使用的时候需要.Net3.5
+Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需要把需要用到的dll手动加到bin文件夹中去），然后需要安装一个文件，也就是把几个需要用到的dll放到机器里面去。然后有一个安装文件在你的VS中安装控件，这样你就可以通过拖拉的方式直接在项目中使用mschart，需要注意的是在拖拉控件的同时它会修改你的Web.Config文件，当然了，如果你不想在toolbox中加入控件，也可以不安装VS控件，直接在项目中编码的方式来使用就行了，在重复一遍，Mschart.exe那个是必须要装的。如果你想进一步了解Mschart的使用，微软网站上有一个关于这个控件使用的样例项目，里面关于这个控件的例子已经写的很全面了。</p>
+<p>相比于Zedgraph，Mschart对前台声明式的编程支持的更好，很多东西都可以通过在前台声明来控制。Chart这个标记代表了整个控件，Legends这个标记是整个Chart的说明，Series代表Chart中的一连串数据，比如折线图中的一连串数据点就是一个Series，你可以向里面插入Points这个对象，来完成数据的绑定。ChartArea是作图区域，一个Chart控件中可以有几个ChartArea,比如如果有两个ChartArea的话生成的图就会有两个图表，AxisY和AxisX下提供了基本的控制样式的属性.</p>
+<p>Mschart支持多种数据源的绑定，而且和.Net本身的结合的夜更紧密，比如</p>
+<p>Chart1.Series["Series1 ...</p>
+                    <a href="http://blog.michaelyin.info/2010/11/25/mschart%e4%b8%8ezedgraph%e4%bd%bf%e7%94%a8%e5%88%9d%e6%8e%a2%e5%8f%8a%e6%af%94%e8%be%83/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -372,8 +351,6 @@ xmlns:xsd="http://www ...</p>
                         href="http://blog.michaelyin.info/category/wei-fen-lei2.html">2</a></li>
                 <li class=""><a
                         href="http://blog.michaelyin.info/category/wei-fen-lei3.html">3</a></li>
-                <li class=""><a
-                        href="http://blog.michaelyin.info/category/wei-fen-lei4.html">4</a></li>
                 <li class="next"><a
                         href="http://blog.michaelyin.info/category/wei-fen-lei3.html">&raquo;</a></li>
         </ul>
@@ -381,6 +358,18 @@ xmlns:xsd="http://www ...</p>
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
         <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
 
             <li class="list-group-item">
                 <h4> <i class="icon-home icon-large"></i>
@@ -451,50 +440,38 @@ xmlns:xsd="http://www ...</p>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">BlogEngine</span>
+                    <span class="label label-default">Blogengine</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/google-map.html">
-                    <span class="label label-default">Google Map</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
@@ -502,17 +479,29 @@ xmlns:xsd="http://www ...</p>
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
                 </a>
             </li> 
 
@@ -527,7 +516,7 @@ xmlns:xsd="http://www ...</p>
     <div class="container">
         <p class="text-muted">
             Copyright © 
-            <a href="http://blog.michaelyin.info">Michaelyin Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
             <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
         </p>

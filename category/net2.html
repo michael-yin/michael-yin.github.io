@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Michaelyin's Blog - .Net</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<div class="col-lg-9">
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">BlogEngine中的BlogSettings</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        26 Nov 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">Blogengine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>BlogEngine中的BlogSettings这个类是用来提供整个系统的设置参数的，参数的读取采用的是反射获取属性名称，然后遍历进行赋值，个人觉得这段代码值得学习</p>
+<div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">Load</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Type</span> <span class="n">settingsType</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">();</span>
+
+    <span class="c1">//------------------------------------------------------------</span>
+    <span class="c1">//  Enumerate through individual settings nodes</span>
+    <span class="c1">//------------------------------------------------------------</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Specialized</span><span class="p">.</span><span class="n">StringDictionary</span> <span class="n">dic</span> <span class="p">=</span> <span class="n">Providers</span><span class="p">.</span><span class="n">BlogService</span><span class="p">.</span><span class="n">LoadSettings</span><span class="p">();</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">key</span> <span class="k">in</span> <span class="n">dic</span><span class="p">.</span><span class="n">Keys</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="c1">//  Extract the setting&#39;s name/value pair</span>
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="kt">string</span> <span class="n">name</span> <span class="p">=</span> <span class="n">key</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="k">value</span> <span class="p">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="c1">//  Enumerate through public properties of this ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-2/">BlogEngine中的Provider模式（下）</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        23 Oct 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>前面一篇Post主要专注于读取Web.Config中的配置的过程，这一篇将从面向对象的角度来阐述Provider的实现细节。</p>
+<p>BlogEngine中其实很多处用到了Provider模式，而我希望就数据存储这部分把Provider给大家讲清楚，因为其他的地方和数据存储差不多，实现的方式大同小异。</p>
+<p>BlogEngine中的BlogProvider是一个继承自ProviderBase的抽象类，在ProviderBase基础上加入了整个系统所有需要的方法签名，这个地方需要注意的是它并没有提供方法的具体实现的代码。XmlBlogProvider和DbBlogProvider都继承了BlogProvider，并且提供了具体的关于XML和数据库的实现方法的具体的代码。好了，现在让我们回头看BlogService这个类，整个系统的数据操作时这样的，逻辑代码调用BlogService中相应的方法，然后BlogService调用LoadProviders读取配置（如果已经读取就不用再次读取），然后操作已经经过实例化的BlogProvider的实例。</p>
+<p>在这里笔者需要提醒的是抽象类其实是不能直接通过new关键字实例化的，通过不同的派生类的类型转换生成的抽象类虽然拥有一样名称的方法，但是具体的实现逻辑却并不是一样的，这其实就是一种面向抽象编程。这样做有什么好处呢？我们可以将针对不同数据存储方式的操作写到不同的继承自BlogProvider类的派生类中，然后在Web.Config中进行配置，程序中调用BlogProvider的方法进行逻辑方面的处理，而对于具体的数据存储的细节则不用关注太多。</p>
+<p>对于派生类转换成基类后方法的调用细节不是很清楚的朋友可以看看Anytao的这篇文章<a href="http://www.cnblogs.com/anytao/archive/2007/09/10/must_net_15.html">继承本质论</a></p>
+                    <a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-2/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-1/">BlogEngine中的Provider模式（上）</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        23 Oct 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>BlogEngine中的数据存储部分使用了Provider模式来支持多种数据存储方式，比如Sql
+server,XML等。只需要通过修改Web.Config文件中的响应配置节就可以按需求进行数据存储方式的改变。</p>
+<div class="highlight"><pre><span class="nt">&lt;configSections&gt;</span> 
+    <span class="nt">&lt;sectionGroup</span> <span class="na">name=</span><span class="s">&quot;BlogEngine&quot;</span><span class="nt">&gt;</span> 
+        <span class="nt">&lt;section</span> <span class="na">name=</span><span class="s">&quot;blogProvider&quot;</span> <span class="na">requirePermission=</span><span class="s">&quot;false&quot;</span> <span class="na">type=</span><span class="s">&quot;BlogEngine.Core.Providers.BlogProviderSection, BlogEngine.Core&quot;</span> <span class="na">allowDefinition=</span><span class="s">&quot;MachineToApplication&quot;</span> <span class="na">restartOnExternalChanges=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span> 
+    <span class="nt">&lt;/sectionGroup&gt;</span> 
+<span class="nt">&lt;/configSections&gt;</span>
+</pre></div>
+
+
+<p>首先在Web.Config中定义BlogEngine这个自定义节点，sectionGroup这个是存放section元素的容器，它不是必须要写的。section则是将配置节中的配置信息和配置处理程序提供关联。这里我们可以看到，它将blogProvider这个配置节和BlogProviderSection这个类提供了关联,name= “blogProvider”说明配置节为blogProvider</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">BlogProviderSection</span> <span class="p">:</span> <span class="n">ConfigurationSection</span>
+<span class="p">{</span>
+    <span class="c1">/// &lt;summary&gt;</span>
+    <span class="c1">/// A collection of registered providers.</span>
+    <span class="c1">/// &lt;/summary&gt;</span>
+<span class="na">    [ConfigurationProperty ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-1/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/08/08/bugnet-study-7/">Bugnet学习总结（7）杂</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        08 Aug 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Bugnet使用Log4net进行日志记录，Config文件夹下面是配置文件。Global.asax文件里面指明了配置文件的路径。基本的使用网上有相关的资料，自己查下基本就可以弄懂。不过我在这里是想说的是我在使用过程中遇到的一个问题。</p>
+<p>Bugnet中的Log的数据源是数据库中的Log表，在使用过程中我发现有时候有些需要被Log的数据并没有被写入到数据库中，有的时候是没有被立即写入到数据库中。我后来在另外的一个小项目中也使用了Log4net,我在Application_Start事件中写入了记录事件，系统进入后马上进入数据库进行查看，但是数据库中的表中病没有那一条表记录。后来我又在里面把数据源加入了生成txt文件，代码就动了下log4net的配置文件，但是每次改变txt文件都能记录下来，大家又兴趣可以试下，如果知道答案的麻烦请告诉我，谢谢了。。。</p>
+<p><a href="http://www.cnblogs.com/dragon/archive/2005/03/24/124254.html">Log4net学习指南</a></p>
+<p>Bugnet中的rss输出使用的是Rss.net，代码不是很难，有兴趣可以自己去研究下。。</p>
+<p>在此之前对于单元测试只是知道，对于如何实施并不是很清楚，在Bugnet里面刚好有机会看看别人如何进行单元测试，草草的看了下，发现只是简单的测试了几个类的功能，不过对于像了解单元测试的朋友来说基本上足够了。。。</p>
+                    <a href="http://blog.michaelyin.info/2010/08/08/bugnet-study-7/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/08/01/bugnet-study-6/">Bugnet学习总结（6）用户控件</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        01 Aug 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>用户控件作为Asp.net提供的一种自定义可重用的机制，在很多的项目中都得到了应用，Bugnet里面也使用了很多用户控件。</p>
+<p>UserControls文件夹里面放的除了fckeditor和xslt外，就是项目里面要用到的用户控件了，代码都不难，下面就把里面的DisplayBugs.ascx拿出来稍微讲一下。该控件在Bugnet中被用到的次数还是很多的，功能也比较简单，就是提供了一个有图表显示，有排序功能的列表。该用户控件是在Gridview的基础上做的开发，增加了一个BugCollection和EventHandler。BugCollection是Gridview需要绑定的数据源，而EventHandler则是使用了事件。调用该事件实现绑定数据的具体操作。</p>
+<div class="highlight"><pre> <span class="p">&lt;</span><span class="n">uc1</span><span class="p">:</span><span class="n">DisplayBugs</span> <span class="n">ID</span><span class="p">=</span><span class="s">&quot;InProgressBugs&quot;</span> <span class="n">HeaderBackColor</span><span class="p">=</span><span class="s">&quot;#eeeeee&quot;</span> <span class="n">CssClass</span><span class="p">=</span><span class="s">&quot;issues&quot;</span> <span class="n">OnRebindCommand</span><span class="p">=</span><span class="s">&quot;DisplayBugs_DataBind&quot;</span> <span class="n">runat</span><span class="p">=</span><span class="s">&quot;server&quot;</span> <span class="p">/&gt;</span>
+</pre></div>
+
+
+<p>上面是在MyBugs.aspx中重用DisplayBugs.ascx用户控件的代码，可以看到一行代码基本就搞定，而后台的代码只需要把相应的数据源给用户控件，然后执行DataBind就可以了。像这样</p>
+<div class="highlight"><pre><span class="n">BugsAssigned</span><span class="p">.</span><span class="n">DataSource</span> <span class="p">=</span> <span class="n">Bug</span><span class="p">.</span><span class="n">GetBugsByCriteria</span><span class="p">(-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">User</span><span class="p">.</span><span class="n">Identity</span><span class="p">.</span><span class="n">Name ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/08/01/bugnet-study-6/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/07/25/bugnet-study-5/">Bugnet学习总结（5）逻辑层</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        25 Jul 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Bugnet的逻辑层在在BugNET.BusinessLogicLayer这个namespace下，大多数类基本上是和数据库中的表相对应的，类里面一般就私有变量，方法，和属性，类中的方法调用DAL层的方法完成CRUD操作，没什么太复杂的地方。</p>
+<p>把几个不一样的类稍微提一下，BugCollection是一个集合类，继承自CollectionBase,提供了排序的方法，里面包含的类实现了IComparer接口。</p>
+<p>Globals这个类将公用的变量，数组，枚举放在了里面，方便编程的时候直接调用。</p>
+<p>HostSettings是读取项目配置的类，从DAL读取后数据放在了Cache中，值得借鉴。</p>
+<p>Mail是发送邮件的类，用xslt进行转换内容，然后调用.Net自带的函数进行邮件发送。</p>
+                    <a href="http://blog.michaelyin.info/2010/07/25/bugnet-study-5/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/07/25/bugnet-study-4/">Bugnet学习总结（4）数据访问层</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        25 Jul 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Bugnet由于功能比较简单，所以在系统的架构上也很简单，没什么过于复杂的地方。</p>
+<p>DAL文件夹中的DataFactory文件通过读取Web.config中的Appsetting中的值反射生成生成数据库连接和操作对象。DataHelper，里面则是一些常用的Ado操作，进行了简单的封装，GenericDataAccessLayer是调用DataHelper里的函数完成数据CRUD操作的类。,需要提一下的是具体的数据库操作的代码是写在数据库的存储过程中的，而这一点也正是我不是很理解的地方，先前提到过的DataFactory和DataHelper特别是
+DataFactory的存在是提供跨库操作的，而它将数据库操作又用存储过程写在数据库里面这不是有点矛盾么。。。想象一下如果要迁移的话那存储过程不是都还要改。。。。。:(</p>
+<p>在看GenericDataAccessLayer的时候，刚开始我对其中一个语法结构不是很清楚，是到网上查了一些资料才弄懂的。该类在里面定义了一个静态对象，如果是别的对象我还可以理解，可是这个对象正式通过GenericDataAccessLayer实例化的。。</p>
+<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// BugNET Data Access Layer</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">GenericDataAccessLayer</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="n">GenericDataAccessLayer</span> <span class="n">instance</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>这个就是静态对象声明的地方</p>
+<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Instances this instance.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="c1">/// &lt;returns&gt;&lt;/returns&gt;</span>
+<span class="k">public</span> <span class="k">static</span> <span class="n">GenericDataAccessLayer</span> <span class="nf">Instance</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">instance</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">instance ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/07/25/bugnet-study-4/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-3/">Bugnet学习总结（3）项目文件结构</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        19 Jul 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>用VS打开Bugnet项目文件，可以看到四个Project,BugNET_WAP是Web项目，HttpModule.Authentication是自定义的认证模块，好像是可以在其中选择WindowsSAM和ActiveDirectory两种认证方式，这个模块我没怎么看，感兴趣的朋友请自己研究下，HttpModule.MailBoxReader是邮件读取的模块，UnitTests是单元测试Project.</p>
+<p>另外的三个文件结构相对比较简单，就不在这里多做说明了，现在在这里主要对BugNET_WAP进行较详细的说明。</p>
+<p>Bugnet使用的数据库是Sql
+server2005,如果你下载的是source代码，你是不需要Install过程的，建议使用Sql
+server将它附加到你本机数据库中（数据库在APP_Data文件夹中），然后将Web.config中的链接字符串修改成连接你本机数据库就OK。关于Bugnet安装版的安装过程，园子里面已经有人发了，大家自己去找找。</p>
+<p>Administration文件夹里面主要是项目管理相关的页面和用户控件，关于Project创建和管理的页面都在这里面。</p>
+<p>Bugs则主要是提交Issue和管理Issue的页面和用户控件。</p>
+<p>Config文件夹中的Log4Net.config是log4net的配置文件。</p>
+<p>Errors文件夹放的是显示错误的页面。</p>
+<p>Install放的是Bugnet安装和升级需要的文件，如果下载的是发布版本的Bugnet，第一次需要运行Install.aspx来进行安装。</p>
+<p>Report放的是报表文件和浏览报表的页面。</p>
+<p>Shared放的是所用到的母版页。</p>
+<p>UserControls放的是用户控件，需要提到的xslt文件，FCKeditor。</p>
+<p>Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类，Pop3Reader下放的是读取邮件时需要用到的类，DAL和BLL是干什么的就不用我多说了吧。。</p>
+                    <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-3/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">Bugnet学习总结（2）数据库</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        19 Jul 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/%E6%9C%AA%E5%91%BD%E5%90%8D.jpg"><img alt="未命名" src="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/%E6%9C%AA%E5%91%BD%E5%90%8D_thumb.jpg" title="未命名" /></a></p>
+<p>接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。</p>
+<p>aspnet_Users和UserRoles，Roles，RolePermission,Permission,UserProjects组成了基于Project的权限管理模块所需要的表，表名所对应的意思看起来是一目了然的，在这里也就不多说了。。</p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/%E6%9C%AA%E5%91%BD%E5%90%8D_1.jpg"><img alt="未命名" src="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/%E6%9C%AA%E5%91%BD%E5%90%8D_thumb_1.jpg" title="未命名" /></a></p>
+<p>在Bugnet里你创建一个Project的话，项目创建者可以在里面事先添加一些你自定义的属性，你可以决定项目成员在提交内容的时候是否必须填写这个自定义属性，这个自定义属性值你可以设定成Text,Dropdownlist,等等，关于这个功能，具体是在ProjectCustomFields，ProjectCustomFieldSelection，ProjectCustomFieldType，ProjectCustomFieldValues这几个表中实现的。</p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/QQ%E6%88%AA%E5%9B%BE%E6%9C%AA%E5%91%BD%E5%90%8D_2.jpg"><img alt="QQ截图未命名" src="http://images.cnblogs.com/cnblogs_com/MichaelYin/WindowsLiveWriter/Bugnet2_1170F/QQ%E6%88%AA%E5%9B%BE%E6%9C%AA%E5%91%BD%E5%90%8D_thumb.jpg" title="QQ截图未命名" /></a></p>
+<p>剩下的表基本上都是以Bug为中心，BugAttachment保存上传的附件，BugComment保存评论，BugHistory保存Issue的历史，BugNotification保存Issue相关的需要通知的User,Component保存Project的分类，RelatedBug保存相关Issue关系。另外的几个表都是比如Status，Type都是起着字典表的作用。标识着Issue的状态和类别。</p>
+<p>HostSettings保存着Bugnet整体相关的设置。Log则是Log4net进行日志记录的地方。</p>
+<p>表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的，在这一点上我也是有点不理解，如果说使用存储过程是为了性能，那它代码可以优化的地方不是没有，比如它使用的是自带的分页，而没有自己写分页，这样在数据量达到一定程度时性能肯定会首影响 ...</p>
+                    <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">Bugnet学习总结（1） 前言&索引</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        18 Jul 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。</p>
+<p>Bugnet系统中用到的若干的我觉得有必要提及的技术我先在这里先提一下，接下来的几篇Blog会按模块进行展开，有可能会有一些遗漏的地方，欢迎大家留言补充。</p>
+<ol>
+<li>Membership及其相关认证控件</li>
+<li>DataFactory</li>
+<li>Log4net记录日志</li>
+<li>用户控件的使用</li>
+<li>Rss输出</li>
+<li>nunit单元测试</li>
+<li>邮件的读取和发送</li>
+</ol>
+<p>除了使用的技术外，Bugnet在层次架构方面的一些东西也是值得借鉴的，我以后会慢慢陈述，当然了，有些地方的处理我和项目人员所想也有所偏差，也希望大家多多讨论。。。</p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/19/1780749.html">Bugnet学习总结（2）数据库</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/19/1780870.html">Bugnet学习总结（3）项目文件结构</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784803.html">Bugnet学习总结（4）数据访问层</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784819.html">Bugnet学习总结（5）逻辑层</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/01/1789842.html">Bugnet学习总结（6）用户控件</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7）杂</a></p>
+                    <a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="http://blog.michaelyin.info/category/net.html">&laquo;</a>
+                </li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/category/net.html">1</a></li>
+                <li class="active"><a
+                        href="http://blog.michaelyin.info/category/net2.html">2</a></li>
+                <li class="next disabled"><a href="#">&laquo;</a></li>
+        </ul>
+</div>
+<div class="col-lg-3 well well-sm" id="sidebar"><aside>
+    <section>
+        <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Categories
+                </h4>
+            </li>
+        
+            <li>
+                <a href="http://blog.michaelyin.info/category/java.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Java
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/js.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Js
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/linux.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Linux
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/net.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    思考心得
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    算法相关
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    未分类
+                </a>
+            </li>
+        </ul>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4>
+                    <i class="icon-tags icon-large"></i>
+                    Tags
+                </h4>
+            </li>
+
+
+            <li class="list-group-item">
+                <a href="http://blog.michaelyin.info/tag/bugnet.html">
+                    <span class="label label-default">Bugnet</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">Blogengine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/linux.html">
+                    <span class="label label-default">Linux</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+            </li> 
+
+        </ul>
+    </section>
+</aside></div>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>
