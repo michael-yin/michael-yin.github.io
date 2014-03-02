@@ -76,12 +76,11 @@
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; scrapy
-Category: Python
-Slug: scrapy</p>
+Category: Python</p>
 <h3>Intro</h3>
 <p>This post will talk about some useful tips in the development of scrapy spider which can help you write your spider quickly</p>
 <h3>Extract infomation</h3>
-<p>Some newbie developer think the expression supported by scrapy is difficult to learn, but the truth is, compared to ...</p>
+<p>Some newbie developer think the expression supported by scrapy is difficult to learn, but the truth is, compared to the methods ...</p>
                     <a href="http://blog.michaelyin.info/2014/03/02/how-to-debug-your-scrapy-spider/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -102,10 +101,9 @@ Slug: scrapy</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; selenium
-Category: Python
-Slug: selenium</p>
+Category: Python</p>
 <p>Selenium is a so great tool to make web ui test, in some cases, we have to make it work with some ajax autocomplete like jquery ui autocomplete.</p>
-<p>First you need to understand how the autocomplete work. Most plugin will create a ul which ...</p>
+<p>First you need to understand how the autocomplete work. Most plugin will create a ul which contain data ...</p>
                     <a href="http://blog.michaelyin.info/2014/02/19/handle-autocomplete-using-selenium/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -126,11 +124,10 @@ Slug: selenium</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; scrapy,proxy
-Category: Python
-Slug: scrapy,proxy</p>
+Category: Python</p>
 <h3>Working with http proxy</h3>
 <p>When crawling infos from some website like google shop, it will detect the source ip and restrict some service to some specific ip address, howerver, scrapy framework can handle this situation by making the request through proxy.</p>
-<p>The ...</p>
+<p>The scrapy has provided ...</p>
                     <a href="http://blog.michaelyin.info/2014/02/19/scrapy-socket-proxy/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -151,13 +148,13 @@ Slug: scrapy,proxy</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; NodeJs
-Category: Js
-Slug: NodeJs</p>
+Category: Js</p>
 <p>I just installed Nodejs on ubuntu through package manager <a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager">(more detail
 )</a> and found there were some problems.</p>
 <p>When using npm might get something like this</p>
 <div class="highlight"><pre>npm ERR! Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span>
-npm ERR!  <span class="o">{</span> <span class="o">[</span>Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin ...</span></pre></div>
+npm ERR!  <span class="o">{</span> <span class="o">[</span>Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span><span class="o">]</span>
+npm ...</pre></div>
                     <a href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -178,10 +175,9 @@ npm ERR!  <span class="o">{</span> <span class="o">[</span>Error: EACCES, symlin
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; pip
-Category: Python
-Slug: pip</p>
+Category: Python</p>
 <h3>Intro</h3>
-<p>There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some ...</p>
+<p>There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The ...</p>
                     <a href="http://blog.michaelyin.info/2013/12/10/make-python-module-editable/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -202,8 +198,7 @@ Slug: pip</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; bullet-and-wall, checkio
-Category: 算法相关
-Slug: bullet-and-wall, checkio</p>
+Category: 算法相关</p>
 <p>最近在checkio上扫题的时候，碰到一个判断直线是否相交的问题，题目请<a href="http://www.checkio.org/mission/task/info/bullet-and-wall/python-3/">猛击这里</a>，这个题目以前上学的时候做到手软的好么，二话不说直接开写，先根据坐标上的两个点，算出斜率，然后得出直线表达式，最后根据两个直线表达式算出是否存在相交点，然后加上斜率为无穷大的情况等等，最后写出的代码如下。</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">checkio</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="n">xw1</span><span class="p">,</span> <span class="n">yw1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -213,7 +208,8 @@ Slug: bullet-and-wall, checkio</p>
 
     <span class="k">if</span><span class="p">(</span><span class="n">xw1</span> <span class="o">-</span> <span class="n">xw2</span> <span class="o">==</span> <span class="mi">0</span>  <span class="ow">and</span> <span class="n">xb</span> <span class="o">-</span> <span class="n">xa</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
         <span class="c"># vertical vertical</span>
-        <span class="k">return ...</span></pre></div>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">xw1 ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2013/07/14/checkio-bullet-and-wall/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -234,8 +230,7 @@ Slug: bullet-and-wall, checkio</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Bloom Filter, CodeKata
-Category: Python
-Slug: Bloom Filter, CodeKata</p>
+Category: Python</p>
 <p>Bloom
 Filter在是一种在海量数据处理中很常用的算法，主要用来提供对集合数据的查询，其内在原理和bitmap十分类似。</p>
 <h6></h6>
@@ -245,7 +240,7 @@ Filter在是一种在海量数据处理中很常用的算法，主要用来提�
 <p><a class="fancy" href="http://blog.michaelyin.info/images/2013/07/image3.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb3.png" title="image" /></a></p>
 <p>现在需要将a这个值写入到byte数组里面去，使用k个不同的hash函数，对a进行hash值计算，并确保得到的hash值位于{1,m}这个区间之间。假设现在k个hash函数，那么得到的hash值一共有k个，即 <mathjax>$h_{1}(a)$</mathjax> ，在byte数组里面将这些值对应的bit位全部置为1，完成这一步，a的值就已经写入到byte数组里面去了。如果有多个值，重复该过程，如果写入过程中发现某bit位已经是1，可以不用管。</p>
 <p><a href="http://blog.michaelyin.info/images/2013/07/image4.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb4.png" title="image" /></a></p>
-<p>当我要查询数组里面是否包含值为b的时候，同样对b进行k个不同的hash计算，得到k个不同的hash值(注：写入和查询使用的k个hash函数是相同的)，针对这k个值在byte数组中进行查看，看对应的bit位是否置1，如果有一处是0，那就证明该元素不包含在byte数组中，如果全部是1，那就证明该元素可能包含在byte数组中 ...</p>
+<p>当我要查询数组里面是否包含值为b的时候，同样对b进行k个不同的hash计算，得到k个不同的hash值(注：写入和查询使用的k个hash函数是相同的)，针对这k个值在byte数组中进行查看，看对应的bit位是否置1，如果有一处是0，那就证明该元素不包含在byte数组中，如果全部是1，那就证明该元素可能包含在byte数组中(此处注意，对于返回结果为True的情况是有误差的，误差和使用hash函数个数和byte数组长度和输入个数有关系，后面会详细讨论 ...</p>
                     <a href="http://blog.michaelyin.info/2013/07/07/codekata-bloom-filter/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -266,8 +261,7 @@ Filter在是一种在海量数据处理中很常用的算法，主要用来提�
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; float
-Category: 思考心得
-Slug: float</p>
+Category: 思考心得</p>
 <p>写代码的时候发现对Float的原理和使用方式没有一个系统的理解，找了资料学习后将知识点在这里进行整理</p>
 <h3>Float存储原理：</h3>
 <p>提到Float的存储方式首先必须提一下IEEE
@@ -282,7 +276,7 @@ Slug: float</p>
 <p>1：Normalized Values</p>
 <p>这是最普通的情况，当exp部分的bit位不全为0和不全为1的时候，在这种情况下，exp部分的值E
 = e-Bias，这里e是exp部分的无符号整形值，<mathjax>$$Bias = 2\^{k-1}-1$$</mathjax></p>
-<p>frac表示小数部分的值 ...</p>
+<p>frac表示小数部分的值，如果bit位的小数的值为f，frac部分的实际值M ...</p>
                     <a href="http://blog.michaelyin.info/2013/07/07/floating-point/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -303,8 +297,7 @@ Slug: float</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; 数组分割
-Category: 思考心得
-Slug: 数组分割</p>
+Category: 思考心得</p>
 <p>问题：有一个没有排序，元素个数为2N的正整数数组。要求把它分割为元素个数为N的两个数组，并使两个子数组的和最接近。</p>
 <p>这个问题的正确解法<a href="http://blog.michaelyin.info/2013/06/30/%E6%95%B0%E7%BB%84%E5%88%86%E5%89%B2/">前面一篇博文</a>已经有写，这里主要是把错误的解法和原因进行一下分析。</p>
 <h6>天平法：</h6>
@@ -315,7 +308,7 @@ Slug: 数组分割</p>
 <h6>差值法：</h6>
 <p>前面天平法的缺陷也给了我一点启示，如果是两个一组一起放到天平上的话，启示应该按照两个砝码的差值来进行拜访，排序不应该针对单个砝码，而应该针对砝码的差值</p>
 <p>1：将砝码分成A,B两组</p>
-<p>2：两组的砝码按照位置进行对应，比如A[0]和B ...</p>
+<p>2：两组的砝码按照位置进行对应，比如A[0]和B[0]进行对应 ...</p>
                     <a href="http://blog.michaelyin.info/2013/06/30/split-array-2/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -336,8 +329,7 @@ Slug: 数组分割</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; checkio, 动态规划, 数组分割
-Category: 算法相关
-Slug: checkio, 动态规划, 数组分割</p>
+Category: 算法相关</p>
 <p>最近在做Python
 Challenge的时候无意中发现了checkio这个练习PY的地方，题目不难，正好可以在工作之余修炼下PY功力。。</p>
 <p>loading-cargo这个题目的意思比较简单
@@ -350,7 +342,8 @@ Challenge的时候无意中发现了checkio这个练习PY的地方，题目不�
     <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">diff</span> <span class="o">=</span> <span class="n">total</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
-        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations ...</span></pre></div>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="n">diff_sub</span> <span class="o">=</span> <span class="nb">sum ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2013/06/30/split-array-1/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -416,6 +409,12 @@ Challenge的时候无意中发现了checkio这个练习PY的地方，题目不�
                 <a href="http://blog.michaelyin.info/category/net.html">
                     <i class="icon-folder-open icon-large"></i>
                     .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
                 </a>
             </li>
             <li>

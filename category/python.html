@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Install Nodejs on Ubuntu</title>
+    <title>Michaelyin's Blog - Python</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -61,18 +61,13 @@
         <!-- Begin page content -->
         <div class="container">
             <div class="row">
-<section id="content">
-    <article>
-        <header class="page-header">
-            <h1>
-                Install Nodejs on Ubuntu
-            </h1>
-        </header>
-        <div class="entry-content">
-            <div class="well well-sm"><div>
+<div class="col-lg-9">
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2014/01/04/yproxy-1/">(1)</a></h2>
+                <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
-        14 Dec 2013
+        04 Jan 2014
     </span>
 
 
@@ -80,63 +75,102 @@
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-            <p>Tags; NodeJs
-Category: Js</p>
-<p>I just installed Nodejs on ubuntu through package manager <a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager">(more detail
-)</a> and found there were some problems.</p>
-<p>When using npm might get something like this</p>
-<div class="highlight"><pre>npm ERR! Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span>
-npm ERR!  <span class="o">{</span> <span class="o">[</span>Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span><span class="o">]</span>
-npm ERR!   errno: 3,
-npm ERR!   code: <span class="s1">&#39;EACCES&#39;</span>,
-npm ERR!   path: <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span> <span class="o">}</span>
-npm ERR! 
-npm ERR! Please try running this <span class="nb">command </span>again as root/Administrator.
-</pre></div>
+                <div class="summary"><p>In some cases, it would be necessary to use some proxy server to redirect your http request. In this blog I will show you how to write a simple socket serve</p>
+                    <a href="http://blog.michaelyin.info/2014/01/04/yproxy-1/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+
+</div>
+<div class="col-lg-3 well well-sm" id="sidebar"><aside>
+    <section>
+        <ul class="nav">
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Social
+                </h4>
+            </li>
+
+            <li>
+                <a href="http://github.com/michael-yin">
+                    <i class="icon-github-sign icon-1x"></i>
+                    Github
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <h4> <i class="icon-home icon-large"></i>
+                    Categories
+                </h4>
+            </li>
+        
+            <li>
+                <a href="http://blog.michaelyin.info/category/algorithm.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Algorithm
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/java.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Java
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/misc.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    misc
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/net.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    思考心得
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/web.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Web
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    未分类
+                </a>
+            </li>
+        </ul>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4>
+                    <i class="icon-tags icon-large"></i>
+                    Tags
+                </h4>
+            </li>
 
 
-<p>That is caused by some permission problems, even sudo can not get things done, in order to fix this, I found a alterntive way. </p>
-<div class="highlight"><pre><span class="nb">echo</span> <span class="s1">&#39;export PATH=$HOME/local/bin:$PATH&#39;</span> &gt;&gt; ~/.bashrc
-. ~/.bashrc
-mkdir ~/local
-mkdir ~/node-latest-install
-<span class="nb">cd</span> ~/node-latest-install
-curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components<span class="o">=</span>1
-./configure --prefix<span class="o">=</span>~/local
-make install <span class="c"># ok, fine, this step probably takes more than 30 seconds...</span>
-curl https://npmjs.org/install.sh | sh
-</pre></div>
+            <li class="list-group-item">
+            </li> 
 
-
-<p>The author provide many ways to install nodejs and method above is the fastest.The others are available <a href="https://gist.github.com/isaacs/579814">here</a> </p>
-        </div>
-        <!-- /.entry-content -->
-    <hr />
-    <section class="comments" id="comments">
-        <h2>Comments</h2>
-        <div id="disqus_thread"></div>
-        <script type="text/javascript">
-            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
-            var disqus_identifier = 'install-nodejs-on-ubuntu';
-            var disqus_url = 'http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/';
-
-            /* * * DON'T EDIT BELOW THIS LINE * * */
-            (function () {
-                var dsq = document.createElement('script');
-                dsq.type = 'text/javascript';
-                dsq.async = true;
-                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
-            Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
+        </ul>
     </section>
-    </article>
-</section>
+</aside></div>
             </div>
         </div>
     </div>

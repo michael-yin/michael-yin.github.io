@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/all.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2014-03-02T11:13:00+08:00</updated><entry><title>How to debug your scrapy spider</title><link href="http://blog.michaelyin.info/2014/03/02/how-to-debug-your-scrapy-spider/" rel="alternate"></link><updated>2014-03-02T11:13:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-03-02:2014/03/02/how-to-debug-your-scrapy-spider/</id><summary type="html">&lt;p&gt;Tags; scrapy
-Category: Python
-Slug: scrapy&lt;/p&gt;
+Category: Python&lt;/p&gt;
 &lt;h3&gt;Intro&lt;/h3&gt;
 &lt;p&gt;This post will talk about some useful tips in the development of scrapy spider which can help you write your spider quickly&lt;/p&gt;
 &lt;h3&gt;Extract infomation&lt;/h3&gt;
@@ -35,8 +34,7 @@ Slug: scrapy&lt;/p&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Conclution&lt;/h3&gt;
 &lt;p&gt;I hope the tips above can really help you, and after that, you can dive in scrapy doc to find other useful tools.&lt;/p&gt;</summary></entry><entry><title>Handle autocomplete using selenium</title><link href="http://blog.michaelyin.info/2014/02/19/handle-autocomplete-using-selenium/" rel="alternate"></link><updated>2014-02-19T08:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-02-19:2014/02/19/handle-autocomplete-using-selenium/</id><summary type="html">&lt;p&gt;Tags; selenium
-Category: Python
-Slug: selenium&lt;/p&gt;
+Category: Python&lt;/p&gt;
 &lt;p&gt;Selenium is a so great tool to make web ui test, in some cases, we have to make it work with some ajax autocomplete like jquery ui autocomplete.&lt;/p&gt;
 &lt;p&gt;First you need to understand how the autocomplete work. Most plugin will create a ul which contain data get from the server by ajax, and insert the ul into the body, then display it for user to &lt;code&gt;click&lt;/code&gt; by mouse or &lt;code&gt;enter&lt;/code&gt; by keydown.&lt;/p&gt;
 &lt;p&gt;When the page load, you can see the ul has no children&lt;/p&gt;
@@ -65,8 +63,7 @@ wait for something done.&lt;/p&gt;
 
 &lt;p&gt;The code above need to be modified when you use it because some detail between plugin is not same&lt;/p&gt;
 &lt;p&gt;You can also choose &lt;code&gt;enter&lt;/code&gt; to choose the item, all roads lead to rome.&lt;/p&gt;</summary></entry><entry><title>Make Scrapy work with socket proxy</title><link href="http://blog.michaelyin.info/2014/02/19/scrapy-socket-proxy/" rel="alternate"></link><updated>2014-02-19T03:57:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-02-19:2014/02/19/scrapy-socket-proxy/</id><summary type="html">&lt;p&gt;Tags; scrapy,proxy
-Category: Python
-Slug: scrapy,proxy&lt;/p&gt;
+Category: Python&lt;/p&gt;
 &lt;h3&gt;Working with http proxy&lt;/h3&gt;
 &lt;p&gt;When crawling infos from some website like google shop, it will detect the source ip and restrict some service to some specific ip address, howerver, scrapy framework can handle this situation by making the request through proxy.&lt;/p&gt;
 &lt;p&gt;The scrapy has provided HttpProxyMiddleware to support http proxy, if you want to make your web crawler to go through proxy, the first thing you need to do is modify your setting file just like this&lt;/p&gt;
@@ -109,9 +106,8 @@ Slug: scrapy,proxy&lt;/p&gt;
 
 &lt;p&gt;now privoxy will open a http proxy at 8118 at 127.0.0.1( &lt;strong&gt;the listen port can also be modified in config file&lt;/strong&gt; ), it will redirect http requests to socket proxy at 127.0.0.1:9050, if you want to know more, go do read the doc of privoxy&lt;/p&gt;
 &lt;p&gt;Now scrapy can work very well with proxy, the website can not detect the source ip because of the existence of proxy, more importantely, it make crwaler extract infos from some website only open to some specific ip&lt;/p&gt;
-&lt;p&gt;Enjoy it now!&lt;/p&gt;</summary></entry><entry><title>Install Nodejs on Ubuntu</title><link href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/" rel="alternate"></link><updated>2013-12-14T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-14:2013/12/14/install-nodejs-on-ubuntu/</id><summary type="html">&lt;p&gt;Tags; NodeJs
-Category: Js
-Slug: NodeJs&lt;/p&gt;
+&lt;p&gt;Enjoy it now!&lt;/p&gt;</summary></entry><entry><title>(1)</title><link href="http://blog.michaelyin.info/2014/01/04/yproxy-1/" rel="alternate"></link><updated>2014-01-04T18:09:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-01-04:2014/01/04/yproxy-1/</id><summary type="html">&lt;p&gt;In some cases, it would be necessary to use some proxy server to redirect your http request. In this blog I will show you how to write a simple socket serve&lt;/p&gt;</summary></entry><entry><title>Install Nodejs on Ubuntu</title><link href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/" rel="alternate"></link><updated>2013-12-14T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-14:2013/12/14/install-nodejs-on-ubuntu/</id><summary type="html">&lt;p&gt;Tags; NodeJs
+Category: Js&lt;/p&gt;
 &lt;p&gt;I just installed Nodejs on ubuntu through package manager &lt;a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager"&gt;(more detail
 )&lt;/a&gt; and found there were some problems.&lt;/p&gt;
 &lt;p&gt;When using npm might get something like this&lt;/p&gt;
@@ -139,8 +135,7 @@ curl https://npmjs.org/install.sh | sh
 
 
 &lt;p&gt;The author provide many ways to install nodejs and method above is the fastest.The others are available &lt;a href="https://gist.github.com/isaacs/579814"&gt;here&lt;/a&gt; &lt;/p&gt;</summary></entry><entry><title>Make python module editable</title><link href="http://blog.michaelyin.info/2013/12/10/make-python-module-editable/" rel="alternate"></link><updated>2013-12-10T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-10:2013/12/10/make-python-module-editable/</id><summary type="html">&lt;p&gt;Tags; pip
-Category: Python
-Slug: pip&lt;/p&gt;
+Category: Python&lt;/p&gt;
 &lt;h3&gt;Intro&lt;/h3&gt;
 &lt;p&gt;There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The package code would be in the site-packages if you install it by default, which is not a good way for python hacker. In this post I will show you how to install a module to make it editable&lt;/p&gt;
 &lt;h3&gt;Develop Mode&lt;/h3&gt;
@@ -186,8 +181,7 @@ tox.ini
 &lt;p&gt;In most cases, &lt;code&gt;pip install -e .&lt;/code&gt; is just my first choice, for more info, just try &lt;code&gt;pip install -h&lt;/code&gt;&lt;/p&gt;
 &lt;h3&gt;Related Posts&lt;/h3&gt;
 &lt;p&gt;&lt;a href="http://pythonhosted.org/setuptools/setuptools.html#development-mode"&gt;More Detail about Develop Mode&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>直线相交问题</title><link href="http://blog.michaelyin.info/2013/07/14/checkio-bullet-and-wall/" rel="alternate"></link><updated>2013-07-14T22:43:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-07-14:2013/07/14/checkio-bullet-and-wall/</id><summary type="html">&lt;p&gt;Tags; bullet-and-wall, checkio
-Category: 算法相关
-Slug: bullet-and-wall, checkio&lt;/p&gt;
+Category: 算法相关&lt;/p&gt;
 &lt;p&gt;最近在checkio上扫题的时候，碰到一个判断直线是否相交的问题，题目请&lt;a href="http://www.checkio.org/mission/task/info/bullet-and-wall/python-3/"&gt;猛击这里&lt;/a&gt;，这个题目以前上学的时候做到手软的好么，二话不说直接开写，先根据坐标上的两个点，算出斜率，然后得出直线表达式，最后根据两个直线表达式算出是否存在相交点，然后加上斜率为无穷大的情况等等，最后写出的代码如下。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;checkio&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;xw1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;yw1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -314,8 +308,7 @@ Slug: bullet-and-wall, checkio&lt;/p&gt;
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;checkio&lt;/span&gt;&lt;span class="p"&gt;([[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;First&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary></entry><entry><title>CodeKata-Bloom Filter</title><link href="http://blog.michaelyin.info/2013/07/07/codekata-bloom-filter/" rel="alternate"></link><updated>2013-07-07T22:10:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-07-07:2013/07/07/codekata-bloom-filter/</id><summary type="html">&lt;p&gt;Tags; Bloom Filter, CodeKata
-Category: Python
-Slug: Bloom Filter, CodeKata&lt;/p&gt;
+Category: Python&lt;/p&gt;
 &lt;p&gt;Bloom
 Filter在是一种在海量数据处理中很常用的算法，主要用来提供对集合数据的查询，其内在原理和bitmap十分类似。&lt;/p&gt;
 &lt;h6&gt;&lt;/h6&gt;
@@ -401,8 +394,7 @@ Filter的方式插入到大小为m的byte数组中，插入中使用k个hash值�
 &lt;h6&gt;Related Posts:&lt;/h6&gt;
 &lt;p&gt;&lt;a href="http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html"&gt;Bloom
 Filters&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>Floating Point学习笔记</title><link href="http://blog.michaelyin.info/2013/07/07/floating-point/" rel="alternate"></link><updated>2013-07-07T20:16:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-07-07:2013/07/07/floating-point/</id><summary type="html">&lt;p&gt;Tags; float
-Category: 思考心得
-Slug: float&lt;/p&gt;
+Category: 思考心得&lt;/p&gt;
 &lt;p&gt;写代码的时候发现对Float的原理和使用方式没有一个系统的理解，找了资料学习后将知识点在这里进行整理&lt;/p&gt;
 &lt;h3&gt;Float存储原理：&lt;/h3&gt;
 &lt;p&gt;提到Float的存储方式首先必须提一下IEEE
@@ -460,8 +452,7 @@ Programming&lt;/a&gt;&lt;/p&gt;
 Python&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html"&gt;What Every Computer Scientist Should Know About
 Floating&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>数组分割的一些错误解法</title><link href="http://blog.michaelyin.info/2013/06/30/split-array-2/" rel="alternate"></link><updated>2013-06-30T18:01:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-06-30:2013/06/30/split-array-2/</id><summary type="html">&lt;p&gt;Tags; 数组分割
-Category: 思考心得
-Slug: 数组分割&lt;/p&gt;
+Category: 思考心得&lt;/p&gt;
 &lt;p&gt;问题：有一个没有排序，元素个数为2N的正整数数组。要求把它分割为元素个数为N的两个数组，并使两个子数组的和最接近。&lt;/p&gt;
 &lt;p&gt;这个问题的正确解法&lt;a href="http://blog.michaelyin.info/2013/06/30/%E6%95%B0%E7%BB%84%E5%88%86%E5%89%B2/"&gt;前面一篇博文&lt;/a&gt;已经有写，这里主要是把错误的解法和原因进行一下分析。&lt;/p&gt;
 &lt;h6&gt;天平法：&lt;/h6&gt;
@@ -509,8 +500,7 @@ Slug: 数组分割&lt;/p&gt;
 &lt;p&gt;[80, 59, 57, 34, 97, 76, 9, 76]
 是不能得到最优解的，因为最优解的一个分组里面包含97
 80，有兴趣的读者可以自行验证&lt;/p&gt;</summary></entry><entry><title>数组分割</title><link href="http://blog.michaelyin.info/2013/06/30/split-array-1/" rel="alternate"></link><updated>2013-06-30T12:01:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-06-30:2013/06/30/split-array-1/</id><summary type="html">&lt;p&gt;Tags; checkio, 动态规划, 数组分割
-Category: 算法相关
-Slug: checkio, 动态规划, 数组分割&lt;/p&gt;
+Category: 算法相关&lt;/p&gt;
 &lt;p&gt;最近在做Python
 Challenge的时候无意中发现了checkio这个练习PY的地方，题目不难，正好可以在工作之余修炼下PY功力。。&lt;/p&gt;
 &lt;p&gt;loading-cargo这个题目的意思比较简单
@@ -584,8 +574,7 @@ data[j]，比较上面的S公式，可以看到只是对于数字的个数有了
 &lt;h4&gt;4:Conclude&lt;/h4&gt;
 &lt;p&gt;其实上面的问题和常见的01背包问题是很类似的，所以用典型的01背包问题的解法来解的话也是能够做出来的，关键是弄清楚其中的联系。&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://blog.csdn.net/tianshuai11/article/details/7828907"&gt;点击这里&lt;/a&gt;可查看本问题解法的C++代码&lt;/p&gt;</summary></entry><entry><title>更换邮箱那些事儿</title><link href="http://blog.michaelyin.info/2013/05/01/yahoo-email-changing/" rel="alternate"></link><updated>2013-05-01T16:39:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-05-01:2013/05/01/yahoo-email-changing/</id><summary type="html">&lt;p&gt;Tags; 账号, 邮箱, 雅虎
-Category: 思考心得
-Slug: 账号, 邮箱, 雅虎&lt;/p&gt;
+Category: 思考心得&lt;/p&gt;
 &lt;p&gt;由于中国雅虎的邮箱服务马上就要停止，趁着放假有时间，决定把散落各处的账号进行整理，并将原先和雅虎邮箱绑定的账号绑定到另外的邮箱上去，防止由于邮箱失效造成以后不能找回账号的登录密码。&lt;/p&gt;
 &lt;p&gt;更换登录账号绑定的邮箱，方便用户进行数据迁移，这是一个原始用户需求，各个应用对于这个需求有着不同的解决方案。&lt;/p&gt;
 &lt;p&gt;想到我的众多可爱师妹们，以及那些众多好图，人人账号是我最先进行修改的&lt;/p&gt;
@@ -626,8 +615,7 @@ PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进
 &lt;p&gt;码农总会看到比自己烂的代码，在不影响用户正常使用的情况下，修改不一定是必须的，生活不一定只有代码。（H老师的学生技术过硬那条我呵呵一下就算了，但是用户没反馈问题现在我其实还是表示赞同的）&lt;/p&gt;
 &lt;p&gt;说起这条，想起一个故事：
 A县和B县两个县长进行防洪工程的建设，B县县长亲自带头监督，工程质量很高，相反，A县县长对此无动于衷。洪水来了,B县固若金汤，A县县长带人昼夜巡视，带领干部和村民吃住在一起，上了电视和报纸，A县的洪水也防住了。后来，当B县县长等着嘉奖令的时候，他却没想到升迁的居然是A县长。。。此刻，B县长顿悟。。。&lt;/p&gt;</summary></entry><entry><title>CodeKata-Data Munging</title><link href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/" rel="alternate"></link><updated>2013-03-03T14:43:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-03-03:2013/03/03/codekata-data-munging/</id><summary type="html">&lt;p&gt;Tags; CodeKata
-Category: Python
-Slug: CodeKata&lt;/p&gt;
+Category: Python&lt;/p&gt;
 &lt;p&gt;这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。&lt;/p&gt;
 &lt;p&gt;第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据&lt;/p&gt;
 &lt;p&gt;第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。&lt;/p&gt;
@@ -1271,8 +1259,7 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
 
 &lt;p&gt;运行的结果竟然是8,这下我就觉得很纠结了，就没了一个乘法，这地方就成了这样么？我觉得这个地方如果和前面要统一的话就应该输出7才对，后来在C#中写了相似的代码，结果是7，但是对于C这个地方的处理确实很疑惑，也发在园子里面看看大家对此的看法。&lt;/p&gt;
 &lt;p&gt;我的环境是Xp CodeBlock10&lt;/p&gt;</summary></entry><entry><title>Heritrix之旅之Frontier</title><link href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/" rel="alternate"></link><updated>2011-08-25T13:16:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-08-25:2011/08/25/heritrix-frontier/</id><summary type="html">&lt;p&gt;Tags; Heritrix, Java
-Category: Java
-Slug: Heritrix, Java&lt;/p&gt;
+Category: Java&lt;/p&gt;
 &lt;p&gt;上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/08/201108252116205982.png"&gt;&lt;img alt="201108252116205982" src="http://blog.michaelyin.info/images/2011/08/201108252116205982.png" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Heritrix把Frontier抽象成了interface，创建新的Frontier只需要实现这个接口就行。里面两个很重要的方法一个是schedule()，该方法接受一个URI并存起来以后进行抓取，另外一个是next，改方法返回一个URI供抓取，另外finished这个方法用来处理一个已经处理完毕的uri&lt;/p&gt;
@@ -1295,8 +1282,7 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
 &lt;p&gt;另外这里的queue还有几种状态active snooze inactive，现在来简单说说这几种队列的区别，运行过程中一般情况下的queue都是active的，回到finished方法中，如果我不想爬虫对一个网站过度抓取，那么我需要对其抓取时间进行判断，如果一个uri的抓取时间太短的话，那么我需要暂时让这个queue小睡一下，这就是snooze的来历，调用snoozeQueue方法可以让queue进入snooze状态，在过一定时间后进行唤醒，重新进入active状态，进入activae状态的queue可以重新将其中包含的uri提供给toethread进行抓取。处于active状态的queue的个数是定的，如果超出预先设定的一些参数，则把其设置成inactive,当系统条件允许的时候重新进行activate&lt;/p&gt;
 &lt;p&gt;下面接着来说说QueueAssignmentPolicy，前面已经说过QueueAssignmentPolicy针对每个uri都会生成一个key,根据这个key来将key相同的uri组成一个队列，这样的话就能保证politeness，但是这样在有些情况下会产生一些问题，比如对一个网站进行定向抓取的时候，由于hostname是一个，那么极有可能造成只有一个toethread实际进行抓取，这样的抓取效率是很低的。因此，网上流传很广的解决方法就是使用ELF
 hash算法将url进行散列，使得uri分散到各个对垒中去，这样在实际中确实能显著的提高抓取速度。但是这个地方也会带来一些问题，网站的管理员有可能会封你的IP&lt;/p&gt;</summary></entry><entry><title>Heritrix之旅之CrawlController</title><link href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/" rel="alternate"></link><updated>2011-08-25T10:23:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-08-25:2011/08/25/heritrix-crawlcontroller/</id><summary type="html">&lt;p&gt;Tags; Heritrix, Java
-Category: Java
-Slug: Heritrix, Java&lt;/p&gt;
+Category: Java&lt;/p&gt;
 &lt;p&gt;一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。&lt;/p&gt;
 &lt;p&gt;Heritrix的一些介绍网上都有，我在这里也就不做介绍了，直接进入正题。&lt;/p&gt;
 &lt;p&gt;Heritrix抓取任务的核心类就是CrawlController,这个对象将决定一个抓取任务的开始和结束&lt;/p&gt;
@@ -1430,16 +1416,14 @@ Slug: Heritrix, Java&lt;/p&gt;
 
 
 &lt;p&gt;另外关于2.14的扩展问题一也想在这里提一下，书上给出的思路貌似有点问题，我现在把我整理的思路提出来。首先求出没有同时经过首尾的最大和，这个可以用上面提到的方法做，然后我们需要求出经过首尾的最大和，但是可以看到全部节点的和是一个定值，这个问题其实可以转换为求出一个没有同时经过首尾的最小和，求出来以后用总数减去求出的最小值，然后拿这个值跟没有经过首尾的最大和进行比较，这样就能正确的求出结果。而这两个问题其实十分类似，所以其实可以放到一个for循环中完成，具体的代码这里就不写了。&lt;/p&gt;</summary></entry><entry><title>BlogEngine学习系列</title><link href="http://blog.michaelyin.info/2011/07/09/blogengine-intro/" rel="alternate"></link><updated>2011-07-09T08:57:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-07-09:2011/07/09/blogengine-intro/</id><summary type="html">&lt;p&gt;Tags; Blogengine
-Category: .Net
-Slug: Blogengine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859464.html"&gt;BlogEngine中的Provider模式（上）&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859492.html"&gt;BlogEngine中的Provider模式（下）&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/MichaelYin/archive/2010/11/26/1889217.html"&gt;BlogEngine中的BlogSettings&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/13/1982589.html"&gt;BlogEngine中自定义主题的实现&lt;/a&gt;&lt;a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/17/1986689.html"&gt;BlogEngine中的Extensinon实现&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/19/1989046.html"&gt;BlogEngine中的widget机制&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/MichaelYin/archive/2011/04/17/2018986.html"&gt;BlogEngine中的js和css访问处理&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>初始化那些事儿</title><link href="http://blog.michaelyin.info/2011/05/27/talk-about-class-init/" rel="alternate"></link><updated>2011-05-27T03:03:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-05-27:2011/05/27/talk-about-class-init/</id><summary type="html">&lt;p&gt;Tags; Blogengine
-Category: .Net
-Slug: Blogengine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;先来看看这段代码&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Program&lt;/span&gt;
 &lt;span class="p"&gt;{&lt;/span&gt;
@@ -1569,8 +1553,7 @@ Slug: Blogengine&lt;/p&gt;
 &lt;p&gt;关于初始化的实现的细节我想上面这两个例子已经呈现的很清楚了，但是这里我也有稍许疑问，为什么.net会采取相对java有所不同的策略，有什么深层次的考虑？本人水品有限，还是希望园子的高人能解答一二。&lt;/p&gt;
 &lt;p&gt;在这里另外贴出一篇Blog，它提到了.net里面那个初始化顺序的不同&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://blogs.msdn.com/b/ericlippert/archive/2008/02/15/why-do-initializers-run-in-the-opposite-order-as-constructors-part-one.aspx"&gt;http://blogs.msdn.com/b/ericlippert/archive/2008/02/15/why-do-initializers-run-in-the-opposite-order-as-constructors-part-one.aspx&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>BlogEngine中的js和css访问处理</title><link href="http://blog.michaelyin.info/2011/04/17/blogengine-css-js/" rel="alternate"></link><updated>2011-04-17T09:14:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-04-17:2011/04/17/blogengine-css-js/</id><summary type="html">&lt;p&gt;Tags; Blogengine
-Category: .Net
-Slug: Blogengine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。&lt;/p&gt;
 &lt;p&gt;BlogEngine中的Css文件是和BlogEngine的主题这个功能相关的，主题文件夹下每个相应文件夹下都有一个style.css被site.master所引用，BlogBasePage在运行的时候根据选定的主题的名字加载相应主题下的模板页，模板页中的Head中是有相应的样式表的链接的，然后再BlogBasePage的Onload方法中，通过CompressCss遍历Head中的控件，找到css，然后统一修改css的访问的路径通过httphandler来访问。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;protected&lt;/span&gt; &lt;span class="k"&gt;virtual&lt;/span&gt; &lt;span class="k"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;CompressCss&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -1651,8 +1634,7 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
 &lt;p&gt;用到的相关资料&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/leleroyn/articles/1156630.html"&gt;http://www.cnblogs.com/leleroyn/articles/1156630.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/wuxiaoqian726/articles/1778687.html"&gt;http://www.cnblogs.com/wuxiaoqian726/articles/1778687.html&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>BlogEngine中的widget机制</title><link href="http://blog.michaelyin.info/2011/03/19/blogengine-widget/" rel="alternate"></link><updated>2011-03-19T12:45:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-03-19:2011/03/19/blogengine-widget/</id><summary type="html">&lt;p&gt;Tags; BlogEngine
-Category: .Net
-Slug: BlogEngine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;BlogEngine中的widget机制支持在页面可添加一些小的widget，这个功能当时还是特别吸引我的，现在简单的说下实现的原理。&lt;/p&gt;
 &lt;p&gt;所有的widget都在一个WidgetZone的容器内，这个容器继承自PlaceHolder，而这个容器是在自定义theme中的模板页中用到的，当这个控件加载的时候，它从数据库中找到关于widget的配置信息。这个配置信息也是DataStore的方式提取和存储的。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-16&amp;quot;?&amp;gt;&lt;/span&gt;
@@ -1711,8 +1693,7 @@ Slug: BlogEngine&lt;/p&gt;
 
 &lt;p&gt;Widget的编辑功能则是通过js脚本访问Admin下WidgetEditor.aspx页面，然后通过该页面来进行修改配置。&lt;/p&gt;
 &lt;p&gt;Widget的添加则是通过脚本将添加的Widget的type通过ajax的形式返回到WidgetEditor页面，然后进行处理返回控件的html代码，完成widget的添加，实现过程不是很复杂，主要是理解它的整套机制。&lt;/p&gt;</summary></entry><entry><title>BlogEngine中的Extensinon实现</title><link href="http://blog.michaelyin.info/2011/03/17/blogengine-Extensinon/" rel="alternate"></link><updated>2011-03-17T01:28:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-03-17:2011/03/17/blogengine-Extensinon/</id><summary type="html">&lt;p&gt;Tags; Blogengine
-Category: .Net
-Slug: Blogengine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;BlogEngine中提供了比较良好的扩展机制，用户可以通过添加Extension对BlogEngine进行各种功能的添加，而且还可以对各种扩展进行统一的管理，下面就把实现的机制和原理说明一下。&lt;/p&gt;
 &lt;p&gt;ManagedExtension这个类对应了BlogEngine中的Extension,ExtensionSettings是ManagedExtension中的配置信息，而ExtensionParameter则是ExtensionSettings下面的参数信息。需要说明一下的是这三个类都是能够Serializable的，每个Extension的相关的属性，配置信息，配置参数最后都被序列化成了一个XML字符串，存储在数据库中。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-16&amp;quot;?&amp;gt;&lt;/span&gt;
@@ -1771,8 +1752,7 @@ Slug: Blogengine&lt;/p&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary></entry><entry><title>BlogEngine中自定义主题的实现</title><link href="http://blog.michaelyin.info/2011/03/13/blogengine-theme/" rel="alternate"></link><updated>2011-03-13T02:17:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-03-13:2011/03/13/blogengine-theme/</id><summary type="html">&lt;p&gt;Tags; BlogEngine
-Category: .Net
-Slug: BlogEngine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。&lt;/p&gt;
 &lt;p&gt;在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"&gt;&lt;img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /&gt;&lt;/a&gt;&lt;/p&gt;
@@ -1828,8 +1808,7 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。&
 &lt;p&gt;在来说说方法的调用，在大学学过C的都必定折腾过实参，形参，也知道为什么有的时候为什么调用C语言函数的时候要传入指针，如果你把那个地方搞的比较清楚的话那么这里想必也难不倒你了。C语言函数调用的时候是在内存上重新开辟一块区域，然后在这个里面运行函数并进行相应的处理并返回结果，运行完成之后释放所有的局部变量。在.Net里面方法的调用也是这个过程，分配动态内存进行方法的处理。&lt;/p&gt;
 &lt;p&gt;吉日嘎拉博文中纠结的并发还是排队其实仔细想象就会有答案，这两种处理方式产生的原因是因为对资源的占用问题，就是说不同线程里面有没有可能产生资源占用的问题，上面已经说到了方法调用是分配到内存里面进行处理，不同的方法在内存中所处的位置显然是不相同的。所以一般情况下这个是能够并发的，除非是在不同的内存中又涉及到了访问公有区域的位置，比如访问静态变量。&lt;/p&gt;
 &lt;p&gt;到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变\~&lt;/p&gt;</summary></entry><entry><title>闲话Hashtable与Dictionary</title><link href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/" rel="alternate"></link><updated>2011-02-14T14:22:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-02-14:2011/02/14/hashtable-dictionary/</id><summary type="html">&lt;p&gt;Tags; Dictionary, Hashtable
-Category: .Net
-Slug: Dictionary, Hashtable&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。&lt;/p&gt;
 &lt;p&gt;Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。&lt;/p&gt;
 &lt;h3&gt;链接法(chaining)&lt;/h3&gt;
@@ -1896,8 +1875,7 @@ Slug: Dictionary, Hashtable&lt;/p&gt;
 
 &lt;p&gt;Dictionary的Add操作首先计算元素的Hash值，然后根据Hash值寻找bucket,找到相应的bucket后将值存入Entry中，并将bucket指向相应的Entry.查询操作逻辑是根据Hash值找到相应的bucket然后通过bucket到Entry数组中进行寻找。&lt;/p&gt;
 &lt;p&gt;稍微需要提一下的是Remove方法，为了将删除的节点的Entry进行重用，Dictionary中有一个freeList字段，删除的节点的下标值，为赋给freeList，在Add操作的时候如果freeList&amp;gt;0则将数据插入到freeList指向的Entry中去。&lt;/p&gt;</summary></entry><entry><title>二叉树的非递归遍历</title><link href="http://blog.michaelyin.info/2010/12/23/binary-tree-linear-walk/" rel="alternate"></link><updated>2010-12-23T13:59:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-12-23:2010/12/23/binary-tree-linear-walk/</id><summary type="html">&lt;p&gt;Tags; Binary tree
-Category: .Net
-Slug: Binary tree&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;二叉树的遍历如果使用递归调用基本没什么问题，这里主要是讲如何使用非递归方法实现二叉树的遍历。&lt;/p&gt;
 &lt;p&gt;由于递归调用程序实际上使用了栈来保存方法中的变量值，在非递归遍历的方法中我们需要基于栈的方法。先来看看这个方法&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;/// &amp;lt;summary&amp;gt;&lt;/span&gt;
@@ -2121,8 +2099,7 @@ Slug: Binary tree&lt;/p&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary></entry><entry><title>闲话动态KML</title><link href="http://blog.michaelyin.info/2010/12/21/google-kml/" rel="alternate"></link><updated>2010-12-21T08:06:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-12-21:2010/12/21/google-kml/</id><summary type="html">&lt;p&gt;Tags; .Net, Kml
-Category: .Net
-Slug: .Net, Kml&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;最近在Google
 Map开发中开发中用到了动态生成KML在地图中动态显示数据，下面来简单的把其中的知识点讲一下。&lt;/p&gt;
 &lt;p&gt;KML是一种采用XML
@@ -2364,8 +2341,7 @@ int data =
 
 
 &lt;p&gt;堆排序其实主要就是一个维护堆的过程，始终保持每一个母节点比子节点大这个性质。优先级队列的实现用堆是比较合适的。&lt;/p&gt;</summary></entry><entry><title>字符编码那些事儿</title><link href="http://blog.michaelyin.info/2010/12/06/character-encoding/" rel="alternate"></link><updated>2010-12-06T08:57:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-12-06:2010/12/06/character-encoding/</id><summary type="html">&lt;p&gt;Tags; utf-8,gb2312
-Category: 未分类
-Slug: utf-8,gb2312&lt;/p&gt;
+Category: 未分类&lt;/p&gt;
 &lt;p&gt;这几天专门花时间好好看了下字符编码的东西，在这里写篇随笔把知识好好梳理一下。&lt;/p&gt;
 &lt;p&gt;讲到字符编码，还是从最基本的ASCII讲起咯。&lt;/p&gt;
 &lt;p&gt;在计算机刚开始使用时候，人们必须用计算机里面的01这样的二进制组合来表示一些基本的英文字母和字符,当然了，每个人都可以有自己的一套编码标准来完成这个看似简单的功能，不过，为了不同的计算机系统之间能够相互通信而不产生混乱，那么所有的计算机就必须采用相同的编码标准，所以美国的标准化组织就出台了ASCII编码标准，统一规定了上述符号和字母用哪些二进制来表示。在这里要加的一点是，标准ASCII只用了7位，最前面的一位是用来做奇偶校验的。比如英文字母a在ASCII编码中用二进制01100001表示，十六进制就是61.&lt;/p&gt;
@@ -2392,8 +2368,7 @@ BF开头的txt文件表示文件采用了UTF-8，FEFF采用的是Big-Endian，�
 &lt;p&gt;最后，推荐几篇我觉得不错的文章:&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/tsoukw/archive/2006/07/13/449861.html"&gt;编码,charset,乱码,unicode,utf-8与net简单释义(续)&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://tsoukw.cnblogs.com/archive/2006/07/13/449588.html"&gt;编码,charset,乱码,unicode,utf-8与net简单释义&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>BlogEngine中的BlogSettings</title><link href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/" rel="alternate"></link><updated>2010-11-26T12:44:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-11-26:2010/11/26/blogengine-BlogSettings/</id><summary type="html">&lt;p&gt;Tags; Blogengine
-Category: .Net
-Slug: Blogengine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;BlogEngine中的BlogSettings这个类是用来提供整个系统的设置参数的，参数的读取采用的是反射获取属性名称，然后遍历进行赋值，个人觉得这段代码值得学习&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;Load&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="p"&gt;{&lt;/span&gt;
@@ -2475,8 +2450,7 @@ myReader, "Temperature");&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;在来说说Zedgraph，这个控件以前在我看的bugnet中作者使用它来生成统计图表信息，当时也没多做了解，这几天花时间看了下，这个控件整体思路和Mschart其实差不多，都是后台动态绑定数据生成图片然后显示到页面上面，由于项目不是大批量的访问，所以性能方面我也没有作过多的分析和了解。&lt;/p&gt;
 &lt;p&gt;它主要是通过后台编程来实现功能，不像Mschart很多可以通过声明来实现，MasterPane是一个主要的作图的pane,它是一个容器类，里面装着若干个GraphPane，这个GraphPane其实就和mschart中的ChartArea差不多，都是一个一个的小图，你还可以对MasterPane进行排列，管理图表的排列情况，PointPairList是数据容器，x轴和y轴对应的数据就装在这个里面然后进行绑定。调用的时候，对于Zedgraph需要将方法注册到控件的RenderGraph事件中去。&lt;/p&gt;
 &lt;p&gt;总体来说实现效果和mschart其实差不多，只不过个人感觉Mschart好看一点点，而ZedGraph显得简练一些。&lt;/p&gt;</summary></entry><entry><title>Subsonic查询中奇怪的数据丢失问题</title><link href="http://blog.michaelyin.info/2010/11/09/subsonic-data-lost/" rel="alternate"></link><updated>2010-11-09T09:43:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-11-09:2010/11/09/subsonic-data-lost/</id><summary type="html">&lt;p&gt;Tags; Subsonic
-Category: .Net
-Slug: Subsonic&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;昨天在项目中遇到了一个很奇怪的问题，用Subsonic查询出来的对象中部分字段值出现了丢失，比如我写这样一个查询语句&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ViewIceCalculate&lt;/span&gt; &lt;span class="n"&gt;objViewIce&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Select&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;Top&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;ViewIceCalculate&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;().&lt;/span&gt;&lt;span class="n"&gt;ExecuteSingle&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;ViewIceCalculate&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;();&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -2571,15 +2545,13 @@ Select开始的查询,所以先看看Select这个类把，发现Select这个类�
 
 &lt;p&gt;合并排序体现的主要是一个将问题进行拆分解决的思路，通过递归调用函数来解决子问题，最后合并结果，从而得到原问题的解。&lt;/p&gt;
 &lt;p&gt;题外话：身边很多人在学数据结构和算法的时候对算法的语言有着特殊的要求，个人觉得学习算法学习的是一种解决问题的思路，而不是具体的代码实现,this is the point….&lt;/p&gt;</summary></entry><entry><title>BlogEngine中的Provider模式（下）</title><link href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-2/" rel="alternate"></link><updated>2010-10-23T13:18:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-10-23:2010/10/23/blogengine-provider-2/</id><summary type="html">&lt;p&gt;Tags; BlogEngine
-Category: .Net
-Slug: BlogEngine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;前面一篇Post主要专注于读取Web.Config中的配置的过程，这一篇将从面向对象的角度来阐述Provider的实现细节。&lt;/p&gt;
 &lt;p&gt;BlogEngine中其实很多处用到了Provider模式，而我希望就数据存储这部分把Provider给大家讲清楚，因为其他的地方和数据存储差不多，实现的方式大同小异。&lt;/p&gt;
 &lt;p&gt;BlogEngine中的BlogProvider是一个继承自ProviderBase的抽象类，在ProviderBase基础上加入了整个系统所有需要的方法签名，这个地方需要注意的是它并没有提供方法的具体实现的代码。XmlBlogProvider和DbBlogProvider都继承了BlogProvider，并且提供了具体的关于XML和数据库的实现方法的具体的代码。好了，现在让我们回头看BlogService这个类，整个系统的数据操作时这样的，逻辑代码调用BlogService中相应的方法，然后BlogService调用LoadProviders读取配置（如果已经读取就不用再次读取），然后操作已经经过实例化的BlogProvider的实例。&lt;/p&gt;
 &lt;p&gt;在这里笔者需要提醒的是抽象类其实是不能直接通过new关键字实例化的，通过不同的派生类的类型转换生成的抽象类虽然拥有一样名称的方法，但是具体的实现逻辑却并不是一样的，这其实就是一种面向抽象编程。这样做有什么好处呢？我们可以将针对不同数据存储方式的操作写到不同的继承自BlogProvider类的派生类中，然后在Web.Config中进行配置，程序中调用BlogProvider的方法进行逻辑方面的处理，而对于具体的数据存储的细节则不用关注太多。&lt;/p&gt;
 &lt;p&gt;对于派生类转换成基类后方法的调用细节不是很清楚的朋友可以看看Anytao的这篇文章&lt;a href="http://www.cnblogs.com/anytao/archive/2007/09/10/must_net_15.html"&gt;继承本质论&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>BlogEngine中的Provider模式（上）</title><link href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-1/" rel="alternate"></link><updated>2010-10-23T12:27:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-10-23:2010/10/23/blogengine-provider-1/</id><summary type="html">&lt;p&gt;Tags; BlogEngine
-Category: .Net
-Slug: BlogEngine&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;BlogEngine中的数据存储部分使用了Provider模式来支持多种数据存储方式，比如Sql
 server,XML等。只需要通过修改Web.Config文件中的响应配置节就可以按需求进行数据存储方式的改变。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;configSections&amp;gt;&lt;/span&gt; 
@@ -2850,15 +2822,13 @@ Control），虽然权限管理如果做极端点的话其实一个用户ID和�
 
 
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/wdxinren/archive/2005/05/29/164392.html"&gt;一个用代码讲解泛型约束的例子&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>Bugnet学习总结（7）杂</title><link href="http://blog.michaelyin.info/2010/08/08/bugnet-study-7/" rel="alternate"></link><updated>2010-08-08T07:39:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-08-08:2010/08/08/bugnet-study-7/</id><summary type="html">&lt;p&gt;Tags; Bugnet
-Category: .Net
-Slug: Bugnet&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;Bugnet使用Log4net进行日志记录，Config文件夹下面是配置文件。Global.asax文件里面指明了配置文件的路径。基本的使用网上有相关的资料，自己查下基本就可以弄懂。不过我在这里是想说的是我在使用过程中遇到的一个问题。&lt;/p&gt;
 &lt;p&gt;Bugnet中的Log的数据源是数据库中的Log表，在使用过程中我发现有时候有些需要被Log的数据并没有被写入到数据库中，有的时候是没有被立即写入到数据库中。我后来在另外的一个小项目中也使用了Log4net,我在Application_Start事件中写入了记录事件，系统进入后马上进入数据库进行查看，但是数据库中的表中病没有那一条表记录。后来我又在里面把数据源加入了生成txt文件，代码就动了下log4net的配置文件，但是每次改变txt文件都能记录下来，大家又兴趣可以试下，如果知道答案的麻烦请告诉我，谢谢了。。。&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/dragon/archive/2005/03/24/124254.html"&gt;Log4net学习指南&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Bugnet中的rss输出使用的是Rss.net，代码不是很难，有兴趣可以自己去研究下。。&lt;/p&gt;
 &lt;p&gt;在此之前对于单元测试只是知道，对于如何实施并不是很清楚，在Bugnet里面刚好有机会看看别人如何进行单元测试，草草的看了下，发现只是简单的测试了几个类的功能，不过对于像了解单元测试的朋友来说基本上足够了。。。&lt;/p&gt;</summary></entry><entry><title>Bugnet学习总结（6）用户控件</title><link href="http://blog.michaelyin.info/2010/08/01/bugnet-study-6/" rel="alternate"></link><updated>2010-08-01T03:49:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-08-01:2010/08/01/bugnet-study-6/</id><summary type="html">&lt;p&gt;Tags; Bugnet
-Category: .Net
-Slug: Bugnet&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;用户控件作为Asp.net提供的一种自定义可重用的机制，在很多的项目中都得到了应用，Bugnet里面也使用了很多用户控件。&lt;/p&gt;
 &lt;p&gt;UserControls文件夹里面放的除了fckeditor和xslt外，就是项目里面要用到的用户控件了，代码都不难，下面就把里面的DisplayBugs.ascx拿出来稍微讲一下。该控件在Bugnet中被用到的次数还是很多的，功能也比较简单，就是提供了一个有图表显示，有排序功能的列表。该用户控件是在Gridview的基础上做的开发，增加了一个BugCollection和EventHandler。BugCollection是Gridview需要绑定的数据源，而EventHandler则是使用了事件。调用该事件实现绑定数据的具体操作。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;uc1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;DisplayBugs&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;InProgressBugs&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;HeaderBackColor&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#eeeeee&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;CssClass&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;issues&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;OnRebindCommand&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;DisplayBugs_DataBind&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;runat&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;server&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
@@ -2873,15 +2843,13 @@ Slug: Bugnet&lt;/p&gt;
 
 &lt;p&gt;需要在这里提到的一点是在这里Gridview绑定数据使用的是自带的分页，其实现的机制是将数据首先全部从数据库中查出来然后全部给gvw,gvw然后根据currentpageindex从中选取需要的数据，不要的数据放在内存中，这样的实现方式在数据量小的时候还好，在大数据量的时候是有很大的影响的。&lt;a href="http://www.cnblogs.com/lovecherry/archive/2006/08/25/486077.html"&gt;具体情况请点击这里&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Administration文件夹中的AddProject.aspx页面实现了一种动态加载用户控件的技术。根据用户操作到第几步动态加载相应的用户控件进行显示，这些用户控件实现IEditProjectControl这个自定义接口。方便进行操作。Asp.net中的Wizard好像也可以实现这个类似的功能，有时间看一下。。&lt;/p&gt;</summary></entry><entry><title>Bugnet学习总结（5）逻辑层</title><link href="http://blog.michaelyin.info/2010/07/25/bugnet-study-5/" rel="alternate"></link><updated>2010-07-25T12:34:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-07-25:2010/07/25/bugnet-study-5/</id><summary type="html">&lt;p&gt;Tags; Bugnet
-Category: .Net
-Slug: Bugnet&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;Bugnet的逻辑层在在BugNET.BusinessLogicLayer这个namespace下，大多数类基本上是和数据库中的表相对应的，类里面一般就私有变量，方法，和属性，类中的方法调用DAL层的方法完成CRUD操作，没什么太复杂的地方。&lt;/p&gt;
 &lt;p&gt;把几个不一样的类稍微提一下，BugCollection是一个集合类，继承自CollectionBase,提供了排序的方法，里面包含的类实现了IComparer接口。&lt;/p&gt;
 &lt;p&gt;Globals这个类将公用的变量，数组，枚举放在了里面，方便编程的时候直接调用。&lt;/p&gt;
 &lt;p&gt;HostSettings是读取项目配置的类，从DAL读取后数据放在了Cache中，值得借鉴。&lt;/p&gt;
 &lt;p&gt;Mail是发送邮件的类，用xslt进行转换内容，然后调用.Net自带的函数进行邮件发送。&lt;/p&gt;</summary></entry><entry><title>Bugnet学习总结（4）数据访问层</title><link href="http://blog.michaelyin.info/2010/07/25/bugnet-study-4/" rel="alternate"></link><updated>2010-07-25T11:52:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-07-25:2010/07/25/bugnet-study-4/</id><summary type="html">&lt;p&gt;Tags; Bugnet
-Category: .Net
-Slug: Bugnet&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;Bugnet由于功能比较简单，所以在系统的架构上也很简单，没什么过于复杂的地方。&lt;/p&gt;
 &lt;p&gt;DAL文件夹中的DataFactory文件通过读取Web.config中的Appsetting中的值反射生成生成数据库连接和操作对象。DataHelper，里面则是一些常用的Ado操作，进行了简单的封装，GenericDataAccessLayer是调用DataHelper里的函数完成数据CRUD操作的类。,需要提一下的是具体的数据库操作的代码是写在数据库的存储过程中的，而这一点也正是我不是很理解的地方，先前提到过的DataFactory和DataHelper特别是
 DataFactory的存在是提供跨库操作的，而它将数据库操作又用存储过程写在数据库里面这不是有点矛盾么。。。想象一下如果要迁移的话那存储过程不是都还要改。。。。。:(&lt;/p&gt;
@@ -2930,8 +2898,7 @@ new GenericDataAccessLayer();&lt;/code&gt;这样的代码，除了初始化那�
 
 &lt;p&gt;像这样的代码，我不明白的就是为什么不直接用工具类调用静态函数来写，还要在中间加一个Instance不知道这是什么意思。。望知道的朋友留言告知。&lt;/p&gt;
 &lt;p&gt;数据访问就写到这了，下次写BLL.&lt;/p&gt;</summary></entry><entry><title>Bugnet学习总结（3）项目文件结构</title><link href="http://blog.michaelyin.info/2010/07/19/bugnet-study-3/" rel="alternate"></link><updated>2010-07-19T11:07:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-07-19:2010/07/19/bugnet-study-3/</id><summary type="html">&lt;p&gt;Tags; Bugnet
-Category: .Net
-Slug: Bugnet&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;用VS打开Bugnet项目文件，可以看到四个Project,BugNET_WAP是Web项目，HttpModule.Authentication是自定义的认证模块，好像是可以在其中选择WindowsSAM和ActiveDirectory两种认证方式，这个模块我没怎么看，感兴趣的朋友请自己研究下，HttpModule.MailBoxReader是邮件读取的模块，UnitTests是单元测试Project.&lt;/p&gt;
 &lt;p&gt;另外的三个文件结构相对比较简单，就不在这里多做说明了，现在在这里主要对BugNET_WAP进行较详细的说明。&lt;/p&gt;
 &lt;p&gt;Bugnet使用的数据库是Sql
@@ -2946,8 +2913,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 &lt;p&gt;Shared放的是所用到的母版页。&lt;/p&gt;
 &lt;p&gt;UserControls放的是用户控件，需要提到的xslt文件，FCKeditor。&lt;/p&gt;
 &lt;p&gt;Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类，Pop3Reader下放的是读取邮件时需要用到的类，DAL和BLL是干什么的就不用我多说了吧。。&lt;/p&gt;</summary></entry><entry><title>Bugnet学习总结（2）数据库</title><link href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/" rel="alternate"></link><updated>2010-07-19T07:50:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-07-19:2010/07/19/bugnet-study-2/</id><summary type="html">&lt;p&gt;Tags; Bugnet
-Category: .Net
-Slug: Bugnet&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。&lt;a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html"&gt;请猛击这里&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。&lt;/p&gt;
@@ -2960,8 +2926,7 @@ Slug: Bugnet&lt;/p&gt;
 &lt;p&gt;表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的，在这一点上我也是有点不理解，如果说使用存储过程是为了性能，那它代码可以优化的地方不是没有，比如它使用的是自带的分页，而没有自己写分页，这样在数据量达到一定程度时性能肯定会首影响，而且更让我感到有点疑惑的是，代码里面使用了Datafaactory来生成需要的对象，那你为什么具体的数据操作代码要放到数据库里面去？不是要分离么？&lt;/p&gt;
 &lt;p&gt;视图的话只有BugsView一个，就是将Bug表有联系的表连接起来方便查询。。&lt;/p&gt;
 &lt;p&gt;数据库大致感觉要说的就这些。。&lt;/p&gt;</summary></entry><entry><title>Bugnet学习总结（1） 前言&amp;索引</title><link href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/" rel="alternate"></link><updated>2010-07-18T11:29:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-07-18:2010/07/18/bugnet-study-1/</id><summary type="html">&lt;p&gt;Tags; Bugnet
-Category: .Net
-Slug: Bugnet&lt;/p&gt;
+Category: .Net&lt;/p&gt;
 &lt;p&gt;Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。&lt;/p&gt;
 &lt;p&gt;Bugnet系统中用到的若干的我觉得有必要提及的技术我先在这里先提一下，接下来的几篇Blog会按模块进行展开，有可能会有一些遗漏的地方，欢迎大家留言补充。&lt;/p&gt;
 &lt;ol&gt;

@@ -76,8 +76,7 @@
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Bugnet
-Category: .Net
-Slug: Bugnet</p>
+Category: .Net</p>
 <p>Bugnet的逻辑层在在BugNET.BusinessLogicLayer这个namespace下，大多数类基本上是和数据库中的表相对应的，类里面一般就私有变量，方法，和属性，类中的方法调用DAL层的方法完成CRUD操作，没什么太复杂的地方。</p>
 <p>把几个不一样的类稍微提一下，BugCollection是一个集合类，继承自CollectionBase,提供了排序的方法，里面包含的类实现了IComparer接口。</p>
 <p>Globals这个类将公用的变量，数组，枚举放在了里面，方便编程的时候直接调用。</p>
@@ -103,8 +102,7 @@ Slug: Bugnet</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Bugnet
-Category: .Net
-Slug: Bugnet</p>
+Category: .Net</p>
 <p>Bugnet由于功能比较简单，所以在系统的架构上也很简单，没什么过于复杂的地方。</p>
 <p>DAL文件夹中的DataFactory文件通过读取Web.config中的Appsetting中的值反射生成生成数据库连接和操作对象。DataHelper，里面则是一些常用的Ado操作，进行了简单的封装，GenericDataAccessLayer是调用DataHelper里的函数完成数据CRUD操作的类。,需要提一下的是具体的数据库操作的代码是写在数据库的存储过程中的，而这一点也正是我不是很理解的地方，先前提到过的DataFactory和DataHelper特别是
 DataFactory的存在是提供跨库操作的，而它将数据库操作又用存储过程写在数据库里面这不是有点矛盾么。。。想象一下如果要迁移的话那存储过程不是都还要改。。。。。:(</p>
@@ -124,7 +122,7 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
 <span class="c1">/// Instances this instance.</span>
 <span class="c1">/// &lt;/summary&gt;</span>
 <span class="c1">/// &lt;returns&gt;&lt;/returns&gt;</span>
-<span class="k">public</span> <span class="k">static ...</span></pre></div>
+<span class="k">public</span> <span class="k">static</span> <span class="n">GenericDataAccessLayer</span> <span class="nf">Instance ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2010/07/25/bugnet-study-4/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -145,8 +143,7 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Bugnet
-Category: .Net
-Slug: Bugnet</p>
+Category: .Net</p>
 <p>用VS打开Bugnet项目文件，可以看到四个Project,BugNET_WAP是Web项目，HttpModule.Authentication是自定义的认证模块，好像是可以在其中选择WindowsSAM和ActiveDirectory两种认证方式，这个模块我没怎么看，感兴趣的朋友请自己研究下，HttpModule.MailBoxReader是邮件读取的模块，UnitTests是单元测试Project.</p>
 <p>另外的三个文件结构相对比较简单，就不在这里多做说明了，现在在这里主要对BugNET_WAP进行较详细的说明。</p>
 <p>Bugnet使用的数据库是Sql
@@ -160,7 +157,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <p>Report放的是报表文件和浏览报表的页面。</p>
 <p>Shared放的是所用到的母版页。</p>
 <p>UserControls放的是用户控件，需要提到的xslt文件，FCKeditor。</p>
-<p>Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类 ...</p>
+<p>Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类，Pop3Reader下放的是读取邮件时需要用到的类，DAL和BLL是干什么的就不用我多说了吧。。</p>
                     <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-3/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -181,8 +178,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Bugnet
-Category: .Net
-Slug: Bugnet</p>
+Category: .Net</p>
 <p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
 <p><img alt="" src="http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg" /></p>
 <p>接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。</p>
@@ -192,7 +188,7 @@ Slug: Bugnet</p>
 <p><img alt="" src="http://blog.michaelyin.info/images/2014/01/18/6fa4c110b4629d29cbea2f1b843a1399.jpg" /></p>
 <p>剩下的表基本上都是以Bug为中心，BugAttachment保存上传的附件，BugComment保存评论，BugHistory保存Issue的历史，BugNotification保存Issue相关的需要通知的User,Component保存Project的分类，RelatedBug保存相关Issue关系。另外的几个表都是比如Status，Type都是起着字典表的作用。标识着Issue的状态和类别。</p>
 <p>HostSettings保存着Bugnet整体相关的设置。Log则是Log4net进行日志记录的地方。</p>
-<p>表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的 ...</p>
+<p>表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的，在这一点上我也是有点不理解，如果说使用存储过程是为了性能 ...</p>
                     <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -213,8 +209,7 @@ Slug: Bugnet</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Bugnet
-Category: .Net
-Slug: Bugnet</p>
+Category: .Net</p>
 <p>Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。</p>
 <p>Bugnet系统中用到的若干的我觉得有必要提及的技术我先在这里先提一下，接下来的几篇Blog会按模块进行展开，有可能会有一些遗漏的地方，欢迎大家留言补充。</p>
 <ol>
@@ -232,7 +227,7 @@ Slug: Bugnet</p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784803.html">Bugnet学习总结（4）数据访问层</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784819.html">Bugnet学习总结（5）逻辑层</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/01/1789842.html">Bugnet学习总结（6）用户控件</a></p>
-<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7 ...</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7）杂</a></p>
                     <a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -298,6 +293,12 @@ Slug: Bugnet</p>
                 <a href="http://blog.michaelyin.info/category/net.html">
                     <i class="icon-folder-open icon-large"></i>
                     .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
                 </a>
             </li>
             <li>

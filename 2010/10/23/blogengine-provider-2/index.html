@@ -81,8 +81,7 @@
  </span>
 </div><!-- /.post-info --></div>
             <p>Tags; BlogEngine
-Category: .Net
-Slug: BlogEngine</p>
+Category: .Net</p>
 <p>前面一篇Post主要专注于读取Web.Config中的配置的过程，这一篇将从面向对象的角度来阐述Provider的实现细节。</p>
 <p>BlogEngine中其实很多处用到了Provider模式，而我希望就数据存储这部分把Provider给大家讲清楚，因为其他的地方和数据存储差不多，实现的方式大同小异。</p>
 <p>BlogEngine中的BlogProvider是一个继承自ProviderBase的抽象类，在ProviderBase基础上加入了整个系统所有需要的方法签名，这个地方需要注意的是它并没有提供方法的具体实现的代码。XmlBlogProvider和DbBlogProvider都继承了BlogProvider，并且提供了具体的关于XML和数据库的实现方法的具体的代码。好了，现在让我们回头看BlogService这个类，整个系统的数据操作时这样的，逻辑代码调用BlogService中相应的方法，然后BlogService调用LoadProviders读取配置（如果已经读取就不用再次读取），然后操作已经经过实例化的BlogProvider的实例。</p>

@@ -81,8 +81,7 @@
  </span>
 </div><!-- /.post-info --></div>
             <p>Tags; Bugnet
-Category: .Net
-Slug: Bugnet</p>
+Category: .Net</p>
 <p>Bugnet由于功能比较简单，所以在系统的架构上也很简单，没什么过于复杂的地方。</p>
 <p>DAL文件夹中的DataFactory文件通过读取Web.config中的Appsetting中的值反射生成生成数据库连接和操作对象。DataHelper，里面则是一些常用的Ado操作，进行了简单的封装，GenericDataAccessLayer是调用DataHelper里的函数完成数据CRUD操作的类。,需要提一下的是具体的数据库操作的代码是写在数据库的存储过程中的，而这一点也正是我不是很理解的地方，先前提到过的DataFactory和DataHelper特别是
 DataFactory的存在是提供跨库操作的，而它将数据库操作又用存储过程写在数据库里面这不是有点矛盾么。。。想象一下如果要迁移的话那存储过程不是都还要改。。。。。:(</p>

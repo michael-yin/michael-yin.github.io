@@ -81,8 +81,7 @@
  </span>
 </div><!-- /.post-info --></div>
             <p>Tags; Heritrix, Java
-Category: Java
-Slug: Heritrix, Java</p>
+Category: Java</p>
 <p>上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。</p>
 <p><a href="http://blog.michaelyin.info/images/2011/08/201108252116205982.png"><img alt="201108252116205982" src="http://blog.michaelyin.info/images/2011/08/201108252116205982.png" /></a></p>
 <p>Heritrix把Frontier抽象成了interface，创建新的Frontier只需要实现这个接口就行。里面两个很重要的方法一个是schedule()，该方法接受一个URI并存起来以后进行抓取，另外一个是next，改方法返回一个URI供抓取，另外finished这个方法用来处理一个已经处理完毕的uri</p>

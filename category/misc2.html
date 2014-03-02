@@ -76,8 +76,7 @@
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; 账号, 邮箱, 雅虎
-Category: 思考心得
-Slug: 账号, 邮箱, 雅虎</p>
+Category: 思考心得</p>
 <p>由于中国雅虎的邮箱服务马上就要停止，趁着放假有时间，决定把散落各处的账号进行整理，并将原先和雅虎邮箱绑定的账号绑定到另外的邮箱上去，防止由于邮箱失效造成以后不能找回账号的登录密码。</p>
 <p>更换登录账号绑定的邮箱，方便用户进行数据迁移，这是一个原始用户需求，各个应用对于这个需求有着不同的解决方案。</p>
 <p>想到我的众多可爱师妹们，以及那些众多好图，人人账号是我最先进行修改的</p>
@@ -89,7 +88,8 @@ Slug: 账号, 邮箱, 雅虎</p>
 一个简单的功能，竟然被做的如此复杂，这一刻，我认定它的产品经理的头，被门夹了。。。</p>
 <p>接着，是经常用来听歌的虾米网，更改邮箱后，能使用新的邮箱来登录了，不过在个人设置里面，个人邮箱竟然还是显示的是偶的雅虎邮箱地址。。。。汗。。。虾米网有测试人员么？</p>
 <p><a href="http://blog.michaelyin.info/images/2013/05/image.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/05/image_thumb.png" title="image" /></a></p>
-<p>抛开这两个有硬伤的不谈，其他的产品 ...</p>
+<p>抛开这两个有硬伤的不谈，其他的产品，在修改邮箱上，主要是在一个地方有所不同：</p>
+<p>假设用户原先使用的是邮箱A，现在想迁移到邮箱B ...</p>
                     <a href="http://blog.michaelyin.info/2013/05/01/yahoo-email-changing/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -110,8 +110,7 @@ Slug: 账号, 邮箱, 雅虎</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; CodeKata
-Category: Python
-Slug: CodeKata</p>
+Category: Python</p>
 <p>这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。</p>
 <p>第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据</p>
 <p>第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。</p>
@@ -122,7 +121,7 @@ Slug: CodeKata</p>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">firstindex</span><span class="p">,</span> <span class="n">secindex</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span>
-        <span class="bp">self ...</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -143,8 +142,7 @@ Slug: CodeKata</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Heritrix, Java
-Category: Java
-Slug: Heritrix, Java</p>
+Category: Java</p>
 <p>上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。</p>
 <p><a href="http://blog.michaelyin.info/images/2011/08/201108252116205982.png"><img alt="201108252116205982" src="http://blog.michaelyin.info/images/2011/08/201108252116205982.png" /></a></p>
 <p>Heritrix把Frontier抽象成了interface，创建新的Frontier只需要实现这个接口就行。里面两个很重要的方法一个是schedule()，该方法接受一个URI并存起来以后进行抓取，另外一个是next，改方法返回一个URI供抓取，另外finished这个方法用来处理一个已经处理完毕的uri</p>
@@ -152,7 +150,8 @@ Slug: Heritrix, Java</p>
 <p>对于待抓取的URI需要进行一个排序以决定被抓取URI的先后顺序，所以又必要在Frontier中实现一种策略在避免对于一个主机进行过度抓取，在Heritrix中使用了一种称为queue的概念，Frontier中有着若干个queue,将待抓取的uri根据一定的算法算出一个key
 ,然后根据这个key将url放入到queue中去，每一个queuq中的url的key都是相同的当一个queue中有uri正在抓取的时候，其他toethread是不能从中获取uri的，这样就有效的防止了对一个queue的过渡的抓取，我们可以配置heritrix使用的策略，比如根据hostname进行区分，或者IP地址等等。默认情况下，使用的是hostname。这个根据url得到key的类具体是由Queue-assignment-policy来管理的。</p>
 <p>下面来具体的说说Frontier中queue的实现，WorkQueueFrontier这个类实现了关于queue的一些逻辑，里面提供了一些方法，我们只需要对其进行覆写就可以，BdbFrontier对部分方法进行了覆写，使用了Berkeley
-DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队列的一个抽象类，也是提供了队列所需要的基本的方法 ...</p>
+DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队列的一个抽象类，也是提供了队列所需要的基本的方法，子类只需要对其中部分方法进行覆写即可，具体的实现可以看BdbWorkQueue这个类的实现</p>
+<p>我们先来看看WorkQueueFrontier中的schedule方法 ...</p>
                     <a href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -173,8 +172,7 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Heritrix, Java
-Category: Java
-Slug: Heritrix, Java</p>
+Category: Java</p>
 <p>一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。</p>
 <p>Heritrix的一些介绍网上都有，我在这里也就不做介绍了，直接进入正题。</p>
 <p>Heritrix抓取任务的核心类就是CrawlController,这个对象将决定一个抓取任务的开始和结束</p>
@@ -193,7 +191,7 @@ Slug: Heritrix, Java</p>
 <span class="c1">//缓存，保存了当前抓取任务抓取过的Host名称和Server名称   </span>
 <span class="kd">private</span> <span class="kd">transient</span> <span class="n">ServerCache</span> <span class="n">serverCache</span><span class="o">;</span>
 
-<span class="c1">// This ...</span></pre></div>
+<span class="c1">// This gets passed into ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -214,8 +212,7 @@ Slug: Heritrix, Java</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Blogengine
-Category: .Net
-Slug: Blogengine</p>
+Category: .Net</p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859464.html">BlogEngine中的Provider模式（上）</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859492.html">BlogEngine中的Provider模式（下）</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/11/26/1889217.html">BlogEngine中的BlogSettings</a></p>
@@ -242,8 +239,7 @@ Slug: Blogengine</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Blogengine
-Category: .Net
-Slug: Blogengine</p>
+Category: .Net</p>
 <p>先来看看这段代码</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Program</span>
 <span class="p">{</span>
@@ -269,7 +265,7 @@ Slug: Blogengine</p>
     <span class="k">static</span> <span class="nf">Shape</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="c1">//静态构造函数中进行初始化</span>
-        <span class="n">staticSbj ...</span></pre></div>
+        <span class="n">staticSbj</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Print ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2011/05/27/talk-about-class-init/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -290,8 +286,7 @@ Slug: Blogengine</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Blogengine
-Category: .Net
-Slug: Blogengine</p>
+Category: .Net</p>
 <p>BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。</p>
 <p>BlogEngine中的Css文件是和BlogEngine的主题这个功能相关的，主题文件夹下每个相应文件夹下都有一个style.css被site.master所引用，BlogBasePage在运行的时候根据选定的主题的名字加载相应主题下的模板页，模板页中的Head中是有相应的样式表的链接的，然后再BlogBasePage的Onload方法中，通过CompressCss遍历Head中的控件，找到css，然后统一修改css的访问的路径通过httphandler来访问。</p>
 <div class="highlight"><pre><span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">CompressCss</span><span class="p">()</span>
@@ -302,7 +297,7 @@ Slug: Blogengine</p>
     <span class="k">foreach</span> <span class="p">(</span><span class="n">Control</span> <span class="n">control</span> <span class="k">in</span> <span class="n">Page</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Controls</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="n">HtmlControl</span> <span class="n">c</span> <span class="p">=</span> <span class="n">control</span> <span class="k">as</span> <span class="n">HtmlControl</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">!=</span> <span class="k">null ...</span></pre></div>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2011/04/17/blogengine-css-js/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -323,8 +318,7 @@ Slug: Blogengine</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; BlogEngine
-Category: .Net
-Slug: BlogEngine</p>
+Category: .Net</p>
 <p>BlogEngine中的widget机制支持在页面可添加一些小的widget，这个功能当时还是特别吸引我的，现在简单的说下实现的原理。</p>
 <p>所有的widget都在一个WidgetZone的容器内，这个容器继承自PlaceHolder，而这个容器是在自定义theme中的模板页中用到的，当这个控件加载的时候，它从数据库中找到关于widget的配置信息。这个配置信息也是DataStore的方式提取和存储的。</p>
 <div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;</span>
@@ -332,7 +326,7 @@ Slug: BlogEngine</p>
 <span class="na">xmlns:xsd=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;Settings&gt;</span><span class="ni">&amp;lt;</span>widgets<span class="ni">&amp;gt;&amp;lt;</span>widget
   id=&quot;b7d72394-7556-4a5b-87ed-c63cbdc915fb&quot; title=&quot;Administration&quot;
-  showTitle=&quot;True ...</pre></div>
+  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Administration ...</pre></div>
                     <a href="http://blog.michaelyin.info/2011/03/19/blogengine-widget/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -353,8 +347,7 @@ Slug: BlogEngine</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; Blogengine
-Category: .Net
-Slug: Blogengine</p>
+Category: .Net</p>
 <p>BlogEngine中提供了比较良好的扩展机制，用户可以通过添加Extension对BlogEngine进行各种功能的添加，而且还可以对各种扩展进行统一的管理，下面就把实现的机制和原理说明一下。</p>
 <p>ManagedExtension这个类对应了BlogEngine中的Extension,ExtensionSettings是ManagedExtension中的配置信息，而ExtensionParameter则是ExtensionSettings下面的参数信息。需要说明一下的是这三个类都是能够Serializable的，每个Extension的相关的属性，配置信息，配置参数最后都被序列化成了一个XML字符串，存储在数据库中。</p>
 <div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;</span>
@@ -362,7 +355,8 @@ Slug: Blogengine</p>
 <span class="na">xmlns:xsd=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span>
 <span class="na">Name=</span><span class="s">&quot;SendCommentMail&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;Version&gt;</span>1.3<span class="nt">&lt;/Version&gt;</span>
-  <span class="nt">&lt;Priority&gt;</span>0<span class="nt">&lt;/Priority ...</span></pre></div>
+  <span class="nt">&lt;Priority&gt;</span>0<span class="nt">&lt;/Priority&gt;</span>
+  <span class="nt">&lt;Description&gt;</span>Sends ...</pre></div>
                     <a href="http://blog.michaelyin.info/2011/03/17/blogengine-Extensinon/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -383,14 +377,13 @@ Slug: Blogengine</p>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; BlogEngine
-Category: .Net
-Slug: BlogEngine</p>
+Category: .Net</p>
 <p>BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。</p>
 <p>在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。</p>
 <p><a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /></a></p>
 <p>post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。</p>
 <p>页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。</p>
-<div class="highlight"><pre><span class="kt">string</span> <span class="n">path</span> <span class="p">=</span> <span class="n">Utils</span><span class="p">.</span><span class="n">RelativeWebRoot</span> <span class="p">+</span> <span class="s">&quot;themes/&quot;</span> <span class="p">+</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Theme ...</span></pre></div>
+<div class="highlight"><pre><span class="kt">string</span> <span class="n">path</span> <span class="p">=</span> <span class="n">Utils</span><span class="p">.</span><span class="n">RelativeWebRoot</span> <span class="p">+</span> <span class="s">&quot;themes/&quot;</span> <span class="p">+</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Theme</span> <span class="p">+</span> <span class="s">&quot;/PostView.ascx ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2011/03/13/blogengine-theme/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -457,6 +450,12 @@ Slug: BlogEngine</p>
                 <a href="http://blog.michaelyin.info/category/net.html">
                     <i class="icon-folder-open icon-large"></i>
                     .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
                 </a>
             </li>
             <li>

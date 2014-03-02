@@ -81,8 +81,7 @@
  </span>
 </div><!-- /.post-info --></div>
             <p>Tags; Bugnet
-Category: .Net
-Slug: Bugnet</p>
+Category: .Net</p>
 <p>Bugnet使用Log4net进行日志记录，Config文件夹下面是配置文件。Global.asax文件里面指明了配置文件的路径。基本的使用网上有相关的资料，自己查下基本就可以弄懂。不过我在这里是想说的是我在使用过程中遇到的一个问题。</p>
 <p>Bugnet中的Log的数据源是数据库中的Log表，在使用过程中我发现有时候有些需要被Log的数据并没有被写入到数据库中，有的时候是没有被立即写入到数据库中。我后来在另外的一个小项目中也使用了Log4net,我在Application_Start事件中写入了记录事件，系统进入后马上进入数据库进行查看，但是数据库中的表中病没有那一条表记录。后来我又在里面把数据源加入了生成txt文件，代码就动了下log4net的配置文件，但是每次改变txt文件都能记录下来，大家又兴趣可以试下，如果知道答案的麻烦请告诉我，谢谢了。。。</p>
 <p><a href="http://www.cnblogs.com/dragon/archive/2005/03/24/124254.html">Log4net学习指南</a></p>

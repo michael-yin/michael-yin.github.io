@@ -63,6 +63,41 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2013/06/30/split-array-1/">数组分割</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        30 Jun 2013
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Tags; checkio, 动态规划, 数组分割
+Category: 算法相关</p>
+<p>最近在做Python
+Challenge的时候无意中发现了checkio这个练习PY的地方，题目不难，正好可以在工作之余修炼下PY功力。。</p>
+<p>loading-cargo这个题目的意思比较简单
+，有一个无序、元素个数为2n的正整数数组，要求：如何能把这个数组分割为两个子数组，子数组的元素个数不限，并使两个子数组之和最接近</p>
+<h4>1:Solve</h4>
+<p>根据题目给出的Hint，可以使用暴力破解的方式穷举出所有可能的组合，并算出其和，使用PY提供的库可以很方便的做到，代码如下</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="k">def</span> <span class="nf">checkio</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">total</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="n">diff_sub</span> <span class="o">=</span> <span class="nb">sum ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2013/06/30/split-array-1/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2013/05/01/yahoo-email-changing/">更换邮箱那些事儿</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -76,8 +111,7 @@
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; 账号, 邮箱, 雅虎
-Category: 思考心得
-Slug: 账号, 邮箱, 雅虎</p>
+Category: 思考心得</p>
 <p>由于中国雅虎的邮箱服务马上就要停止，趁着放假有时间，决定把散落各处的账号进行整理，并将原先和雅虎邮箱绑定的账号绑定到另外的邮箱上去，防止由于邮箱失效造成以后不能找回账号的登录密码。</p>
 <p>更换登录账号绑定的邮箱，方便用户进行数据迁移，这是一个原始用户需求，各个应用对于这个需求有着不同的解决方案。</p>
 <p>想到我的众多可爱师妹们，以及那些众多好图，人人账号是我最先进行修改的</p>
@@ -89,7 +123,8 @@ Slug: 账号, 邮箱, 雅虎</p>
 一个简单的功能，竟然被做的如此复杂，这一刻，我认定它的产品经理的头，被门夹了。。。</p>
 <p>接着，是经常用来听歌的虾米网，更改邮箱后，能使用新的邮箱来登录了，不过在个人设置里面，个人邮箱竟然还是显示的是偶的雅虎邮箱地址。。。。汗。。。虾米网有测试人员么？</p>
 <p><a href="http://blog.michaelyin.info/images/2013/05/image.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/05/image_thumb.png" title="image" /></a></p>
-<p>抛开这两个有硬伤的不谈，其他的产品 ...</p>
+<p>抛开这两个有硬伤的不谈，其他的产品，在修改邮箱上，主要是在一个地方有所不同：</p>
+<p>假设用户原先使用的是邮箱A，现在想迁移到邮箱B ...</p>
                     <a href="http://blog.michaelyin.info/2013/05/01/yahoo-email-changing/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -160,8 +195,7 @@ PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>Tags; CodeKata
-Category: Python
-Slug: CodeKata</p>
+Category: Python</p>
 <p>这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。</p>
 <p>第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据</p>
 <p>第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。</p>
@@ -172,7 +206,7 @@ Slug: CodeKata</p>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">firstindex</span><span class="p">,</span> <span class="n">secindex</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span>
-        <span class="bp">self ...</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -350,36 +384,6 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/10/10/stack-study/">算法学习之栈</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        10 Oct 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>最近趁着找工作做了很多关于数据结构和算法的题，在这里也将涉及到栈的一些不错的知识点和题目以及代码贴出来，一方面是为了夯实基础，另外一方面方便大家更好的掌握数据结构中的栈</p>
-<p>栈的特性其实一说对数据结构有稍微了解的人都知道，后进先出，但是在解决问题的过程中熟练的使用合适的数据结构我觉得才是对栈真正的理解</p>
-<p>首先来讲一个很经典的问题，就是出栈顺序，题目是这样的，比如现在又1 2 3 4
-5五个数字，规定这五个数字入栈的顺序不变，但是中间可以任意的出栈，出栈的数字就当做输出，请写出程序输出所有的出栈的序列</p>
-<p>这个问题可以用很经典的回溯法来解，就是通过递归方法调用，在每一层找出所有可能的操作方式，直到全部输出，另外需要加一句的是在以前我是不知道递归的时候还原现场的，在这个代码里面也是学到了这个知识点，而这个小细节其实是很重要的，当时就是因为这个细节让我在思考递归调用的时候否定了该方法，后来想了许久才重新相通</p>
-<p>下面贴出相关代码:</p>
-<div class="highlight"><pre><span class="k">public</span> <span class="nf">static</span> <span class="bp">void</span> <span class="nx">SearchStack</span><span class="p">(</span><span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">input</span><span class="p">,</span> <span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">stack</span><span class="p">,</span> <span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">output</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">input.Count</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">stack.Count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="c1">//输出结果 ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/10/10/stack-study/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index.html">&laquo;</a>
@@ -446,6 +450,12 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                 <a href="http://blog.michaelyin.info/category/net.html">
                     <i class="icon-folder-open icon-large"></i>
                     .Net
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/python.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Python
                 </a>
             </li>
             <li>
