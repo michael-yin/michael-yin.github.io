@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>编程之美2.14学习笔记</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                编程之美2.14学习笔记
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        31 Jul 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>再看编程之美2.14的时候发现了一个书上没有讲到的思路，就在此记录一下，也希望能给读者扩宽一下思路。</p>
+<p>2.14的问题非常简单，就是给定一个数组，求这个数组的最大子数组之和。</p>
+<p>书上的解法我就不赘述了，在这里主要讲一下我想到的思路。子数组之和最大，肯定有一个开始的元素，和一个结束的元素，特殊一点的话，两个是一个元素，这种特殊情况下最大子数组其实就是一个数了。然后最大从数组第一个数开始我们求和，从第一个元素到第N个元素，我们可以建立一个数组专门来存储这个求出来的和，而求出的和的右边到左边差距最大的情况的时候，我们就可以根据此得出最大子数组的和。</p>
+<p>在遍历的过程中，我们需要定义一个变量来存储算出来的最小的和，因为我们想加的和与最小的和的差值才有可能求出最大的子数组的和。比如我们已经有了一个最小的和minSum,如果遍历过程中遇到了比这小的，那么我们就需要把这个进行替换。对于初始化的情况，我们的最小的和应该是为0，这样就把每个数字都包含进来了。</p>
+<p>程序运行的时候是从里面已经存在了一个元素开始的。这里需要注意的是minSum的处理，如果第一个元素是小于零的话相当于第一个sumOfArray求出的是小于0的，那么我们就需要把minSum换成这个小于0的数字。然后开始遍历操作。</p>
+<p>遍历过程中总是将求出的和与minSum进行比较，如果能大于最大的那个差值则进行替换，最后返回的就是我们需要求出的子数组之和的最大值。</p>
+<p>下面贴出我用Java实现的代码</p>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">Test1</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">sumOfArray</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="o">(</span><span class="n">array</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="n">array</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">:</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">sumOfArray</span> <span class="o">+=</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">sumOfArray</span> <span class="o">&lt;</span> <span class="n">min</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">min</span> <span class="o">=</span> <span class="n">sumOfArray</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">sumOfArray</span> <span class="o">-</span> <span class="n">min</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span>
+                <span class="n">max</span> <span class="o">=</span> <span class="n">sumOfArray</span> <span class="o">-</span> <span class="n">min</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">max</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>另外关于2.14的扩展问题一也想在这里提一下，书上给出的思路貌似有点问题，我现在把我整理的思路提出来。首先求出没有同时经过首尾的最大和，这个可以用上面提到的方法做，然后我们需要求出经过首尾的最大和，但是可以看到全部节点的和是一个定值，这个问题其实可以转换为求出一个没有同时经过首尾的最小和，求出来以后用总数减去求出的最小值，然后拿这个值跟没有经过首尾的最大和进行比较，这样就能正确的求出结果。而这两个问题其实十分类似，所以其实可以放到一个for循环中完成，具体的代码这里就不写了。</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'beauty-of-programing-214';
+            var disqus_url = 'http://blog.michaelyin.info/2011/07/31/beauty-of-programing-214/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

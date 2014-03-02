@@ -63,11 +63,11 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/09/14/c%e8%af%ad%e8%a8%80%e4%b8%ad%e8%87%aa%e5%a2%9e%e7%9a%84%e7%96%91%e6%83%91/">C语言中自增的疑惑</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/07/14/list-operation-study/">有列表List的操作所学习到的</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
-        14 Sep 2011
+        14 Jul 2010
     </span>
 
 
@@ -75,267 +75,27 @@
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>由于要准备笔试，所以捡起了好久不看的C语言，运算符优先级真的是挺蛋疼的，这不，今天在那折腾的时候就被一个问题给纠结住了，自己不能解释这种现象，就发到园子里面请教一下大家了。</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-          int y,r;
-          y=3;
-          r=0;
-          r= 2*y+(++y);
-          printf("%d",r);
-          return 0;</p>
-<div class="highlight"><pre><span class="err">代码其实很简单，我写这个代码主要是想知道</span><span class="o">++</span><span class="n">y</span><span class="err">后的值对表达式中的其他地方的</span><span class="n">y ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/09/14/c%e8%af%ad%e8%a8%80%e4%b8%ad%e8%87%aa%e5%a2%9e%e7%9a%84%e7%96%91%e6%83%91/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/14/%e7%bc%96%e7%a8%8b%e4%b9%8b%e7%be%8e2-18%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">编程之美2.18学习笔记</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        14 Aug 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>解题过程中没有使用书上提供的动态规划的算法，在这里把解题思路写一下。</p>
-<p>题目是这样的，有个包含2n个元素的无序数组，现在用算法将这个数组进行分割，使得两个子数组的和最相近</p>
-<p>我们首先来想像将数组分割后的情况，假设分割后的两个数组分别为A和B，A[0]和B[0]之间肯定是存在一个差值的，假设我们用A[0]-B[0]，得到的值加上A[1]-B[1]，这样最后得到的值的绝对值肯定是所有情况里面最小的，因为最后得到的绝对值其实就是两个数组的和的差值。</p>
-<p>现在我们已经隐隐感觉到，其实两个元素之间的差值是我们可以拿来用的一个条件。我们只需要保证差值的绝对值为最小，这样得到的两个数组就是我们所求的结果了。然后还有一个问题，两个数组对应元素之间的差值是不一样的。比如A[0]-B[0]的差值是1,A[1]
-–B[1]的差值可能是99，我们需要一种策略来保证我们在计算这个差值的绝对值一定是最小。借鉴一下权重的思想，我们需要把本来差值绝对值最大的那一组A和B对应的元素放到前面去，然后依次排序，这样得到的相当于就是权重一个从大到小的顺序，我们遍历的时候就能够得到正确的结果，不至于前面出现了很多小的差值，然后因为后面出现了一个很大的差值，（比如99）使得得到的结果错误。</p>
-<p>下面完整的将一遍解题思路 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/08/14/%e7%bc%96%e7%a8%8b%e4%b9%8b%e7%be%8e2-18%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/07/31/%e7%bc%96%e7%a8%8b%e4%b9%8b%e7%be%8e2-14%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">编程之美2.14学习笔记</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        31 Jul 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>再看编程之美2.14的时候发现了一个书上没有讲到的思路，就在此记录一下，也希望能给读者扩宽一下思路。</p>
-<p>2.14的问题非常简单，就是给定一个数组，求这个数组的最大子数组之和。</p>
-<p>书上的解法我就不赘述了，在这里主要讲一下我想到的思路。子数组之和最大，肯定有一个开始的元素，和一个结束的元素，特殊一点的话，两个是一个元素，这种特殊情况下最大子数组其实就是一个数了。然后最大从数组第一个数开始我们求和，从第一个元素到第N个元素，我们可以建立一个数组专门来存储这个求出来的和，而求出的和的右边到左边差距最大的情况的时候，我们就可以根据此得出最大子数组的和。</p>
-<p>在遍历的过程中，我们需要定义一个变量来存储算出来的最小的和，因为我们想加的和与最小的和的差值才有可能求出最大的子数组的和。比如我们已经有了一个最小的和minSum,如果遍历过程中遇到了比这小的，那么我们就需要把这个进行替换。对于初始化的情况，我们的最小的和应该是为0，这样就把每个数字都包含进来了。</p>
-<p>程序运行的时候是从里面已经存在了一个元素开始的。这里需要注意的是minSum的处理，如果第一个元素是小于零的话相当于第一个sumOfArray求出的是小于0的，那么我们就需要把minSum换成这个小于0的数字。然后开始遍历操作。</p>
-<p>遍历过程中总是将求出的和与minSum进行比较，如果能大于最大的那个差值则进行替换，最后返回的就是我们需要求出的子数组之和的最大值。</p>
-<p>下面贴出我用Java实现的代码</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script ...</p>
-                    <a href="http://blog.michaelyin.info/2011/07/31/%e7%bc%96%e7%a8%8b%e4%b9%8b%e7%be%8e2-14%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/04/13/cookie%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">Cookie学习笔记</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        13 Apr 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>Cookie用来用来将少量的数据存储到客户端的硬盘上，其形式是用户名@网站地址[数字].txt这个样子，当Cookie想对应的网站的时候，浏览器将存储在客户端的Cookie发送到服务器，服务器可以读取Cookie
-中的数据并进行修改，由于Cookie是存储在客户端机器上的，所以在客户端也可以读写相应的Cookei文件.</p>
-<p>Cookie中信息的保存是以键值对这样的形式来存储的。</p>
-<p>Cookie的expires制定了cookie的生存期，如果不设置的话，cookie只在浏览器访问网站期间存在，关闭浏览器后，这个cookie就失效。如果设置了的话，浏览器会把cookie保存到相应的文件夹中(不同的浏览器保存的路径不一样)，一旦超过了expires中设置的日期，浏览器会将cookie删除。</p>
-<p>Cookie的Domain和Path标志了Cookie可以共用的范围，具体的信息可以查看<a href="http://www.cnblogs.com/winner2009/archive/2011/04/11/2011452.html">这里</a></p>
-<p>在服务器端是不能直接删除客户端的Cookie的，一般是通过将Cookie的到期日期设置为一个过去的日期，让客户端的浏览器来删除Cookie。当用户下一次向设置该
-Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
-已到期并将其移除。在这里需要注意的是，如果设置了过期时间，你在Request读取这个Cookie的时候通过它的过期那个属性来获取它的过期时间是获取不到的，因为客户端浏览器发送给服务器的Cookie是不包含过期时间的，而服务器发送给客户端浏览器的Cookie是包含过期时间的。</p>
-<p>实际项目中删除Cookie的是后也碰到了一个很奇怪的问题，网上流传的很多代码都是这样</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter ...</p>
-                    <a href="http://blog.michaelyin.info/2011/04/13/cookie%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/10/charint%e8%bd%ac%e6%8d%a2/">char,int转换</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        10 Mar 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>写一个Console小程序的时候需要用户输入数字，然后在程序中进行获取，本来以为很简单的，没想到也发生了一些曲折。。</p>
-<p>在Console类中，Console.Read获取的用户输入的单个字符，.net内存中的字符的存储都是采用的Unicode编码，所以这个方法返回的是该字符的Unicode编码的十进制值，对于Unicode不是很了解的朋友可以参考我的另外一篇Post<a href="http://www.cnblogs.com/MichaelYin/archive/2010/12/06/1897928.html">字符编码那些事儿</a>，如果我需要得到这个字符具体是多少，只需要调用Convert.ToChar就可以了。来看个例子</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-        int a = Console.Read();</p>
-<div class="highlight"><pre>    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+                <div class="summary"><p>前几日coding的时候，需要实现在泛型列表中找到其中的一个对象并将其移除的功能，刚开始想的很简单，先上代码</p>
+<div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="n">AttachmentBox</span> <span class="n">objAttachmentBox</span> <span class="k">in</span> <span class="n">lsAttachments</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">.</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+    <span class="p">{</span>
+        <span class="n">lsAttachments</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 
 
-<p>~~~~</p>
-<p>在Console窗口中按Ctrl+空格打开中文输入法，这样可以在Console中输入中文，然后敲随便一个中文 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/03/10/charint%e8%bd%ac%e6%8d%a2/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f/">算法学习之快速排序</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        20 Dec 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>快速排序通常是用于排序的最佳实用选择，因为它的平均性能相当好。</p>
-<p>快速排序和先前讲到的合并排序一样，体现了算法设计中的分治的思想。我们首先将问题进行分解，将数组划分成两个部分A[p…q-1]和A[q+1…r]，使得A[p…q-1]中的元素小于等于A[q]，然后分别解决前面一个数组和后面一个数组的排序，最后进行合并，由于这两个数组是就地排序(in
-place)的，所以不用像合并排序中一样进行过多的合并的操作。</p>
-<p>由于中间的分别排序的部分可以使用递归实现，所以快速排序中关键的地方就是如何将数组进行分解了。</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-        /// <summary>
-        /// 对数组进行分组,返回分界处的index ...</summary></p>
-                    <a href="http://blog.michaelyin.info/2010/12/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/13/%e7%94%b1%e7%b1%bb%e8%83%bd%e5%90%a6%e5%8c%85%e5%90%ab%e8%87%aa%e5%b7%b1%e8%af%b4%e5%bc%80%e5%8e%bb/">由类能否包含自己说开去</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        13 Dec 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>下午在Coding的时候突然想到了一个问题，类到底能不能包含自己?在什么情况下能包自己？</p>
-<p>当时正在实现一个类似链表的功能，在一个节点中需要有下个节点的引用的数据，比如像这样子的代码。</p>
-<p Next_="Next;
-" Node="Node" _="
-" data_="data;
-" int="int" public="public">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-    public class Node</p>
-<div class="highlight"><pre><span class="err">在</span><span class="n">Node</span><span class="err">中有一个</span><span class="n">Node</span><span class="err">类型的引用地址，用来找到这个节点的下一个节点。默认构造函数调用后会将 ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/12/13/%e7%94%b1%e7%b1%bb%e8%83%bd%e5%90%a6%e5%8c%85%e5%90%ab%e8%87%aa%e5%b7%b1%e8%af%b4%e5%bc%80%e5%8e%bb/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/08/%e7%ae%97%e6%b3%95%e6%8e%92%e5%ba%8f%e4%b9%8b%e5%a0%86%e6%8e%92%e5%ba%8f/">算法排序之堆排序</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        08 Dec 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>堆排序的重点在于对堆的理解，首先堆是一种数组对象，同时，它也可以被视为一棵完全二叉树，树中的每个节点从上到下，从左到右和数组中的每个元素是一一对应的，二叉树的每一层都是填满的，除了最后一层以外。</p>
-<p>比如数组中的第一个元素就是二叉树的根节点，第二个就是元素就是根节点的左边的子节点，而第三个节点就是根节点的右边的子节点，然后第四个节点就是根节点的左边的子节点的左边的子节点，这样以此类推。</p>
-<p>通过给定的节点的数组下标，我们可以求出该节点的左边子节点的坐标和右边子节点的坐标。</p>
-<p 1_="1;
-" _="+" _2="(2" parent_="parent)" return="return">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-        public static int ...
-                    <a href="http://blog.michaelyin.info/2010/12/08/%e7%ae%97%e6%b3%95%e6%8e%92%e5%ba%8f%e4%b9%8b%e5%a0%86%e6%8e%92%e5%ba%8f/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/06/%e5%ad%97%e7%ac%a6%e7%bc%96%e7%a0%81%e9%82%a3%e4%ba%9b%e4%ba%8b%e5%84%bf/">字符编码那些事儿</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        06 Dec 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>这几天专门花时间好好看了下字符编码的东西，在这里写篇随笔把知识好好梳理一下。</p>
-<p>讲到字符编码，还是从最基本的ASCII讲起咯。</p>
-<p>在计算机刚开始使用时候，人们必须用计算机里面的01这样的二进制组合来表示一些基本的英文字母和字符,当然了，每个人都可以有自己的一套编码标准来完成这个看似简单的功能，不过，为了不同的计算机系统之间能够相互通信而不产生混乱，那么所有的计算机就必须采用相同的编码标准，所以美国的标准化组织就出台了ASCII编码标准，统一规定了上述符号和字母用哪些二进制来表示。在这里要加的一点是，标准ASCII只用了7位，最前面的一位是用来做奇偶校验的。比如英文字母a在ASCII编码中用二进制01100001表示，十六进制就是61.</p>
-<p>使用了ASCII编码后，原本的问题得到了很好的解决。但是，这里又有了新的问题，它并不能对其他非英语国家有很好的支持。比如，我如何编码汉字，日本文字，朝鲜文字，阿拉伯语，还有俄罗斯语等等。由于汉字这样的文字数目较多，用一个Byte(也就是8
-bit)来提供编码方案显然是不现实的，这时，双字节字符集（DBCS：double-byte
-character set）就出现了，它的出现就是为了解决刚刚说到的这个问题的。</p>
-<p>先来解释下什么是DBCS,DBCS简单的说就是使用两个Byte来表示一个字符，而且DBCS的最初的还是ASCII代码，所以说DBCS是兼容ASCII的。而且它表示ASCII只用了一个Byte,这里说一个问题，假设给了你一连串的Byte数组，你解码的时候如何知道这个Byte的解码需要用到他的下一个Byte呢 ...</p>
-                    <a href="http://blog.michaelyin.info/2010/12/06/%e5%ad%97%e7%ac%a6%e7%bc%96%e7%a0%81%e9%82%a3%e4%ba%9b%e4%ba%8b%e5%84%bf/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/11/25/mschart%e4%b8%8ezedgraph%e4%bd%bf%e7%94%a8%e5%88%9d%e6%8e%a2%e5%8f%8a%e6%af%94%e8%be%83/">MSchart与Zedgraph使用初探及比较</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        25 Nov 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>最近项目中的统计图表功能需要重新进行下调整，所以这两天花时间学习了下关于统计图表方面的东西。</p>
-<p>统计图表的实现方式常用的有Flash方式和图片方式，我这两天主要是把MsChart和Zedgraph研究了一下，简单说下MSchart，这个图表解决方案是微软官方提供的图表解决方案，使用的时候需要.Net3.5
-Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需要把需要用到的dll手动加到bin文件夹中去），然后需要安装一个文件，也就是把几个需要用到的dll放到机器里面去。然后有一个安装文件在你的VS中安装控件，这样你就可以通过拖拉的方式直接在项目中使用mschart，需要注意的是在拖拉控件的同时它会修改你的Web.Config文件，当然了，如果你不想在toolbox中加入控件，也可以不安装VS控件，直接在项目中编码的方式来使用就行了，在重复一遍，Mschart.exe那个是必须要装的。如果你想进一步了解Mschart的使用，微软网站上有一个关于这个控件使用的样例项目，里面关于这个控件的例子已经写的很全面了。</p>
-<p>相比于Zedgraph，Mschart对前台声明式的编程支持的更好，很多东西都可以通过在前台声明来控制。Chart这个标记代表了整个控件，Legends这个标记是整个Chart的说明，Series代表Chart中的一连串数据，比如折线图中的一连串数据点就是一个Series，你可以向里面插入Points这个对象，来完成数据的绑定。ChartArea是作图区域，一个Chart控件中可以有几个ChartArea,比如如果有两个ChartArea的话生成的图就会有两个图表，AxisY和AxisX下提供了基本的控制样式的属性.</p>
-<p>Mschart支持多种数据源的绑定，而且和.Net本身的结合的夜更紧密，比如</p>
-<p>Chart1.Series["Series1 ...</p>
-                    <a href="http://blog.michaelyin.info/2010/11/25/mschart%e4%b8%8ezedgraph%e4%bd%bf%e7%94%a8%e5%88%9d%e6%8e%a2%e5%8f%8a%e6%af%94%e8%be%83/">
+<p>这是我刚开始写的代码。。</p>
+<p>运行时候VS提示错误
+“集合已修改；可能无法执行枚举操作。”跑到博客园里面找了一番，发现使用foreach就会存在这个问题，因为foreach在遍历的时候只取只读的数据，如果用for的话，就能够比避免这个问题。</p>
+<p>好吧，那就换成for循环吧。</p>
+<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">lsAttachments</span><span class="p">.</span><span class="n">Count</span><span class="p">();</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lsAttachments</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+    <span class="p">{</span>
+       <span class="n">lsAttachments</span><span class="p">.</span><span class="n">RemoveAt ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/07/14/list-operation-study/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -349,10 +109,7 @@ Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需�
                         href="http://blog.michaelyin.info/category/wei-fen-lei.html">1</a></li>
                 <li class="active"><a
                         href="http://blog.michaelyin.info/category/wei-fen-lei2.html">2</a></li>
-                <li class=""><a
-                        href="http://blog.michaelyin.info/category/wei-fen-lei3.html">3</a></li>
-                <li class="next"><a
-                        href="http://blog.michaelyin.info/category/wei-fen-lei3.html">&raquo;</a></li>
+                <li class="next disabled"><a href="#">&laquo;</a></li>
         </ul>
 </div>
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
@@ -378,6 +135,12 @@ Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需�
             </li>
         
             <li>
+                <a href="http://blog.michaelyin.info/category/algorithm.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Algorithm
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/java.html">
                     <i class="icon-folder-open icon-large"></i>
                     Java
@@ -387,12 +150,6 @@ Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需�
                 <a href="http://blog.michaelyin.info/category/js.html">
                     <i class="icon-folder-open icon-large"></i>
                     Js
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/linux.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Linux
                 </a>
             </li>
             <li>
@@ -420,6 +177,12 @@ Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需�
                 </a>
             </li>
             <li>
+                <a href="http://blog.michaelyin.info/category/web.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Web
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
                     <i class="icon-folder-open icon-large"></i>
                     未分类
@@ -437,72 +200,6 @@ Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需�
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/bugnet.html">
-                    <span class="label label-default">Bugnet</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
             </li> 
 
         </ul>

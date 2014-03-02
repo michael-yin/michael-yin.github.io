@@ -63,7 +63,69 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/07/14/%e6%9c%89%e5%88%97%e8%a1%a8list%e7%9a%84%e6%93%8d%e4%bd%9c%e6%89%80%e5%ad%a6%e4%b9%a0%e5%88%b0%e7%9a%84/">有列表List的操作所学习到的</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">Bugnet学习总结（2）数据库</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        19 Jul 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
+<p>![]http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg</p>
+<p>接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。</p>
+<p>aspnet_Users和UserRoles，Roles，RolePermission,Permission,UserProjects组成了基于Project的权限管理模块所需要的表，表名所对应的意思看起来是一目了然的，在这里也就不多说了。。</p>
+<p>![]http://blog.michaelyin.info/images/2014/01/18/9a04e8852198f626432189e499a67af9.jpg</p>
+<p>在Bugnet里你创建一个Project的话，项目创建者可以在里面事先添加一些你自定义的属性，你可以决定项目成员在提交内容的时候是否必须填写这个自定义属性，这个自定义属性值你可以设定成Text,Dropdownlist,等等，关于这个功能，具体是在ProjectCustomFields，ProjectCustomFieldSelection，ProjectCustomFieldType，ProjectCustomFieldValues这几个表中实现的 ...</p>
+                    <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">Bugnet学习总结（1） 前言&索引</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        18 Jul 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。</p>
+<p>Bugnet系统中用到的若干的我觉得有必要提及的技术我先在这里先提一下，接下来的几篇Blog会按模块进行展开，有可能会有一些遗漏的地方，欢迎大家留言补充。</p>
+<ol>
+<li>Membership及其相关认证控件</li>
+<li>DataFactory</li>
+<li>Log4net记录日志</li>
+<li>用户控件的使用</li>
+<li>Rss输出</li>
+<li>nunit单元测试</li>
+<li>邮件的读取和发送</li>
+</ol>
+<p>除了使用的技术外，Bugnet在层次架构方面的一些东西也是值得借鉴的，我以后会慢慢陈述，当然了，有些地方的处理我和项目人员所想也有所偏差，也希望大家多多讨论。。。</p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/19/1780749.html">Bugnet学习总结（2）数据库</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/19/1780870.html">Bugnet学习总结（3）项目文件结构</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784803.html">Bugnet学习总结（4）数据访问层</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784819.html">Bugnet学习总结（5）逻辑层</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/01/1789842.html">Bugnet学习总结（6）用户控件</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7）杂</a></p>
+                    <a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/07/14/list-operation-study/">有列表List的操作所学习到的</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -76,9 +138,9 @@
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>前几日coding的时候，需要实现在泛型列表中找到其中的一个对象并将其移除的功能，刚开始想的很简单，先上代码</p>
-<div class="highlight"><pre><span class="n">foreach</span> <span class="p">(</span><span class="n">AttachmentBox</span> <span class="n">objAttachmentBox</span> <span class="n">in</span> <span class="n">lsAttachments</span><span class="p">)</span>
+<div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="n">AttachmentBox</span> <span class="n">objAttachmentBox</span> <span class="k">in</span> <span class="n">lsAttachments</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">.</span><span class="n">AttachmentId</span> <span class="o">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">.</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
     <span class="p">{</span>
         <span class="n">lsAttachments</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">);</span>
     <span class="p">}</span>
@@ -90,12 +152,12 @@
 <p>运行时候VS提示错误
 “集合已修改；可能无法执行枚举操作。”跑到博客园里面找了一番，发现使用foreach就会存在这个问题，因为foreach在遍历的时候只取只读的数据，如果用for的话，就能够比避免这个问题。</p>
 <p>好吧，那就换成for循环吧。</p>
-<p>for (int i = 0; i &lt;= lsAttachments.Count(); i++)
-{
-    if (lsAttachments[i].AttachmentId == int.Parse(e.CommandArgument.ToString()))
-    {
-       lsAttachments.RemoveAt ...</p>
-                    <a href="http://blog.michaelyin.info/2010/07/14/%e6%9c%89%e5%88%97%e8%a1%a8list%e7%9a%84%e6%93%8d%e4%bd%9c%e6%89%80%e5%ad%a6%e4%b9%a0%e5%88%b0%e7%9a%84/">
+<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">lsAttachments</span><span class="p">.</span><span class="n">Count</span><span class="p">();</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lsAttachments</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+    <span class="p">{</span>
+       <span class="n">lsAttachments</span><span class="p">.</span><span class="n">RemoveAt ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/07/14/list-operation-study/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -145,6 +207,12 @@
             </li>
         
             <li>
+                <a href="http://blog.michaelyin.info/category/algorithm.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Algorithm
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/java.html">
                     <i class="icon-folder-open icon-large"></i>
                     Java
@@ -154,12 +222,6 @@
                 <a href="http://blog.michaelyin.info/category/js.html">
                     <i class="icon-folder-open icon-large"></i>
                     Js
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/linux.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Linux
                 </a>
             </li>
             <li>
@@ -187,6 +249,12 @@
                 </a>
             </li>
             <li>
+                <a href="http://blog.michaelyin.info/category/web.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Web
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
                     <i class="icon-folder-open icon-large"></i>
                     未分类
@@ -204,72 +272,6 @@
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/bugnet.html">
-                    <span class="label label-default">Bugnet</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
             </li> 
 
         </ul>

@@ -63,7 +63,76 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier/">Heritrix之旅之Frontier</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/10/10/heritrix-processor/">Heritrix之旅之Processor</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        10 Oct 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>实际的url的处理是在toethread中进行的，toethread从Frontier中请求待处理的url,并将其放到一系列Processor中进行处理</p>
+<p>可以以流水线上的处理流程来想象Processor，流水线上的产品就是url，由于处理的processor主要着重于不同的阶段和功能，所以，heritrix将其processor分成了五个大类。</p>
+<p>1 Pre-fetch</p>
+<p>这里面包含一些需要在像web服务器发出请求之前的一些处理的processor,比如检查url的scope</p>
+<p>2 Fetch</p>
+<p>这里面的是获取web信息的processor,不同的processor支持不同的协议，比如FetchHTTP支持http,FetchDNS支持dns</p>
+<p>3 Extractor</p>
+<p>这个里面就是涉及到对抓取的web信息进行内容的提取了，可以对其中的链接进行处理，放到以后进行抓取，也可以根据自己的业务逻辑进行相应的扩展</p>
+<p>4 Write/index</p>
+<p>将抓取的信息存储到硬盘中</p>
+<p>5 Post-processing</p>
+<p>将Extractor中找到的url放入到Frontier中待以后进行抓取，进行processor的清理工作</p>
+<p>所有的处理类都是继承了Processor，这样就能以一定的抽象统一对所有的processor进行管理，而每个具体的processor只需要根据自己的需要重写相应的处理方法即可</p>
+<p>CrawlController在setupCrawlModules中会初始化processorChains，ProcessorChainList这个实例就是整个处理器的一个容器，它下面根据上面所说的分类构成了5个ProcessorChain，需要注意的是初始化的时候顺序是很重要的，因为这个顺序关系到url处理时候的顺序。ProcessorChain中包含了所需要的processor</p>
+<p>多线程相关</p>
+<p>Processor的实例在CrawlController中会存放在ProcessorChain中，如果有特殊需要为了保证每个线程有属于自己的Processor,只需要实现InstancePerThread这个端口即可</p>
+<div class="highlight"><pre><span class="n">private</span> <span class="n">Processor</span> <span class="nf">getProcessor</span><span class="p">(</span><span class="n">Processor</span> <span class="n">processor ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/10/10/heritrix-processor/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/">Heritrix之旅之ToeThread</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        07 Oct 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Heritrix是一个多线程的程序，里面使用工作线程来处理url，这些工作线程称为torThreads，这些toethread统一的被ToePool所管理,Toepool通过setSize方法来管理运行的toethread数目</p>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSize</span><span class="o">(</span><span class="kt">int</span> <span class="n">newsize</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">targetSize</span> <span class="o">=</span> <span class="n">newsize</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">difference</span> <span class="o">=</span> <span class="n">newsize</span> <span class="o">-</span> <span class="n">getToeCount</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">difference</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// must create threads</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">difference</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">startNewThread</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">// must retire extra threads</span>
+        <span class="kt">int</span> <span class="n">retainedToes</span> <span class="o">=</span> <span class="n">targetSize</span><span class="o">;</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">toes</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getToes</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">toes</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/">Heritrix之旅之Frontier</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -73,13 +142,6 @@
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/heritrix.html">
-    <span class="label label-default">Heritrix</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/java.html">
-    <span class="label label-default">Java</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。</p>
@@ -92,14 +154,14 @@
 DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队列的一个抽象类，也是提供了队列所需要的基本的方法，子类只需要对其中部分方法进行覆写即可，具体的实现可以看BdbWorkQueue这个类的实现</p>
 <p>我们先来看看WorkQueueFrontier中的schedule方法，这个方法是将uri放入到frontier中去以供以后抓取，首先会通过UriUniqFilter进行一次判断，查看这个uri是否被抓取过，如果被抓取过则不会将其插入到队列中如果不是则调用receive方法将其插入到队列中去</p>
 <p>在队列中的uri会在next方法中被toethread取出然后进行处理 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier/">
+                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bcrawlcontroller/">Heritrix之旅之CrawlController</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">Heritrix之旅之CrawlController</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -109,30 +171,30 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/heritrix.html">
-    <span class="label label-default">Heritrix</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/java.html">
-    <span class="label label-default">Java</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。</p>
 <p>Heritrix的一些介绍网上都有，我在这里也就不做介绍了，直接进入正题。</p>
 <p>Heritrix抓取任务的核心类就是CrawlController,这个对象将决定一个抓取任务的开始和结束</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-//order.xml文件的封装<br />
-private transient CrawlOrder order;
-//<br />
-private transient CrawlScope scope;
-//处理链列表 
-private transient ProcessorChainList processorChains;
-//为抓取线程提供uri  <br />
-private transient ...</p>
-                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bcrawlcontroller/">
+<div class="highlight"><pre><span class="c1">//order.xml文件的封装  </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">CrawlOrder</span> <span class="n">order</span><span class="o">;</span>
+<span class="c1">//  </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">CrawlScope</span> <span class="n">scope</span><span class="o">;</span>
+<span class="c1">//处理链列表 </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ProcessorChainList</span> <span class="n">processorChains</span><span class="o">;</span>
+<span class="c1">//为抓取线程提供uri    </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">Frontier</span> <span class="n">frontier</span><span class="o">;</span>
+
+<span class="c1">//线程池   </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ToePool</span> <span class="n">toePool</span><span class="o">;</span>
+
+<span class="c1">//缓存，保存了当前抓取任务抓取过的Host名称和Server名称   </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ServerCache</span> <span class="n">serverCache</span><span class="o">;</span>
+
+<span class="c1">// This gets passed into the initialize method.</span>
+
+<span class="kd">private</span> <span class="kd">transient ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -163,6 +225,12 @@ private transient ...</p>
             </li>
         
             <li>
+                <a href="http://blog.michaelyin.info/category/algorithm.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Algorithm
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/java.html">
                     <i class="icon-folder-open icon-large"></i>
                     Java
@@ -172,12 +240,6 @@ private transient ...</p>
                 <a href="http://blog.michaelyin.info/category/js.html">
                     <i class="icon-folder-open icon-large"></i>
                     Js
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/linux.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Linux
                 </a>
             </li>
             <li>
@@ -205,6 +267,12 @@ private transient ...</p>
                 </a>
             </li>
             <li>
+                <a href="http://blog.michaelyin.info/category/web.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Web
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
                     <i class="icon-folder-open icon-large"></i>
                     未分类
@@ -222,72 +290,6 @@ private transient ...</p>
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/bugnet.html">
-                    <span class="label label-default">Bugnet</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
             </li> 
 
         </ul>

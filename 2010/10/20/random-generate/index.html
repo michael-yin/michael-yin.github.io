@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Random 学习笔记</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                Random 学习笔记
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        20 Oct 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>这几天在学习算法，所以生成随机数组就不可避免了，以前只是知道Random
+这个类是用来生成随机数的但是没怎么用过，这次正好趁这个机会好好了解一下，在园子里面看了下别人写的文章和代码，自己又在VS里面跑了几次，这里就把一些觉得useful的东东记下来。</p>
+<p>Random是用来生成伪随机数的类，它根据生成对象时候的随机种子进行复杂的计算，然后生成伪随机数。如果我们在调用构造函数的时候没有指定随机种子，那么默认情况下它会采用系统的时间产生的值来做随机种子，这样的话那么我们在一次函数调用里面不同的Random对象有可能是采用相同的随机种子，那么有可能造成生成重复的随机数。关于随机种子的选取问题，等下会专门讲解。Random里面要用到比较多的方法就是obj.Next()这个方法，用于根据随机种子按照复杂的算法生成伪随机数，这个方法有多个重载的方法，可以限定需要生成的数字的最大值和最小值，基本上Random经常使用的就是这么几个东西。</p>
+<p>下面来讲一下如何避免生成重复的随机种子，以此来避免产生一连串重复的随机数。其实关键点就在于生成随机数的随机种子必须不一样，一种方法就是采用Guid.NewGuid().GetHashCode()来当做随机种子，由于Guid重复的可能性非常小，而且Hash算法不同的输入产生的结果也是不同的，所以可以很好的解决随机种子相同的问题。还有一种方法就是采用</p>
+<div class="highlight"><pre><span class="kt">long</span> <span class="n">tick</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">Ticks</span><span class="p">;</span> 
+<span class="n">Random</span> <span class="n">ran</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">((</span><span class="kt">int</span><span class="p">)(</span><span class="n">tick</span> <span class="p">&amp;</span> <span class="m">0</span><span class="n">xffffffffL</span><span class="p">)</span> <span class="p">|</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="n">tick</span> <span class="p">&gt;&gt;</span> <span class="m">32</span><span class="p">));</span> 
+</pre></div>
+
+
+<p>这个方法来达到效果</p>
+<p>园子里面有的朋友是用算法来完成生成不重复随机数的，这样可以完全避免重复数据的发生。</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="kt">int</span><span class="p">[]</span> <span class="nf">CreateInstanceType2</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">result</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">10</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">tmp</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+    <span class="n">Random</span> <span class="n">random</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+    <span class="kt">bool</span> <span class="n">repeat</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">repeat</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+        <span class="n">tmp</span> <span class="p">=</span> <span class="n">random</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">11</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">tmp</span> <span class="p">==</span> <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="n">repeat</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(!</span><span class="n">repeat</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="c1">//循环变量-1,下一次for循环继续针对这个变量值进行</span>
+            <span class="n">i</span> <span class="p">=</span> <span class="n">i</span> <span class="p">-</span> <span class="m">1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>这个算法执行的思想就是每次生成后面的结果的时候都和前面所生成的结果进行比较，如果有比较的则把for循环中的i减小一次，下一次循环的时候重新生成，这是一种思路</p>
+<div class="highlight"><pre><span class="kt">int</span><span class="p">[]</span> <span class="n">index</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">15</span><span class="p">];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">15</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Random</span> <span class="n">r</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+<span class="c1">//用来保存随机生成的不重复的10个数</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">result</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">10</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">site</span> <span class="p">=</span> <span class="m">15</span><span class="p">;</span><span class="c1">//设置下限</span>
+<span class="kt">int</span> <span class="n">id</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="n">id</span> <span class="p">=</span> <span class="n">r</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">site</span> <span class="p">-</span> <span class="m">1</span><span class="p">);</span>
+    <span class="c1">//在随机位置取出一个数，保存到结果数组</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">=</span> <span class="n">index</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
+    <span class="c1">//最后一个数复制到当前位置</span>
+    <span class="n">index</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="p">=</span> <span class="n">index</span><span class="p">[</span><span class="n">site</span> <span class="p">-</span> <span class="m">1</span><span class="p">];</span>
+    <span class="c1">//位置的下限减少一</span>
+    <span class="n">site</span><span class="p">--;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>另外一种思想是首先在另外一个数组中把需要生成的结果生成，然后通过生成随机位置来确保唯一不重复随机数组。</p>
+<p>上面提到的几种方式应该根据实际情况具体确定使用方法，一般情况下在项目中如果需要用到Random的话把它设为全局的然后直接拿来调用是种不错的使用方式。</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'random-generate';
+            var disqus_url = 'http://blog.michaelyin.info/2010/10/20/random-generate/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

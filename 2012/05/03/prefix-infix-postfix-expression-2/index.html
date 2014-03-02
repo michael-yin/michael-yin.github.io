@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>前缀，中缀，后缀表达式学习笔记(2)</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                前缀，中缀，后缀表达式学习笔记(2)
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        03 May 2012
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>前面一章已经将前缀，中缀，后缀表达式的基本概念进行了介绍，同时也介绍了编程中较常用的中缀表达式转换到后缀和前缀表达式的方法。接下来主要针对前缀，中缀和后缀表达式求值来进行相应的讨论。</p>
+<p>在上一篇BLOG中的开始就阐述了中缀表达式求值的过程，中缀表达式求值比较符合人脑的计算方式，而对于计算机来说并不是十分高效，需要多次对表达式进行遍历。下面贴出我自己实现的直接对中缀表达式按人脑计算方式进行求值的代码。</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">Evaluate</span><span class="p">(</span><span class="kt">char</span><span class="p">[]</span> <span class="n">exp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">lastIndex</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//外层如果是括号则去掉</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">firstIndex</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;(&#39;</span> <span class="p">&amp;&amp;</span> <span class="n">exp</span><span class="p">[</span><span class="n">lastIndex</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;)&#39;</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">firstIndex</span> <span class="p">+</span> <span class="m">1</span><span class="p">,</span> <span class="n">lastIndex</span> <span class="p">-</span> <span class="m">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">//进行计算</span>
+    <span class="kt">int</span> <span class="n">position</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">result</span> <span class="p">=</span> <span class="n">AddOrSub</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">lastIndex</span><span class="p">,</span> <span class="k">ref</span> <span class="n">position</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">!=</span> <span class="sc">&#39;#&#39;</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//计算</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">==</span> <span class="sc">&#39;+&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="nf">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">position</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span> <span class="p">+</span> <span class="n">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">position</span> <span class="p">+</span> <span class="m">1</span><span class="p">,</span> <span class="n">lastIndex</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">==</span> <span class="sc">&#39;-&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="nf">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">position</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span> <span class="p">-</span> <span class="n">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">position</span> <span class="p">+</span> <span class="m">1</span><span class="p">,</span> <span class="n">lastIndex</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">result</span> <span class="p">=</span> <span class="n">MultiplyOrDevide</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">lastIndex</span><span class="p">,</span> <span class="k">ref</span> <span class="n">position</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">!=</span> <span class="sc">&#39;#&#39;</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//计算</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">==</span> <span class="sc">&#39;*&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="nf">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">position</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span> <span class="p">*</span> <span class="n">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">position</span> <span class="p">+</span> <span class="m">1</span><span class="p">,</span> <span class="n">lastIndex</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">==</span> <span class="sc">&#39;/&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="nf">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">position</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span> <span class="p">/</span> <span class="n">Evaluate</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">position</span> <span class="p">+</span> <span class="m">1</span><span class="p">,</span> <span class="n">lastIndex</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//生成实际数字值 </span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">firstIndex</span><span class="p">]</span> <span class="p">&gt;</span> <span class="sc">&#39;9&#39;</span> <span class="p">||</span> <span class="n">exp</span><span class="p">[</span><span class="n">firstIndex</span><span class="p">]</span> <span class="p">&lt;</span> <span class="sc">&#39;0&#39;</span><span class="p">)</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nf">RealNum</span><span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">firstIndex</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">static</span> <span class="kt">char</span> <span class="nf">AddOrSub</span><span class="p">(</span><span class="kt">char</span><span class="p">[]</span> <span class="n">exp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">lastIndex</span><span class="p">,</span> <span class="k">ref</span> <span class="kt">int</span> <span class="n">position</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Stack</span> <span class="n">objStack</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="p">();</span>
+    <span class="c1">//找到返回操作符，找不到返回#</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">firstIndex</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">lastIndex</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;(&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">objStack</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="sc">&#39;(&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;)&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">objStack</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;+&#39;</span> <span class="p">&amp;&amp;</span> <span class="n">objStack</span><span class="p">.</span><span class="n">Count</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">position</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">return</span> <span class="sc">&#39;+&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;-&#39;</span> <span class="p">&amp;&amp;</span> <span class="n">objStack</span><span class="p">.</span><span class="n">Count</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">position</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">return</span> <span class="sc">&#39;-&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//没有找到对应的操作符</span>
+    <span class="k">return</span> <span class="sc">&#39;#&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">static</span> <span class="kt">char</span> <span class="nf">MultiplyOrDevide</span><span class="p">(</span><span class="kt">char</span><span class="p">[]</span> <span class="n">exp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">lastIndex</span><span class="p">,</span> <span class="k">ref</span> <span class="kt">int</span> <span class="n">position</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//找到返回操作符，找不到返回#</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Stack</span> <span class="n">objStack</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="p">();</span>
+    <span class="c1">//找到返回操作符，找不到返回#</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">firstIndex</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">lastIndex</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;(&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">objStack</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="sc">&#39;(&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;)&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">objStack</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;*&#39;</span> <span class="p">&amp;&amp;</span> <span class="n">objStack</span><span class="p">.</span><span class="n">Count</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">position</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">return</span> <span class="sc">&#39;*&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="sc">&#39;/&#39;</span> <span class="p">&amp;&amp;</span> <span class="n">objStack</span><span class="p">.</span><span class="n">Count</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">position</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">return</span> <span class="sc">&#39;/&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//没有找到对应的操作符</span>
+    <span class="k">return</span> <span class="sc">&#39;#&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">RealNum</span><span class="p">(</span><span class="kt">char</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="m">0</span> <span class="p">+</span> <span class="p">(</span><span class="n">num</span> <span class="p">-</span> <span class="sc">&#39;0&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>下面讲解如何对后缀表达式进行求值。建立一个栈，从左至右遍历表达式，如果遇到操作数则压入栈，如果遇到操作符则弹出相应的操作数进行计算，并将计算的结果重新入栈，最后的结果就在栈顶。前缀表达式和后缀类似，在这里就不赘述了。</p>
+<p>可以看出后缀表达式的求值也只需要对后缀表达式进行一次扫描，而前面我们已经知道中缀表达式转换到后缀表达式也是只需要扫描一次的。相对于上面的类似于人脑的计算方式，我们在这里可以考虑将中缀表达式转换为后缀表达式后再对其求值，这样来完成中缀表达式的求值。其实这种方式就是那本经典的清华严蔚敏的《数据结构》一书中对于四则运算的解决的思路。</p>
+<p>下面贴出用C#实现的中缀转后缀并求值的代码，该代码可以用来进行四则运算</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">EvaluateExpression</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Stack</span> <span class="n">stackA</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Stack</span><span class="p">();</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Stack</span> <span class="n">stackB</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Stack</span><span class="p">();</span>
+        <span class="n">stackA</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="sc">&#39;#&#39;</span><span class="p">);</span>
+        <span class="kt">char</span> <span class="n">user</span><span class="p">;</span>
+        <span class="n">user</span> <span class="p">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">Console</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">user</span> <span class="p">!=</span> <span class="sc">&#39;#&#39;</span> <span class="p">||</span> <span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="n">stackA</span><span class="p">.</span><span class="n">Peek</span><span class="p">()</span> <span class="p">!=</span> <span class="sc">&#39;#&#39;</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="c1">//操作符号 </span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">In</span><span class="p">(</span><span class="n">user</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="c1">//判断优先级</span>
+                <span class="k">switch</span> <span class="p">(</span><span class="n">Precede</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="n">stackA</span><span class="p">.</span><span class="n">Peek</span><span class="p">(),</span> <span class="n">user</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="k">case</span> <span class="sc">&#39;&gt;&#39;</span><span class="p">:</span>
+                        <span class="c1">//顺序</span>
+                        <span class="kt">char</span> <span class="n">b</span> <span class="p">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">stackB</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
+                        <span class="kt">char</span> <span class="n">a</span> <span class="p">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">stackB</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
+                        <span class="kt">char</span> <span class="n">op</span> <span class="p">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">stackA</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
+
+                        <span class="n">stackB</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="n">Operate</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">op</span><span class="p">));</span>
+
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="sc">&#39;=&#39;</span><span class="p">:</span>
+                        <span class="n">stackA</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
+                        <span class="n">user</span> <span class="p">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">Console</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="sc">&#39;&lt;&#39;</span><span class="p">:</span>
+                        <span class="n">stackA</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+                        <span class="n">user</span> <span class="p">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">Console</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
+                        <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">user</span> <span class="p">&lt;</span> <span class="sc">&#39;0&#39;</span> <span class="p">||</span> <span class="n">user</span> <span class="p">&gt;</span> <span class="sc">&#39;9&#39;</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">);</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span>
+                <span class="p">{</span>
+                    <span class="n">stackB</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+                    <span class="n">user</span> <span class="p">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">Console</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="n">stackB</span><span class="p">.</span><span class="n">Pop</span><span class="p">());</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">/// &lt;summary&gt;</span>
+    <span class="c1">/// 如果是操作符号，则返回true</span>
+    <span class="c1">/// &lt;/summary&gt;</span>
+    <span class="c1">/// &lt;param name=&quot;c&quot;&gt;&lt;/param&gt;</span>
+    <span class="c1">/// &lt;returns&gt;&lt;/returns&gt;</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="kt">bool</span> <span class="nf">In</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//该写法值得商榷</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">case</span> <span class="sc">&#39;(&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;)&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;+&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;-&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;*&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;/&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;#&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="kt">char</span> <span class="nf">Precede</span><span class="p">(</span><span class="kt">char</span> <span class="n">t1</span><span class="p">,</span> <span class="kt">char</span> <span class="n">t2</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">char</span> <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;=&#39;</span><span class="p">;</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">case</span> <span class="sc">&#39;+&#39;</span><span class="p">:</span>
+            <span class="k">case</span> <span class="sc">&#39;-&#39;</span><span class="p">:</span> <span class="k">if</span> <span class="p">(</span><span class="n">t1</span> <span class="p">==</span> <span class="sc">&#39;(&#39;</span> <span class="p">||</span> <span class="n">t1</span> <span class="p">==</span> <span class="sc">&#39;#&#39;</span><span class="p">)</span>
+                    <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;&lt;&#39;</span><span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;&gt;&#39;</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;*&#39;</span><span class="p">:</span>
+            <span class="k">case</span> <span class="sc">&#39;/&#39;</span><span class="p">:</span> <span class="k">if</span> <span class="p">(</span><span class="n">t1</span> <span class="p">==</span> <span class="sc">&#39;*&#39;</span> <span class="p">||</span> <span class="n">t1</span> <span class="p">==</span> <span class="sc">&#39;/&#39;</span> <span class="p">||</span> <span class="n">t1</span> <span class="p">==</span> <span class="sc">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;&gt;&#39;</span><span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;&lt;&#39;</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;(&#39;</span><span class="p">:</span> <span class="k">if</span> <span class="p">(</span><span class="n">t1</span> <span class="p">==</span> <span class="sc">&#39;)&#39;</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;error&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">else</span>
+                    <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;&lt;&#39;</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;)&#39;</span><span class="p">:</span>
+                <span class="k">switch</span> <span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">case</span> <span class="sc">&#39;(&#39;</span><span class="p">:</span> <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;=&#39;</span><span class="p">;</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="sc">&#39;#&#39;</span><span class="p">:</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">default</span><span class="p">:</span> <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;&gt;&#39;</span><span class="p">;</span>
+                        <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;#&#39;</span><span class="p">:</span> <span class="k">switch</span> <span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">case</span> <span class="sc">&#39;#&#39;</span><span class="p">:</span> <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;=&#39;</span><span class="p">;</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="sc">&#39;(&#39;</span><span class="p">:</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">default</span><span class="p">:</span> <span class="n">f</span> <span class="p">=</span> <span class="sc">&#39;&gt;&#39;</span><span class="p">;</span>
+                        <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="kt">char</span> <span class="nf">Operate</span><span class="p">(</span><span class="kt">char</span> <span class="n">a</span><span class="p">,</span> <span class="kt">char</span> <span class="n">b</span><span class="p">,</span> <span class="kt">char</span> <span class="n">operate</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">a</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">a</span> <span class="p">-</span> <span class="m">48</span><span class="p">);</span>
+        <span class="n">b</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">b</span> <span class="p">-</span> <span class="m">48</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">c</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">operate</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">case</span> <span class="sc">&#39;+&#39;</span><span class="p">:</span> <span class="n">c</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span> <span class="p">+</span> <span class="m">48</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;-&#39;</span><span class="p">:</span> <span class="n">c</span> <span class="p">=</span> <span class="n">a</span> <span class="p">-</span> <span class="n">b</span> <span class="p">+</span> <span class="m">48</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;*&#39;</span><span class="p">:</span> <span class="n">c</span> <span class="p">=</span> <span class="n">a</span> <span class="p">*</span> <span class="n">b</span> <span class="p">+</span> <span class="m">48</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="sc">&#39;/&#39;</span><span class="p">:</span> <span class="n">c</span> <span class="p">=</span> <span class="n">a</span> <span class="p">/</span> <span class="n">b</span> <span class="p">+</span> <span class="m">48</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="cp">#endregion</span>
+</pre></div>
+
+
+<p>在研究一下两种针对中缀表达式求值的方法后我们可以通过思考得到一些结论，首先人脑的计算方式在计算机中并不是最优化的方法，除了递归调用带来的性能损失，对表达式多次遍历也是会带来性能损失。而先转换到后缀表达式后在对其进行求值则避免了上述问题，提高了整体的计算的性能。</p>
+<p>由于中缀表达式在我们看来更为习惯，但是后缀表达式在计算中的优势，所以编译程序常把程序源代码中的中缀表达式转换为后缀表达式再进行运算。当时看到这里的时候也想过为什么编译为什么不采用前缀表达式，后来想了一下前一篇BLOG讲到过前缀的扫描方向是从右至左，所以在程序中处理的话可能相对于后缀表达式不是很方便，所以后缀是最合适的选择。</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'prefix-infix-postfix-expression-2';
+            var disqus_url = 'http://blog.michaelyin.info/2012/05/03/prefix-infix-postfix-expression-2/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

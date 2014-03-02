@@ -1,5 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/java.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2011-08-25T13:16:00+08:00</updated><entry><title>Heritrix之旅之Frontier</title><link href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier/" rel="alternate"></link><updated>2011-08-25T13:16:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2011-08-25:2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier/</id><summary type="html">&lt;p&gt;上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/java.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2011-10-10T07:47:00+08:00</updated><entry><title>Heritrix之旅之Processor</title><link href="http://blog.michaelyin.info/2011/10/10/heritrix-processor/" rel="alternate"></link><updated>2011-10-10T07:47:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-10-10:2011/10/10/heritrix-processor/</id><summary type="html">&lt;p&gt;实际的url的处理是在toethread中进行的，toethread从Frontier中请求待处理的url,并将其放到一系列Processor中进行处理&lt;/p&gt;
+&lt;p&gt;可以以流水线上的处理流程来想象Processor，流水线上的产品就是url，由于处理的processor主要着重于不同的阶段和功能，所以，heritrix将其processor分成了五个大类。&lt;/p&gt;
+&lt;p&gt;1 Pre-fetch&lt;/p&gt;
+&lt;p&gt;这里面包含一些需要在像web服务器发出请求之前的一些处理的processor,比如检查url的scope&lt;/p&gt;
+&lt;p&gt;2 Fetch&lt;/p&gt;
+&lt;p&gt;这里面的是获取web信息的processor,不同的processor支持不同的协议，比如FetchHTTP支持http,FetchDNS支持dns&lt;/p&gt;
+&lt;p&gt;3 Extractor&lt;/p&gt;
+&lt;p&gt;这个里面就是涉及到对抓取的web信息进行内容的提取了，可以对其中的链接进行处理，放到以后进行抓取，也可以根据自己的业务逻辑进行相应的扩展&lt;/p&gt;
+&lt;p&gt;4 Write/index&lt;/p&gt;
+&lt;p&gt;将抓取的信息存储到硬盘中&lt;/p&gt;
+&lt;p&gt;5 Post-processing&lt;/p&gt;
+&lt;p&gt;将Extractor中找到的url放入到Frontier中待以后进行抓取，进行processor的清理工作&lt;/p&gt;
+&lt;p&gt;所有的处理类都是继承了Processor，这样就能以一定的抽象统一对所有的processor进行管理，而每个具体的processor只需要根据自己的需要重写相应的处理方法即可&lt;/p&gt;
+&lt;p&gt;CrawlController在setupCrawlModules中会初始化processorChains，ProcessorChainList这个实例就是整个处理器的一个容器，它下面根据上面所说的分类构成了5个ProcessorChain，需要注意的是初始化的时候顺序是很重要的，因为这个顺序关系到url处理时候的顺序。ProcessorChain中包含了所需要的processor&lt;/p&gt;
+&lt;p&gt;多线程相关&lt;/p&gt;
+&lt;p&gt;Processor的实例在CrawlController中会存放在ProcessorChain中，如果有特殊需要为了保证每个线程有属于自己的Processor,只需要实现InstancePerThread这个端口即可&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;private&lt;/span&gt; &lt;span class="n"&gt;Processor&lt;/span&gt; &lt;span class="nf"&gt;getProcessor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Processor&lt;/span&gt; &lt;span class="n"&gt;processor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;processor&lt;/span&gt; &lt;span class="n"&gt;instanceof&lt;/span&gt; &lt;span class="n"&gt;InstancePerThread&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// just use the shared Processor&lt;/span&gt;
+         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;processor&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="c1"&gt;// must use local copy of processor&lt;/span&gt;
+    &lt;span class="n"&gt;Processor&lt;/span&gt; &lt;span class="n"&gt;localProcessor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Processor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;localProcessors&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;processor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getClass&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;localProcessor&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;localProcessor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;processor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getSerialNumber&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;localProcessors&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;put&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;processor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getClass&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;localProcessor&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;localProcessor&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这个方法对于需要新建的Processor通过反射重新建立实例并存放在ToeThread的localProcessors中&lt;/p&gt;
+&lt;p&gt;当时在看一个扩展Processor的时候觉得很奇怪的就是本来下意识的觉得多个线程公用一个东西应该使用同步，所以看到Processor并没有使用同步的关键字觉得很奇怪，后来仔细想了一下觉得这个地方其实是有它的道理的。因为同步是为了什么？为了共享资源访问的时候不出问题，而这里处理url的过程中Processor的处理本来就没什么共享的东西需要进行同步，所以这样设计是没有问题的。这也告诉我们，对于多线程调用的一些方法，同步关键字并不是必须的，同步的本质是对于共享资源访问时的同步&lt;/p&gt;</summary></entry><entry><title>Heritrix之旅之ToeThread</title><link href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/" rel="alternate"></link><updated>2011-10-07T02:37:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-10-07:2011/10/07/heritrix-toethread/</id><summary type="html">&lt;p&gt;Heritrix是一个多线程的程序，里面使用工作线程来处理url，这些工作线程称为torThreads，这些toethread统一的被ToePool所管理,Toepool通过setSize方法来管理运行的toethread数目&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;setSize&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;newsize&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;targetSize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;newsize&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;difference&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;newsize&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;getToeCount&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;difference&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// must create threads&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;difference&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;startNewThread&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// must retire extra threads&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;retainedToes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;targetSize&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;toes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getToes&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;toes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;length&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(!(&lt;/span&gt;&lt;span class="n"&gt;toes&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;instanceof&lt;/span&gt; &lt;span class="n"&gt;ToeThread&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;continue&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+            &lt;span class="n"&gt;retainedToes&lt;/span&gt;&lt;span class="o"&gt;--;&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;retainedToes&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;continue&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// this toe is spared&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+            &lt;span class="c1"&gt;// otherwise:&lt;/span&gt;
+            &lt;span class="n"&gt;ToeThread&lt;/span&gt; &lt;span class="n"&gt;tt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ToeThread&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;toes&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;];&lt;/span&gt;
+            &lt;span class="n"&gt;tt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;retire&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;ToeThread从Frontier中获取待处理的url，然后ToeThread对url进行一系列的处理，当所有的处理流程完成之后，调用Frontier的finished方法告知url抓取完毕，ToeThread重新获取新的url&lt;/p&gt;
+&lt;p&gt;这是ToeThread中的run方法的代码&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//从Frontier处获取待处理的url&lt;/span&gt;
+&lt;span class="n"&gt;CrawlURI&lt;/span&gt; &lt;span class="n"&gt;curi&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getFrontier&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;next&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+&lt;span class="kd"&gt;synchronized&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;continueCheck&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;setCurrentCuri&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;curi&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;//对url进行处理&lt;/span&gt;
+&lt;span class="n"&gt;processCrawlUri&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+&lt;span class="n"&gt;setStep&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;STEP_ABOUT_TO_RETURN_URI&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;continueCheck&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+&lt;span class="c1"&gt;//通知Frontier已经完成&lt;/span&gt;
+&lt;span class="kd"&gt;synchronized&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getFrontier&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;finished&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;currentCuri&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;setCurrentCuri&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;结合前面Frontier的图，可能看的就会明白一点了。&lt;/p&gt;</summary></entry><entry><title>Heritrix之旅之Frontier</title><link href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/" rel="alternate"></link><updated>2011-08-25T13:16:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-08-25:2011/08/25/heritrix-frontier/</id><summary type="html">&lt;p&gt;上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/08/201108252116205982.png"&gt;&lt;img alt="201108252116205982" src="http://blog.michaelyin.info/images/2011/08/201108252116205982.png" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Heritrix把Frontier抽象成了interface，创建新的Frontier只需要实现这个接口就行。里面两个很重要的方法一个是schedule()，该方法接受一个URI并存起来以后进行抓取，另外一个是next，改方法返回一个URI供抓取，另外finished这个方法用来处理一个已经处理完毕的uri&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/08/201110071040391231.png"&gt;&lt;img alt="201110071040391231" src="http://blog.michaelyin.info/images/2011/08/201110071040391231.png" /&gt;&lt;/a&gt;&lt;/p&gt;
@@ -9,59 +97,52 @@
 DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队列的一个抽象类，也是提供了队列所需要的基本的方法，子类只需要对其中部分方法进行覆写即可，具体的实现可以看BdbWorkQueue这个类的实现&lt;/p&gt;
 &lt;p&gt;我们先来看看WorkQueueFrontier中的schedule方法，这个方法是将uri放入到frontier中去以供以后抓取，首先会通过UriUniqFilter进行一次判断，查看这个uri是否被抓取过，如果被抓取过则不会将其插入到队列中如果不是则调用receive方法将其插入到队列中去&lt;/p&gt;
 &lt;p&gt;在队列中的uri会在next方法中被toethread取出然后进行处理，处理完之后会调用finished方法通知已经处理完毕&lt;/p&gt;
-&lt;p&gt;~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-            WorkQueue readyQ = null;
-            Object key = readyClassQueues.poll(DEFAULT_WAIT,TimeUnit.MILLISECONDS);
-            if (key != null) {
-                readyQ = (WorkQueue)this.allQueues.get(key);
-            }
-~~~~&lt;/p&gt;
-&lt;p&gt;上面是next方法中的一段代码，可用的queue的key会放到readyClassQueues这个BlockingQueue&amp;lt;String&gt;中去，如果一个queue在处理的话就不会被其他的toethread同时占用，这样有效的保证了politeness&lt;/p&gt;
-&lt;p&gt;另外这里的queue还有几种状态active snooze
-inactive，现在来简单说说这几种队列的区别，运行过程中一般情况下的queue都是active的，回到finished方法中，如果我不想爬虫对一个网站过度抓取，那么我需要对其抓取时间进行判断，如果一个uri的抓取时间太短的话，那么我需要暂时让这个queue小睡一下，这就是snooze的来历，调用snoozeQueue方法可以让queue进入snooze状态，在过一定时间后进行唤醒，重新进入active状态，进入activae状态的queue可以重新将其中包含的uri提供给toethread进行抓取。处于active状态的queue的个数是定的，如果超出预先设定的一些参数，则把其设置成inactive,当系统条件允许的时候重新进行activate&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;WorkQueue&lt;/span&gt; &lt;span class="n"&gt;readyQ&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;Object&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;readyClassQueues&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;poll&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;DEFAULT_WAIT&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="n"&gt;TimeUnit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;MILLISECONDS&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;readyQ&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;WorkQueue&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;allQueues&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上面是next方法中的一段代码，可用的queue的key会放到readyClassQueues这个&lt;code&gt;BlockingQueue&amp;lt;String&amp;gt;&lt;/code&gt;中去，如果一个queue在处理的话就不会被其他的toethread同时占用，这样有效的保证了politeness&lt;/p&gt;
+&lt;p&gt;另外这里的queue还有几种状态active snooze inactive，现在来简单说说这几种队列的区别，运行过程中一般情况下的queue都是active的，回到finished方法中，如果我不想爬虫对一个网站过度抓取，那么我需要对其抓取时间进行判断，如果一个uri的抓取时间太短的话，那么我需要暂时让这个queue小睡一下，这就是snooze的来历，调用snoozeQueue方法可以让queue进入snooze状态，在过一定时间后进行唤醒，重新进入active状态，进入activae状态的queue可以重新将其中包含的uri提供给toethread进行抓取。处于active状态的queue的个数是定的，如果超出预先设定的一些参数，则把其设置成inactive,当系统条件允许的时候重新进行activate&lt;/p&gt;
 &lt;p&gt;下面接着来说说QueueAssignmentPolicy，前面已经说过QueueAssignmentPolicy针对每个uri都会生成一个key,根据这个key来将key相同的uri组成一个队列，这样的话就能保证politeness，但是这样在有些情况下会产生一些问题，比如对一个网站进行定向抓取的时候，由于hostname是一个，那么极有可能造成只有一个toethread实际进行抓取，这样的抓取效率是很低的。因此，网上流传很广的解决方法就是使用ELF
-hash算法将url进行散列，使得uri分散到各个对垒中去，这样在实际中确实能显著的提高抓取速度。但是这个地方也会带来一些问题，网站的管理员有可能会封你的IP&lt;/p&gt;</summary><category term="Heritrix"></category><category term="Java"></category></entry><entry><title>Heritrix之旅之CrawlController</title><link href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bcrawlcontroller/" rel="alternate"></link><updated>2011-08-25T10:23:00+08:00</updated><author><name>MichaelYin</name></author><id>tag:blog.michaelyin.info,2011-08-25:2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bcrawlcontroller/</id><summary type="html">&lt;p&gt;一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。&lt;/p&gt;
+hash算法将url进行散列，使得uri分散到各个对垒中去，这样在实际中确实能显著的提高抓取速度。但是这个地方也会带来一些问题，网站的管理员有可能会封你的IP&lt;/p&gt;</summary></entry><entry><title>Heritrix之旅之CrawlController</title><link href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/" rel="alternate"></link><updated>2011-08-25T10:23:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-08-25:2011/08/25/heritrix-crawlcontroller/</id><summary type="html">&lt;p&gt;一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。&lt;/p&gt;
 &lt;p&gt;Heritrix的一些介绍网上都有，我在这里也就不做介绍了，直接进入正题。&lt;/p&gt;
 &lt;p&gt;Heritrix抓取任务的核心类就是CrawlController,这个对象将决定一个抓取任务的开始和结束&lt;/p&gt;
-&lt;p&gt;~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-//order.xml文件的封装&lt;br /&gt;
-private transient CrawlOrder order;
-//&lt;br /&gt;
-private transient CrawlScope scope;
-//处理链列表 
-private transient ProcessorChainList processorChains;
-//为抓取线程提供uri  &lt;br /&gt;
-private transient Frontier frontier;&lt;/p&gt;
-&lt;p&gt;//线程池 &lt;br /&gt;
-private transient ToePool toePool;&lt;/p&gt;
-&lt;p&gt;//缓存，保存了当前抓取任务抓取过的Host名称和Server名称 &lt;br /&gt;
-private transient ServerCache serverCache;&lt;/p&gt;
-&lt;p&gt;// This gets passed into the initialize method.&lt;/p&gt;
-&lt;p&gt;private transient SettingsHandler settingsHandler;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;201108251822437241&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//blog.michaelyin.info/images/2011/08/201108251822437241.png)](http://blog.michaelyin.info/images/2011/08/201108251822437241.png)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//order.xml文件的封装  &lt;/span&gt;
+&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;transient&lt;/span&gt; &lt;span class="n"&gt;CrawlOrder&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;//  &lt;/span&gt;
+&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;transient&lt;/span&gt; &lt;span class="n"&gt;CrawlScope&lt;/span&gt; &lt;span class="n"&gt;scope&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;//处理链列表 &lt;/span&gt;
+&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;transient&lt;/span&gt; &lt;span class="n"&gt;ProcessorChainList&lt;/span&gt; &lt;span class="n"&gt;processorChains&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;//为抓取线程提供uri    &lt;/span&gt;
+&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;transient&lt;/span&gt; &lt;span class="n"&gt;Frontier&lt;/span&gt; &lt;span class="n"&gt;frontier&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
 
-&lt;span class="err"&gt;上面这个图就是&lt;/span&gt;&lt;span class="n"&gt;CrawlController&lt;/span&gt;&lt;span class="err"&gt;和抓取过程中的几个关键的组件的关系图，&lt;/span&gt;&lt;span class="n"&gt;CrawlController&lt;/span&gt;&lt;span class="err"&gt;包含了这几个组件并对整个抓取进行管理&lt;/span&gt;
+&lt;span class="c1"&gt;//线程池   &lt;/span&gt;
+&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;transient&lt;/span&gt; &lt;span class="n"&gt;ToePool&lt;/span&gt; &lt;span class="n"&gt;toePool&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
 
-&lt;span class="n"&gt;CrawlController&lt;/span&gt;&lt;span class="err"&gt;的初始化是在&lt;/span&gt;&lt;span class="n"&gt;initialize&lt;/span&gt;&lt;span class="err"&gt;方法中完成的，根据传入的&lt;/span&gt;&lt;span class="n"&gt;SettingsHandler&lt;/span&gt;&lt;span class="err"&gt;得到抓取必须的参数，进行初始化&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;然后完成其他的一些必须的初始化工作。&lt;/span&gt;
+&lt;span class="c1"&gt;//缓存，保存了当前抓取任务抓取过的Host名称和Server名称   &lt;/span&gt;
+&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;transient&lt;/span&gt; &lt;span class="n"&gt;ServerCache&lt;/span&gt; &lt;span class="n"&gt;serverCache&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
 
-&lt;span class="err"&gt;二次开发的时候我们也可以自己完成这些过程，但是有几个必须的过程是必须要走的，首先就是需要构造一个&lt;/span&gt;&lt;span class="n"&gt;XMLSettingsHandler&lt;/span&gt;&lt;span class="err"&gt;对象，将&lt;/span&gt;&lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt;&lt;span class="err"&gt;信息装入，然后构造一个&lt;/span&gt;&lt;span class="n"&gt;CrawlController&lt;/span&gt;&lt;span class="err"&gt;对象，然后将&lt;/span&gt;&lt;span class="n"&gt;XMLSettingsHandler&lt;/span&gt;&lt;span class="err"&gt;放入到&lt;/span&gt;&lt;span class="n"&gt;CrawlController&lt;/span&gt;&lt;span class="err"&gt;的&lt;/span&gt;&lt;span class="n"&gt;initialize&lt;/span&gt;&lt;span class="err"&gt;方法中去，当完成上述工作之后，&lt;/span&gt;&lt;span class="n"&gt;CrawlController&lt;/span&gt;&lt;span class="err"&gt;就可以准备开始进行抓取了。&lt;/span&gt;
+&lt;span class="c1"&gt;// This gets passed into the initialize method.&lt;/span&gt;
 
-&lt;span class="err"&gt;其实上述所说的过程就是&lt;/span&gt;&lt;span class="n"&gt;Heritrix&lt;/span&gt;&lt;span class="err"&gt;类中&lt;/span&gt;&lt;span class="n"&gt;doOneCrawl&lt;/span&gt;&lt;span class="err"&gt;方法的实现的过程，我们可以直接将&lt;/span&gt;&lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt;&lt;span class="err"&gt;的文件路径放入方法然后进行抓取&lt;/span&gt;
+&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;transient&lt;/span&gt; &lt;span class="n"&gt;SettingsHandler&lt;/span&gt; &lt;span class="n"&gt;settingsHandler&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
-&lt;span class="o"&gt;~~~~&lt;/span&gt; &lt;span class="p"&gt;{.&lt;/span&gt;&lt;span class="n"&gt;brush&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;csharp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;links&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;collapse&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;.0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gutter&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;light&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ruler&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;smart&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;tabs&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tab&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;.4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;toolbar&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;}&lt;/span&gt;
-      &lt;span class="n"&gt;XMLSettingsHandler&lt;/span&gt; &lt;span class="n"&gt;handler&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;XMLSettingsHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-                &lt;span class="n"&gt;crawlOrderFile&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
-        &lt;span class="n"&gt;handler&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-        &lt;span class="n"&gt;CrawlController&lt;/span&gt; &lt;span class="n"&gt;controller&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;CrawlController&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-        &lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;handler&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;listener&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-            &lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;addCrawlStatusListener&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;listener&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt;
-        &lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;requestCrawlStart&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="Heritrix"></category><category term="Java"></category></entry></feed>
+
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2011/08/201108251822437241.png"&gt;&lt;img alt="201108251822437241" src="http://blog.michaelyin.info/images/2011/08/201108251822437241.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;上面这个图就是CrawlController和抓取过程中的几个关键的组件的关系图，CrawlController包含了这几个组件并对整个抓取进行管理&lt;/p&gt;
+&lt;p&gt;CrawlController的初始化是在initialize方法中完成的，根据传入的SettingsHandler得到抓取必须的参数，进行初始化,然后完成其他的一些必须的初始化工作。&lt;/p&gt;
+&lt;p&gt;二次开发的时候我们也可以自己完成这些过程，但是有几个必须的过程是必须要走的，首先就是需要构造一个XMLSettingsHandler对象，将order.xml信息装入，然后构造一个CrawlController对象，然后将XMLSettingsHandler放入到CrawlController的initialize方法中去，当完成上述工作之后，CrawlController就可以准备开始进行抓取了。&lt;/p&gt;
+&lt;p&gt;其实上述所说的过程就是Heritrix类中doOneCrawl方法的实现的过程，我们可以直接将order.xml的文件路径放入方法然后进行抓取&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;XMLSettingsHandler&lt;/span&gt; &lt;span class="n"&gt;handler&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;XMLSettingsHandler&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;crawlOrderFile&lt;/span&gt;&lt;span class="o"&gt;));&lt;/span&gt;
+&lt;span class="n"&gt;handler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;initialize&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;CrawlController&lt;/span&gt; &lt;span class="n"&gt;controller&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;CrawlController&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;initialize&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;handler&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;listener&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;addCrawlStatusListener&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;listener&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;requestCrawlStart&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary></entry></feed>

@@ -63,6 +63,93 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2011/04/17/blogengine-css-js/">BlogEngine中的js和css访问处理</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        17 Apr 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。</p>
+<p>BlogEngine中的Css文件是和BlogEngine的主题这个功能相关的，主题文件夹下每个相应文件夹下都有一个style.css被site.master所引用，BlogBasePage在运行的时候根据选定的主题的名字加载相应主题下的模板页，模板页中的Head中是有相应的样式表的链接的，然后再BlogBasePage的Onload方法中，通过CompressCss遍历Head中的控件，找到css，然后统一修改css的访问的路径通过httphandler来访问。</p>
+<div class="highlight"><pre><span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">CompressCss</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">QueryString</span><span class="p">[</span><span class="s">&quot;theme&quot;</span><span class="p">]</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">Control</span> <span class="n">control</span> <span class="k">in</span> <span class="n">Page</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Controls</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">HtmlControl</span> <span class="n">c</span> <span class="p">=</span> <span class="n">control</span> <span class="k">as</span> <span class="n">HtmlControl</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/04/17/blogengine-css-js/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/04/13/cookie-study/">Cookie学习笔记</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        13 Apr 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Cookie用来用来将少量的数据存储到客户端的硬盘上，其形式是用户名@网站地址[数字].txt这个样子，当Cookie想对应的网站的时候，浏览器将存储在客户端的Cookie发送到服务器，服务器可以读取Cookie
+中的数据并进行修改，由于Cookie是存储在客户端机器上的，所以在客户端也可以读写相应的Cookei文件.</p>
+<p>Cookie中信息的保存是以键值对这样的形式来存储的。</p>
+<p>Cookie的expires制定了cookie的生存期，如果不设置的话，cookie只在浏览器访问网站期间存在，关闭浏览器后，这个cookie就失效。如果设置了的话，浏览器会把cookie保存到相应的文件夹中(不同的浏览器保存的路径不一样)，一旦超过了expires中设置的日期，浏览器会将cookie删除。</p>
+<p>Cookie的Domain和Path标志了Cookie可以共用的范围，具体的信息可以查看<a href="http://www.cnblogs.com/winner2009/archive/2011/04/11/2011452.html">这里</a></p>
+<p>在服务器端是不能直接删除客户端的Cookie的，一般是通过将Cookie的到期日期设置为一个过去的日期，让客户端的浏览器来删除Cookie。当用户下一次向设置该
+Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
+已到期并将其移除。在这里需要注意的是，如果设置了过期时间，你在Request读取这个Cookie的时候通过它的过期那个属性来获取它的过期时间是获取不到的，因为客户端浏览器发送给服务器的Cookie是不包含过期时间的，而服务器发送给客户端浏览器的Cookie是包含过期时间的。</p>
+<p>实际项目中删除Cookie的是后也碰到了一个很奇怪的问题，网上流传的很多代码都是这样</p>
+<div class="highlight"><pre><span class="n">HttpCookie</span> <span class="n">SingleValueCookie</span> <span class="p">=</span> <span class="n">Request</span><span class="p">.</span><span class="n">Cookies</span><span class="p">[</span><span class="s">&quot;test1&quot;</span><span class="p">];</span>
+<span class="n">SingleValueCookie</span><span class="p">.</span><span class="n">Expires</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">MinValue ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/04/13/cookie-study/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/03/19/blogengine-widget/">BlogEngine中的widget机制</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        19 Mar 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>BlogEngine中的widget机制支持在页面可添加一些小的widget，这个功能当时还是特别吸引我的，现在简单的说下实现的原理。</p>
+<p>所有的widget都在一个WidgetZone的容器内，这个容器继承自PlaceHolder，而这个容器是在自定义theme中的模板页中用到的，当这个控件加载的时候，它从数据库中找到关于widget的配置信息。这个配置信息也是DataStore的方式提取和存储的。</p>
+<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;</span>
+<span class="nt">&lt;WidgetData</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="na">xmlns:xsd=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;Settings&gt;</span><span class="ni">&amp;lt;</span>widgets<span class="ni">&amp;gt;&amp;lt;</span>widget
+  id=&quot;b7d72394-7556-4a5b-87ed-c63cbdc915fb&quot; title=&quot;Administration&quot;
+  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Administration<span class="ni">&amp;lt;</span>/widget<span class="ni">&amp;gt;&amp;lt ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/03/19/blogengine-widget/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2011/03/17/blogengine-Extensinon/">BlogEngine中的Extensinon实现</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -73,10 +160,6 @@
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">Blogengine</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>BlogEngine中提供了比较良好的扩展机制，用户可以通过添加Extension对BlogEngine进行各种功能的添加，而且还可以对各种扩展进行统一的管理，下面就把实现的机制和原理说明一下。</p>
@@ -105,10 +188,6 @@
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">BlogEngine</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。</p>
@@ -125,7 +204,7 @@
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/10/charint%e8%bd%ac%e6%8d%a2/">char,int转换</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/03/10/char-convert-int/">char,int转换</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -139,17 +218,15 @@
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>写一个Console小程序的时候需要用户输入数字，然后在程序中进行获取，本来以为很简单的，没想到也发生了一些曲折。。</p>
 <p>在Console类中，Console.Read获取的用户输入的单个字符，.net内存中的字符的存储都是采用的Unicode编码，所以这个方法返回的是该字符的Unicode编码的十进制值，对于Unicode不是很了解的朋友可以参考我的另外一篇Post<a href="http://www.cnblogs.com/MichaelYin/archive/2010/12/06/1897928.html">字符编码那些事儿</a>，如果我需要得到这个字符具体是多少，只需要调用Convert.ToChar就可以了。来看个例子</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-        int a = Console.Read();</p>
-<div class="highlight"><pre>    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<div class="highlight"><pre><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
+<span class="kt">char</span> <span class="n">c</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToChar</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
 </pre></div>
 
 
-<p>~~~~</p>
-<p>在Console窗口中按Ctrl+空格打开中文输入法，这样可以在Console中输入中文，然后敲随便一个中文 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/03/10/charint%e8%bd%ac%e6%8d%a2/">
+<p>在Console窗口中按Ctrl+空格打开中文输入法，这样可以在Console中输入中文，然后敲随便一个中文，比如’我’,设置断点可以发现运行到第二行的时候变量c的值是’我’,这样基本就告诉我们了其中的一些基本的原理。就想我前面说的Console.Read返回的是’我’这个字符的Unicode编码的值，如果我们输入’3’,那么a并不是3，而是3的Unicode编码的值，也就是51。</p>
+<p>这个51在程序中已经是int类型了，如果我们需要重新得到原始的Char，使用方法Convert.ToChar就可以。</p>
+<p>实际中另外一种情况是，我在Console中输入数字，希望在程序中重新得到数字,这时候 ...</p>
+                    <a href="http://blog.michaelyin.info/2011/03/10/char-convert-int/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -196,13 +273,6 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/dictionary.html">
-    <span class="label label-default">Dictionary</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/hashtable.html">
-    <span class="label label-default">Hashtable</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。</p>
@@ -221,39 +291,6 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/02/12/linux%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e6%80%bb%e7%bb%93/">Linux基础知识总结</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        12 Feb 2011
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/linux.html">
-    <span class="label label-default">Linux</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><h2>用户和角色</h2>
-<p>Linux中的用户和角色的概念和一般权限系统中的概念基本差不多，用户可以属于多个角色，从而根据所属的角色在系统中拥有不同的权限。这其中有一个用户拥有系统最大的权限，那就是root.</p>
-<p>Linux是一个多任务多用户的操作系统，其中的服务在运行的时候会获得一个PID，而这个PID也是有拥有者身份的，换句话说，是这个用户启动的这个服务，有上面我们可以知道，这些服务也就相应的具有这个用户所具有的一些权限，可以做这个用户被允许所作的一些事情，但是，如果这个PID被入侵的话，那么入侵者也就具有了相应PID的权限，如果这个PID的拥有者的权限太高的话，比如是root,那么入侵者就可以再Linux中为所欲为，所以，尽量的将服务的PID权限降低，这样的话可以保证即使服务被入侵也不会让入侵者得到较大的权限，使系统更加安全。</p>
-<p><a href="http://blog.michaelyin.info/images/2011/02/201102121549134038.png"><img alt="201102121549134038" src="http://blog.michaelyin.info/images/2011/02/201102121549134038.png" /></a></p>
-<p>查看用户可以打开/etc/passwd，查看角色信息可以查看/etc/group/不同Linux可能会有所不同，我所使用的是Ubuntu
-10.10</p>
-<h2>文件属性和权限</h2>
-<p>在shell中输入ls -al可以查看当前目录下的所有文件</p>
-<p><a href="http://blog.michaelyin.info/images/2011/02/201102121549193934.png"><img alt="201102121549193934" src="http://blog.michaelyin.info/images/2011/02/201102121549193934.png" /></a></p>
-<p>文件的权限由10位的字符串构成，比如-rwxrwxrwx这样的字符串，由于权限粒度精确到了用户，所以一共有10位。第一位表示这个文件的属性，比如d代表directory,-则代表是一个文件，接下来的9位则是三个为一组，且都为rwx的组合，r代表可读，w代表可写,x代表可运行，第一组是文件拥有人的权限 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/02/12/linux%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e6%80%bb%e7%bb%93/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/12/23/binary-tree-linear-walk/">二叉树的非递归遍历</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -264,10 +301,6 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/binary-tree.html">
-    <span class="label label-default">Binary tree</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>二叉树的遍历如果使用递归调用基本没什么问题，这里主要是讲如何使用非递归方法实现二叉树的遍历。</p>
@@ -310,13 +343,6 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/net.html">
-    <span class="label label-default">.Net</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/kml.html">
-    <span class="label label-default">Kml</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>最近在Google
@@ -333,63 +359,6 @@ map或者google earth中看到我们标注的信息。下面是一个简单的KM
     <span class="nt">&lt;description&gt;</span>Attached to the ground. Intelligently places itself 
        at the height ...</pre></div>
                     <a href="http://blog.michaelyin.info/2010/12/21/google-kml/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f/">算法学习之快速排序</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        20 Dec 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>快速排序通常是用于排序的最佳实用选择，因为它的平均性能相当好。</p>
-<p>快速排序和先前讲到的合并排序一样，体现了算法设计中的分治的思想。我们首先将问题进行分解，将数组划分成两个部分A[p…q-1]和A[q+1…r]，使得A[p…q-1]中的元素小于等于A[q]，然后分别解决前面一个数组和后面一个数组的排序，最后进行合并，由于这两个数组是就地排序(in
-place)的，所以不用像合并排序中一样进行过多的合并的操作。</p>
-<p>由于中间的分别排序的部分可以使用递归实现，所以快速排序中关键的地方就是如何将数组进行分解了。</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .1; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-        /// <summary>
-        /// 对数组进行分组,返回分界处的index ...</summary></p>
-                    <a href="http://blog.michaelyin.info/2010/12/20/%e7%ae%97%e6%b3%95%e5%ad%a6%e4%b9%a0%e4%b9%8b%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/13/%e7%94%b1%e7%b1%bb%e8%83%bd%e5%90%a6%e5%8c%85%e5%90%ab%e8%87%aa%e5%b7%b1%e8%af%b4%e5%bc%80%e5%8e%bb/">由类能否包含自己说开去</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        13 Dec 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>下午在Coding的时候突然想到了一个问题，类到底能不能包含自己?在什么情况下能包自己？</p>
-<p>当时正在实现一个类似链表的功能，在一个节点中需要有下个节点的引用的数据，比如像这样子的代码。</p>
-<p Next_="Next;
-" Node="Node" _="
-" data_="data;
-" int="int" public="public">~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-    public class Node</p>
-<div class="highlight"><pre><span class="err">在</span><span class="n">Node</span><span class="err">中有一个</span><span class="n">Node</span><span class="err">类型的引用地址，用来找到这个节点的下一个节点。默认构造函数调用后会将 ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/12/13/%e7%94%b1%e7%b1%bb%e8%83%bd%e5%90%a6%e5%8c%85%e5%90%ab%e8%87%aa%e5%b7%b1%e8%af%b4%e5%bc%80%e5%8e%bb/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -440,6 +409,12 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
             </li>
         
             <li>
+                <a href="http://blog.michaelyin.info/category/algorithm.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Algorithm
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/java.html">
                     <i class="icon-folder-open icon-large"></i>
                     Java
@@ -449,12 +424,6 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
                 <a href="http://blog.michaelyin.info/category/js.html">
                     <i class="icon-folder-open icon-large"></i>
                     Js
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/linux.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Linux
                 </a>
             </li>
             <li>
@@ -482,6 +451,12 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
                 </a>
             </li>
             <li>
+                <a href="http://blog.michaelyin.info/category/web.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Web
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
                     <i class="icon-folder-open icon-large"></i>
                     未分类
@@ -499,72 +474,6 @@ place)的，所以不用像合并排序中一样进行过多的合并的操作�
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/bugnet.html">
-                    <span class="label label-default">Bugnet</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
             </li> 
 
         </ul>

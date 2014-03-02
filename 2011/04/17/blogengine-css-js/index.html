@@ -78,10 +78,6 @@
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">Blogengine</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
             <p>BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。</p>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/web.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2011-04-13T12:29:00+08:00</updated><entry><title>Cookie学习笔记</title><link href="http://blog.michaelyin.info/2011/04/13/cookie-study/" rel="alternate"></link><updated>2011-04-13T12:29:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2011-04-13:2011/04/13/cookie-study/</id><summary type="html">&lt;p&gt;Cookie用来用来将少量的数据存储到客户端的硬盘上，其形式是用户名@网站地址[数字].txt这个样子，当Cookie想对应的网站的时候，浏览器将存储在客户端的Cookie发送到服务器，服务器可以读取Cookie
+中的数据并进行修改，由于Cookie是存储在客户端机器上的，所以在客户端也可以读写相应的Cookei文件.&lt;/p&gt;
+&lt;p&gt;Cookie中信息的保存是以键值对这样的形式来存储的。&lt;/p&gt;
+&lt;p&gt;Cookie的expires制定了cookie的生存期，如果不设置的话，cookie只在浏览器访问网站期间存在，关闭浏览器后，这个cookie就失效。如果设置了的话，浏览器会把cookie保存到相应的文件夹中(不同的浏览器保存的路径不一样)，一旦超过了expires中设置的日期，浏览器会将cookie删除。&lt;/p&gt;
+&lt;p&gt;Cookie的Domain和Path标志了Cookie可以共用的范围，具体的信息可以查看&lt;a href="http://www.cnblogs.com/winner2009/archive/2011/04/11/2011452.html"&gt;这里&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在服务器端是不能直接删除客户端的Cookie的，一般是通过将Cookie的到期日期设置为一个过去的日期，让客户端的浏览器来删除Cookie。当用户下一次向设置该
+Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
+已到期并将其移除。在这里需要注意的是，如果设置了过期时间，你在Request读取这个Cookie的时候通过它的过期那个属性来获取它的过期时间是获取不到的，因为客户端浏览器发送给服务器的Cookie是不包含过期时间的，而服务器发送给客户端浏览器的Cookie是包含过期时间的。&lt;/p&gt;
+&lt;p&gt;实际项目中删除Cookie的是后也碰到了一个很奇怪的问题，网上流传的很多代码都是这样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;HttpCookie&lt;/span&gt; &lt;span class="n"&gt;SingleValueCookie&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Request&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Cookies&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;test1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="n"&gt;SingleValueCookie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Expires&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="n"&gt;DateTime&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;MinValue&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;Response&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Cookies&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SingleValueCookie&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;实际中过期时间的设置没起到作用，后来还是使用AddDay(-1)来解决的这个问题，也不知道是为什么，很奇怪~&lt;/p&gt;
+&lt;p&gt;用到的相关资料&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.cnblogs.com/leleroyn/articles/1156630.html"&gt;http://www.cnblogs.com/leleroyn/articles/1156630.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.cnblogs.com/wuxiaoqian726/articles/1778687.html"&gt;http://www.cnblogs.com/wuxiaoqian726/articles/1778687.html&lt;/a&gt;&lt;/p&gt;</summary></entry></feed>

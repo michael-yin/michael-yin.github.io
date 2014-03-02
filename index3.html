@@ -63,7 +63,106 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/09/14/c%e8%af%ad%e8%a8%80%e4%b8%ad%e8%87%aa%e5%a2%9e%e7%9a%84%e7%96%91%e6%83%91/">C语言中自增的疑惑</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/10/10/stack-study/">算法学习之栈</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        10 Oct 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>最近趁着找工作做了很多关于数据结构和算法的题，在这里也将涉及到栈的一些不错的知识点和题目以及代码贴出来，一方面是为了夯实基础，另外一方面方便大家更好的掌握数据结构中的栈</p>
+<p>栈的特性其实一说对数据结构有稍微了解的人都知道，后进先出，但是在解决问题的过程中熟练的使用合适的数据结构我觉得才是对栈真正的理解</p>
+<p>首先来讲一个很经典的问题，就是出栈顺序，题目是这样的，比如现在又1 2 3 4
+5五个数字，规定这五个数字入栈的顺序不变，但是中间可以任意的出栈，出栈的数字就当做输出，请写出程序输出所有的出栈的序列</p>
+<p>这个问题可以用很经典的回溯法来解，就是通过递归方法调用，在每一层找出所有可能的操作方式，直到全部输出，另外需要加一句的是在以前我是不知道递归的时候还原现场的，在这个代码里面也是学到了这个知识点，而这个小细节其实是很重要的，当时就是因为这个细节让我在思考递归调用的时候否定了该方法，后来想了许久才重新相通</p>
+<p>下面贴出相关代码:</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">static</span> <span class="bp">void</span> <span class="nx">SearchStack</span><span class="p">(</span><span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">input</span><span class="p">,</span> <span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">stack</span><span class="p">,</span> <span class="nb">Stack</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">output</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">input.Count</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">stack.Count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//输出结果 ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/10/10/stack-study/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/10/10/heritrix-processor/">Heritrix之旅之Processor</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        10 Oct 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>实际的url的处理是在toethread中进行的，toethread从Frontier中请求待处理的url,并将其放到一系列Processor中进行处理</p>
+<p>可以以流水线上的处理流程来想象Processor，流水线上的产品就是url，由于处理的processor主要着重于不同的阶段和功能，所以，heritrix将其processor分成了五个大类。</p>
+<p>1 Pre-fetch</p>
+<p>这里面包含一些需要在像web服务器发出请求之前的一些处理的processor,比如检查url的scope</p>
+<p>2 Fetch</p>
+<p>这里面的是获取web信息的processor,不同的processor支持不同的协议，比如FetchHTTP支持http,FetchDNS支持dns</p>
+<p>3 Extractor</p>
+<p>这个里面就是涉及到对抓取的web信息进行内容的提取了，可以对其中的链接进行处理，放到以后进行抓取，也可以根据自己的业务逻辑进行相应的扩展</p>
+<p>4 Write/index</p>
+<p>将抓取的信息存储到硬盘中</p>
+<p>5 Post-processing</p>
+<p>将Extractor中找到的url放入到Frontier中待以后进行抓取，进行processor的清理工作</p>
+<p>所有的处理类都是继承了Processor，这样就能以一定的抽象统一对所有的processor进行管理，而每个具体的processor只需要根据自己的需要重写相应的处理方法即可</p>
+<p>CrawlController在setupCrawlModules中会初始化processorChains，ProcessorChainList这个实例就是整个处理器的一个容器，它下面根据上面所说的分类构成了5个ProcessorChain，需要注意的是初始化的时候顺序是很重要的，因为这个顺序关系到url处理时候的顺序。ProcessorChain中包含了所需要的processor</p>
+<p>多线程相关</p>
+<p>Processor的实例在CrawlController中会存放在ProcessorChain中，如果有特殊需要为了保证每个线程有属于自己的Processor,只需要实现InstancePerThread这个端口即可</p>
+<div class="highlight"><pre><span class="n">private</span> <span class="n">Processor</span> <span class="nf">getProcessor</span><span class="p">(</span><span class="n">Processor</span> <span class="n">processor ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/10/10/heritrix-processor/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/">Heritrix之旅之ToeThread</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        07 Oct 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Heritrix是一个多线程的程序，里面使用工作线程来处理url，这些工作线程称为torThreads，这些toethread统一的被ToePool所管理,Toepool通过setSize方法来管理运行的toethread数目</p>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSize</span><span class="o">(</span><span class="kt">int</span> <span class="n">newsize</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">targetSize</span> <span class="o">=</span> <span class="n">newsize</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">difference</span> <span class="o">=</span> <span class="n">newsize</span> <span class="o">-</span> <span class="n">getToeCount</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">difference</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// must create threads</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">difference</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">startNewThread</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">// must retire extra threads</span>
+        <span class="kt">int</span> <span class="n">retainedToes</span> <span class="o">=</span> <span class="n">targetSize</span><span class="o">;</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">toes</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getToes</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">toes</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/09/14/c-plusplus-operator/">C语言中自增的疑惑</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -76,24 +175,31 @@
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>由于要准备笔试，所以捡起了好久不看的C语言，运算符优先级真的是挺蛋疼的，这不，今天在那折腾的时候就被一个问题给纠结住了，自己不能解释这种现象，就发到园子里面请教一下大家了。</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-          int y,r;
-          y=3;
-          r=0;
-          r= 2*y+(++y);
-          printf("%d",r);
-          return 0;</p>
-<div class="highlight"><pre><span class="err">代码其实很简单，我写这个代码主要是想知道</span><span class="o">++</span><span class="n">y</span><span class="err">后的值对表达式中的其他地方的</span><span class="n">y ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/09/14/c%e8%af%ad%e8%a8%80%e4%b8%ad%e8%87%aa%e5%a2%9e%e7%9a%84%e7%96%91%e6%83%91/">
+<div class="highlight"><pre><span class="kt">int</span> <span class="n">y</span><span class="p">,</span><span class="n">r</span><span class="p">;</span>
+<span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span>
+<span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">r</span><span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="p">(</span><span class="o">++</span><span class="n">y</span><span class="p">);</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+
+
+<p>代码其实很简单，我写这个代码主要是想知道++y后的值对表达式中的其他地方的y是不是有影响的，这个代码在CodeBlock中执行的结果是10,由于(++y)其实的结果是4，所以前面用来计算的y的值其实是3,到这里，我就以为++y的值在y自增后在别处是没有影响的。</p>
+<p>但是，诡异的事情接下来发生了</p>
+<p>我将2*y改成了y</p>
+<div class="highlight"><pre><span class="kt">int</span> <span class="n">y</span><span class="p">,</span><span class="n">r</span><span class="p">;</span>
+<span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span>
+<span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">r</span><span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="p">(</span><span class="o">++</span><span class="n">y</span><span class="p">);</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/09/14/c-plusplus-operator/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier/">Heritrix之旅之Frontier</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/">Heritrix之旅之Frontier</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -103,13 +209,6 @@
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/heritrix.html">
-    <span class="label label-default">Heritrix</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/java.html">
-    <span class="label label-default">Java</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。</p>
@@ -122,14 +221,14 @@
 DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队列的一个抽象类，也是提供了队列所需要的基本的方法，子类只需要对其中部分方法进行覆写即可，具体的实现可以看BdbWorkQueue这个类的实现</p>
 <p>我们先来看看WorkQueueFrontier中的schedule方法，这个方法是将uri放入到frontier中去以供以后抓取，首先会通过UriUniqFilter进行一次判断，查看这个uri是否被抓取过，如果被抓取过则不会将其插入到队列中如果不是则调用receive方法将其插入到队列中去</p>
 <p>在队列中的uri会在next方法中被toethread取出然后进行处理 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bfrontier/">
+                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bcrawlcontroller/">Heritrix之旅之CrawlController</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">Heritrix之旅之CrawlController</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -139,37 +238,37 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/heritrix.html">
-    <span class="label label-default">Heritrix</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/java.html">
-    <span class="label label-default">Java</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。</p>
 <p>Heritrix的一些介绍网上都有，我在这里也就不做介绍了，直接进入正题。</p>
 <p>Heritrix抓取任务的核心类就是CrawlController,这个对象将决定一个抓取任务的开始和结束</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script: .false; .light: .false;
-.ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
-//order.xml文件的封装<br />
-private transient CrawlOrder order;
-//<br />
-private transient CrawlScope scope;
-//处理链列表 
-private transient ProcessorChainList processorChains;
-//为抓取线程提供uri  <br />
-private transient ...</p>
-                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix%e4%b9%8b%e6%97%85%e4%b9%8bcrawlcontroller/">
+<div class="highlight"><pre><span class="c1">//order.xml文件的封装  </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">CrawlOrder</span> <span class="n">order</span><span class="o">;</span>
+<span class="c1">//  </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">CrawlScope</span> <span class="n">scope</span><span class="o">;</span>
+<span class="c1">//处理链列表 </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ProcessorChainList</span> <span class="n">processorChains</span><span class="o">;</span>
+<span class="c1">//为抓取线程提供uri    </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">Frontier</span> <span class="n">frontier</span><span class="o">;</span>
+
+<span class="c1">//线程池   </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ToePool</span> <span class="n">toePool</span><span class="o">;</span>
+
+<span class="c1">//缓存，保存了当前抓取任务抓取过的Host名称和Server名称   </span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ServerCache</span> <span class="n">serverCache</span><span class="o">;</span>
+
+<span class="c1">// This gets passed into the initialize method.</span>
+
+<span class="kd">private</span> <span class="kd">transient ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/14/%e7%bc%96%e7%a8%8b%e4%b9%8b%e7%be%8e2-18%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">编程之美2.18学习笔记</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/08/14/beauty-of-programing-218/">编程之美2.18学习笔记</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -187,14 +286,14 @@ private transient ...</p>
 <p>现在我们已经隐隐感觉到，其实两个元素之间的差值是我们可以拿来用的一个条件。我们只需要保证差值的绝对值为最小，这样得到的两个数组就是我们所求的结果了。然后还有一个问题，两个数组对应元素之间的差值是不一样的。比如A[0]-B[0]的差值是1,A[1]
 –B[1]的差值可能是99，我们需要一种策略来保证我们在计算这个差值的绝对值一定是最小。借鉴一下权重的思想，我们需要把本来差值绝对值最大的那一组A和B对应的元素放到前面去，然后依次排序，这样得到的相当于就是权重一个从大到小的顺序，我们遍历的时候就能够得到正确的结果，不至于前面出现了很多小的差值，然后因为后面出现了一个很大的差值，（比如99）使得得到的结果错误。</p>
 <p>下面完整的将一遍解题思路 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/08/14/%e7%bc%96%e7%a8%8b%e4%b9%8b%e7%be%8e2-18%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">
+                    <a href="http://blog.michaelyin.info/2011/08/14/beauty-of-programing-218/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/07/31/%e7%bc%96%e7%a8%8b%e4%b9%8b%e7%be%8e2-14%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">编程之美2.14学习笔记</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2011/07/31/beauty-of-programing-214/">编程之美2.14学习笔记</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -213,9 +312,10 @@ private transient ...</p>
 <p>程序运行的时候是从里面已经存在了一个元素开始的。这里需要注意的是minSum的处理，如果第一个元素是小于零的话相当于第一个sumOfArray求出的是小于0的，那么我们就需要把minSum换成这个小于0的数字。然后开始遍历操作。</p>
 <p>遍历过程中总是将求出的和与minSum进行比较，如果能大于最大的那个差值则进行替换，最后返回的就是我们需要求出的子数组之和的最大值。</p>
 <p>下面贴出我用Java实现的代码</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter: .true; .html-script ...</p>
-                    <a href="http://blog.michaelyin.info/2011/07/31/%e7%bc%96%e7%a8%8b%e4%b9%8b%e7%be%8e2-14%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">Test1</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">sumOfArray</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="kt">int ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/07/31/beauty-of-programing-214/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -232,10 +332,6 @@ private transient ...</p>
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">Blogengine</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859464.html">BlogEngine中的Provider模式（上）</a></p>
@@ -261,10 +357,6 @@ private transient ...</p>
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">Blogengine</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>先来看看这段代码</p>
@@ -298,101 +390,6 @@ private transient ...</p>
     <span class="p">{</span>
         <span class="c1">//构造函数 ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2011/05/27/talk-about-class-init/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/04/17/blogengine-css-js/">BlogEngine中的js和css访问处理</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        17 Apr 2011
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">Blogengine</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。</p>
-<p>BlogEngine中的Css文件是和BlogEngine的主题这个功能相关的，主题文件夹下每个相应文件夹下都有一个style.css被site.master所引用，BlogBasePage在运行的时候根据选定的主题的名字加载相应主题下的模板页，模板页中的Head中是有相应的样式表的链接的，然后再BlogBasePage的Onload方法中，通过CompressCss遍历Head中的控件，找到css，然后统一修改css的访问的路径通过httphandler来访问。</p>
-<div class="highlight"><pre><span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">CompressCss</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">QueryString</span><span class="p">[</span><span class="s">&quot;theme&quot;</span><span class="p">]</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-        <span class="k">return</span><span class="p">;</span>
-
-    <span class="k">foreach</span> <span class="p">(</span><span class="n">Control</span> <span class="n">control</span> <span class="k">in</span> <span class="n">Page</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Controls</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">HtmlControl</span> <span class="n">c</span> <span class="p">=</span> <span class="n">control</span> <span class="k">as</span> <span class="n">HtmlControl</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/04/17/blogengine-css-js/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/04/13/cookie%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">Cookie学习笔记</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        13 Apr 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>Cookie用来用来将少量的数据存储到客户端的硬盘上，其形式是用户名@网站地址[数字].txt这个样子，当Cookie想对应的网站的时候，浏览器将存储在客户端的Cookie发送到服务器，服务器可以读取Cookie
-中的数据并进行修改，由于Cookie是存储在客户端机器上的，所以在客户端也可以读写相应的Cookei文件.</p>
-<p>Cookie中信息的保存是以键值对这样的形式来存储的。</p>
-<p>Cookie的expires制定了cookie的生存期，如果不设置的话，cookie只在浏览器访问网站期间存在，关闭浏览器后，这个cookie就失效。如果设置了的话，浏览器会把cookie保存到相应的文件夹中(不同的浏览器保存的路径不一样)，一旦超过了expires中设置的日期，浏览器会将cookie删除。</p>
-<p>Cookie的Domain和Path标志了Cookie可以共用的范围，具体的信息可以查看<a href="http://www.cnblogs.com/winner2009/archive/2011/04/11/2011452.html">这里</a></p>
-<p>在服务器端是不能直接删除客户端的Cookie的，一般是通过将Cookie的到期日期设置为一个过去的日期，让客户端的浏览器来删除Cookie。当用户下一次向设置该
-Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
-已到期并将其移除。在这里需要注意的是，如果设置了过期时间，你在Request读取这个Cookie的时候通过它的过期那个属性来获取它的过期时间是获取不到的，因为客户端浏览器发送给服务器的Cookie是不包含过期时间的，而服务器发送给客户端浏览器的Cookie是包含过期时间的。</p>
-<p>实际项目中删除Cookie的是后也碰到了一个很奇怪的问题，网上流传的很多代码都是这样</p>
-<p>~~~~ {.brush: .csharp; .auto-links: .true; .collapse: .false;
-.first-line: .0; .gutter ...</p>
-                    <a href="http://blog.michaelyin.info/2011/04/13/cookie%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/19/blogengine-widget/">BlogEngine中的widget机制</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        19 Mar 2011
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">BlogEngine</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>BlogEngine中的widget机制支持在页面可添加一些小的widget，这个功能当时还是特别吸引我的，现在简单的说下实现的原理。</p>
-<p>所有的widget都在一个WidgetZone的容器内，这个容器继承自PlaceHolder，而这个容器是在自定义theme中的模板页中用到的，当这个控件加载的时候，它从数据库中找到关于widget的配置信息。这个配置信息也是DataStore的方式提取和存储的。</p>
-<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;</span>
-<span class="nt">&lt;WidgetData</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-<span class="na">xmlns:xsd=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;Settings&gt;</span><span class="ni">&amp;lt;</span>widgets<span class="ni">&amp;gt;&amp;lt;</span>widget
-  id=&quot;b7d72394-7556-4a5b-87ed-c63cbdc915fb&quot; title=&quot;Administration&quot;
-  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Administration<span class="ni">&amp;lt;</span>/widget<span class="ni">&amp;gt;&amp;lt ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/03/19/blogengine-widget/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -443,6 +440,12 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
             </li>
         
             <li>
+                <a href="http://blog.michaelyin.info/category/algorithm.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Algorithm
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/java.html">
                     <i class="icon-folder-open icon-large"></i>
                     Java
@@ -452,12 +455,6 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
                 <a href="http://blog.michaelyin.info/category/js.html">
                     <i class="icon-folder-open icon-large"></i>
                     Js
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/linux.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Linux
                 </a>
             </li>
             <li>
@@ -485,6 +482,12 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
                 </a>
             </li>
             <li>
+                <a href="http://blog.michaelyin.info/category/web.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Web
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
                     <i class="icon-folder-open icon-large"></i>
                     未分类
@@ -502,72 +505,6 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/bugnet.html">
-                    <span class="label label-default">Bugnet</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
             </li> 
 
         </ul>

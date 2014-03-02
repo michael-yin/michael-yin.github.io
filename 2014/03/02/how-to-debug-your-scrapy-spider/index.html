@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>How to debug your scrapy spider</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                How to debug your scrapy spider
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        02 Mar 2014
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <h3>Intro</h3>
+<p>This post will talk about some useful tips in the development of scrapy spider which can help you write your spider quickly</p>
+<h3>Extract infomation</h3>
+<p>Some newbie developer think the expression supported by scrapy is difficult to learn, but the truth is, compared to the methods like find_by_id, find_by_name in some framework, the xpath, css, and re expression is very extensible and easy to maintain, then work well even in some complex situation. </p>
+<p>The xpath and css method is recommended by me to use in your spider since then are easier to write and maintain than re methods.</p>
+<p>When you try to use xpath to extract info from web pages, I think XPath Helper is a cool tool you should not miss (a extension for chrome, you can find similar plugins in firefox).</p>
+<p>![]http://blog.michaelyin.info/images/2014/03/02/8536ee054bcfd0eac8e192d40dfc027b.png</p>
+<p>Here is how you use it. Press <code>ctrl+shift+x</code> to open XPath Helper, and you can see the tool bar. You can type your xpath query string in the toolbar, and the result of the xpath will show on the right side and in the web page the selected content will have a yellow backgroud, which is very easy to check if the xpath expression is right.</p>
+<p>If you do not want to install extention to make this done, google chrome have built-in support to query xpath and css expression. Take a look at <code>$()</code> and <code>$x()</code> in console.</p>
+<p>BTW, at some time , the html you get by your web browser might not the same with the html by your spider. That is normaly caused by two factors, first is useraget. Scrapy use its own useragent by default, which can be detected by web server and send back meaningless html. The other factor is ip address if your browser use some proxy, so you need to make sure spider use the same proxy.</p>
+<h3>Scrapy Parse</h3>
+<p>In mose cases you will put the code which handle pagination in one method and put the code which generate the item object in another method.</p>
+<p>Is it a good idea to lanch spider directly after you finish you spider? No! You must at least to test each method to make sure it work as expected.</p>
+<p><code>scrapy parse</code> can help you test your method to make sure it work fine. Here is a example </p>
+<div class="highlight"><pre><span class="n">scrapy</span> <span class="n">parse</span> <span class="o">--</span><span class="n">spider</span><span class="o">=</span><span class="n">googleshop_uk</span> <span class="o">--</span><span class="n">loglevel</span><span class="o">=</span><span class="n">DEBUG</span> <span class="o">-</span><span class="n">c</span> <span class="n">parse_product_page</span> <span class="s">&quot;http://www.google.co.uk/shopping/product/14720124755692393976?hl=en&amp;q=+test&quot;</span>
+</pre></div>
+
+
+<p>the --spider is the name of your spider and -c is the name of the callback method 
+, after downloading html, scrapy will call that method to print out the result like this</p>
+<p>![]http://blog.michaelyin.info/images/2014/03/02/e239fe1ccf58a90a35f170677a8b141c.png</p>
+<p>Make sure to use this to test your methods and it will save your a lot of time later, trust me!</p>
+<h3>Scrapy shell</h3>
+<p>When the spider raise some error in processing specific page, you need to figure out why spider did not work as expected. You can use parse mathod talked above, or you can use <code>scrapy shell</code> under this circumstance.</p>
+<p>Type <code>scrapy shell url_of_page</code> can open scrapy shell and I will talk the most important commands here, you can check the doc later to find out other usages.</p>
+<p>![]http://blog.michaelyin.info/images/2014/03/02/918570a030a0274d6a22fbbb63b4af98.png</p>
+<ul>
+<li><code>sel</code>: you can use sel.xpath sel.css to test your expression in this web page, this can quickly find out the error</li>
+<li><code>view</code>: you can call this <code>view(response)</code> to open the page in your browser</li>
+<li><code>fetch</code> fetch another web page and get the new response</li>
+</ul>
+<h3>Conclution</h3>
+<p>I hope the tips above can really help you, and after that, you can dive in scrapy doc to find other useful tools.</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'how-to-debug-your-scrapy-spider';
+            var disqus_url = 'http://blog.michaelyin.info/2014/03/02/how-to-debug-your-scrapy-spider/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

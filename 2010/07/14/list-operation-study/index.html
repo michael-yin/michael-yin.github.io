@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>有列表List的操作所学习到的</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                有列表List的操作所学习到的
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        14 Jul 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>前几日coding的时候，需要实现在泛型列表中找到其中的一个对象并将其移除的功能，刚开始想的很简单，先上代码</p>
+<div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="n">AttachmentBox</span> <span class="n">objAttachmentBox</span> <span class="k">in</span> <span class="n">lsAttachments</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">.</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+    <span class="p">{</span>
+        <span class="n">lsAttachments</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>这是我刚开始写的代码。。</p>
+<p>运行时候VS提示错误
+“集合已修改；可能无法执行枚举操作。”跑到博客园里面找了一番，发现使用foreach就会存在这个问题，因为foreach在遍历的时候只取只读的数据，如果用for的话，就能够比避免这个问题。</p>
+<p>好吧，那就换成for循环吧。</p>
+<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">lsAttachments</span><span class="p">.</span><span class="n">Count</span><span class="p">();</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lsAttachments</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+    <span class="p">{</span>
+       <span class="n">lsAttachments</span><span class="p">.</span><span class="n">RemoveAt</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>运行程序显示成功，不过不小心瞄到了List的RemoveAll的方法,饿。。是虾米意思呢？打开vs帮助查了一下，原来是使用委托找到相应的对象，并移除</p>
+<p>MSDN里面的代码是这样写的。。。。</p>
+<div class="highlight"><pre><span class="k">private</span> <span class="k">static</span> <span class="kt">bool</span> <span class="nf">EndsWithSaurus</span><span class="p">(</span><span class="n">String</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">s</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">5</span><span class="p">)</span> <span class="p">&amp;&amp;</span> 
+        <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">Length</span> <span class="p">-</span> <span class="m">6</span><span class="p">).</span><span class="n">ToLower</span><span class="p">()</span> <span class="p">==</span> <span class="s">&quot;saurus&quot;</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>在单独的函数里面实现逻辑的话我的e.CommandArgument可不方便，感觉有点丑陋。。。等下等下，不是有匿名委托么？</p>
+<p>这是第三个版本</p>
+<div class="highlight"><pre><span class="n">lsAttachments</span><span class="p">.</span><span class="n">RemoveAll</span><span class="p">(</span><span class="k">delegate</span><span class="p">(</span><span class="n">AttachmentBox</span> <span class="n">attach</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">attach</span><span class="p">.</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span> <span class="p">});</span>
+</pre></div>
+
+
+<p>一行代码搞定，很优雅吧。。。不过呢。。。Lamda表达式会让它更有气质。。。</p>
+<div class="highlight"><pre><span class="n">lsAttachments</span><span class="p">.</span><span class="n">RemoveAll</span><span class="p">(</span> <span class="n">c</span> <span class="p">=&gt;</span>  <span class="n">c</span><span class="p">.</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()));</span>
+</pre></div>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'list-operation-study';
+            var disqus_url = 'http://blog.michaelyin.info/2010/07/14/list-operation-study/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

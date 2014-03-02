@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>算法学习之快速排序</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                算法学习之快速排序
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        20 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>快速排序通常是用于排序的最佳实用选择，因为它的平均性能相当好。</p>
+<p>快速排序和先前讲到的合并排序一样，体现了算法设计中的分治的思想。我们首先将问题进行分解，将数组划分成两个部分A[p…q-1]和A[q+1…r]，使得A[p…q-1]中的元素小于等于A[q]，然后分别解决前面一个数组和后面一个数组的排序，最后进行合并，由于这两个数组是就地排序(in place)的，所以不用像合并排序中一样进行过多的合并的操作。</p>
+<p>由于中间的分别排序的部分可以使用递归实现，所以快速排序中关键的地方就是如何将数组进行分解了。</p>
+<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// 对数组进行分组,返回分界处的index</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">Partition</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">secIndex</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">key</span> <span class="p">=</span> <span class="n">array</span><span class="p">[</span><span class="n">secIndex</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">k</span> <span class="p">=</span> <span class="n">firstIndex</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="n">firstIndex</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">secIndex</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">&lt;</span> <span class="n">key</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Utils</span><span class="p">.</span><span class="n">Swap</span><span class="p">(</span><span class="k">ref</span> <span class="n">array</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="k">ref</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+            <span class="n">k</span><span class="p">++;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//将最后一个元素和对应的分解出的元素互换</span>
+    <span class="n">Utils</span><span class="p">.</span><span class="n">Swap</span><span class="p">(</span><span class="k">ref</span>  <span class="n">array</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="k">ref</span> <span class="n">array</span><span class="p">[</span><span class="n">secIndex</span><span class="p">]);</span>
+    <span class="k">return</span> <span class="n">k</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>先将最后一位的值取出来作为比较的Key,k左边全部是小于Key的值，由于开始还没有比较，所以 <code>k
+= firstIndex</code> , 如果发现有小于Key的值就和K指向的数进行替换，并且k值加1，最后的情况就是k左边的值就都比Key小，最后一行的 <code>Utils.Swap(refarray[k], ref 
+array[secIndex]);</code> 将含有Key的值移到了中间，这样就实现了拆分数组并且前面小于等于A[k]的值。下面是快速排序的代码</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">Sort</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">secIndex</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">firstIndex</span> <span class="p">&lt;</span> <span class="n">secIndex</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">index</span> <span class="p">=</span> <span class="n">RandomPartition</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">secIndex</span><span class="p">);</span>
+        <span class="c1">//递归调用</span>
+        <span class="n">Sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">index</span> <span class="p">-</span> <span class="m">1</span><span class="p">);</span>
+        <span class="n">Sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">index</span> <span class="p">+</span> <span class="m">1</span><span class="p">,</span> <span class="n">secIndex</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>下面就快速排序还顺带讲一点随机化的知识，虽然我们假定输入数据的所有排列顺序都是等可能的，但是在实际工程中，这个假设不一定总是成立，所以，我们需要在算法中人为的加入随机化成分，<strong>以便对于所有输入，它能获得较好的平均情况性能</strong></p>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">RandomPartition</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">secIndex</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//从中随机选出一个index,然后和最后一个元素互换</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="n">RandomFactory</span><span class="p">.</span><span class="n">GetRandomInt</span><span class="p">(</span><span class="n">firstIndex</span><span class="p">,</span> <span class="n">secIndex</span><span class="p">);</span>
+    <span class="n">Utils</span><span class="p">.</span><span class="n">Swap</span><span class="p">(</span><span class="k">ref</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="k">ref</span> <span class="n">array</span><span class="p">[</span><span class="n">secIndex</span><span class="p">]);</span>
+    <span class="k">return</span> <span class="nf">Partition</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="n">secIndex</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>原理其实很简单，就是在分解之前随机的从数组中选取一个数和最后一个元素互换，这样的本质就是数组中的任何一个元素都有可能作比较的那个Key。</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'quick-sort';
+            var disqus_url = 'http://blog.michaelyin.info/2010/12/20/quick-sort/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

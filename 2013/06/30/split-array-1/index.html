@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>数组分割</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                数组分割
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        30 Jun 2013
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+            <p>最近在做Python
+Challenge的时候无意中发现了checkio这个练习PY的地方，题目不难，正好可以在工作之余修炼下PY功力。。</p>
+<p>loading-cargo这个题目的意思比较简单
+，有一个无序、元素个数为2n的正整数数组，要求：如何能把这个数组分割为两个子数组，子数组的元素个数不限，并使两个子数组之和最接近</p>
+<h4>1:Solve</h4>
+<p>根据题目给出的Hint，可以使用暴力破解的方式穷举出所有可能的组合，并算出其和，使用PY提供的库可以很方便的做到，代码如下</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="k">def</span> <span class="nf">checkio</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">total</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="n">diff_sub</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">diff_sub</span> <span class="o">=</span> <span class="n">total</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">diff_sub</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">diff_sub</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">diff_sub</span> <span class="o">&lt;</span> <span class="n">diff</span><span class="p">):</span>
+                <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_sub</span>
+    <span class="k">return</span> <span class="n">diff</span>
+</pre></div>
+
+
+<h4>2:Optimize</h4>
+<p>穷举解法并不是很优化的解法，因为其中需要穷举出所有的组合，然后根据组合算出分组的和，然后进行判断。</p>
+<p>此题其实可以采用DP(动态规划)来解决，现假定S(n)表示n个数字可能取值的集合，比如数字为
+[1,2]，那么S(1) = [0,1] S(2) = [0,1,2,3]</p>
+<p>假设现在有2n个数字，假设前面2n-1个数字的(可能包含，也可能不包含)可能取的和的集合为S(2n-1)那么S(2n)有两部分组成，S(2n)
+= S(2n-1) + (S(2n-1) + data[2n])，相加以后需要注意去掉重复值</p>
+<p>这样最后得到的S(2n)
+就是2n个数字所能取的所有值的集合，对集合进行处理就能得到最后结果了，代码如下：</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">checkio</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">ls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">preset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ls</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">ls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">preset</span> <span class="o">|</span> <span class="n">now</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">total</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">if</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">total</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">diff</span><span class="p">):</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">total</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">diff</span>
+</pre></div>
+
+
+<h4>3:Expand</h4>
+<p>如果你恰好看过编程之美的话，那么你会发现编程之美中的一题和此题十分类似。有一个无序、元素个数为2n的正整数数组，要求：如何能把这个数组分割为元素个数为n的两个数组，并使两个子数组之和最接近</p>
+<p>相对于前面的问题，编程之美只是对分割后数组的个数有了要求，而本身的实质还是没有变的。假设A[i][j]表示在前面i个数中取j个数的可能的和的集合，那么</p>
+<p>A[i][j] = A[i-1][j] + A[i-1][j-1] +
+data[j]，比较上面的S公式，可以看到只是对于数字的个数有了更具体的要求，而i本身其实在这个问题里面不是说特别重要了，对问题稍微抽象一下的话，可以写出代码：</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">checkio</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">preset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ls</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">ls</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">preset</span> <span class="o">|</span> <span class="n">now</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">total</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+        <span class="k">if</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">total</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">value</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">diff</span><span class="p">):</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">total</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">diff</span>
+</pre></div>
+
+
+<h4>4:Conclude</h4>
+<p>其实上面的问题和常见的01背包问题是很类似的，所以用典型的01背包问题的解法来解的话也是能够做出来的，关键是弄清楚其中的联系。</p>
+<p><a href="http://blog.csdn.net/tianshuai11/article/details/7828907">点击这里</a>可查看本问题解法的C++代码</p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'split-array-1';
+            var disqus_url = 'http://blog.michaelyin.info/2013/06/30/split-array-1/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

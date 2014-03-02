@@ -63,7 +63,7 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2013/07/14/%e7%9b%b4%e7%ba%bf%e7%9b%b8%e4%ba%a4%e9%97%ae%e9%a2%98/">直线相交问题</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2013/07/14/checkio-bullet-and-wall/">直线相交问题</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -73,34 +73,27 @@
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-    <span class="label label-default">bullet-and-wall</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/checkio.html">
-    <span class="label label-default">checkio</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>最近在checkio上扫题的时候，碰到一个判断直线是否相交的问题，题目请<a href="http://www.checkio.org/mission/task/info/bullet-and-wall/python-3/">猛击这里</a>，这个题目以前上学的时候做到手软的好么，二话不说直接开写，先根据坐标上的两个点，算出斜率，然后得出直线表达式，最后根据两个直线表达式算出是否存在相交点，然后加上斜率为无穷大的情况等等，最后写出的代码如下。</p>
-<p>[code lang="py"]<br />
-def checkio(data):<br />
-xw1, yw1 = data[0]<br />
-xw2, yw2 = data[1]<br />
-xa, ya = data[2]<br />
-xb, yb = data[3]</p>
-<p>if(xw1 - xw2 == 0 and xb - xa == 0):<br />
-# vertical vertical<br />
-return False<br />
-elif(xw1 - xw2 == 0 ...</p>
-                    <a href="http://blog.michaelyin.info/2013/07/14/%e7%9b%b4%e7%ba%bf%e7%9b%b8%e4%ba%a4%e9%97%ae%e9%a2%98/">
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">checkio</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">xw1</span><span class="p">,</span> <span class="n">yw1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">xw2</span><span class="p">,</span> <span class="n">yw2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">xa</span><span class="p">,</span> <span class="n">ya</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">xw1</span> <span class="o">-</span> <span class="n">xw2</span> <span class="o">==</span> <span class="mi">0</span>  <span class="ow">and</span> <span class="n">xb</span> <span class="o">-</span> <span class="n">xa</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c"># vertical vertical</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">xw1</span> <span class="o">-</span> <span class="n">xw2</span> <span class="o">==</span> <span class="mi">0</span>  <span class="ow">and</span> <span class="n">xb</span> <span class="o">-</span> <span class="n">xa ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2013/07/14/checkio-bullet-and-wall/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="http://blog.michaelyin.info/2013/06/30/%e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2/">数组分割</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2013/06/30/split-array-1/">数组分割</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
@@ -110,34 +103,25 @@ elif(xw1 - xw2 == 0 ...</p>
 
 
 <span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/checkio.html">
-    <span class="label label-default">checkio</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-    <span class="label label-default">动态规划</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-    <span class="label label-default">数组分割</span>
-</a>
  </span>
 </div><!-- /.post-info --></div>
                 <div class="summary"><p>最近在做Python
 Challenge的时候无意中发现了checkio这个练习PY的地方，题目不难，正好可以在工作之余修炼下PY功力。。</p>
 <p>loading-cargo这个题目的意思比较简单
 ，有一个无序、元素个数为2n的正整数数组，要求：如何能把这个数组分割为两个子数组，子数组的元素个数不限，并使两个子数组之和最接近</p>
-<h6>1:Solve</h6>
-<h6></h6>
+<h4>1:Solve</h4>
 <p>根据题目给出的Hint，可以使用暴力破解的方式穷举出所有可能的组合，并算出其和，使用PY提供的库可以很方便的做到，代码如下</p>
-<p>[code lang="py"]import itertools</p>
-<p>def checkio(data):<br />
-total = sum(data)<br />
-diff = total<br />
-for i in range(1, len(data)):<br />
-for value in itertools.combinations(data, i):<br />
-diff_sub = sum(value)<br />
-diff_sub = total ...</p>
-                    <a href="http://blog.michaelyin.info/2013/06/30/%e6%95%b0%e7%bb%84%e5%88%86%e5%89%b2/">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="k">def</span> <span class="nf">checkio</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">total</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="n">diff_sub</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">diff_sub</span> <span class="o">=</span> <span class="n">total</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">diff_sub</span>
+            <span class="k">if ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2013/06/30/split-array-1/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -168,6 +152,12 @@ diff_sub = total ...</p>
             </li>
         
             <li>
+                <a href="http://blog.michaelyin.info/category/algorithm.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Algorithm
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/java.html">
                     <i class="icon-folder-open icon-large"></i>
                     Java
@@ -177,12 +167,6 @@ diff_sub = total ...</p>
                 <a href="http://blog.michaelyin.info/category/js.html">
                     <i class="icon-folder-open icon-large"></i>
                     Js
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/linux.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Linux
                 </a>
             </li>
             <li>
@@ -210,6 +194,12 @@ diff_sub = total ...</p>
                 </a>
             </li>
             <li>
+                <a href="http://blog.michaelyin.info/category/web.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Web
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/wei-fen-lei.html">
                     <i class="icon-folder-open icon-large"></i>
                     未分类
@@ -227,72 +217,6 @@ diff_sub = total ...</p>
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/bugnet.html">
-                    <span class="label label-default">Bugnet</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/linux.html">
-                    <span class="label label-default">Linux</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
             </li> 
 
         </ul>
