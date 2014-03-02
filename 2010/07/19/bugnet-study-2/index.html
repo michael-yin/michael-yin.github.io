@@ -80,13 +80,16 @@
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-            <p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
-<p>![]http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg</p>
+            <p>Tags; Bugnet
+Category: .Net
+Slug: Bugnet</p>
+<p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
+<p><img alt="" src="http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg" /></p>
 <p>接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。</p>
 <p>aspnet_Users和UserRoles，Roles，RolePermission,Permission,UserProjects组成了基于Project的权限管理模块所需要的表，表名所对应的意思看起来是一目了然的，在这里也就不多说了。。</p>
-<p>![]http://blog.michaelyin.info/images/2014/01/18/9a04e8852198f626432189e499a67af9.jpg</p>
+<p><img alt="" src="http://blog.michaelyin.info/images/2014/01/18/9a04e8852198f626432189e499a67af9.jpg" /></p>
 <p>在Bugnet里你创建一个Project的话，项目创建者可以在里面事先添加一些你自定义的属性，你可以决定项目成员在提交内容的时候是否必须填写这个自定义属性，这个自定义属性值你可以设定成Text,Dropdownlist,等等，关于这个功能，具体是在ProjectCustomFields，ProjectCustomFieldSelection，ProjectCustomFieldType，ProjectCustomFieldValues这几个表中实现的。</p>
-<p>![]http://blog.michaelyin.info/images/2014/01/18/6fa4c110b4629d29cbea2f1b843a1399.jpg</p>
+<p><img alt="" src="http://blog.michaelyin.info/images/2014/01/18/6fa4c110b4629d29cbea2f1b843a1399.jpg" /></p>
 <p>剩下的表基本上都是以Bug为中心，BugAttachment保存上传的附件，BugComment保存评论，BugHistory保存Issue的历史，BugNotification保存Issue相关的需要通知的User,Component保存Project的分类，RelatedBug保存相关Issue关系。另外的几个表都是比如Status，Type都是起着字典表的作用。标识着Issue的状态和类别。</p>
 <p>HostSettings保存着Bugnet整体相关的设置。Log则是Log4net进行日志记录的地方。</p>
 <p>表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的，在这一点上我也是有点不理解，如果说使用存储过程是为了性能，那它代码可以优化的地方不是没有，比如它使用的是自带的分页，而没有自己写分页，这样在数据量达到一定程度时性能肯定会首影响，而且更让我感到有点疑惑的是，代码里面使用了Datafaactory来生成需要的对象，那你为什么具体的数据操作代码要放到数据库里面去？不是要分离么？</p>

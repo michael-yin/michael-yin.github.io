@@ -63,106 +63,6 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2013/07/07/floating-point/">Floating Point学习笔记</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        07 Jul 2013
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>写代码的时候发现对Float的原理和使用方式没有一个系统的理解，找了资料学习后将知识点在这里进行整理</p>
-<h3>Float存储原理：</h3>
-<p>提到Float的存储方式首先必须提一下IEEE
-754这个标准，该标准的出现主要解决了不同计算机之间浮点数表示方式和计算方式无法兼容的问题，现在的计算机内的浮点数的存储方式都是支持这个标准的。</p>
-<p>一个浮点数主要由三部分组成：<mathjax>$$V = (-1)\^{s}\\times M\\times 2\^{E}$$</mathjax></p>
-<p>s表示浮点数的正负</p>
-<p>M表示小数部分</p>
-<p>E是2的指数，用来表示2的乘方</p>
-<p>如果将这三部分对应到存储的bit位上去，那么s对应一个bit位，用来表示浮点数的正负，k个bit位用来表示表示2的乘方，这k个bit位统一用exp来表示，n个bit位用来表示小数部分，统一用fra来表示</p>
-<p><a href="http://blog.michaelyin.info/images/2013/07/image.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb.png" title="image" /></a></p>
-<p>现在已经知道浮点数的存储位一共有三部分组成，而浮点数本身也被分成了三种类型，三种不同类型的存储方式都有其自身的特点</p>
-<p>1：Normalized Values</p>
-<p>这是最普通的情况，当exp部分的bit位不全为0和不全为1的时候，在这种情况下，exp部分的值E
-= e-Bias，这里e是exp部分的无符号整形值，<mathjax>$$Bias = 2\^{k-1}-1$$</mathjax></p>
-<p>frac表示小数部分的值，如果bit位的小数的值为f，frac部分的实际值M = f +1</p>
-<p>2：Denormalized ...</p>
-                    <a href="http://blog.michaelyin.info/2013/07/07/floating-point/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2013/06/30/split-array-2/">数组分割的一些错误解法</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        30 Jun 2013
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>问题：有一个没有排序，元素个数为2N的正整数数组。要求把它分割为元素个数为N的两个数组，并使两个子数组的和最接近。</p>
-<p>这个问题的正确解法<a href="http://blog.michaelyin.info/2013/06/30/%E6%95%B0%E7%BB%84%E5%88%86%E5%89%B2/">前面一篇博文</a>已经有写，这里主要是把错误的解法和原因进行一下分析。</p>
-<h6>天平法：</h6>
-<p>这种思路主要就是将2N数组进行排序，从大到小，然后从大到小进行排放，类似将砝码从大到小放到天平上，比如这篇博文<a href="http://sxnuwhui.blog.163.com/blog/static/13706837320126611925456/">猛击这里</a></p>
-<p>点评：最后要的是两边差值最接近，和砝码本身的大小并无直接联系，这种解法很容易找到反例：</p>
-<p>200 190 180 170 160 10</p>
-<p>200 180 160 并不是最优解</p>
-<h6>差值法：</h6>
-<p>前面天平法的缺陷也给了我一点启示，如果是两个一组一起放到天平上的话，启示应该按照两个砝码的差值来进行拜访，排序不应该针对单个砝码，而应该针对砝码的差值</p>
-<p>1：将砝码分成A,B两组</p>
-<p>2：两组的砝码按照位置进行对应，比如A[0]和B[0]进行对应</p>
-<p>3:
-对应的A[0]和B ...</p>
-                    <a href="http://blog.michaelyin.info/2013/06/30/split-array-2/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2013/05/01/yahoo-email-changing/">更换邮箱那些事儿</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        01 May 2013
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>由于中国雅虎的邮箱服务马上就要停止，趁着放假有时间，决定把散落各处的账号进行整理，并将原先和雅虎邮箱绑定的账号绑定到另外的邮箱上去，防止由于邮箱失效造成以后不能找回账号的登录密码。</p>
-<p>更换登录账号绑定的邮箱，方便用户进行数据迁移，这是一个原始用户需求，各个应用对于这个需求有着不同的解决方案。</p>
-<p>想到我的众多可爱师妹们，以及那些众多好图，人人账号是我最先进行修改的</p>
-<p>1: 进入账号设置页面以后，看到有个修改账号功能，点开以后，直接囧了</p>
-<p><a href="http://blog.michaelyin.info/images/2013/05/7.png"><img alt="7" src="http://blog.michaelyin.info/images/2013/05/7_thumb.png" title="7" /></a></p>
-<p>2：修改个密码还要申诉，实在有点不太理解。没办法，那就申诉吧，结果接下来，我被深深的囧到了</p>
-<p><a href="http://blog.michaelyin.info/images/2013/05/8.jpg"><img alt="8" src="http://blog.michaelyin.info/images/2013/05/8_thumb.jpg" title="8" /></a></p>
-<p>3:
-一个简单的功能，竟然被做的如此复杂，这一刻，我认定它的产品经理的头，被门夹了。。。</p>
-<p>接着，是经常用来听歌的虾米网，更改邮箱后，能使用新的邮箱来登录了，不过在个人设置里面，个人邮箱竟然还是显示的是偶的雅虎邮箱地址。。。。汗。。。虾米网有测试人员么？</p>
-<p><a href="http://blog.michaelyin.info/images/2013/05/image.png"><img alt="image" src="http://blog.michaelyin.info/images/2013/05/image_thumb.png" title="image" /></a></p>
-<p>抛开这两个有硬伤的不谈，其他的产品，在修改邮箱上，主要是在一个地方有所不同：</p>
-<p>假设用户原先使用的是邮箱A，现在想迁移到邮箱B，那么在迁移过程中，是否需要首先通过向邮箱A发送邮件进行认证？</p>
-<p>豆瓣，CSDN，当当，是需要强制在邮箱A端通过链接认证的方式走流程的 ...</p>
-                    <a href="http://blog.michaelyin.info/2013/05/01/yahoo-email-changing/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="http://blog.michaelyin.info/2013/04/15/the-project/">老板的那些项目（一）</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -223,9 +123,9 @@
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/js.html">
+                <a href="http://blog.michaelyin.info/category/misc.html">
                     <i class="icon-folder-open icon-large"></i>
-                    Js
+                    misc
                 </a>
             </li>
             <li>
@@ -235,21 +135,9 @@
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/python.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Python
-                </a>
-            </li>
-            <li>
                 <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
                     <i class="icon-folder-open icon-large"></i>
                     思考心得
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    算法相关
                 </a>
             </li>
             <li>

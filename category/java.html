@@ -131,75 +131,6 @@
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/">Heritrix之旅之Frontier</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        25 Aug 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>上一篇Blog中说到了抓取任务的核心类CrawlController，这次我们来说说Frontier.Frontier是每次抓取时必须要用到的组件，每个Frontier知道哪个URI它正在处理，ToeThreads向Frontier请求URI，然后通过处理链对其进行处理，并将发现的连接通过scheduled返回到Frontier中，Frontier本身管理一个关于uri的列表，这个列表中的uri将被抓取。这就意味着Frontier控制了抓取的整体进度。</p>
-<p><a href="http://blog.michaelyin.info/images/2011/08/201108252116205982.png"><img alt="201108252116205982" src="http://blog.michaelyin.info/images/2011/08/201108252116205982.png" /></a></p>
-<p>Heritrix把Frontier抽象成了interface，创建新的Frontier只需要实现这个接口就行。里面两个很重要的方法一个是schedule()，该方法接受一个URI并存起来以后进行抓取，另外一个是next，改方法返回一个URI供抓取，另外finished这个方法用来处理一个已经处理完毕的uri</p>
-<p><a href="http://blog.michaelyin.info/images/2011/08/201110071040391231.png"><img alt="201110071040391231" src="http://blog.michaelyin.info/images/2011/08/201110071040391231.png" /></a></p>
-<p>对于待抓取的URI需要进行一个排序以决定被抓取URI的先后顺序，所以又必要在Frontier中实现一种策略在避免对于一个主机进行过度抓取，在Heritrix中使用了一种称为queue的概念，Frontier中有着若干个queue,将待抓取的uri根据一定的算法算出一个key
-,然后根据这个key将url放入到queue中去，每一个queuq中的url的key都是相同的当一个queue中有uri正在抓取的时候，其他toethread是不能从中获取uri的，这样就有效的防止了对一个queue的过渡的抓取，我们可以配置heritrix使用的策略，比如根据hostname进行区分，或者IP地址等等。默认情况下，使用的是hostname。这个根据url得到key的类具体是由Queue-assignment-policy来管理的。</p>
-<p>下面来具体的说说Frontier中queue的实现，WorkQueueFrontier这个类实现了关于queue的一些逻辑，里面提供了一些方法，我们只需要对其进行覆写就可以，BdbFrontier对部分方法进行了覆写，使用了Berkeley
-DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队列的一个抽象类，也是提供了队列所需要的基本的方法，子类只需要对其中部分方法进行覆写即可，具体的实现可以看BdbWorkQueue这个类的实现</p>
-<p>我们先来看看WorkQueueFrontier中的schedule方法，这个方法是将uri放入到frontier中去以供以后抓取，首先会通过UriUniqFilter进行一次判断，查看这个uri是否被抓取过，如果被抓取过则不会将其插入到队列中如果不是则调用receive方法将其插入到队列中去</p>
-<p>在队列中的uri会在next方法中被toethread取出然后进行处理 ...</p>
-                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix-frontier/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">Heritrix之旅之CrawlController</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        25 Aug 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。</p>
-<p>Heritrix的一些介绍网上都有，我在这里也就不做介绍了，直接进入正题。</p>
-<p>Heritrix抓取任务的核心类就是CrawlController,这个对象将决定一个抓取任务的开始和结束</p>
-<div class="highlight"><pre><span class="c1">//order.xml文件的封装  </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">CrawlOrder</span> <span class="n">order</span><span class="o">;</span>
-<span class="c1">//  </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">CrawlScope</span> <span class="n">scope</span><span class="o">;</span>
-<span class="c1">//处理链列表 </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ProcessorChainList</span> <span class="n">processorChains</span><span class="o">;</span>
-<span class="c1">//为抓取线程提供uri    </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">Frontier</span> <span class="n">frontier</span><span class="o">;</span>
-
-<span class="c1">//线程池   </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ToePool</span> <span class="n">toePool</span><span class="o">;</span>
-
-<span class="c1">//缓存，保存了当前抓取任务抓取过的Host名称和Server名称   </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ServerCache</span> <span class="n">serverCache</span><span class="o">;</span>
-
-<span class="c1">// This gets passed into the initialize method.</span>
-
-<span class="kd">private</span> <span class="kd">transient ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
 </div>
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
@@ -237,9 +168,9 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/js.html">
+                <a href="http://blog.michaelyin.info/category/misc.html">
                     <i class="icon-folder-open icon-large"></i>
-                    Js
+                    misc
                 </a>
             </li>
             <li>
@@ -249,21 +180,9 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/python.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Python
-                </a>
-            </li>
-            <li>
                 <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
                     <i class="icon-folder-open icon-large"></i>
                     思考心得
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    算法相关
                 </a>
             </li>
             <li>

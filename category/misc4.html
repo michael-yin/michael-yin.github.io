@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Michaelyin's Blog - .Net</title>
+    <title>Michaelyin's Blog - misc</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -63,33 +63,6 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/08/01/bugnet-study-6/">Bugnet学习总结（6）用户控件</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        01 Aug 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>用户控件作为Asp.net提供的一种自定义可重用的机制，在很多的项目中都得到了应用，Bugnet里面也使用了很多用户控件。</p>
-<p>UserControls文件夹里面放的除了fckeditor和xslt外，就是项目里面要用到的用户控件了，代码都不难，下面就把里面的DisplayBugs.ascx拿出来稍微讲一下。该控件在Bugnet中被用到的次数还是很多的，功能也比较简单，就是提供了一个有图表显示，有排序功能的列表。该用户控件是在Gridview的基础上做的开发，增加了一个BugCollection和EventHandler。BugCollection是Gridview需要绑定的数据源，而EventHandler则是使用了事件。调用该事件实现绑定数据的具体操作。</p>
-<div class="highlight"><pre> <span class="p">&lt;</span><span class="n">uc1</span><span class="p">:</span><span class="n">DisplayBugs</span> <span class="n">ID</span><span class="p">=</span><span class="s">&quot;InProgressBugs&quot;</span> <span class="n">HeaderBackColor</span><span class="p">=</span><span class="s">&quot;#eeeeee&quot;</span> <span class="n">CssClass</span><span class="p">=</span><span class="s">&quot;issues&quot;</span> <span class="n">OnRebindCommand</span><span class="p">=</span><span class="s">&quot;DisplayBugs_DataBind&quot;</span> <span class="n">runat</span><span class="p">=</span><span class="s">&quot;server&quot;</span> <span class="p">/&gt;</span>
-</pre></div>
-
-
-<p>上面是在MyBugs.aspx中重用DisplayBugs.ascx用户控件的代码，可以看到一行代码基本就搞定，而后台的代码只需要把相应的数据源给用户控件，然后执行DataBind就可以了。像这样</p>
-<div class="highlight"><pre><span class="n">BugsAssigned</span><span class="p">.</span><span class="n">DataSource</span> <span class="p">=</span> <span class="n">Bug</span><span class="p">.</span><span class="n">GetBugsByCriteria</span><span class="p">(-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">User</span><span class="p">.</span><span class="n">Identity</span><span class="p">.</span><span class="n">Name ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/08/01/bugnet-study-6/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/07/25/bugnet-study-5/">Bugnet学习总结（5）逻辑层</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -102,7 +75,10 @@
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Bugnet的逻辑层在在BugNET.BusinessLogicLayer这个namespace下，大多数类基本上是和数据库中的表相对应的，类里面一般就私有变量，方法，和属性，类中的方法调用DAL层的方法完成CRUD操作，没什么太复杂的地方。</p>
+                <div class="summary"><p>Tags; Bugnet
+Category: .Net
+Slug: Bugnet</p>
+<p>Bugnet的逻辑层在在BugNET.BusinessLogicLayer这个namespace下，大多数类基本上是和数据库中的表相对应的，类里面一般就私有变量，方法，和属性，类中的方法调用DAL层的方法完成CRUD操作，没什么太复杂的地方。</p>
 <p>把几个不一样的类稍微提一下，BugCollection是一个集合类，继承自CollectionBase,提供了排序的方法，里面包含的类实现了IComparer接口。</p>
 <p>Globals这个类将公用的变量，数组，枚举放在了里面，方便编程的时候直接调用。</p>
 <p>HostSettings是读取项目配置的类，从DAL读取后数据放在了Cache中，值得借鉴。</p>
@@ -126,7 +102,10 @@
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Bugnet由于功能比较简单，所以在系统的架构上也很简单，没什么过于复杂的地方。</p>
+                <div class="summary"><p>Tags; Bugnet
+Category: .Net
+Slug: Bugnet</p>
+<p>Bugnet由于功能比较简单，所以在系统的架构上也很简单，没什么过于复杂的地方。</p>
 <p>DAL文件夹中的DataFactory文件通过读取Web.config中的Appsetting中的值反射生成生成数据库连接和操作对象。DataHelper，里面则是一些常用的Ado操作，进行了简单的封装，GenericDataAccessLayer是调用DataHelper里的函数完成数据CRUD操作的类。,需要提一下的是具体的数据库操作的代码是写在数据库的存储过程中的，而这一点也正是我不是很理解的地方，先前提到过的DataFactory和DataHelper特别是
 DataFactory的存在是提供跨库操作的，而它将数据库操作又用存储过程写在数据库里面这不是有点矛盾么。。。想象一下如果要迁移的话那存储过程不是都还要改。。。。。:(</p>
 <p>在看GenericDataAccessLayer的时候，刚开始我对其中一个语法结构不是很清楚，是到网上查了一些资料才弄懂的。该类在里面定义了一个静态对象，如果是别的对象我还可以理解，可是这个对象正式通过GenericDataAccessLayer实例化的。。</p>
@@ -145,11 +124,7 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
 <span class="c1">/// Instances this instance.</span>
 <span class="c1">/// &lt;/summary&gt;</span>
 <span class="c1">/// &lt;returns&gt;&lt;/returns&gt;</span>
-<span class="k">public</span> <span class="k">static</span> <span class="n">GenericDataAccessLayer</span> <span class="nf">Instance</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">instance</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">instance ...</span></pre></div>
+<span class="k">public</span> <span class="k">static ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2010/07/25/bugnet-study-4/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -169,7 +144,10 @@ DataFactory的存在是提供跨库操作的，而它将数据库操作又用存
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>用VS打开Bugnet项目文件，可以看到四个Project,BugNET_WAP是Web项目，HttpModule.Authentication是自定义的认证模块，好像是可以在其中选择WindowsSAM和ActiveDirectory两种认证方式，这个模块我没怎么看，感兴趣的朋友请自己研究下，HttpModule.MailBoxReader是邮件读取的模块，UnitTests是单元测试Project.</p>
+                <div class="summary"><p>Tags; Bugnet
+Category: .Net
+Slug: Bugnet</p>
+<p>用VS打开Bugnet项目文件，可以看到四个Project,BugNET_WAP是Web项目，HttpModule.Authentication是自定义的认证模块，好像是可以在其中选择WindowsSAM和ActiveDirectory两种认证方式，这个模块我没怎么看，感兴趣的朋友请自己研究下，HttpModule.MailBoxReader是邮件读取的模块，UnitTests是单元测试Project.</p>
 <p>另外的三个文件结构相对比较简单，就不在这里多做说明了，现在在这里主要对BugNET_WAP进行较详细的说明。</p>
 <p>Bugnet使用的数据库是Sql
 server2005,如果你下载的是source代码，你是不需要Install过程的，建议使用Sql
@@ -182,7 +160,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <p>Report放的是报表文件和浏览报表的页面。</p>
 <p>Shared放的是所用到的母版页。</p>
 <p>UserControls放的是用户控件，需要提到的xslt文件，FCKeditor。</p>
-<p>Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类，Pop3Reader下放的是读取邮件时需要用到的类，DAL和BLL是干什么的就不用我多说了吧。。</p>
+<p>Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类 ...</p>
                     <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-3/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -202,12 +180,19 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
-<p>![]http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg</p>
+                <div class="summary"><p>Tags; Bugnet
+Category: .Net
+Slug: Bugnet</p>
+<p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
+<p><img alt="" src="http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg" /></p>
 <p>接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。</p>
 <p>aspnet_Users和UserRoles，Roles，RolePermission,Permission,UserProjects组成了基于Project的权限管理模块所需要的表，表名所对应的意思看起来是一目了然的，在这里也就不多说了。。</p>
-<p>![]http://blog.michaelyin.info/images/2014/01/18/9a04e8852198f626432189e499a67af9.jpg</p>
-<p>在Bugnet里你创建一个Project的话，项目创建者可以在里面事先添加一些你自定义的属性，你可以决定项目成员在提交内容的时候是否必须填写这个自定义属性，这个自定义属性值你可以设定成Text,Dropdownlist,等等，关于这个功能，具体是在ProjectCustomFields，ProjectCustomFieldSelection，ProjectCustomFieldType，ProjectCustomFieldValues这几个表中实现的 ...</p>
+<p><img alt="" src="http://blog.michaelyin.info/images/2014/01/18/9a04e8852198f626432189e499a67af9.jpg" /></p>
+<p>在Bugnet里你创建一个Project的话，项目创建者可以在里面事先添加一些你自定义的属性，你可以决定项目成员在提交内容的时候是否必须填写这个自定义属性，这个自定义属性值你可以设定成Text,Dropdownlist,等等，关于这个功能，具体是在ProjectCustomFields，ProjectCustomFieldSelection，ProjectCustomFieldType，ProjectCustomFieldValues这几个表中实现的。</p>
+<p><img alt="" src="http://blog.michaelyin.info/images/2014/01/18/6fa4c110b4629d29cbea2f1b843a1399.jpg" /></p>
+<p>剩下的表基本上都是以Bug为中心，BugAttachment保存上传的附件，BugComment保存评论，BugHistory保存Issue的历史，BugNotification保存Issue相关的需要通知的User,Component保存Project的分类，RelatedBug保存相关Issue关系。另外的几个表都是比如Status，Type都是起着字典表的作用。标识着Issue的状态和类别。</p>
+<p>HostSettings保存着Bugnet整体相关的设置。Log则是Log4net进行日志记录的地方。</p>
+<p>表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的 ...</p>
                     <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -227,7 +212,10 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。</p>
+                <div class="summary"><p>Tags; Bugnet
+Category: .Net
+Slug: Bugnet</p>
+<p>Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。</p>
 <p>Bugnet系统中用到的若干的我觉得有必要提及的技术我先在这里先提一下，接下来的几篇Blog会按模块进行展开，有可能会有一些遗漏的地方，欢迎大家留言补充。</p>
 <ol>
 <li>Membership及其相关认证控件</li>
@@ -244,7 +232,7 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784803.html">Bugnet学习总结（4）数据访问层</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784819.html">Bugnet学习总结（5）逻辑层</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/01/1789842.html">Bugnet学习总结（6）用户控件</a></p>
-<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7）杂</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7 ...</a></p>
                     <a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -253,14 +241,16 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
             <hr/>
 
         <ul class="pagination">
-                <li class="prev"><a href="http://blog.michaelyin.info/category/net2.html">&laquo;</a>
+                <li class="prev"><a href="http://blog.michaelyin.info/category/misc3.html">&laquo;</a>
                 </li>
                 <li class=""><a
-                        href="http://blog.michaelyin.info/category/net.html">1</a></li>
+                        href="http://blog.michaelyin.info/category/misc.html">1</a></li>
                 <li class=""><a
-                        href="http://blog.michaelyin.info/category/net2.html">2</a></li>
+                        href="http://blog.michaelyin.info/category/misc2.html">2</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/category/misc3.html">3</a></li>
                 <li class="active"><a
-                        href="http://blog.michaelyin.info/category/net3.html">3</a></li>
+                        href="http://blog.michaelyin.info/category/misc4.html">4</a></li>
                 <li class="next disabled"><a href="#">&laquo;</a></li>
         </ul>
 </div>
@@ -299,9 +289,9 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/js.html">
+                <a href="http://blog.michaelyin.info/category/misc.html">
                     <i class="icon-folder-open icon-large"></i>
-                    Js
+                    misc
                 </a>
             </li>
             <li>
@@ -311,21 +301,9 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/python.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Python
-                </a>
-            </li>
-            <li>
                 <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
                     <i class="icon-folder-open icon-large"></i>
                     思考心得
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    算法相关
                 </a>
             </li>
             <li>

@@ -63,31 +63,6 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">Bugnet学习总结（2）数据库</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        19 Jul 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。<a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html">请猛击这里</a></p>
-<p>![]http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg</p>
-<p>接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。</p>
-<p>aspnet_Users和UserRoles，Roles，RolePermission,Permission,UserProjects组成了基于Project的权限管理模块所需要的表，表名所对应的意思看起来是一目了然的，在这里也就不多说了。。</p>
-<p>![]http://blog.michaelyin.info/images/2014/01/18/9a04e8852198f626432189e499a67af9.jpg</p>
-<p>在Bugnet里你创建一个Project的话，项目创建者可以在里面事先添加一些你自定义的属性，你可以决定项目成员在提交内容的时候是否必须填写这个自定义属性，这个自定义属性值你可以设定成Text,Dropdownlist,等等，关于这个功能，具体是在ProjectCustomFields，ProjectCustomFieldSelection，ProjectCustomFieldType，ProjectCustomFieldValues这几个表中实现的 ...</p>
-                    <a href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">Bugnet学习总结（1） 前言&索引</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -100,7 +75,10 @@
 <span class="published">
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。</p>
+                <div class="summary"><p>Tags; Bugnet
+Category: .Net
+Slug: Bugnet</p>
+<p>Bugnet是一个简单的Bug管理系统，这个系统对于.Net语言有一定了解而想继续深入学习的朋友来说还是不错的，系统不大，实现的功能叶相对比简单，不会像某些NB源代码会让你在学习的过程中纠结不已。其中的一些控件使用的方法在某些情况下对于我们来说还是值得借鉴的，比如其中的Ajax的实现是使用了ajaxcontroltoolkit，方法比较简单，而效果还不错。</p>
 <p>Bugnet系统中用到的若干的我觉得有必要提及的技术我先在这里先提一下，接下来的几篇Blog会按模块进行展开，有可能会有一些遗漏的地方，欢迎大家留言补充。</p>
 <ol>
 <li>Membership及其相关认证控件</li>
@@ -117,7 +95,7 @@
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784803.html">Bugnet学习总结（4）数据访问层</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/07/25/1784819.html">Bugnet学习总结（5）逻辑层</a></p>
 <p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/01/1789842.html">Bugnet学习总结（6）用户控件</a></p>
-<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7）杂</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/08/08/1795158.html">Bugnet学习总结（7 ...</a></p>
                     <a href="http://blog.michaelyin.info/2010/07/18/bugnet-study-1/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -219,9 +197,9 @@
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/js.html">
+                <a href="http://blog.michaelyin.info/category/misc.html">
                     <i class="icon-folder-open icon-large"></i>
-                    Js
+                    misc
                 </a>
             </li>
             <li>
@@ -231,21 +209,9 @@
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/python.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    Python
-                </a>
-            </li>
-            <li>
                 <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
                     <i class="icon-folder-open icon-large"></i>
                     思考心得
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
-                    <i class="icon-folder-open icon-large"></i>
-                    算法相关
                 </a>
             </li>
             <li>
