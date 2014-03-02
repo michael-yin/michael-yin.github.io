@@ -1,2 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/python.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2014-01-04T18:09:00+08:00</updated><entry><title>(1)</title><link href="http://blog.michaelyin.info/2014/01/04/yproxy-1/" rel="alternate"></link><updated>2014-01-04T18:09:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-01-04:2014/01/04/yproxy-1/</id><summary type="html">&lt;p&gt;In some cases, it would be necessary to use some proxy server to redirect your http request. In this blog I will show you how to write a simple socket serve&lt;/p&gt;</summary></entry></feed>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/python.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2014-03-02T11:13:00+08:00</updated><entry><title>How to debug your scrapy spider</title><link href="http://blog.michaelyin.info/2014/03/02/how-to-debug-your-scrapy-spider/" rel="alternate"></link><updated>2014-03-02T11:13:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-03-02:2014/03/02/how-to-debug-your-scrapy-spider/</id><summary type="html">&lt;h3&gt;Intro&lt;/h3&gt;
+&lt;p&gt;This post will talk about some useful tips in the development of scrapy spider which can help you write your spider quickly&lt;/p&gt;
+&lt;h3&gt;Extract infomation&lt;/h3&gt;
+&lt;p&gt;Some newbie developer think the expression supported by scrapy is difficult to learn, but the truth is, compared to the methods like find_by_id, find_by_name in some framework, the xpath, css, and re expression is very extensible and easy to maintain, then work well even in some complex situation. &lt;/p&gt;
+&lt;p&gt;The xpath and css method is recommended by me to use in your spider since then are easier to write and maintain than re methods.&lt;/p&gt;
+&lt;p&gt;When you try to use xpath to extract info from web pages, I think XPath Helper is a cool tool you should not miss (a extension for chrome, you can find similar plugins in firefox).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/03/02/8536ee054bcfd0eac8e192d40dfc027b.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Here is how you use it. Press &lt;code&gt;ctrl+shift+x&lt;/code&gt; to open XPath Helper, and you can see the tool bar. You can type your xpath query string in the toolbar, and the result of the xpath will show on the right side and in the web page the selected content will have a yellow backgroud, which is very easy to check if the xpath expression is right.&lt;/p&gt;
+&lt;p&gt;If you do not want to install extention to make this done, google chrome have built-in support to query xpath and css expression. Take a look at &lt;code&gt;$()&lt;/code&gt; and &lt;code&gt;$x()&lt;/code&gt; in console.&lt;/p&gt;
+&lt;p&gt;BTW, at some time , the html you get by your web browser might not the same with the html by your spider. That is normaly caused by two factors, first is useraget. Scrapy use its own useragent by default, which can be detected by web server and send back meaningless html. The other factor is ip address if your browser use some proxy, so you need to make sure spider use the same proxy.&lt;/p&gt;
+&lt;h3&gt;Scrapy Parse&lt;/h3&gt;
+&lt;p&gt;In mose cases you will put the code which handle pagination in one method and put the code which generate the item object in another method.&lt;/p&gt;
+&lt;p&gt;Is it a good idea to lanch spider directly after you finish you spider? No! You must at least to test each method to make sure it work as expected.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;scrapy parse&lt;/code&gt; can help you test your method to make sure it work fine. Here is a example &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt; &lt;span class="n"&gt;parse&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;spider&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;googleshop_uk&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;loglevel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;DEBUG&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="n"&gt;parse_product_page&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;http://www.google.co.uk/shopping/product/14720124755692393976?hl=en&amp;amp;q=+test&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;the --spider is the name of your spider and -c is the name of the callback method 
+, after downloading html, scrapy will call that method to print out the result like this&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/03/02/e239fe1ccf58a90a35f170677a8b141c.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Make sure to use this to test your methods and it will save your a lot of time later, trust me!&lt;/p&gt;
+&lt;h3&gt;Scrapy shell&lt;/h3&gt;
+&lt;p&gt;When the spider raise some error in processing specific page, you need to figure out why spider did not work as expected. You can use parse mathod talked above, or you can use &lt;code&gt;scrapy shell&lt;/code&gt; under this circumstance.&lt;/p&gt;
+&lt;p&gt;Type &lt;code&gt;scrapy shell url_of_page&lt;/code&gt; can open scrapy shell and I will talk the most important commands here, you can check the doc later to find out other usages.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/03/02/918570a030a0274d6a22fbbb63b4af98.png" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sel&lt;/code&gt;: you can use sel.xpath sel.css to test your expression in this web page, this can quickly find out the error&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;view&lt;/code&gt;: you can call this &lt;code&gt;view(response)&lt;/code&gt; to open the page in your browser&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fetch&lt;/code&gt; fetch another web page and get the new response&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Conclution&lt;/h3&gt;
+&lt;p&gt;I hope the tips above can really help you, and after that, you can dive in scrapy doc to find other useful tools.&lt;/p&gt;</summary><category term="scrapy"></category></entry><entry><title>Handle autocomplete using selenium</title><link href="http://blog.michaelyin.info/2014/02/19/handle-autocomplete-using-selenium/" rel="alternate"></link><updated>2014-02-19T08:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-02-19:2014/02/19/handle-autocomplete-using-selenium/</id><summary type="html">&lt;p&gt;Selenium is a so great tool to make web ui test, in some cases, we have to make it work with some ajax autocomplete like jquery ui autocomplete.&lt;/p&gt;
+&lt;p&gt;First you need to understand how the autocomplete work. Most plugin will create a ul which contain data get from the server by ajax, and insert the ul into the body, then display it for user to &lt;code&gt;click&lt;/code&gt; by mouse or &lt;code&gt;enter&lt;/code&gt; by keydown.&lt;/p&gt;
+&lt;p&gt;When the page load, you can see the ul has no children&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/02/19/e92007dc30df24d24f0e6ed3fc00c479.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Then I type in some word in the input to make the plugin make ajax query&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/02/19/054d9a4a88cbb254d9aa0d9d9d02056c.png" /&gt;&lt;/p&gt;
+&lt;p&gt;As you can see, plugin use the data returned from server create li in ul element and display it, so how to make Selenium wait for ajax complete? Selenium provide WebDriverWait which can 
+wait for something done.&lt;/p&gt;
+&lt;p&gt;The next thing to do is to choose the item, user can &lt;code&gt;click&lt;/code&gt; or &lt;code&gt;enter&lt;/code&gt; to choose the item, so there are at least two ways to make selenium work with autocomplete&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#first set value to input to make ajax start&lt;/span&gt;
+&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;CustomWebDriver&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="cp"&gt;#selenium will wait until it find li in ul, outtime is 5&lt;/span&gt;
+&lt;span class="n"&gt;WebDriverWait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wd&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;until&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;driver&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;driver&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_elements_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;//ul[@id=&amp;#39;ui-id-1&amp;#39;]/li&amp;quot;&lt;/span&gt;
+            &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="cp"&gt;#after ajax complete, simulate click operation&lt;/span&gt;
+&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;//ul[@id=&amp;#39;ui-id-1&amp;#39;]/li[1]/a&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;click&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The code above need to be modified when you use it because some detail between plugin is not same&lt;/p&gt;
+&lt;p&gt;You can also choose &lt;code&gt;enter&lt;/code&gt; to choose the item, all roads lead to rome.&lt;/p&gt;</summary><category term="selenium"></category></entry><entry><title>Make Scrapy work with socket proxy</title><link href="http://blog.michaelyin.info/2014/02/19/scrapy-socket-proxy/" rel="alternate"></link><updated>2014-02-19T03:57:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-02-19:2014/02/19/scrapy-socket-proxy/</id><summary type="html">&lt;h3&gt;Working with http proxy&lt;/h3&gt;
+&lt;p&gt;When crawling infos from some website like google shop, it will detect the source ip and restrict some service to some specific ip address, howerver, scrapy framework can handle this situation by making the request through proxy.&lt;/p&gt;
+&lt;p&gt;The scrapy has provided HttpProxyMiddleware to support http proxy, if you want to make your web crawler to go through proxy, the first thing you need to do is modify your setting file just like this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;DOWNLOADER_MIDDLEWARES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;scrapyproduct.middlewares.ProxyMiddleware&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;scrapyproduct.middlewares.DelayAfterConnectionRefusedMiddleware&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;510&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The setting above will make scrapy use ProxyMiddleware in the middleware, so the next thing need to do is implement the ProxyMiddleware&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProxyMiddleware&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;process_request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spider&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;meta&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;proxy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;http://127.0.0.1:8118&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Just add a proxy value meta value to request object, then scrapy will finish the rest for us. Here the http proxy is on my pc and it listen to the 8118 port, so the proxy is &lt;code&gt;http://127.0.0.1:8118&lt;/code&gt;. In some cases, the proxy server will need your enter usernamd and password to verify your identity, so you have to enter proxy like this &lt;code&gt;http://USERNAME:PASSWORD@PROXYIP:PROXYPORT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Or you can change your environment variables&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;http_proxy&lt;/span&gt;
+&lt;span class="n"&gt;https_proxy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Convert socket proxy to http proxy&lt;/h3&gt;
+&lt;p&gt;In some cases, what you got is socket proxy, which can not be used directly by scrapy, so you have to convert the socket proxy to http proxy. Fortunately there are so many existing tool that can do this.&lt;/p&gt;
+&lt;p&gt;what I use is Privoxy, a very good tool I find in wiki page of Tor, first install it&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;privoxy&lt;/span&gt;
+&lt;span class="cp"&gt;#change the config file&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;vi&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;privoxy&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;
+
+&lt;span class="cp"&gt;#add one of the following lines depend on your socket type&lt;/span&gt;
+&lt;span class="n"&gt;forward&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;socks5&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;9050&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;
+&lt;span class="n"&gt;forward&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;socks4a&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;9050&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="cp"&gt;#restart it &lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;privoxy&lt;/span&gt; &lt;span class="n"&gt;restart&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;now privoxy will open a http proxy at 8118 at 127.0.0.1( &lt;strong&gt;the listen port can also be modified in config file&lt;/strong&gt; ), it will redirect http requests to socket proxy at 127.0.0.1:9050, if you want to know more, go do read the doc of privoxy&lt;/p&gt;
+&lt;p&gt;Now scrapy can work very well with proxy, the website can not detect the source ip because of the existence of proxy, more importantely, it make crwaler extract infos from some website only open to some specific ip&lt;/p&gt;
+&lt;p&gt;Enjoy it now!&lt;/p&gt;</summary><category term="scrapy"></category><category term="proxy"></category></entry><entry><title>Make python module editable</title><link href="http://blog.michaelyin.info/2013/12/10/make-python-module-editable/" rel="alternate"></link><updated>2013-12-10T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-10:2013/12/10/make-python-module-editable/</id><summary type="html">&lt;h3&gt;Intro&lt;/h3&gt;
+&lt;p&gt;There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The package code would be in the site-packages if you install it by default, which is not a good way for python hacker. In this post I will show you how to install a module to make it editable&lt;/p&gt;
+&lt;h3&gt;Develop Mode&lt;/h3&gt;
+&lt;p&gt;When you get code through git or http download, usually the stucture of pythonn package is like this. Let's take a look at pelican package&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;bumpr.rc
+CONTRIBUTING.rst
+dev_requirements.txt
+docs/
+.git/
+.gitattributes
+.gitignore
+LICENSE
+.mailmap
+MANIFEST.in
+pelican/
+README.rst
+samples/
+setup.cfg
+setup.py*
+THANKS
+tox.ini
+.travis.yml
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we exec &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;python setup.py develop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Compared with &lt;code&gt;python setup.py install&lt;/code&gt; , this command create a link in site-packages that link to the directory which contain pelican package code and add the path to the easy-install.pth.&lt;/p&gt;
+&lt;p&gt;Note that some package such as python Markdown do not use setuptools in setup.py, so when you type &lt;code&gt;python setup.py develop&lt;/code&gt; it will throw exception. There are two ways to solve this problem. One is replace the setup&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;distutils.core&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Another way is using pip, which is better.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pip install -e .
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In most cases, &lt;code&gt;pip install -e .&lt;/code&gt; is just my first choice, for more info, just try &lt;code&gt;pip install -h&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Related Posts&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://pythonhosted.org/setuptools/setuptools.html#development-mode"&gt;More Detail about Develop Mode&lt;/a&gt;&lt;/p&gt;</summary><category term="pip"></category></entry><entry><title>CodeKata-Bloom Filter</title><link href="http://blog.michaelyin.info/2013/07/07/codekata-bloom-filter/" rel="alternate"></link><updated>2013-07-07T22:10:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-07-07:2013/07/07/codekata-bloom-filter/</id><summary type="html">&lt;p&gt;Bloom
+Filter在是一种在海量数据处理中很常用的算法，主要用来提供对集合数据的查询，其内在原理和bitmap十分类似。&lt;/p&gt;
+&lt;h6&gt;&lt;/h6&gt;
+&lt;h6&gt;&lt;/h6&gt;
+&lt;h3&gt;基本原理：&lt;/h3&gt;
+&lt;p&gt;如下图所示，长为m bit的byte数组，里面的bit位数值全部置0&lt;/p&gt;
+&lt;p&gt;&lt;a class="fancy" href="http://blog.michaelyin.info/images/2013/07/image3.png"&gt;&lt;img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb3.png" title="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;现在需要将a这个值写入到byte数组里面去，使用k个不同的hash函数，对a进行hash值计算，并确保得到的hash值位于{1,m}这个区间之间。假设现在k个hash函数，那么得到的hash值一共有k个，即 &lt;mathjax&gt;$h_{1}(a)$&lt;/mathjax&gt; ，在byte数组里面将这些值对应的bit位全部置为1，完成这一步，a的值就已经写入到byte数组里面去了。如果有多个值，重复该过程，如果写入过程中发现某bit位已经是1，可以不用管。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2013/07/image4.png"&gt;&lt;img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb4.png" title="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;当我要查询数组里面是否包含值为b的时候，同样对b进行k个不同的hash计算，得到k个不同的hash值(注：写入和查询使用的k个hash函数是相同的)，针对这k个值在byte数组中进行查看，看对应的bit位是否置1，如果有一处是0，那就证明该元素不包含在byte数组中，如果全部是1，那就证明该元素可能包含在byte数组中(此处注意，对于返回结果为True的情况是有误差的，误差和使用hash函数个数和byte数组长度和输入个数有关系，后面会详细讨论)&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2013/07/image5.png"&gt;&lt;img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb5.png" title="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;数学证明：&lt;/h3&gt;
+&lt;p&gt;现有输入n个，将其通过Bloom
+Filter的方式插入到大小为m的byte数组中，插入中使用k个hash值进行置0。&lt;/p&gt;
+&lt;p&gt;在将n个值全部插入到byte数组中去以后，某一个特定的bit位还是为0的概率为：&lt;/p&gt;
+&lt;p&gt;&lt;mathjax&gt;$$(1-\frac{1}{m})^{kn}$$&lt;/mathjax&gt;&lt;/p&gt;
+&lt;p&gt;反过来某一个bit位会被置1的概率是&lt;/p&gt;
+&lt;p&gt;&lt;mathjax&gt;$$1-(1-\frac{1}{m})^{kn}$$&lt;/mathjax&gt;&lt;/p&gt;
+&lt;p&gt;如果一个本来不存在的元素k个hash函数对应的值都为1，那么误差变会产生，发生的概率为：&lt;/p&gt;
+&lt;p&gt;&lt;mathjax&gt;$$(1-(1-\frac{1}{m})^{kn})^{k}\approx (1-e^{kn/m}){k}$$&lt;/mathjax&gt;&lt;/p&gt;
+&lt;p&gt;下面附上部分k和n/m对应的误差概率表&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.michaelyin.info/images/2013/07/image6.png"&gt;&lt;img alt="image" src="http://blog.michaelyin.info/images/2013/07/image_thumb6.png" title="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;实际使用中，根据所能够容忍的误差率来进行k和m的选择&lt;/p&gt;
+&lt;h3&gt;代码实现：&lt;/h3&gt;
+&lt;p&gt;下面附上一个单词检测功能的程序，使用Bloom Filter实现：  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;hashlib&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;WordDic&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c"&gt;#import the wordlist and set the bit&lt;/span&gt;
+        &lt;span class="n"&gt;array&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;bytearray&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zfill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+            &lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;array&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remainls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_readfile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_readfile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="k"&gt;break&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;checkword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_hash1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;md5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hexdigest&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_hash2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hexdigest&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_hash3&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sha224&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hexdigest&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;checkword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c"&gt;#check if the word is in this word dict,when init = True set the bit value&lt;/span&gt;
+        &lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_hash1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_hash2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_hash3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;hash_func&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;ls&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;div&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;remain&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;divmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;div&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;|=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remainls&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;remain&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;div&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;remain&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;divmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ow"&gt;not&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;div&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remainls&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;remain&lt;/span&gt;&lt;span class="p"&gt;])):&lt;/span&gt;
+                    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+
+&lt;span class="n"&gt;obj&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;WordDic&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wordlist.txt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;64000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;checkword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;appleadsfadfs&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;总结：&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Bloom
+    Filter使用bitmap的方式将所存储的数据的若干个HASH值存储起来，来进行集合内数据的查询，判断数据是否在集合内&lt;/li&gt;
+&lt;li&gt;实际使用中根据实际情况进行k,m的选择&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h6&gt;Related Posts:&lt;/h6&gt;
+&lt;p&gt;&lt;a href="http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html"&gt;Bloom
+Filters&lt;/a&gt;&lt;/p&gt;</summary><category term="Bloom Filter"></category><category term="CodeKata"></category></entry><entry><title>CodeKata-Data Munging</title><link href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/" rel="alternate"></link><updated>2013-03-03T14:43:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-03-03:2013/03/03/codekata-data-munging/</id><summary type="html">&lt;p&gt;这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。&lt;/p&gt;
+&lt;p&gt;第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据&lt;/p&gt;
+&lt;p&gt;第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。&lt;/p&gt;
+&lt;p&gt;第三个问题是对前两个问题的代码进行分析，提取出共用的部分，进行重用。考察前两个问题的代码，发现文件读取，正则处理，都是很类似的逻辑，所以将这部分进行提取抽象成一个类，将正则，相关参数和文件路径抽象成类，这样的话代码维护性也比较好，废话不多说，上代码&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Input&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expression&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;firstindex&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;secindex&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expression&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;expression&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;firstindex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;firstindex&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;secindex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;secindex&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Recorder&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;input&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;first_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sec_value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first_value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sec_value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;patten&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expression&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="nb"&gt;file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+            &lt;span class="n"&gt;match&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;patten&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;firstindex&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;secindex&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;find the key &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;       
+
+&lt;span class="nb"&gt;input&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;r&amp;#39;D:football.dat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+              &lt;span class="s"&gt;r&amp;#39;d.s(w+)s+(d+s+){4}(d+)s{2}-s{2}(d+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+              &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+              &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+              &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;recorder&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Recorder&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;recorder&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;处理不同的文件，使用不同的input传入进去就行了&lt;/p&gt;
+&lt;p&gt;另附正则学习资源&lt;/p&gt;
+&lt;p&gt;张子阳写的正则表达式的教程&lt;a href="http://www.tracefact.net/Misc/Regular-Expression-Tutorial.aspx"&gt;猛戳这里&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Regex Match Tracer，很好用的正则工具&lt;a href="http://www.regexlab.com/zh/mtracer/"&gt;猛戳这里&lt;/a&gt;&lt;/p&gt;</summary><category term="CodeKata"></category></entry></feed>

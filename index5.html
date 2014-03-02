@@ -63,36 +63,6 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/20/quick-sort/">算法学习之快速排序</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        20 Dec 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>快速排序通常是用于排序的最佳实用选择，因为它的平均性能相当好。</p>
-<p>快速排序和先前讲到的合并排序一样，体现了算法设计中的分治的思想。我们首先将问题进行分解，将数组划分成两个部分A[p…q-1]和A[q+1…r]，使得A[p…q-1]中的元素小于等于A[q]，然后分别解决前面一个数组和后面一个数组的排序，最后进行合并，由于这两个数组是就地排序(in place)的，所以不用像合并排序中一样进行过多的合并的操作。</p>
-<p>由于中间的分别排序的部分可以使用递归实现，所以快速排序中关键的地方就是如何将数组进行分解了。</p>
-<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
-<span class="c1">/// 对数组进行分组,返回分界处的index</span>
-<span class="c1">/// &lt;/summary&gt;</span>
-<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">Partition</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">secIndex</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">int</span> <span class="n">key</span> <span class="p">=</span> <span class="n">array</span><span class="p">[</span><span class="n">secIndex</span><span class="p">];</span>
-    <span class="kt">int</span> <span class="n">k</span> <span class="p">=</span> <span class="n">firstIndex</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/12/20/quick-sort/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/12/13/class-can-contain-itself/">由类能否包含自己说开去</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -174,17 +144,22 @@ int data =
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/utf-8.html">
+    <span class="label label-default">utf-8</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/gb2312.html">
+    <span class="label label-default">gb2312</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Tags; utf-8,gb2312
-Category: 未分类</p>
-<p>这几天专门花时间好好看了下字符编码的东西，在这里写篇随笔把知识好好梳理一下。</p>
+                <div class="summary"><p>这几天专门花时间好好看了下字符编码的东西，在这里写篇随笔把知识好好梳理一下。</p>
 <p>讲到字符编码，还是从最基本的ASCII讲起咯。</p>
 <p>在计算机刚开始使用时候，人们必须用计算机里面的01这样的二进制组合来表示一些基本的英文字母和字符,当然了，每个人都可以有自己的一套编码标准来完成这个看似简单的功能，不过，为了不同的计算机系统之间能够相互通信而不产生混乱，那么所有的计算机就必须采用相同的编码标准，所以美国的标准化组织就出台了ASCII编码标准，统一规定了上述符号和字母用哪些二进制来表示。在这里要加的一点是，标准ASCII只用了7位，最前面的一位是用来做奇偶校验的。比如英文字母a在ASCII编码中用二进制01100001表示，十六进制就是61.</p>
 <p>使用了ASCII编码后，原本的问题得到了很好的解决。但是，这里又有了新的问题，它并不能对其他非英语国家有很好的支持。比如，我如何编码汉字，日本文字，朝鲜文字，阿拉伯语，还有俄罗斯语等等。由于汉字这样的文字数目较多，用一个Byte(也就是8
 bit)来提供编码方案显然是不现实的，这时，双字节字符集（DBCS：double-byte
 character set）就出现了，它的出现就是为了解决刚刚说到的这个问题的。</p>
-<p>先来解释下什么是DBCS,DBCS简单的说就是使用两个Byte来表示一个字符，而且DBCS的最初的还是ASCII代码 ...</p>
+<p>先来解释下什么是DBCS,DBCS简单的说就是使用两个Byte来表示一个字符，而且DBCS的最初的还是ASCII代码，所以说DBCS是兼容ASCII的。而且它表示ASCII只用了一个Byte,这里说一个问题，假设给了你一连串的Byte数组，你解码的时候如何知道这个Byte的解码需要用到他的下一个Byte呢 ...</p>
                     <a href="http://blog.michaelyin.info/2010/12/06/character-encoding/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -202,11 +177,13 @@ character set）就出现了，它的出现就是为了解决刚刚说到的这�
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">Blogengine</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Tags; Blogengine
-Category: .Net</p>
-<p>BlogEngine中的BlogSettings这个类是用来提供整个系统的设置参数的，参数的读取采用的是反射获取属性名称，然后遍历进行赋值，个人觉得这段代码值得学习</p>
+                <div class="summary"><p>BlogEngine中的BlogSettings这个类是用来提供整个系统的设置参数的，参数的读取采用的是反射获取属性名称，然后遍历进行赋值，个人觉得这段代码值得学习</p>
 <div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">Load</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">Type</span> <span class="n">settingsType</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">();</span>
@@ -225,7 +202,7 @@ Category: .Net</p>
         <span class="kt">string</span> <span class="k">value</span> <span class="p">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
 
         <span class="c1">//------------------------------------------------------------</span>
-        <span class="c1">//  Enumerate through ...</span></pre></div>
+        <span class="c1">//  Enumerate through public properties of this ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -268,11 +245,13 @@ Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需�
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/subsonic.html">
+    <span class="label label-default">Subsonic</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Tags; Subsonic
-Category: .Net</p>
-<p>昨天在项目中遇到了一个很奇怪的问题，用Subsonic查询出来的对象中部分字段值出现了丢失，比如我写这样一个查询语句</p>
+                <div class="summary"><p>昨天在项目中遇到了一个很奇怪的问题，用Subsonic查询出来的对象中部分字段值出现了丢失，比如我写这样一个查询语句</p>
 <div class="highlight"><pre><span class="n">ViewIceCalculate</span> <span class="n">objViewIce</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Select</span><span class="p">().</span><span class="n">Top</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">).</span><span class="n">From</span><span class="p">&lt;</span><span class="n">ViewIceCalculate</span><span class="p">&gt;().</span><span class="n">ExecuteSingle</span><span class="p">&lt;</span><span class="n">ViewIceCalculate</span><span class="p">&gt;();</span>
 </pre></div>
 
@@ -281,7 +260,8 @@ Category: .Net</p>
 Project加载到我实验的Console的Project中去，查询中所调用的东西都在里面。</p>
 <p>然后再Subsonic中去看了一下，由于是从new
 Select开始的查询,所以先看看Select这个类把，发现Select这个类继承自SqlQuery,又跑到SqlQuery这个类中一窥究竟。在SqlQuery我没有看到Top,不过发现了一个名叫From的方法，看来有戏啊，继续发现之旅。。。看看这里里面有没有ExecuteSingle，结果还真有，一路找寻，找到了一个叫BuildSqlStatement的方法，看样子Sql语句的拼凑是在这里完成的，果断设断点，然后启动调试，到这里将生成的Sql语句贴到SQl中运行，数据是可以全部查出来的，那么问题就不出在这里了。。</p>
-<p>数据查寻出来后返回的是一个IDataReader的接口，ExecuteSingle中还有另外一个叫做BuildTypedResult的方法，在代码中找到方法的代码 ...</p>
+<p>数据查寻出来后返回的是一个IDataReader的接口，ExecuteSingle中还有另外一个叫做BuildTypedResult的方法，在代码中找到方法的代码，然后设了断点，然后。。。我知道悲剧为什么发生了。。。。</p>
+<p>先上代码吧 ...</p>
                     <a href="http://blog.michaelyin.info/2010/11/09/subsonic-data-lost/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
@@ -328,11 +308,13 @@ Select开始的查询,所以先看看Select这个类把，发现Select这个类�
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Tags; BlogEngine
-Category: .Net</p>
-<p>前面一篇Post主要专注于读取Web.Config中的配置的过程，这一篇将从面向对象的角度来阐述Provider的实现细节。</p>
+                <div class="summary"><p>前面一篇Post主要专注于读取Web.Config中的配置的过程，这一篇将从面向对象的角度来阐述Provider的实现细节。</p>
 <p>BlogEngine中其实很多处用到了Provider模式，而我希望就数据存储这部分把Provider给大家讲清楚，因为其他的地方和数据存储差不多，实现的方式大同小异。</p>
 <p>BlogEngine中的BlogProvider是一个继承自ProviderBase的抽象类，在ProviderBase基础上加入了整个系统所有需要的方法签名，这个地方需要注意的是它并没有提供方法的具体实现的代码。XmlBlogProvider和DbBlogProvider都继承了BlogProvider，并且提供了具体的关于XML和数据库的实现方法的具体的代码。好了，现在让我们回头看BlogService这个类，整个系统的数据操作时这样的，逻辑代码调用BlogService中相应的方法，然后BlogService调用LoadProviders读取配置（如果已经读取就不用再次读取），然后操作已经经过实例化的BlogProvider的实例。</p>
 <p>在这里笔者需要提醒的是抽象类其实是不能直接通过new关键字实例化的，通过不同的派生类的类型转换生成的抽象类虽然拥有一样名称的方法，但是具体的实现逻辑却并不是一样的，这其实就是一种面向抽象编程。这样做有什么好处呢？我们可以将针对不同数据存储方式的操作写到不同的继承自BlogProvider类的派生类中，然后在Web.Config中进行配置，程序中调用BlogProvider的方法进行逻辑方面的处理，而对于具体的数据存储的细节则不用关注太多。</p>
@@ -354,11 +336,13 @@ Category: .Net</p>
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>Tags; BlogEngine
-Category: .Net</p>
-<p>BlogEngine中的数据存储部分使用了Provider模式来支持多种数据存储方式，比如Sql
+                <div class="summary"><p>BlogEngine中的数据存储部分使用了Provider模式来支持多种数据存储方式，比如Sql
 server,XML等。只需要通过修改Web.Config文件中的响应配置节就可以按需求进行数据存储方式的改变。</p>
 <div class="highlight"><pre><span class="nt">&lt;configSections&gt;</span> 
     <span class="nt">&lt;sectionGroup</span> <span class="na">name=</span><span class="s">&quot;BlogEngine&quot;</span><span class="nt">&gt;</span> 
@@ -372,8 +356,35 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
 <div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">BlogProviderSection</span> <span class="p">:</span> <span class="n">ConfigurationSection</span>
 <span class="p">{</span>
     <span class="c1">/// &lt;summary&gt;</span>
-    <span class="c1">/// A collection of ...</span></pre></div>
+    <span class="c1">/// A collection of registered providers.</span>
+    <span class="c1">/// &lt;/summary&gt;</span>
+<span class="na">    [ConfigurationProperty ...</span></pre></div>
                     <a href="http://blog.michaelyin.info/2010/10/23/blogengine-provider-1/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2010/10/20/random-generate/">Random 学习笔记</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        20 Oct 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>这几天在学习算法，所以生成随机数组就不可避免了，以前只是知道Random
+这个类是用来生成随机数的但是没怎么用过，这次正好趁这个机会好好了解一下，在园子里面看了下别人写的文章和代码，自己又在VS里面跑了几次，这里就把一些觉得useful的东东记下来。</p>
+<p>Random是用来生成伪随机数的类，它根据生成对象时候的随机种子进行复杂的计算，然后生成伪随机数。如果我们在调用构造函数的时候没有指定随机种子，那么默认情况下它会采用系统的时间产生的值来做随机种子，这样的话那么我们在一次函数调用里面不同的Random对象有可能是采用相同的随机种子，那么有可能造成生成重复的随机数。关于随机种子的选取问题，等下会专门讲解。Random里面要用到比较多的方法就是obj.Next()这个方法，用于根据随机种子按照复杂的算法生成伪随机数，这个方法有多个重载的方法，可以限定需要生成的数字的最大值和最小值，基本上Random经常使用的就是这么几个东西。</p>
+<p>下面来讲一下如何避免生成重复的随机种子，以此来避免产生一连串重复的随机数。其实关键点就在于生成随机数的随机种子必须不一样，一种方法就是采用Guid.NewGuid().GetHashCode()来当做随机种子，由于Guid重复的可能性非常小，而且Hash算法不同的输入产生的结果也是不同的，所以可以很好的解决随机种子相同的问题。还有一种方法就是采用</p>
+<div class="highlight"><pre><span class="kt">long</span> <span class="n">tick</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">Ticks</span><span class="p">;</span> 
+<span class="n">Random</span> <span class="n">ran</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">((</span><span class="kt">int</span><span class="p">)(</span><span class="n">tick</span> <span class="p">&amp;</span> <span class="m">0</span><span class="n">xffffffffL</span><span class="p">)</span> <span class="p">|</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="n">tick ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/10/20/random-generate/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
@@ -436,9 +447,9 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/misc.html">
+                <a href="http://blog.michaelyin.info/category/js.html">
                     <i class="icon-folder-open icon-large"></i>
-                    misc
+                    Js
                 </a>
             </li>
             <li>
@@ -457,6 +468,12 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
                     <i class="icon-folder-open icon-large"></i>
                     思考心得
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    算法相关
                 </a>
             </li>
             <li>
@@ -483,6 +500,87 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
 
 
             <li class="list-group-item">
+                <a href="http://blog.michaelyin.info/tag/bugnet.html">
+                    <span class="label label-default">Bugnet</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">Blogengine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/scrapy.html">
+                    <span class="label label-default">scrapy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
             </li> 
 
         </ul>

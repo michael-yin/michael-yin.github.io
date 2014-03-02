@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/js.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2013-12-14T21:00:00+08:00</updated><entry><title>Install Nodejs on Ubuntu</title><link href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/" rel="alternate"></link><updated>2013-12-14T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-14:2013/12/14/install-nodejs-on-ubuntu/</id><summary type="html">&lt;p&gt;I just installed Nodejs on ubuntu through package manager &lt;a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager"&gt;(more detail
+)&lt;/a&gt; and found there were some problems.&lt;/p&gt;
+&lt;p&gt;When using npm might get something like this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;npm ERR! Error: EACCES, symlink &lt;span class="s1"&gt;&amp;#39;../lib/node_modules/spm/bin/spm&amp;#39;&lt;/span&gt;
+npm ERR!  &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Error: EACCES, symlink &lt;span class="s1"&gt;&amp;#39;../lib/node_modules/spm/bin/spm&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+npm ERR!   errno: 3,
+npm ERR!   code: &lt;span class="s1"&gt;&amp;#39;EACCES&amp;#39;&lt;/span&gt;,
+npm ERR!   path: &lt;span class="s1"&gt;&amp;#39;../lib/node_modules/spm/bin/spm&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt;
+npm ERR! 
+npm ERR! Please try running this &lt;span class="nb"&gt;command &lt;/span&gt;again as root/Administrator.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That is caused by some permission problems, even sudo can not get things done, in order to fix this, I found a alterntive way. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;export PATH=$HOME/local/bin:$PATH&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+. ~/.bashrc
+mkdir ~/local
+mkdir ~/node-latest-install
+&lt;span class="nb"&gt;cd&lt;/span&gt; ~/node-latest-install
+curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components&lt;span class="o"&gt;=&lt;/span&gt;1
+./configure --prefix&lt;span class="o"&gt;=&lt;/span&gt;~/local
+make install &lt;span class="c"&gt;# ok, fine, this step probably takes more than 30 seconds...&lt;/span&gt;
+curl https://npmjs.org/install.sh | sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The author provide many ways to install nodejs and method above is the fastest.The others are available &lt;a href="https://gist.github.com/isaacs/579814"&gt;here&lt;/a&gt; &lt;/p&gt;</summary><category term="NodeJs"></category></entry></feed>

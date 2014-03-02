@@ -78,11 +78,16 @@
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/scrapy.html">
+    <span class="label label-default">scrapy</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/proxy.html">
+    <span class="label label-default">proxy</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
-            <p>Tags; scrapy,proxy
-Category: Python</p>
-<h3>Working with http proxy</h3>
+            <h3>Working with http proxy</h3>
 <p>When crawling infos from some website like google shop, it will detect the source ip and restrict some service to some specific ip address, howerver, scrapy framework can handle this situation by making the request through proxy.</p>
 <p>The scrapy has provided HttpProxyMiddleware to support http proxy, if you want to make your web crawler to go through proxy, the first thing you need to do is modify your setting file just like this</p>
 <div class="highlight"><pre><span class="n">DOWNLOADER_MIDDLEWARES</span> <span class="o">=</span> <span class="p">{</span>

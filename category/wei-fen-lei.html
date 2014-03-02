@@ -258,6 +258,39 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
             </article>
             <hr/>
             <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/06/character-encoding/">字符编码那些事儿</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        06 Dec 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/utf-8.html">
+    <span class="label label-default">utf-8</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/gb2312.html">
+    <span class="label label-default">gb2312</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>这几天专门花时间好好看了下字符编码的东西，在这里写篇随笔把知识好好梳理一下。</p>
+<p>讲到字符编码，还是从最基本的ASCII讲起咯。</p>
+<p>在计算机刚开始使用时候，人们必须用计算机里面的01这样的二进制组合来表示一些基本的英文字母和字符,当然了，每个人都可以有自己的一套编码标准来完成这个看似简单的功能，不过，为了不同的计算机系统之间能够相互通信而不产生混乱，那么所有的计算机就必须采用相同的编码标准，所以美国的标准化组织就出台了ASCII编码标准，统一规定了上述符号和字母用哪些二进制来表示。在这里要加的一点是，标准ASCII只用了7位，最前面的一位是用来做奇偶校验的。比如英文字母a在ASCII编码中用二进制01100001表示，十六进制就是61.</p>
+<p>使用了ASCII编码后，原本的问题得到了很好的解决。但是，这里又有了新的问题，它并不能对其他非英语国家有很好的支持。比如，我如何编码汉字，日本文字，朝鲜文字，阿拉伯语，还有俄罗斯语等等。由于汉字这样的文字数目较多，用一个Byte(也就是8
+bit)来提供编码方案显然是不现实的，这时，双字节字符集（DBCS：double-byte
+character set）就出现了，它的出现就是为了解决刚刚说到的这个问题的。</p>
+<p>先来解释下什么是DBCS,DBCS简单的说就是使用两个Byte来表示一个字符，而且DBCS的最初的还是ASCII代码，所以说DBCS是兼容ASCII的。而且它表示ASCII只用了一个Byte,这里说一个问题，假设给了你一连串的Byte数组，你解码的时候如何知道这个Byte的解码需要用到他的下一个Byte呢 ...</p>
+                    <a href="http://blog.michaelyin.info/2010/12/06/character-encoding/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/10/08/css-js-in-masterpage/">母版页中的js和css文件引用路径的问题</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -367,46 +400,16 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/07/14/list-operation-study/">有列表List的操作所学习到的</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        14 Jul 2010
-    </span>
 
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>前几日coding的时候，需要实现在泛型列表中找到其中的一个对象并将其移除的功能，刚开始想的很简单，先上代码</p>
-<div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="n">AttachmentBox</span> <span class="n">objAttachmentBox</span> <span class="k">in</span> <span class="n">lsAttachments</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">.</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
-    <span class="p">{</span>
-        <span class="n">lsAttachments</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">objAttachmentBox</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>这是我刚开始写的代码。。</p>
-<p>运行时候VS提示错误
-“集合已修改；可能无法执行枚举操作。”跑到博客园里面找了一番，发现使用foreach就会存在这个问题，因为foreach在遍历的时候只取只读的数据，如果用for的话，就能够比避免这个问题。</p>
-<p>好吧，那就换成for循环吧。</p>
-<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">lsAttachments</span><span class="p">.</span><span class="n">Count</span><span class="p">();</span> <span class="n">i</span><span class="p">++)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lsAttachments</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">AttachmentId</span> <span class="p">==</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CommandArgument</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
-    <span class="p">{</span>
-       <span class="n">lsAttachments</span><span class="p">.</span><span class="n">RemoveAt ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/07/14/list-operation-study/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-
+        <ul class="pagination">
+                <li class="prev disabled"><a href="#">&laquo;</a></li>
+                <li class="active"><a
+                        href="http://blog.michaelyin.info/category/wei-fen-lei.html">1</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/category/wei-fen-lei2.html">2</a></li>
+                <li class="next"><a
+                        href="http://blog.michaelyin.info/category/wei-fen-lei2.html">&raquo;</a></li>
+        </ul>
 </div>
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
@@ -443,9 +446,9 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                 </a>
             </li>
             <li>
-                <a href="http://blog.michaelyin.info/category/misc.html">
+                <a href="http://blog.michaelyin.info/category/js.html">
                     <i class="icon-folder-open icon-large"></i>
-                    misc
+                    Js
                 </a>
             </li>
             <li>
@@ -464,6 +467,12 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                 <a href="http://blog.michaelyin.info/category/si-kao-xin-de.html">
                     <i class="icon-folder-open icon-large"></i>
                     思考心得
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.michaelyin.info/category/suan-fa-xiang-guan.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    算法相关
                 </a>
             </li>
             <li>
@@ -490,6 +499,87 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
 
 
             <li class="list-group-item">
+                <a href="http://blog.michaelyin.info/tag/bugnet.html">
+                    <span class="label label-default">Bugnet</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">Blogengine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/scrapy.html">
+                    <span class="label label-default">scrapy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
             </li> 
 
         </ul>

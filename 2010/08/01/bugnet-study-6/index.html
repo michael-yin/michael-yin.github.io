@@ -78,11 +78,13 @@
 
 
 <span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/bugnet.html">
+    <span class="label label-default">Bugnet</span>
+</a>
  </span>
 </div><!-- /.post-info --></div>
-            <p>Tags; Bugnet
-Category: .Net</p>
-<p>用户控件作为Asp.net提供的一种自定义可重用的机制，在很多的项目中都得到了应用，Bugnet里面也使用了很多用户控件。</p>
+            <p>用户控件作为Asp.net提供的一种自定义可重用的机制，在很多的项目中都得到了应用，Bugnet里面也使用了很多用户控件。</p>
 <p>UserControls文件夹里面放的除了fckeditor和xslt外，就是项目里面要用到的用户控件了，代码都不难，下面就把里面的DisplayBugs.ascx拿出来稍微讲一下。该控件在Bugnet中被用到的次数还是很多的，功能也比较简单，就是提供了一个有图表显示，有排序功能的列表。该用户控件是在Gridview的基础上做的开发，增加了一个BugCollection和EventHandler。BugCollection是Gridview需要绑定的数据源，而EventHandler则是使用了事件。调用该事件实现绑定数据的具体操作。</p>
 <div class="highlight"><pre> <span class="p">&lt;</span><span class="n">uc1</span><span class="p">:</span><span class="n">DisplayBugs</span> <span class="n">ID</span><span class="p">=</span><span class="s">&quot;InProgressBugs&quot;</span> <span class="n">HeaderBackColor</span><span class="p">=</span><span class="s">&quot;#eeeeee&quot;</span> <span class="n">CssClass</span><span class="p">=</span><span class="s">&quot;issues&quot;</span> <span class="n">OnRebindCommand</span><span class="p">=</span><span class="s">&quot;DisplayBugs_DataBind&quot;</span> <span class="n">runat</span><span class="p">=</span><span class="s">&quot;server&quot;</span> <span class="p">/&gt;</span>
 </pre></div>
