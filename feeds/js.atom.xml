@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/js.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2013-12-14T21:00:00+08:00</updated><entry><title>Install Nodejs on Ubuntu</title><link href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/" rel="alternate"></link><updated>2013-12-14T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-14:2013/12/14/install-nodejs-on-ubuntu/</id><summary type="html">&lt;p&gt;I just installed Nodejs on ubuntu through package manager &lt;a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager"&gt;(more detail
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/js.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2014-06-06T13:03:00+08:00</updated><entry><title>PhantomJS fail to open HTTPS site</title><link href="http://blog.michaelyin.info/2014/06/06/phantomjs-fail-to-open-https/" rel="alternate"></link><updated>2014-06-06T13:03:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-06-06:2014/06/06/phantomjs-fail-to-open-https/</id><summary type="html">&lt;h4&gt;Intro&lt;/h4&gt;
+&lt;p&gt;When I develop automation tool based on phantomjs, it can not open some https website, so I spend some time to figure out how to solve this strange problem.&lt;/p&gt;
+&lt;h4&gt;Solution 1&lt;/h4&gt;
+&lt;p&gt;You can use the command option &lt;code&gt;--ignore-ssl-errors=true&lt;/code&gt; of phantomjs to make it ignore the ssl error, so it can load the page&lt;/p&gt;
+&lt;h4&gt;Solution 2&lt;/h4&gt;
+&lt;p&gt;Solution 1 can indeed solve the problem but it can not make sure the https connection is secure, so if you care about the securety problem you need another way to get it done.&lt;/p&gt;
+&lt;p&gt;There are some points you need to know here:&lt;/p&gt;
+&lt;p&gt;1 Https is on top of the SSL/TLS protocol, which adding the security capabilities of SSL/TLS to standard HTTP communications&lt;/p&gt;
+&lt;p&gt;2 If a ca is trusted by a user, then the website which signatured by the ca will also be trusted&lt;/p&gt;
+&lt;p&gt;3 Not all program share the single one location which manage ca certificate, so in some cases, some websites displayed well in your web browser, but can not work well in your system tool such as curl, that is because the curl use the system ca locatioin, but the web browser usually manage ca certificate on its own.&lt;/p&gt;
+&lt;p&gt;Here is an simple example, try to open https://www.renrendai.com/loginPage.action in your browser, and try to open it by shell command &lt;code&gt;curl https://www.renrendai.com/loginPage.action&lt;/code&gt;, you can see curl will raise an error because the ca certificate is not in you ca location.&lt;/p&gt;
+&lt;p&gt;Phantomjs doc have said it will use system ca certificate by default. So we now have two option. One is import the ca certificate into the system location, the other is use &lt;code&gt;--ssl-certificates-path=&lt;/code&gt; change the location used by Phantomjs. I will choose first one.&lt;/p&gt;
+&lt;h5&gt;Export ca certificate&lt;/h5&gt;
+&lt;p&gt;Now we need to get the ca certificate first, open your browser, type in the https address, and click the address and a window popup just like this&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Click the certificate infomation to see the detail about the certificate&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Click detail, and you can see the Certificate Hierarchy, &lt;strong&gt;You need to export the every certificate in the Certificate Hierarchy, so in this example you need to export 4 file&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Open the exported file with text editor, you can see the first line and last line is &lt;code&gt;-----BEGIN CERTIFICATE-----&lt;/code&gt;, &lt;code&gt;-----END CERTIFICATE-----&lt;/code&gt; and the content is base64 coded, in some relevent doc this format is called .crt(certificate)&lt;/p&gt;
+&lt;h5&gt;Import the crt to system&lt;/h5&gt;
+&lt;p&gt;every system has its own way to manage system certificate, in my ubuntu, here is what I do&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/usr/share/ca-certificates/ is the system location for ca certificate&lt;/span&gt;
+sudo mkdir /usr/share/ca-certificates/extra
+
+&lt;span class="c"&gt;#copy the exported crt file to the system location&lt;/span&gt;
+sudo cp ./ /usr/share/ca-certificates/extra/
+
+&lt;span class="c"&gt;#choose what you want to add and enter and ubuntu will update the relevent file&lt;/span&gt;
+sudo dpkg-reconfigure ca-certificates
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Simple test now!&lt;/h5&gt;
+&lt;p&gt;Use curl to make a quick simple test if cert is added successfully then you will see the html output.&lt;/p&gt;
+&lt;h5&gt;Reference:&lt;/h5&gt;
+&lt;p&gt;&lt;a href="http://brightbox.com/blog/2014/03/04/add-cacert-ubuntu-debian/"&gt;Adding CAcert root certificate to Debian/Ubuntu - properly&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://askubuntu.com/questions/73287/how-do-i-install-a-root-certificate"&gt;Installing a root/CA Certificate&lt;/a&gt;&lt;/p&gt;</summary><category term="phantomjs"></category></entry><entry><title>Install Nodejs on Ubuntu</title><link href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/" rel="alternate"></link><updated>2013-12-14T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-14:2013/12/14/install-nodejs-on-ubuntu/</id><summary type="html">&lt;p&gt;I just installed Nodejs on ubuntu through package manager &lt;a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager"&gt;(more detail
 )&lt;/a&gt; and found there were some problems.&lt;/p&gt;
 &lt;p&gt;When using npm might get something like this&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;npm ERR! Error: EACCES, symlink &lt;span class="s1"&gt;&amp;#39;../lib/node_modules/spm/bin/spm&amp;#39;&lt;/span&gt;
@@ -25,4 +61,17 @@ curl https://npmjs.org/install.sh | sh
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;The author provide many ways to install nodejs and method above is the fastest.The others are available &lt;a href="https://gist.github.com/isaacs/579814"&gt;here&lt;/a&gt; &lt;/p&gt;</summary><category term="NodeJs"></category></entry></feed>
+&lt;p&gt;The author provide many ways to install nodejs and method above is the fastest.The others are available &lt;a href="https://gist.github.com/isaacs/579814"&gt;here&lt;/a&gt; &lt;/p&gt;
+&lt;h3&gt;Updated 2014.03.15&lt;/h3&gt;
+&lt;p&gt;I have met some problem when installing package globally. After diving into the documentation I found the solution.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;./configure --prefix=~/local&lt;/code&gt; make node and npm installed in the home directory, so does the node_modules.&lt;/p&gt;
+&lt;p&gt;According to the doc of node&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The prefix config defaults to the location where node is installed. On most systems, this is /usr/local, and most of the time is the same as node's process.installPrefix.&lt;/p&gt;
+&lt;p&gt;Global installs on Unix systems go to {prefix}/lib/node_modules&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Even I set the prefix when I installing node, but the prefix it still /usr/local in its config file, so global install does not work as expected.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;vi .npmrc 
+&lt;span class="c"&gt;#change the prefix in npmrc to ~/local&lt;/span&gt;
+&lt;span class="nv"&gt;prefix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; ~/local
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="NodeJs"></category></entry></feed>

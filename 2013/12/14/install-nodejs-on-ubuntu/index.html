@@ -111,6 +111,19 @@ curl https://npmjs.org/install.sh | sh
 
 
 <p>The author provide many ways to install nodejs and method above is the fastest.The others are available <a href="https://gist.github.com/isaacs/579814">here</a> </p>
+<h3>Updated 2014.03.15</h3>
+<p>I have met some problem when installing package globally. After diving into the documentation I found the solution.</p>
+<p><code>./configure --prefix=~/local</code> make node and npm installed in the home directory, so does the node_modules.</p>
+<p>According to the doc of node</p>
+<blockquote>
+<p>The prefix config defaults to the location where node is installed. On most systems, this is /usr/local, and most of the time is the same as node's process.installPrefix.</p>
+<p>Global installs on Unix systems go to {prefix}/lib/node_modules</p>
+</blockquote>
+<p>Even I set the prefix when I installing node, but the prefix it still /usr/local in its config file, so global install does not work as expected.</p>
+<div class="highlight"><pre>vi .npmrc 
+<span class="c">#change the prefix in npmrc to ~/local</span>
+<span class="nv">prefix</span> <span class="o">=</span> ~/local
+</pre></div>
         </div>
         <!-- /.entry-content -->
     <hr />

@@ -63,6 +63,151 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2011/07/31/beauty-of-programing-214/">编程之美2.14学习笔记</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        31 Jul 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>再看编程之美2.14的时候发现了一个书上没有讲到的思路，就在此记录一下，也希望能给读者扩宽一下思路。</p>
+<p>2.14的问题非常简单，就是给定一个数组，求这个数组的最大子数组之和。</p>
+<p>书上的解法我就不赘述了，在这里主要讲一下我想到的思路。子数组之和最大，肯定有一个开始的元素，和一个结束的元素，特殊一点的话，两个是一个元素，这种特殊情况下最大子数组其实就是一个数了。然后最大从数组第一个数开始我们求和，从第一个元素到第N个元素，我们可以建立一个数组专门来存储这个求出来的和，而求出的和的右边到左边差距最大的情况的时候，我们就可以根据此得出最大子数组的和。</p>
+<p>在遍历的过程中，我们需要定义一个变量来存储算出来的最小的和，因为我们想加的和与最小的和的差值才有可能求出最大的子数组的和。比如我们已经有了一个最小的和minSum,如果遍历过程中遇到了比这小的，那么我们就需要把这个进行替换。对于初始化的情况，我们的最小的和应该是为0，这样就把每个数字都包含进来了。</p>
+<p>程序运行的时候是从里面已经存在了一个元素开始的。这里需要注意的是minSum的处理，如果第一个元素是小于零的话相当于第一个sumOfArray求出的是小于0的，那么我们就需要把minSum换成这个小于0的数字。然后开始遍历操作。</p>
+<p>遍历过程中总是将求出的和与minSum进行比较，如果能大于最大的那个差值则进行替换，最后返回的就是我们需要求出的子数组之和的最大值。</p>
+<p>下面贴出我用Java实现的代码</p>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">Test1</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">sumOfArray</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="kt">int ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/07/31/beauty-of-programing-214/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/07/09/blogengine-intro/">BlogEngine学习系列</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        09 Jul 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">Blogengine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859464.html">BlogEngine中的Provider模式（上）</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/10/23/1859492.html">BlogEngine中的Provider模式（下）</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2010/11/26/1889217.html">BlogEngine中的BlogSettings</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/13/1982589.html">BlogEngine中自定义主题的实现</a><a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/17/1986689.html">BlogEngine中的Extensinon实现</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2011/03/19/1989046.html">BlogEngine中的widget机制</a></p>
+<p><a href="http://www.cnblogs.com/MichaelYin/archive/2011/04/17/2018986.html">BlogEngine中的js和css访问处理</a></p>
+                    <a href="http://blog.michaelyin.info/2011/07/09/blogengine-intro/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/05/27/talk-about-class-init/">初始化那些事儿</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        27 May 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">Blogengine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>先来看看这段代码</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Program</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Circle</span> <span class="n">objTest</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Circle</span><span class="p">();</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Print</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">Print</span><span class="p">(</span><span class="n">String</span> <span class="n">text</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Shape</span>
+<span class="p">{</span>
+    <span class="c1">//静态字段</span>
+     <span class="k">static</span> <span class="n">Print</span> <span class="n">staticSbj</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">);</span>
+    <span class="c1">//对象级别的变量</span>
+     <span class="n">Print</span> <span class="n">obj</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;2&quot;</span><span class="p">);</span>
+    <span class="k">static</span> <span class="nf">Shape</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">//静态构造函数中进行初始化</span>
+        <span class="n">staticSbj</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Print</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">public</span> <span class="nf">Shape</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">//构造函数 ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/05/27/talk-about-class-init/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://blog.michaelyin.info/2011/04/17/blogengine-css-js/">BlogEngine中的js和css访问处理</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        17 Apr 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">Blogengine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>BlogEngine中将对css和js这种常用资源的访问通过httphandler进行了一次封装，并不是直接请求服务器的文件，服务器读取硬盘上的文件然后返回给客户端，而是将这种常用访问的资源通过缓存存储在了内存中，然后通过缓存依赖检查文件是否被更改，这样带来的好处就是在访问量比较大的时候能够减少读取硬盘的次数和时间，当然实际应用中的效果到底如何由于条件不够，所以本人不能给出实际数据，有条件的朋友可以提供一下。</p>
+<p>BlogEngine中的Css文件是和BlogEngine的主题这个功能相关的，主题文件夹下每个相应文件夹下都有一个style.css被site.master所引用，BlogBasePage在运行的时候根据选定的主题的名字加载相应主题下的模板页，模板页中的Head中是有相应的样式表的链接的，然后再BlogBasePage的Onload方法中，通过CompressCss遍历Head中的控件，找到css，然后统一修改css的访问的路径通过httphandler来访问。</p>
+<div class="highlight"><pre><span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">CompressCss</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">QueryString</span><span class="p">[</span><span class="s">&quot;theme&quot;</span><span class="p">]</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">Control</span> <span class="n">control</span> <span class="k">in</span> <span class="n">Page</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Controls</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">HtmlControl</span> <span class="n">c</span> <span class="p">=</span> <span class="n">control</span> <span class="k">as</span> <span class="n">HtmlControl</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">c</span><span class="p">.</span><span class="n">Attributes ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/04/17/blogengine-css-js/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2011/04/13/cookie-study/">Cookie学习笔记</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -244,156 +389,6 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">闲话Hashtable与Dictionary</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        14 Feb 2011
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/dictionary.html">
-    <span class="label label-default">Dictionary</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/hashtable.html">
-    <span class="label label-default">Hashtable</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。</p>
-<p>Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。</p>
-<h3>链接法(chaining)</h3>
-<p>在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。</p>
-<p>链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。</p>
-<p><a href="http://blog.michaelyin.info/images/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/images/2011/02/201102142222064549.png" /></a></p>
-<h3>开放寻址法(open addressing)</h3>
-<p>在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。</p>
-<p>在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key ...</p>
-                    <a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/23/binary-tree-linear-walk/">二叉树的非递归遍历</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        23 Dec 2010
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/binary-tree.html">
-    <span class="label label-default">Binary tree</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>二叉树的遍历如果使用递归调用基本没什么问题，这里主要是讲如何使用非递归方法实现二叉树的遍历。</p>
-<p>由于递归调用程序实际上使用了栈来保存方法中的变量值，在非递归遍历的方法中我们需要基于栈的方法。先来看看这个方法</p>
-<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
-<span class="c1">/// 非递归中序遍历二叉树</span>
-<span class="c1">/// &lt;/summary&gt;</span>
-<span class="c1">/// &lt;param name=&quot;root&quot;&gt;&lt;/param&gt;</span>
-<span class="k">static</span> <span class="k">void</span> <span class="nf">InOrderTraverse</span><span class="p">(</span><span class="n">BinaryTreeNode</span> <span class="n">root</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">BinaryTreeNode</span> <span class="n">temp</span> <span class="p">=</span> <span class="n">root</span><span class="p">;</span>
-    <span class="n">Stack</span><span class="p">&lt;</span><span class="n">BinaryTreeNode</span><span class="p">&gt;</span> <span class="n">stack</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="p">&lt;</span><span class="n">BinaryTreeNode</span><span class="p">&gt;();</span>
-    <span class="n">stack</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">stack</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">while</span> <span class="p">(</span><span class="n">temp</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">temp</span> <span class="p">=</span> <span class="n">temp</span><span class="p">.</span><span class="n">left</span><span class="p">;</span>
-            <span class="n">stack</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="n">stack</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
-        <span class="c1">//如果为0证明这时右边节点为null</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">stack</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">temp ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/12/23/binary-tree-linear-walk/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/21/google-kml/">闲话动态KML</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        21 Dec 2010
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/net.html">
-    <span class="label label-default">.Net</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/kml.html">
-    <span class="label label-default">Kml</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>最近在Google
-Map开发中开发中用到了动态生成KML在地图中动态显示数据，下面来简单的把其中的知识点讲一下。</p>
-<p>KML是一种采用XML
-语法与格式的语言，它被用来描述地理信息，如点，线，多边形等等，可以被Google
-map和Google Earth等软件识别并显示。我们可以在Google
-Earth把我们感兴趣的一些地点标识出来，然后生成KML文件，通过分享这个文件来让别人在Google
-map或者google earth中看到我们标注的信息。下面是一个简单的KML文件。</p>
-<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="nt">&lt;kml</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.opengis.net/kml/2.2&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;Placemark&gt;</span>
-    <span class="nt">&lt;name&gt;</span>Simple placemark<span class="nt">&lt;/name&gt;</span>
-    <span class="nt">&lt;description&gt;</span>Attached to the ground. Intelligently places itself 
-       at the height ...</pre></div>
-                    <a href="http://blog.michaelyin.info/2010/12/21/google-kml/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/12/20/quick-sort/">算法学习之快速排序</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        20 Dec 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>快速排序通常是用于排序的最佳实用选择，因为它的平均性能相当好。</p>
-<p>快速排序和先前讲到的合并排序一样，体现了算法设计中的分治的思想。我们首先将问题进行分解，将数组划分成两个部分A[p…q-1]和A[q+1…r]，使得A[p…q-1]中的元素小于等于A[q]，然后分别解决前面一个数组和后面一个数组的排序，最后进行合并，由于这两个数组是就地排序(in place)的，所以不用像合并排序中一样进行过多的合并的操作。</p>
-<p>由于中间的分别排序的部分可以使用递归实现，所以快速排序中关键的地方就是如何将数组进行分解了。</p>
-<div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
-<span class="c1">/// 对数组进行分组,返回分界处的index</span>
-<span class="c1">/// &lt;/summary&gt;</span>
-<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">Partition</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">firstIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">secIndex</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">int</span> <span class="n">key</span> <span class="p">=</span> <span class="n">array</span><span class="p">[</span><span class="n">secIndex</span><span class="p">];</span>
-    <span class="kt">int</span> <span class="n">k</span> <span class="p">=</span> <span class="n">firstIndex</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/12/20/quick-sort/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index3.html">&laquo;</a>
@@ -510,23 +505,26 @@ map或者google earth中看到我们标注的信息。下面是一个简单的KM
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
                     <span class="label label-default">Blogengine</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
+                <a href="http://blog.michaelyin.info/tag/scrapy.html">
+                    <span class="label label-default">scrapy</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/scrapy.html">
-                    <span class="label label-default">scrapy</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/dictionary.html">
                     <span class="label label-default">Dictionary</span>
@@ -534,17 +532,29 @@ map或者google earth中看到我们标注的信息。下面是一个简单的KM
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bit.html">
+                    <span class="label label-default">bit</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/proxy.html">
                     <span class="label label-default">proxy</span>
@@ -555,35 +565,32 @@ map或者google earth中看到我们标注的信息。下面是一个简单的KM
                 <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
                     <span class="label label-default">bullet-and-wall</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/kml.html">
                     <span class="label label-default">Kml</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/selenium.html">
-                    <span class="label label-default">selenium</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/utf-8.html">
                     <span class="label label-default">utf-8</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
                 </a>
             </li> 
 

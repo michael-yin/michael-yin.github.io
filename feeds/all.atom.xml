@@ -1,5 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/all.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2014-03-02T11:13:00+08:00</updated><entry><title>How to debug your scrapy spider</title><link href="http://blog.michaelyin.info/2014/03/02/how-to-debug-your-scrapy-spider/" rel="alternate"></link><updated>2014-03-02T11:13:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-03-02:2014/03/02/how-to-debug-your-scrapy-spider/</id><summary type="html">&lt;h3&gt;Intro&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/all.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2014-10-27T13:24:00+08:00</updated><entry><title>Manully build and install pyv8 in virtualenv</title><link href="http://blog.michaelyin.info/2014/10/27/manully-build-and-install-pyv8-in-virtualenv/" rel="alternate"></link><updated>2014-10-27T13:24:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-10-27:2014/10/27/manully-build-and-install-pyv8-in-virtualenv/</id><summary type="html">&lt;p&gt;Here is the tutorials about how to build and install pyv8 in virtualenv on Ubuntu&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;
+&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="n"&gt;pyv8_install&lt;/span&gt;
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;pyv8_install&lt;/span&gt;
+
+&lt;span class="c"&gt;#checkout the source code&lt;/span&gt;
+&lt;span class="n"&gt;svn&lt;/span&gt; &lt;span class="n"&gt;checkout&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;v8&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;googlecode&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;svn&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;trunk&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;v8&lt;/span&gt;
+&lt;span class="n"&gt;svn&lt;/span&gt; &lt;span class="n"&gt;checkout&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;pyv8&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;googlecode&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;svn&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;trunk&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;pyv8&lt;/span&gt;
+&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;buffer&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;thug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;thug&lt;/span&gt;
+
+&lt;span class="c"&gt;#patch the pyv8&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt; &lt;span class="n"&gt;thug&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;patches&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;PyV8&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;patch1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;patch&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p0&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;PyV8&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;patch1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt;
+&lt;span class="n"&gt;patching&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt; &lt;span class="n"&gt;pyv8&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Context&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;
+
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;V8_HOME&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;YOUR_USER_NAME&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;pyv8_install&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;v8&lt;/span&gt;
+
+&lt;span class="c"&gt;#open the debug mode to see the detail&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="c"&gt;# Unix&lt;/span&gt;
+
+&lt;span class="c"&gt;#if the OS have no Boost Lib, make sure apt-get install first&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="n"&gt;libboost&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;thread&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt; &lt;span class="n"&gt;libboost&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;all&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;
+
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;pyv8&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;
+
+&lt;span class="c"&gt;#if you need to install on system python env, need to run as sudo&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Reference:&lt;/h5&gt;
+&lt;p&gt;&lt;a href="http://buffer.github.io/thug/doc/build.html"&gt;Build and Install thug&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://code.google.com/p/pyv8/wiki/HowToBuild"&gt;How to build pyv8&lt;/a&gt;&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>PhantomJS fail to open HTTPS site</title><link href="http://blog.michaelyin.info/2014/06/06/phantomjs-fail-to-open-https/" rel="alternate"></link><updated>2014-06-06T13:03:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-06-06:2014/06/06/phantomjs-fail-to-open-https/</id><summary type="html">&lt;h4&gt;Intro&lt;/h4&gt;
+&lt;p&gt;When I develop automation tool based on phantomjs, it can not open some https website, so I spend some time to figure out how to solve this strange problem.&lt;/p&gt;
+&lt;h4&gt;Solution 1&lt;/h4&gt;
+&lt;p&gt;You can use the command option &lt;code&gt;--ignore-ssl-errors=true&lt;/code&gt; of phantomjs to make it ignore the ssl error, so it can load the page&lt;/p&gt;
+&lt;h4&gt;Solution 2&lt;/h4&gt;
+&lt;p&gt;Solution 1 can indeed solve the problem but it can not make sure the https connection is secure, so if you care about the securety problem you need another way to get it done.&lt;/p&gt;
+&lt;p&gt;There are some points you need to know here:&lt;/p&gt;
+&lt;p&gt;1 Https is on top of the SSL/TLS protocol, which adding the security capabilities of SSL/TLS to standard HTTP communications&lt;/p&gt;
+&lt;p&gt;2 If a ca is trusted by a user, then the website which signatured by the ca will also be trusted&lt;/p&gt;
+&lt;p&gt;3 Not all program share the single one location which manage ca certificate, so in some cases, some websites displayed well in your web browser, but can not work well in your system tool such as curl, that is because the curl use the system ca locatioin, but the web browser usually manage ca certificate on its own.&lt;/p&gt;
+&lt;p&gt;Here is an simple example, try to open https://www.renrendai.com/loginPage.action in your browser, and try to open it by shell command &lt;code&gt;curl https://www.renrendai.com/loginPage.action&lt;/code&gt;, you can see curl will raise an error because the ca certificate is not in you ca location.&lt;/p&gt;
+&lt;p&gt;Phantomjs doc have said it will use system ca certificate by default. So we now have two option. One is import the ca certificate into the system location, the other is use &lt;code&gt;--ssl-certificates-path=&lt;/code&gt; change the location used by Phantomjs. I will choose first one.&lt;/p&gt;
+&lt;h5&gt;Export ca certificate&lt;/h5&gt;
+&lt;p&gt;Now we need to get the ca certificate first, open your browser, type in the https address, and click the address and a window popup just like this&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Click the certificate infomation to see the detail about the certificate&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Click detail, and you can see the Certificate Hierarchy, &lt;strong&gt;You need to export the every certificate in the Certificate Hierarchy, so in this example you need to export 4 file&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Open the exported file with text editor, you can see the first line and last line is &lt;code&gt;-----BEGIN CERTIFICATE-----&lt;/code&gt;, &lt;code&gt;-----END CERTIFICATE-----&lt;/code&gt; and the content is base64 coded, in some relevent doc this format is called .crt(certificate)&lt;/p&gt;
+&lt;h5&gt;Import the crt to system&lt;/h5&gt;
+&lt;p&gt;every system has its own way to manage system certificate, in my ubuntu, here is what I do&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/usr/share/ca-certificates/ is the system location for ca certificate&lt;/span&gt;
+sudo mkdir /usr/share/ca-certificates/extra
+
+&lt;span class="c"&gt;#copy the exported crt file to the system location&lt;/span&gt;
+sudo cp ./ /usr/share/ca-certificates/extra/
+
+&lt;span class="c"&gt;#choose what you want to add and enter and ubuntu will update the relevent file&lt;/span&gt;
+sudo dpkg-reconfigure ca-certificates
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Simple test now!&lt;/h5&gt;
+&lt;p&gt;Use curl to make a quick simple test if cert is added successfully then you will see the html output.&lt;/p&gt;
+&lt;h5&gt;Reference:&lt;/h5&gt;
+&lt;p&gt;&lt;a href="http://brightbox.com/blog/2014/03/04/add-cacert-ubuntu-debian/"&gt;Adding CAcert root certificate to Debian/Ubuntu - properly&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://askubuntu.com/questions/73287/how-do-i-install-a-root-certificate"&gt;Installing a root/CA Certificate&lt;/a&gt;&lt;/p&gt;</summary><category term="phantomjs"></category></entry><entry><title>Enhance your scrapy shell</title><link href="http://blog.michaelyin.info/2014/05/03/enhance-your-scrapy-shell/" rel="alternate"></link><updated>2014-05-03T12:43:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-05-03:2014/05/03/enhance-your-scrapy-shell/</id><summary type="html">&lt;p&gt;In the development of the web spiders using scrapy framework, scrapy shell is very helpful because it can make developer debug the code quickly, however, I found that I have to type many imports to import the module into the shell, which is very time consuming.&lt;/p&gt;
+&lt;p&gt;So I dive into the scrapy source code to find a way to make me feel better when using scrapy shell. Here is my solution.&lt;/p&gt;
+&lt;h4&gt;Less import&lt;/h4&gt;
+&lt;p&gt;re, json, urlparse, copy module is very useful lib in writing spiders, if they are available when we star to write code in scrapy shell that will be very good. So let us get started.&lt;/p&gt;
+&lt;p&gt;edit the scrapy/utils/console.py in scrapy source code&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;urlparse&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;copy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The module is added to the header of the console file to make the module available in the python script&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;re&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;
+&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;json&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;
+&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;urlparse&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urlparse&lt;/span&gt;
+&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;copy&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Since the namespace is used as local namespace in the ipython shell, so I add the module to the dict and make you can directly use re , json and urlparse after running &lt;code&gt;scrapy shell&lt;/code&gt;&lt;/p&gt;
+&lt;h4&gt;Compare url&lt;/h4&gt;
+&lt;p&gt;Sometime I need to quickly compare two url and find out the difference between them. So I add a &lt;code&gt;compare&lt;/code&gt; method in my scrapy shell&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;difflib&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;compare&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;str1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;str2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;str1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;splitlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;str2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;splitlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;difflib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Differ&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;diff&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compare&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It use the difflib in python lib and make me get things done quickly.&lt;/p&gt;
+&lt;p&gt;Here is the final console.py, you can directly copy it and use it as you wish.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;urlparse&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;copy&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;difflib&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;compare&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;str1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;str2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;str1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;splitlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;str2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;splitlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;difflib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Differ&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;diff&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compare&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;start_python_console&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;noipython&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Start Python console binded to the given namespace. If IPython is&lt;/span&gt;
+&lt;span class="sd"&gt;    available, an IPython console will be started instead, unless `noipython`&lt;/span&gt;
+&lt;span class="sd"&gt;    is True. Also, tab completion will be used on Unix systems.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;namespace&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;namespace&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+    &lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;re&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;
+    &lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;json&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;
+    &lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;urlparse&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urlparse&lt;/span&gt;
+    &lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;copy&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt;
+    &lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;compare&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;compare&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c"&gt;# use IPython if available&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;noipython&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+            &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.terminal&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;embed&lt;/span&gt;
+                &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.frontend.terminal&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;embed&lt;/span&gt;
+                &lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;embed&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;InteractiveShellEmbed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;banner1&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.Shell&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;IPShellEmbed&lt;/span&gt;
+                &lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;IPShellEmbed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+            &lt;span class="n"&gt;sh&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;global_ns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{},&lt;/span&gt; &lt;span class="n"&gt;local_ns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;code&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c"&gt;# readline module is only available on unix systems&lt;/span&gt;
+                &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;readline&lt;/span&gt;
+            &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;pass&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;rlcompleter&lt;/span&gt;
+                &lt;span class="n"&gt;readline&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse_and_bind&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;tab:complete&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;interact&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;SystemExit&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c"&gt;# raised when using exit() in python code.interact&lt;/span&gt;
+        &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="scrapy"></category><category term="python"></category></entry><entry><title>Convert 8-bit byte to signed int in python</title><link href="http://blog.michaelyin.info/2014/03/09/convert-8bit-byte-to-signed-int/" rel="alternate"></link><updated>2014-03-09T11:37:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-03-09:2014/03/09/convert-8bit-byte-to-signed-int/</id><summary type="html">&lt;p&gt;Python has provided library to handle bit maniputation in most cases, however, I can not find a good way to convert a 8-bit single byte to signed int type using built-in lib.&lt;/p&gt;
+&lt;h3&gt;Scenario&lt;/h3&gt;
+&lt;p&gt;Here is scenario, some newbie Java developer need to hash the password and save it to database, he did not convert to hash result to hex string but just called toString to save it to database.&lt;/p&gt;
+&lt;p&gt;The Java code is like this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;StringBuilder&lt;/span&gt; &lt;span class="n"&gt;sb&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;StringBuilder&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;byte&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;strBytes&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;sb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;append&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;//this one is better choice&lt;/span&gt;
+    &lt;span class="c1"&gt;//sb.append(String.format(&amp;quot;%02X &amp;quot;, b));&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;sb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;toString&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+
+&lt;span class="n"&gt;Sample&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt; 
+&lt;span class="mi"&gt;12333&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;124&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;118&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;55&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;8153&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;6613&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;3745107&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;97&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;61&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1232552&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;37&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;12432&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Byte in Java is represented by signed int in range (-128, 127), Byte Python is represented by unsigned int in range(0, 255). So I nedd to convert the 8-bit byte in python to signed int to make comparison done.&lt;/p&gt;
+&lt;h3&gt;Solution-1&lt;/h3&gt;
+&lt;p&gt;Since java use one bit to mark sign, so we can make it without using 3-party lib&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;byte&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;127&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;256&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;byte&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;byte&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Solution-2&lt;/h3&gt;
+&lt;p&gt;There are some 3-party lib to provide good support to bit maniputation.
+&lt;a href="https://pythonhosted.org/bitstring/"&gt;bitstring&lt;/a&gt; is recommended by me, you can use it to work in bit.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;bitstring&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Bits&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uint&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;byte&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unpack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;int&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Quite simple! And you can dive in deeper to find other good feature&lt;/p&gt;</summary><category term="bit"></category><category term="byte"></category><category term="python"></category></entry><entry><title>How to debug your scrapy spider</title><link href="http://blog.michaelyin.info/2014/03/02/how-to-debug-your-scrapy-spider/" rel="alternate"></link><updated>2014-03-02T11:13:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-03-02:2014/03/02/how-to-debug-your-scrapy-spider/</id><summary type="html">&lt;h3&gt;Intro&lt;/h3&gt;
 &lt;p&gt;This post will talk about some useful tips in the development of scrapy spider which can help you write your spider quickly&lt;/p&gt;
 &lt;h3&gt;Extract infomation&lt;/h3&gt;
 &lt;p&gt;Some newbie developer think the expression supported by scrapy is difficult to learn, but the truth is, compared to the methods like find_by_id, find_by_name in some framework, the xpath, css, and re expression is very extensible and easy to maintain, then work well even in some complex situation. &lt;/p&gt;
@@ -30,6 +220,27 @@
 &lt;li&gt;&lt;code&gt;view&lt;/code&gt;: you can call this &lt;code&gt;view(response)&lt;/code&gt; to open the page in your browser&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;fetch&lt;/code&gt; fetch another web page and get the new response&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3&gt;How to analyze log&lt;/h3&gt;
+&lt;p&gt;Log is the only way to figure out what happend when scrawl working. So I will give you some suggestion about the log&lt;/p&gt;
+&lt;p&gt;The spider may raise exception when working due to the different html structure or something else, you need to log the entire html souce code to analyze later. Here is an example.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;error occur at &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;After the spider work finished, you can vi the log file and search the error, then copy-paste the html source code to simple html file. For example, the spider raise exception when working on a product page, you get the source html code after checking the log. Now you might ask, how to use it? When can rebuild the env and use scrapy parse to see why it raise exception.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python -m SimpleHTTPServer 10000&lt;/code&gt; can start a simple http server on port 10000 and you can use scrapy parse to recrawl the html page again and see what make it not work as expected.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt; &lt;span class="n"&gt;parse&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;spider&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;googleshop_uk&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;loglevel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;DEBUG&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="n"&gt;parse_product_page&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;http://127.0.0.1:10000/product.html&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;or you can use scrapy shell&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt; &lt;span class="n"&gt;shell&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//127.0.0.1:10000/product.html&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This will make you find the bug quickly and make you see what happend in crawing pages.&lt;/p&gt;
 &lt;h3&gt;Conclution&lt;/h3&gt;
 &lt;p&gt;I hope the tips above can really help you, and after that, you can dive in scrapy doc to find other useful tools.&lt;/p&gt;</summary><category term="scrapy"></category></entry><entry><title>Handle autocomplete using selenium</title><link href="http://blog.michaelyin.info/2014/02/19/handle-autocomplete-using-selenium/" rel="alternate"></link><updated>2014-02-19T08:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-02-19:2014/02/19/handle-autocomplete-using-selenium/</id><summary type="html">&lt;p&gt;Selenium is a so great tool to make web ui test, in some cases, we have to make it work with some ajax autocomplete like jquery ui autocomplete.&lt;/p&gt;
 &lt;p&gt;First you need to understand how the autocomplete work. Most plugin will create a ul which contain data get from the server by ajax, and insert the ul into the body, then display it for user to &lt;code&gt;click&lt;/code&gt; by mouse or &lt;code&gt;enter&lt;/code&gt; by keydown.&lt;/p&gt;
@@ -126,7 +337,20 @@ curl https://npmjs.org/install.sh | sh
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;The author provide many ways to install nodejs and method above is the fastest.The others are available &lt;a href="https://gist.github.com/isaacs/579814"&gt;here&lt;/a&gt; &lt;/p&gt;</summary><category term="NodeJs"></category></entry><entry><title>Make python module editable</title><link href="http://blog.michaelyin.info/2013/12/10/make-python-module-editable/" rel="alternate"></link><updated>2013-12-10T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-10:2013/12/10/make-python-module-editable/</id><summary type="html">&lt;h3&gt;Intro&lt;/h3&gt;
+&lt;p&gt;The author provide many ways to install nodejs and method above is the fastest.The others are available &lt;a href="https://gist.github.com/isaacs/579814"&gt;here&lt;/a&gt; &lt;/p&gt;
+&lt;h3&gt;Updated 2014.03.15&lt;/h3&gt;
+&lt;p&gt;I have met some problem when installing package globally. After diving into the documentation I found the solution.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;./configure --prefix=~/local&lt;/code&gt; make node and npm installed in the home directory, so does the node_modules.&lt;/p&gt;
+&lt;p&gt;According to the doc of node&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The prefix config defaults to the location where node is installed. On most systems, this is /usr/local, and most of the time is the same as node's process.installPrefix.&lt;/p&gt;
+&lt;p&gt;Global installs on Unix systems go to {prefix}/lib/node_modules&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Even I set the prefix when I installing node, but the prefix it still /usr/local in its config file, so global install does not work as expected.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;vi .npmrc 
+&lt;span class="c"&gt;#change the prefix in npmrc to ~/local&lt;/span&gt;
+&lt;span class="nv"&gt;prefix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; ~/local
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="NodeJs"></category></entry><entry><title>Make python module editable</title><link href="http://blog.michaelyin.info/2013/12/10/make-python-module-editable/" rel="alternate"></link><updated>2013-12-10T21:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2013-12-10:2013/12/10/make-python-module-editable/</id><summary type="html">&lt;h3&gt;Intro&lt;/h3&gt;
 &lt;p&gt;There are so many python packages in the Python world, which provide rich functionality to help us make things done quickly, but sometime you may want to see the detail inside to learn or want to debug the package code to fix some bugs. The package code would be in the site-packages if you install it by default, which is not a good way for python hacker. In this post I will show you how to install a module to make it editable&lt;/p&gt;
 &lt;h3&gt;Develop Mode&lt;/h3&gt;
 &lt;p&gt;When you get code through git or http download, usually the stucture of pythonn package is like this. Let's take a look at pelican package&lt;/p&gt;

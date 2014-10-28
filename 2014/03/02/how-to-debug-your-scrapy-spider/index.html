@@ -115,6 +115,27 @@
 <li><code>view</code>: you can call this <code>view(response)</code> to open the page in your browser</li>
 <li><code>fetch</code> fetch another web page and get the new response</li>
 </ul>
+<h3>How to analyze log</h3>
+<p>Log is the only way to figure out what happend when scrawl working. So I will give you some suggestion about the log</p>
+<p>The spider may raise exception when working due to the different html structure or something else, you need to log the entire html souce code to analyze later. Here is an example.</p>
+<div class="highlight"><pre><span class="n">log</span><span class="o">.</span><span class="n">msg</span><span class="p">(</span><span class="s">&#39;error occur at &#39;</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">log</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">msg</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="n">log</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">msg</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">log</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+</pre></div>
+
+
+<p>After the spider work finished, you can vi the log file and search the error, then copy-paste the html source code to simple html file. For example, the spider raise exception when working on a product page, you get the source html code after checking the log. Now you might ask, how to use it? When can rebuild the env and use scrapy parse to see why it raise exception.</p>
+<p><code>python -m SimpleHTTPServer 10000</code> can start a simple http server on port 10000 and you can use scrapy parse to recrawl the html page again and see what make it not work as expected.</p>
+<div class="highlight"><pre><span class="n">scrapy</span> <span class="n">parse</span> <span class="o">--</span><span class="n">spider</span><span class="o">=</span><span class="n">googleshop_uk</span> <span class="o">--</span><span class="n">loglevel</span><span class="o">=</span><span class="n">DEBUG</span> <span class="o">-</span><span class="n">c</span> <span class="n">parse_product_page</span> <span class="s">&quot;http://127.0.0.1:10000/product.html&quot;</span>
+</pre></div>
+
+
+<p>or you can use scrapy shell</p>
+<div class="highlight"><pre><span class="n">scrapy</span> <span class="n">shell</span> <span class="n">http</span><span class="o">:</span><span class="c1">//127.0.0.1:10000/product.html</span>
+</pre></div>
+
+
+<p>This will make you find the bug quickly and make you see what happend in crawing pages.</p>
 <h3>Conclution</h3>
 <p>I hope the tips above can really help you, and after that, you can dive in scrapy doc to find other useful tools.</p>
         </div>

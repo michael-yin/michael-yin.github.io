@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>PhantomJS fail to open HTTPS site</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                PhantomJS fail to open HTTPS site
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        06 Jun 2014
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/phantomjs.html">
+    <span class="label label-default">phantomjs</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+            <h4>Intro</h4>
+<p>When I develop automation tool based on phantomjs, it can not open some https website, so I spend some time to figure out how to solve this strange problem.</p>
+<h4>Solution 1</h4>
+<p>You can use the command option <code>--ignore-ssl-errors=true</code> of phantomjs to make it ignore the ssl error, so it can load the page</p>
+<h4>Solution 2</h4>
+<p>Solution 1 can indeed solve the problem but it can not make sure the https connection is secure, so if you care about the securety problem you need another way to get it done.</p>
+<p>There are some points you need to know here:</p>
+<p>1 Https is on top of the SSL/TLS protocol, which adding the security capabilities of SSL/TLS to standard HTTP communications</p>
+<p>2 If a ca is trusted by a user, then the website which signatured by the ca will also be trusted</p>
+<p>3 Not all program share the single one location which manage ca certificate, so in some cases, some websites displayed well in your web browser, but can not work well in your system tool such as curl, that is because the curl use the system ca locatioin, but the web browser usually manage ca certificate on its own.</p>
+<p>Here is an simple example, try to open https://www.renrendai.com/loginPage.action in your browser, and try to open it by shell command <code>curl https://www.renrendai.com/loginPage.action</code>, you can see curl will raise an error because the ca certificate is not in you ca location.</p>
+<p>Phantomjs doc have said it will use system ca certificate by default. So we now have two option. One is import the ca certificate into the system location, the other is use <code>--ssl-certificates-path=</code> change the location used by Phantomjs. I will choose first one.</p>
+<h5>Export ca certificate</h5>
+<p>Now we need to get the ca certificate first, open your browser, type in the https address, and click the address and a window popup just like this</p>
+<p><img alt="" src="http://blog.michaelyin.info/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /></p>
+<p>Click the certificate infomation to see the detail about the certificate</p>
+<p><img alt="" src="http://blog.michaelyin.info/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /></p>
+<p>Click detail, and you can see the Certificate Hierarchy, <strong>You need to export the every certificate in the Certificate Hierarchy, so in this example you need to export 4 file</strong></p>
+<p>Open the exported file with text editor, you can see the first line and last line is <code>-----BEGIN CERTIFICATE-----</code>, <code>-----END CERTIFICATE-----</code> and the content is base64 coded, in some relevent doc this format is called .crt(certificate)</p>
+<h5>Import the crt to system</h5>
+<p>every system has its own way to manage system certificate, in my ubuntu, here is what I do</p>
+<div class="highlight"><pre><span class="c">#/usr/share/ca-certificates/ is the system location for ca certificate</span>
+sudo mkdir /usr/share/ca-certificates/extra
+
+<span class="c">#copy the exported crt file to the system location</span>
+sudo cp ./ /usr/share/ca-certificates/extra/
+
+<span class="c">#choose what you want to add and enter and ubuntu will update the relevent file</span>
+sudo dpkg-reconfigure ca-certificates
+</pre></div>
+
+
+<h5>Simple test now!</h5>
+<p>Use curl to make a quick simple test if cert is added successfully then you will see the html output.</p>
+<h5>Reference:</h5>
+<p><a href="http://brightbox.com/blog/2014/03/04/add-cacert-ubuntu-debian/">Adding CAcert root certificate to Debian/Ubuntu - properly</a></p>
+<p><a href="http://askubuntu.com/questions/73287/how-do-i-install-a-root-certificate">Installing a root/CA Certificate</a></p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'phantomjs-fail-to-open-https';
+            var disqus_url = 'http://blog.michaelyin.info/2014/06/06/phantomjs-fail-to-open-https/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>
