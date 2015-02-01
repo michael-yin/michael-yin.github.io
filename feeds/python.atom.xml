@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/python.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2014-10-27T13:24:00+08:00</updated><entry><title>Manully build and install pyv8 in virtualenv</title><link href="http://blog.michaelyin.info/2014/10/27/manully-build-and-install-pyv8-in-virtualenv/" rel="alternate"></link><updated>2014-10-27T13:24:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-10-27:2014/10/27/manully-build-and-install-pyv8-in-virtualenv/</id><summary type="html">&lt;p&gt;Here is the tutorials about how to build and install pyv8 in virtualenv on Ubuntu&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/python.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2015-02-01T13:25:00+08:00</updated><entry><title>No Active Project In Scrapy</title><link href="http://blog.michaelyin.info/2015/02/01/no-active-project-in-scrapy/" rel="alternate"></link><updated>2015-02-01T13:25:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2015-02-01:2015/02/01/no-active-project-in-scrapy/</id><summary type="html">&lt;p&gt;When I try to run scrapy spider in my terminal, it give me some error message like this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Scrapy 0.24.4 - no active project
+
+Unknown &lt;span class="nb"&gt;command&lt;/span&gt;: crawl
+
+Use &lt;span class="s2"&gt;&amp;quot;scrapy&amp;quot;&lt;/span&gt; to see available commands
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It seems there is no good post about how to fix this problem, so this post will tell you how to fix it.&lt;/p&gt;
+&lt;p&gt;First, please check if there is scrapy.cfg in the root directory&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;your_project_dir&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+    &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cfg&lt;/span&gt;
+    &lt;span class="n"&gt;scrapyproduct&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+        &lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+        &lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+        &lt;span class="n"&gt;pipelines&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+        &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+        &lt;span class="n"&gt;spiders&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+            &lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+            &lt;span class="p"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Second, check the content of the scrapy.cfg. It should look like this.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[settings]&lt;/span&gt;
+&lt;span class="na"&gt;default&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;scrapyproduct.settings&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Scrapy framework will first look for scrapy.cfg, and then use the value of the default in the settings section to look for spiders (&lt;code&gt;scrapyproduct&lt;/code&gt; in this example). So if the scrapy.cfg is missing or there is no &lt;code&gt;scrapyproduct&lt;/code&gt; in this project_dir, it will give us &lt;code&gt;no active project&lt;/code&gt; error message.&lt;/p&gt;
+&lt;p&gt;Ref:
+&lt;a href="http://doc.scrapy.org/en/latest/intro/tutorial.html"&gt;Scrapy Tutorial&lt;/a&gt;&lt;/p&gt;</summary><category term="python"></category><category term="scrapy"></category></entry><entry><title>Manully build and install pyv8 in virtualenv</title><link href="http://blog.michaelyin.info/2014/10/27/manully-build-and-install-pyv8-in-virtualenv/" rel="alternate"></link><updated>2014-10-27T13:24:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-10-27:2014/10/27/manully-build-and-install-pyv8-in-virtualenv/</id><summary type="html">&lt;p&gt;Here is the tutorials about how to build and install pyv8 in virtualenv on Ubuntu&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;
 &lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="n"&gt;pyv8_install&lt;/span&gt;
 &lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;pyv8_install&lt;/span&gt;

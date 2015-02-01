@@ -63,6 +63,40 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2010/11/09/subsonic-data-lost/">Subsonic查询中奇怪的数据丢失问题</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        09 Nov 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/subsonic.html">
+    <span class="label label-default">Subsonic</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>昨天在项目中遇到了一个很奇怪的问题，用Subsonic查询出来的对象中部分字段值出现了丢失，比如我写这样一个查询语句</p>
+<div class="highlight"><pre><span class="n">ViewIceCalculate</span> <span class="n">objViewIce</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Select</span><span class="p">().</span><span class="n">Top</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">).</span><span class="n">From</span><span class="p">&lt;</span><span class="n">ViewIceCalculate</span><span class="p">&gt;().</span><span class="n">ExecuteSingle</span><span class="p">&lt;</span><span class="n">ViewIceCalculate</span><span class="p">&gt;();</span>
+</pre></div>
+
+
+<p>后面的查询跟Sql语句差不多的，返回一个对象，但是从程序Debug中来看的话，有些属性并没有取到值，这个有点奇怪的现象引起了我的兴趣，在网上找了一下，找到了对应的源码，将SubSonic
+Project加载到我实验的Console的Project中去，查询中所调用的东西都在里面。</p>
+<p>然后再Subsonic中去看了一下，由于是从new
+Select开始的查询,所以先看看Select这个类把，发现Select这个类继承自SqlQuery,又跑到SqlQuery这个类中一窥究竟。在SqlQuery我没有看到Top,不过发现了一个名叫From的方法，看来有戏啊，继续发现之旅。。。看看这里里面有没有ExecuteSingle，结果还真有，一路找寻，找到了一个叫BuildSqlStatement的方法，看样子Sql语句的拼凑是在这里完成的，果断设断点，然后启动调试，到这里将生成的Sql语句贴到SQl中运行，数据是可以全部查出来的，那么问题就不出在这里了。。</p>
+<p>数据查寻出来后返回的是一个IDataReader的接口，ExecuteSingle中还有另外一个叫做BuildTypedResult的方法，在代码中找到方法的代码，然后设了断点，然后。。。我知道悲剧为什么发生了。。。。</p>
+<p>先上代码吧 ...</p>
+                    <a href="http://blog.michaelyin.info/2010/11/09/subsonic-data-lost/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/10/30/merge-sort/">算法学习之合并排序</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -356,37 +390,6 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/08/01/bugnet-study-6/">Bugnet学习总结（6）用户控件</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        01 Aug 2010
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/bugnet.html">
-    <span class="label label-default">Bugnet</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>用户控件作为Asp.net提供的一种自定义可重用的机制，在很多的项目中都得到了应用，Bugnet里面也使用了很多用户控件。</p>
-<p>UserControls文件夹里面放的除了fckeditor和xslt外，就是项目里面要用到的用户控件了，代码都不难，下面就把里面的DisplayBugs.ascx拿出来稍微讲一下。该控件在Bugnet中被用到的次数还是很多的，功能也比较简单，就是提供了一个有图表显示，有排序功能的列表。该用户控件是在Gridview的基础上做的开发，增加了一个BugCollection和EventHandler。BugCollection是Gridview需要绑定的数据源，而EventHandler则是使用了事件。调用该事件实现绑定数据的具体操作。</p>
-<div class="highlight"><pre> <span class="p">&lt;</span><span class="n">uc1</span><span class="p">:</span><span class="n">DisplayBugs</span> <span class="n">ID</span><span class="p">=</span><span class="s">&quot;InProgressBugs&quot;</span> <span class="n">HeaderBackColor</span><span class="p">=</span><span class="s">&quot;#eeeeee&quot;</span> <span class="n">CssClass</span><span class="p">=</span><span class="s">&quot;issues&quot;</span> <span class="n">OnRebindCommand</span><span class="p">=</span><span class="s">&quot;DisplayBugs_DataBind&quot;</span> <span class="n">runat</span><span class="p">=</span><span class="s">&quot;server&quot;</span> <span class="p">/&gt;</span>
-</pre></div>
-
-
-<p>上面是在MyBugs.aspx中重用DisplayBugs.ascx用户控件的代码，可以看到一行代码基本就搞定，而后台的代码只需要把相应的数据源给用户控件，然后执行DataBind就可以了。像这样</p>
-<div class="highlight"><pre><span class="n">BugsAssigned</span><span class="p">.</span><span class="n">DataSource</span> <span class="p">=</span> <span class="n">Bug</span><span class="p">.</span><span class="n">GetBugsByCriteria</span><span class="p">(-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">User</span><span class="p">.</span><span class="n">Identity</span><span class="p">.</span><span class="n">Name ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/08/01/bugnet-study-6/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index5.html">&laquo;</a>
@@ -509,38 +512,62 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/tag/python.html">
                     <span class="label label-default">python</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/codekata.html">
                     <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
@@ -548,17 +575,11 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
                     <span class="label label-default">bullet-and-wall</span>
@@ -566,29 +587,11 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/selenium.html">
-                    <span class="label label-default">selenium</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/binary-tree.html">
                     <span class="label label-default">Binary tree</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
             </li> 
 

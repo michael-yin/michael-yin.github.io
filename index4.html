@@ -63,6 +63,31 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2011/08/14/beauty-of-programing-218/">编程之美2.18学习笔记</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        14 Aug 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>解题过程中没有使用书上提供的动态规划的算法，在这里把解题思路写一下。</p>
+<p>题目是这样的，有个包含2n个元素的无序数组，现在用算法将这个数组进行分割，使得两个子数组的和最相近</p>
+<p>我们首先来想像将数组分割后的情况，假设分割后的两个数组分别为A和B，A[0]和B[0]之间肯定是存在一个差值的，假设我们用A[0]-B[0]，得到的值加上A[1]-B[1]，这样最后得到的值的绝对值肯定是所有情况里面最小的，因为最后得到的绝对值其实就是两个数组的和的差值。</p>
+<p>现在我们已经隐隐感觉到，其实两个元素之间的差值是我们可以拿来用的一个条件。我们只需要保证差值的绝对值为最小，这样得到的两个数组就是我们所求的结果了。然后还有一个问题，两个数组对应元素之间的差值是不一样的。比如A[0]-B[0]的差值是1,A[1]
+–B[1]的差值可能是99，我们需要一种策略来保证我们在计算这个差值的绝对值一定是最小。借鉴一下权重的思想，我们需要把本来差值绝对值最大的那一组A和B对应的元素放到前面去，然后依次排序，这样得到的相当于就是权重一个从大到小的顺序，我们遍历的时候就能够得到正确的结果，不至于前面出现了很多小的差值，然后因为后面出现了一个很大的差值，（比如99）使得得到的结果错误。</p>
+<p>下面完整的将一遍解题思路 ...</p>
+                    <a href="http://blog.michaelyin.info/2011/08/14/beauty-of-programing-218/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2011/07/31/beauty-of-programing-214/">编程之美2.14学习笔记</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -359,36 +384,6 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/02/static-function/">这不是基础中的基础么</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        02 Mar 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>中午在园子里逛的时候看到了一个评论头条的<a href="http://www.cnblogs.com/jirigala/archive/2011/03/01/1968192.html">博文</a>，吉日嘎拉纠正了自己的错误认识。里面涉及到的东西说实话确实很基础，不过我看了下评论却没有将问题解释清楚，至于标题借用了老赵的评论。</p>
-<p>先说说方法表，方法表位于内存中的Loader
-Heap，它包含着类对应的方法，在类加载的时候会在Load
-Heap上创建和相应的类对应的方法表。当类实例化的时候，托管堆上除了将对象实例化所需要的字段分配内存以外，还会给一个叫做TypeHandle的给实例，这样新建的实例就可以根据TypeHandle在Loader
-Heap中找到它所对应的类型的方法表，进而找到对应的方法。</p>
-<p>在这里借用下Anytao的图。。可能大家看的更懂一些\~</p>
-<p><a href="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg"><img alt="20110303000835615" src="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg" /></a></p>
-<p>到这里停顿一下，说开了实例方法和静态方法其实在内存中都是存储在这个类所对应的方法表上，而且重要的是，它们在内存里面都只有一份，实例调用的方法也是通过TypeHandle找到对应的方法表而完成的方法的调用的。</p>
-<p>在来说说方法的调用，在大学学过C的都必定折腾过实参，形参，也知道为什么有的时候为什么调用C语言函数的时候要传入指针，如果你把那个地方搞的比较清楚的话那么这里想必也难不倒你了。C语言函数调用的时候是在内存上重新开辟一块区域，然后在这个里面运行函数并进行相应的处理并返回结果，运行完成之后释放所有的局部变量。在.Net里面方法的调用也是这个过程，分配动态内存进行方法的处理。</p>
-<p>吉日嘎拉博文中纠结的并发还是排队其实仔细想象就会有答案，这两种处理方式产生的原因是因为对资源的占用问题，就是说不同线程里面有没有可能产生资源占用的问题，上面已经说到了方法调用是分配到内存里面进行处理，不同的方法在内存中所处的位置显然是不相同的。所以一般情况下这个是能够并发的，除非是在不同的内存中又涉及到了访问公有区域的位置，比如访问静态变量。</p>
-<p>到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变\~</p>
-                    <a href="http://blog.michaelyin.info/2011/03/02/static-function/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index3.html">&laquo;</a>
@@ -511,38 +506,62 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
                 <a href="http://blog.michaelyin.info/tag/python.html">
                     <span class="label label-default">python</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/codekata.html">
                     <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
@@ -550,17 +569,11 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
                     <span class="label label-default">bullet-and-wall</span>
@@ -568,29 +581,11 @@ Heap中找到它所对应的类型的方法表，进而找到对应的方法。<
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/selenium.html">
-                    <span class="label label-default">selenium</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/binary-tree.html">
                     <span class="label label-default">Binary tree</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
             </li> 
 

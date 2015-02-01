@@ -63,6 +63,36 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2011/03/02/static-function/">这不是基础中的基础么</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        02 Mar 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>中午在园子里逛的时候看到了一个评论头条的<a href="http://www.cnblogs.com/jirigala/archive/2011/03/01/1968192.html">博文</a>，吉日嘎拉纠正了自己的错误认识。里面涉及到的东西说实话确实很基础，不过我看了下评论却没有将问题解释清楚，至于标题借用了老赵的评论。</p>
+<p>先说说方法表，方法表位于内存中的Loader
+Heap，它包含着类对应的方法，在类加载的时候会在Load
+Heap上创建和相应的类对应的方法表。当类实例化的时候，托管堆上除了将对象实例化所需要的字段分配内存以外，还会给一个叫做TypeHandle的给实例，这样新建的实例就可以根据TypeHandle在Loader
+Heap中找到它所对应的类型的方法表，进而找到对应的方法。</p>
+<p>在这里借用下Anytao的图。。可能大家看的更懂一些\~</p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg"><img alt="20110303000835615" src="http://blog.michaelyin.info/images/2011/03/20110303000835615.jpg" /></a></p>
+<p>到这里停顿一下，说开了实例方法和静态方法其实在内存中都是存储在这个类所对应的方法表上，而且重要的是，它们在内存里面都只有一份，实例调用的方法也是通过TypeHandle找到对应的方法表而完成的方法的调用的。</p>
+<p>在来说说方法的调用，在大学学过C的都必定折腾过实参，形参，也知道为什么有的时候为什么调用C语言函数的时候要传入指针，如果你把那个地方搞的比较清楚的话那么这里想必也难不倒你了。C语言函数调用的时候是在内存上重新开辟一块区域，然后在这个里面运行函数并进行相应的处理并返回结果，运行完成之后释放所有的局部变量。在.Net里面方法的调用也是这个过程，分配动态内存进行方法的处理。</p>
+<p>吉日嘎拉博文中纠结的并发还是排队其实仔细想象就会有答案，这两种处理方式产生的原因是因为对资源的占用问题，就是说不同线程里面有没有可能产生资源占用的问题，上面已经说到了方法调用是分配到内存里面进行处理，不同的方法在内存中所处的位置显然是不相同的。所以一般情况下这个是能够并发的，除非是在不同的内存中又涉及到了访问公有区域的位置，比如访问静态变量。</p>
+<p>到这里基本上就把问题解释的比较清楚了，不过从那篇博客的评论中可以看到还是有不少的人对于基础东西缺乏了解，同时也建议想提高自己水平的编程者关注业务的同时多多注重基础知识的学习，每天抽点时间看点书，积累一点，时间久了就会质变\~</p>
+                    <a href="http://blog.michaelyin.info/2011/03/02/static-function/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">闲话Hashtable与Dictionary</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -384,40 +414,6 @@ Sp1（在一篇文章的评论中看到有人说.net2.0中也能用，只是需�
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/11/09/subsonic-data-lost/">Subsonic查询中奇怪的数据丢失问题</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        09 Nov 2010
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/subsonic.html">
-    <span class="label label-default">Subsonic</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>昨天在项目中遇到了一个很奇怪的问题，用Subsonic查询出来的对象中部分字段值出现了丢失，比如我写这样一个查询语句</p>
-<div class="highlight"><pre><span class="n">ViewIceCalculate</span> <span class="n">objViewIce</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Select</span><span class="p">().</span><span class="n">Top</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">).</span><span class="n">From</span><span class="p">&lt;</span><span class="n">ViewIceCalculate</span><span class="p">&gt;().</span><span class="n">ExecuteSingle</span><span class="p">&lt;</span><span class="n">ViewIceCalculate</span><span class="p">&gt;();</span>
-</pre></div>
-
-
-<p>后面的查询跟Sql语句差不多的，返回一个对象，但是从程序Debug中来看的话，有些属性并没有取到值，这个有点奇怪的现象引起了我的兴趣，在网上找了一下，找到了对应的源码，将SubSonic
-Project加载到我实验的Console的Project中去，查询中所调用的东西都在里面。</p>
-<p>然后再Subsonic中去看了一下，由于是从new
-Select开始的查询,所以先看看Select这个类把，发现Select这个类继承自SqlQuery,又跑到SqlQuery这个类中一窥究竟。在SqlQuery我没有看到Top,不过发现了一个名叫From的方法，看来有戏啊，继续发现之旅。。。看看这里里面有没有ExecuteSingle，结果还真有，一路找寻，找到了一个叫BuildSqlStatement的方法，看样子Sql语句的拼凑是在这里完成的，果断设断点，然后启动调试，到这里将生成的Sql语句贴到SQl中运行，数据是可以全部查出来的，那么问题就不出在这里了。。</p>
-<p>数据查寻出来后返回的是一个IDataReader的接口，ExecuteSingle中还有另外一个叫做BuildTypedResult的方法，在代码中找到方法的代码，然后设了断点，然后。。。我知道悲剧为什么发生了。。。。</p>
-<p>先上代码吧 ...</p>
-                    <a href="http://blog.michaelyin.info/2010/11/09/subsonic-data-lost/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index4.html">&laquo;</a>
@@ -540,38 +536,62 @@ Select开始的查询,所以先看看Select这个类把，发现Select这个类�
                 <a href="http://blog.michaelyin.info/tag/python.html">
                     <span class="label label-default">python</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/codekata.html">
                     <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/ya-hu.html">
                     <span class="label label-default">雅虎</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
@@ -579,17 +599,11 @@ Select开始的查询,所以先看看Select这个类把，发现Select这个类�
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
                     <span class="label label-default">bullet-and-wall</span>
@@ -597,29 +611,11 @@ Select开始的查询,所以先看看Select这个类把，发现Select这个类�
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/selenium.html">
-                    <span class="label label-default">selenium</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/binary-tree.html">
                     <span class="label label-default">Binary tree</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
                 </a>
             </li> 
 
