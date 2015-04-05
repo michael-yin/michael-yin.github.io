@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Michaelyin's Blog - Dictionary</title>
+    <title>Michaelyin's Blog - Django</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -63,35 +63,28 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">闲话Hashtable与Dictionary</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2015/04/05/using-profiles-in-ipython-and-django/">using profiles in ipython and Django</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
-        14 Feb 2011
+        05 Apr 2015
     </span>
 
 
 
 <span class="published">
 <i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/dictionary.html">
-    <span class="label label-default">Dictionary</span>
+<a href="http://blog.michaelyin.info/tag/python.html">
+    <span class="label label-default">python</span>
 </a>
-<a href="http://blog.michaelyin.info/tag/hashtable.html">
-    <span class="label label-default">Hashtable</span>
+<a href="http://blog.michaelyin.info/tag/django.html">
+    <span class="label label-default">Django</span>
 </a>
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。</p>
-<p>Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。</p>
-<h3>链接法(chaining)</h3>
-<p>在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。</p>
-<p>链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。</p>
-<p><a href="http://blog.michaelyin.info/images/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/images/2011/02/201102142222064549.png" /></a></p>
-<h3>开放寻址法(open addressing)</h3>
-<p>在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。</p>
-<p>在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key ...</p>
-                    <a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">
+                <div class="summary"><h4>Intro</h4>
+<p>When I write my code in django shell, I found that django can launch ipython by typing <code>././manage.py shell</code> if ipython has been installed in virtualenv. However, I it seems it can not pass some argument like <code>--profile</code> into the ipython. So I can not let the ipython ...</p>
+                    <a href="http://blog.michaelyin.info/2015/04/05/using-profiles-in-ipython-and-django/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>

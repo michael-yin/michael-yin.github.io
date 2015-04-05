@@ -63,6 +63,37 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2013/02/19/codekata-how-big-how-fast/">CodeKata-How Big, How Fast?</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        19 Feb 2013
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>这次主要是训练的对于基本空间和时间复杂度的一些估计的思考，作者承诺一周后给出答案，不过到现在为止答案也木有见到，莫非是读者自己去讨论？</p>
+<p>首先是对于十进制很大数字所占bit位的大致估计，只要知道2的十次方是1024，然后1024约等于1000，按照这个对比关系得出结果即可。</p>
+<p>第二个题目是对于存储空间的估计，人名，地址，电话号码啥的大概多少位也不是个定数，自己估计下就行，单个字符的话如果是ASC码的话按照一个字节来处理(编码方式决定这里的字节数)，最后得出大概的结果就行。</p>
+<p>二分法查找的那个题目文章后面有评论给出了解法
+，不过我觉得这个解法是有问题的。它把两个之间通过一个比例关系来推导出最后结果所需要的时间，但是仔细分析，二分法的时间复杂度是lg2
+n，所以这个方法是有问题的，正确的解法是</p>
+<p>Time = Alg2(n) + B</p>
+<p>时间和数目是这样一种关系，通过前面给出的两组数据恰好能算出A B
+的值，这样就能对其他的情况进行类似推导。</p>
+<p>UNIX密码的那个问题应该考虑到密码不一定是有16位，可能只有15
+14位等等，这样所有的可能数加起来其实是一个等比数列，将其结果通过等比公式算出来后乘以每次HASH的时间数目然后查看最终结果是否符合要求。</p>
+<p>整体看来题目难度不大，主要目的还是要求程序员对基础知识的掌握，对于基础的排序算法，数据存储以及基本的数学知识是一个优秀程序员必备的素质。</p>
+                    <a href="http://blog.michaelyin.info/2013/02/19/codekata-how-big-how-fast/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2013/02/17/codekata-karate-chop/">CodeKata-Karate Chop</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -374,53 +405,6 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">Heritrix之旅之CrawlController</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        25 Aug 2011
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/heritrix.html">
-    <span class="label label-default">Heritrix</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/java.html">
-    <span class="label label-default">Java</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>一转眼暑假就快要结束了，暑假也是在趁着找工作之前花时间折研究了一下Heritrix，这段时间会花点时间把这块学习和心得来做一个总结，一方面对知识的夯实，另一方面也能对园子里面的朋友有所帮助。</p>
-<p>Heritrix的一些介绍网上都有，我在这里也就不做介绍了，直接进入正题。</p>
-<p>Heritrix抓取任务的核心类就是CrawlController,这个对象将决定一个抓取任务的开始和结束</p>
-<div class="highlight"><pre><span class="c1">//order.xml文件的封装  </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">CrawlOrder</span> <span class="n">order</span><span class="o">;</span>
-<span class="c1">//  </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">CrawlScope</span> <span class="n">scope</span><span class="o">;</span>
-<span class="c1">//处理链列表 </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ProcessorChainList</span> <span class="n">processorChains</span><span class="o">;</span>
-<span class="c1">//为抓取线程提供uri    </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">Frontier</span> <span class="n">frontier</span><span class="o">;</span>
-
-<span class="c1">//线程池   </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ToePool</span> <span class="n">toePool</span><span class="o">;</span>
-
-<span class="c1">//缓存，保存了当前抓取任务抓取过的Host名称和Server名称   </span>
-<span class="kd">private</span> <span class="kd">transient</span> <span class="n">ServerCache</span> <span class="n">serverCache</span><span class="o">;</span>
-
-<span class="c1">// This gets passed into the initialize method.</span>
-
-<span class="kd">private</span> <span class="kd">transient ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/08/25/heritrix-crawlcontroller/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index2.html">&laquo;</a>
@@ -531,98 +515,101 @@ DB数据库来存存储信息，有效的避免了内存溢出，WorkQueue是队
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/bugnet.html">
-                    <span class="label label-default">Bugnet</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
                     <span class="label label-default">Blogengine</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/scrapy.html">
-                    <span class="label label-default">scrapy</span>
+                <a href="http://blog.michaelyin.info/tag/bugnet.html">
+                    <span class="label label-default">Bugnet</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/python.html">
                     <span class="label label-default">python</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
+                <a href="http://blog.michaelyin.info/tag/scrapy.html">
+                    <span class="label label-default">scrapy</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bit.html">
-                    <span class="label label-default">bit</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/selenium.html">
                     <span class="label label-default">selenium</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/subsonic.html">
                     <span class="label label-default">Subsonic</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/django.html">
+                    <span class="label label-default">Django</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/gb2312.html">
                     <span class="label label-default">gb2312</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
                     <span class="label label-default">账号</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bit.html">
+                    <span class="label label-default">bit</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/binary-tree.html">
                     <span class="label label-default">Binary tree</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
                 </a>
             </li> 
 

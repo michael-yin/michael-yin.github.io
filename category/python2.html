@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Michaelyin's Blog - Dictionary</title>
+    <title>Michaelyin's Blog - Python</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -63,41 +63,51 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
-                <h2><a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">闲话Hashtable与Dictionary</a></h2>
+                <h2><a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">CodeKata-Data Munging</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
         <i class="icon-calendar"></i>
-        14 Feb 2011
+        03 Mar 2013
     </span>
 
 
 
 <span class="published">
 <i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/dictionary.html">
-    <span class="label label-default">Dictionary</span>
-</a>
-<a href="http://blog.michaelyin.info/tag/hashtable.html">
-    <span class="label label-default">Hashtable</span>
+<a href="http://blog.michaelyin.info/tag/codekata.html">
+    <span class="label label-default">CodeKata</span>
 </a>
  </span>
 </div><!-- /.post-info --></div>
-                <div class="summary"><p>以前对于这两个集合类的认识只是停留在是否支持泛型上，这几天趁着看算法导论的机会，把两个类的内部的实现机制好好的了解了一下。</p>
-<p>Hashtable和Dictionary从数据结构上来说都属于Hashtable，都是对关键字（键值）进行散列操作，将关键字散列到Hashtable的某一个槽位中去，不同的是处理碰撞的方法。散列函数有可能将不同的关键字散列到Hashtable中的同一个槽中去，这个时候我们称发生了碰撞，为了将数据插入进去，我们需要另外的方法来解决这个问题。</p>
-<h3>链接法(chaining)</h3>
-<p>在链接法中，把散列到同一个槽中的所有元素放在一个链表中，槽中有一个指针，指向链表的头，如果没有的话，则为NIL。对于一个能存放n个元素，具有m个槽位的散列表，我们定义装载因子a为n/m,即一个链中平均存储的元素的个数。</p>
-<p>链接法中的加入，删除，寻找操作其实基本上就是链表的基本操作。在这里就不仔细讲了。</p>
-<p><a href="http://blog.michaelyin.info/images/2011/02/201102142222064549.png"><img alt="201102142222064549" src="http://blog.michaelyin.info/images/2011/02/201102142222064549.png" /></a></p>
-<h3>开放寻址法(open addressing)</h3>
-<p>在开放寻址法中，所有的元素都保存在散列表中，而不是像链接法，数据保存在外部的链表中，在开放寻址法中，由于数据全部存储在散列表中，所以槽位一定会大于等于n,也就是说，装载因子一定会小于等于1。</p>
-<p>在开放寻址法中，当要插入一个元素时，我们将关键字和探查号(从0开始累加)作为输入传给散列函数，散列函数返回对应的槽位。插入的时候首先查找hash(key ...</p>
-                    <a href="http://blog.michaelyin.info/2011/02/14/hashtable-dictionary/">
+                <div class="summary"><p>这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。</p>
+<p>第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据</p>
+<p>第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。</p>
+<p>第三个问题是对前两个问题的代码进行分析，提取出共用的部分，进行重用。考察前两个问题的代码，发现文件读取，正则处理，都是很类似的逻辑，所以将这部分进行提取抽象成一个类，将正则，相关参数和文件路径抽象成类，这样的话代码维护性也比较好，废话不多说，上代码</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="k">class</span> <span class="nc">Input</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">firstindex</span><span class="p">,</span> <span class="n">secindex</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">firstindex</span> <span class="o">=</span> <span class="n">firstindex</span>
+        <span class="bp">self ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">
                         <span class="label label-primary tag-2">More...</span>
                     </a>
                 </div>
             </article>
             <hr/>
 
+        <ul class="pagination">
+                <li class="prev"><a href="http://blog.michaelyin.info/category/python.html">&laquo;</a>
+                </li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/category/python.html">1</a></li>
+                <li class="active"><a
+                        href="http://blog.michaelyin.info/category/python2.html">2</a></li>
+                <li class="next disabled"><a href="#">&laquo;</a></li>
+        </ul>
 </div>
 <div class="col-lg-3 well well-sm" id="sidebar"><aside>
     <section>
