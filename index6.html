@@ -63,6 +63,49 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">BlogEngine中的BlogSettings</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        26 Nov 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">Blogengine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>BlogEngine中的BlogSettings这个类是用来提供整个系统的设置参数的，参数的读取采用的是反射获取属性名称，然后遍历进行赋值，个人觉得这段代码值得学习</p>
+<div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">Load</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Type</span> <span class="n">settingsType</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">();</span>
+
+    <span class="c1">//------------------------------------------------------------</span>
+    <span class="c1">//  Enumerate through individual settings nodes</span>
+    <span class="c1">//------------------------------------------------------------</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Specialized</span><span class="p">.</span><span class="n">StringDictionary</span> <span class="n">dic</span> <span class="p">=</span> <span class="n">Providers</span><span class="p">.</span><span class="n">BlogService</span><span class="p">.</span><span class="n">LoadSettings</span><span class="p">();</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">key</span> <span class="k">in</span> <span class="n">dic</span><span class="p">.</span><span class="n">Keys</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="c1">//  Extract the setting&#39;s name/value pair</span>
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="kt">string</span> <span class="n">name</span> <span class="p">=</span> <span class="n">key</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="k">value</span> <span class="p">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+
+        <span class="c1">//------------------------------------------------------------</span>
+        <span class="c1">//  Enumerate through public properties of this ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/11/25/mschart-zedgraph/">MSchart与Zedgraph使用初探及比较</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -332,61 +375,6 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/09/29/generic-type-constraint/">泛型约束学习总结</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        29 Sep 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>最近在学习代码的时候发现对泛型约束不是很了解，花时间在网上学习了下，现在在这里做个总结吧。</p>
-<p>泛型约束主要就是用于在泛型类中对于泛型类所接受的参数的某些特性进行设置。先来说说为什么要使用泛型约束吧。打个比方，一个泛型基类中的某个方法的实现需要调用参数类型生成的实例的Compare方法，但是参数类型不是我们所能够控制的，我们需要在程序编译的时候加入对参数类型的检查，这个时候就要用到泛型约束了。</p>
-<p>泛型约束基本上有五种：</p>
-<ul>
-<li>值类型约束：要求泛型参数必须是值类型，例如int,short以及自定义的stuct等</li>
-</ul>
-<blockquote>
-<p>public class MyClass2<T> <br />
- where T : struct//这个泛型类只接受值类型的泛型参数 <br />
- { <br />
- }</p>
-</blockquote>
-<ul>
-<li>引用类型约束：要求泛型参数必须是引用类型，例如string,object,以及自定义的class</li>
-</ul>
-<blockquote>
-<p>public class MyClass<T> <br />
- where T:class//这个泛型类只接受引用类型的泛型参数 <br />
- { <br />
- }</p>
-</blockquote>
-<ul>
-<li>构造函数约束：要求泛型参数必须有构造函数</li>
-</ul>
-<blockquote>
-<p>public class MyClass3<T> <br />
- where T : new() <br />
- { <br />
- }</p>
-</blockquote>
-<ul>
-<li>接口约束：要求泛型参数必须实现某个接口</li>
-</ul>
-<blockquote>
-<p>public class MyClass4<T> <br />
- where T : System ...</t></p></blockquote>
-                    <a href="http://blog.michaelyin.info/2010/09/29/generic-type-constraint/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index5.html">&laquo;</a>
@@ -497,77 +485,47 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/python.html">
                     <span class="label label-default">python</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">Blogengine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/scrapy.html">
                     <span class="label label-default">scrapy</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/selenium.html">
-                    <span class="label label-default">selenium</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/django.html">
-                    <span class="label label-default">Django</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/float.html">
                     <span class="label label-default">float</span>
@@ -575,11 +533,35 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ipython.html">
+                    <span class="label label-default">ipython</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/binary-tree.html">
                     <span class="label label-default">Binary tree</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
@@ -587,11 +569,20 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/django.html">
+                    <span class="label label-default">Django</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
                 </a>
             </li> 
 

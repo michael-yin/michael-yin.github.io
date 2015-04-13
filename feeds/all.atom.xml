@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/all.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2015-04-05T12:31:00+08:00</updated><entry><title>using profiles in ipython and Django</title><link href="http://blog.michaelyin.info/2015/04/05/using-profiles-in-ipython-and-django/" rel="alternate"></link><updated>2015-04-05T12:31:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2015-04-05:2015/04/05/using-profiles-in-ipython-and-django/</id><summary type="html">&lt;h4&gt;Intro&lt;/h4&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/all.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2015-04-13T13:26:00+08:00</updated><entry><title>Send content to clipboard in ipython</title><link href="http://blog.michaelyin.info/2015/04/13/send-content-to-clipboard-in-ipython/" rel="alternate"></link><updated>2015-04-13T13:26:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2015-04-13:2015/04/13/send-content-to-clipboard-in-ipython/</id><summary type="html">&lt;p&gt;Some time I need to copy very long string from ipython to some where such as web browser, this operation is little annoying if the string is too long. I think I can make this operation more comfortable. After some little test and here is my solution.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.core.magic&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;register_line_magic&lt;/span&gt;
+&lt;span class="nd"&gt;@register_line_magic&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;clip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;global_dict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;globals&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;global_dict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;global_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;    
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;system&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;echo &amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39; | pbcopy&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;clip&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;In &lt;span class="o"&gt;[&lt;/span&gt;1&lt;span class="o"&gt;]&lt;/span&gt;: &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;test &amp;quot;&lt;/span&gt; * 10
+
+In &lt;span class="o"&gt;[&lt;/span&gt;2&lt;span class="o"&gt;]&lt;/span&gt;: a
+Out&lt;span class="o"&gt;[&lt;/span&gt;2&lt;span class="o"&gt;]&lt;/span&gt;: &lt;span class="s1"&gt;&amp;#39;test test test test test test test test test test &amp;#39;&lt;/span&gt;
+
+In &lt;span class="o"&gt;[&lt;/span&gt;3&lt;span class="o"&gt;]&lt;/span&gt;: %clip a
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now if you press cmd + v, if will paste the &lt;code&gt;'test test test test test test test test test test '&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;We use register_line_magic to register this method as magic method so I can call it in ipython. Since my OS is OSX so I use &lt;code&gt;pbcopy&lt;/code&gt; to make this done.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If you are using Linux, you can check this &lt;a href="https://gist.github.com/nova77/5403446"&gt;post&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</summary><category term="ipython"></category></entry><entry><title>using profiles in ipython and Django</title><link href="http://blog.michaelyin.info/2015/04/05/using-profiles-in-ipython-and-django/" rel="alternate"></link><updated>2015-04-05T12:31:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2015-04-05:2015/04/05/using-profiles-in-ipython-and-django/</id><summary type="html">&lt;h4&gt;Intro&lt;/h4&gt;
 &lt;p&gt;When I write my code in django shell, I found that django can launch ipython by typing &lt;code&gt;././manage.py shell&lt;/code&gt; if ipython has been installed in virtualenv. However, I it seems it can not pass some argument like &lt;code&gt;--profile&lt;/code&gt; into the ipython. So I can not let the ipython run some startup files by default.&lt;/p&gt;
 &lt;p&gt;I did some research on google, statckoverflow and so on, but failed to found a good solution to fix this problem. So I wrote this post to help some guy who faced the same problem.&lt;/p&gt;
 &lt;h4&gt;Solution 1.&lt;/h4&gt;

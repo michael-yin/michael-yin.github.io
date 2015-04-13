@@ -63,6 +63,36 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2011/03/13/blogengine-theme/">BlogEngine中自定义主题的实现</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        13 Mar 2011
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/blogengine.html">
+    <span class="label label-default">BlogEngine</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>BlogEngine中通过一种较灵活的方式实现了可扩展的自定义主题的实现的功能，用户只需要从网上下载相应的样式包，然后放到对应的文件夹下就能够实现对显示主题的切换。</p>
+<p>在Web项目的themes文件夹下面有对应的各个主题的文件夹，文件夹里面有相应的主题所需要的CSS，图片等文件，另外还有三个文件，site.master，CommentView.ascx和PostView.ascx。其中除了site.master以外，另外两个都是没有后台代码的，当时对于这个表示有点不理解，后来看了一下才明白，原来前台代码上面的标记，CodeFile指定了前台代码对应的后台代码的地址，而Inherits则制定了前台代码对应后台的类名称，CommentView.ascx和PostView.ascx虽然没有指定相应的后台的文件，但是通过Inherits指定了对应的类，也正是通过这种结构使得CommentView.ascx和PostView.ascx的编写者可以直接使用BlogEngine中现有的类而自己专注于界面显示。</p>
+<p><a href="http://blog.michaelyin.info/images/2011/03/201103131016552366.png"><img alt="201103131016552366" src="http://blog.michaelyin.info/images/2011/03/201103131016552366.png" /></a></p>
+<p>post.aspx是显示单篇Post的页面，现在就以这个为例子来解释一下自定义样式的实现功能。</p>
+<p>页面的Page_Load事件中通过读取BlogEngine的themes来动态从theme中来动态的把用户控件添加到post.aspx页面中，并且赋给其属性相应的值，而theme中所有的样式的显示post的用户控件PostView.ascx都和PostViewBase这个类关联，提供了一个统一的框架。</p>
+<div class="highlight"><pre><span class="kt">string</span> <span class="n">path</span> <span class="p">=</span> <span class="n">Utils</span><span class="p">.</span><span class="n">RelativeWebRoot</span> <span class="p">+</span> <span class="s">&quot;themes/&quot;</span> <span class="p">+</span> <span class="n">BlogSettings</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Theme</span> <span class="p">+</span> <span class="s">&quot;/PostView.ascx&quot;</span><span class="p">;</span>
+<span class="n">PostViewBase</span> <span class="n">postView</span> <span class="p">=</span> <span class="p">(</span><span class="n">PostViewBase</span><span class="p">)</span><span class="n">LoadControl ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/03/13/blogengine-theme/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2011/03/10/char-convert-int/">char,int转换</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -375,49 +405,6 @@ character set）就出现了，它的出现就是为了解决刚刚说到的这�
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">BlogEngine中的BlogSettings</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        26 Nov 2010
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">Blogengine</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>BlogEngine中的BlogSettings这个类是用来提供整个系统的设置参数的，参数的读取采用的是反射获取属性名称，然后遍历进行赋值，个人觉得这段代码值得学习</p>
-<div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">Load</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">Type</span> <span class="n">settingsType</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">();</span>
-
-    <span class="c1">//------------------------------------------------------------</span>
-    <span class="c1">//  Enumerate through individual settings nodes</span>
-    <span class="c1">//------------------------------------------------------------</span>
-    <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Specialized</span><span class="p">.</span><span class="n">StringDictionary</span> <span class="n">dic</span> <span class="p">=</span> <span class="n">Providers</span><span class="p">.</span><span class="n">BlogService</span><span class="p">.</span><span class="n">LoadSettings</span><span class="p">();</span>
-
-    <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">key</span> <span class="k">in</span> <span class="n">dic</span><span class="p">.</span><span class="n">Keys</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="c1">//------------------------------------------------------------</span>
-        <span class="c1">//  Extract the setting&#39;s name/value pair</span>
-        <span class="c1">//------------------------------------------------------------</span>
-        <span class="kt">string</span> <span class="n">name</span> <span class="p">=</span> <span class="n">key</span><span class="p">;</span>
-        <span class="kt">string</span> <span class="k">value</span> <span class="p">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
-
-        <span class="c1">//------------------------------------------------------------</span>
-        <span class="c1">//  Enumerate through public properties of this ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index4.html">&laquo;</a>
@@ -528,77 +515,47 @@ character set）就出现了，它的出现就是为了解决刚刚说到的这�
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/python.html">
                     <span class="label label-default">python</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">Blogengine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/scrapy.html">
                     <span class="label label-default">scrapy</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/selenium.html">
-                    <span class="label label-default">selenium</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/django.html">
-                    <span class="label label-default">Django</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/float.html">
                     <span class="label label-default">float</span>
@@ -606,11 +563,35 @@ character set）就出现了，它的出现就是为了解决刚刚说到的这�
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ipython.html">
+                    <span class="label label-default">ipython</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/binary-tree.html">
                     <span class="label label-default">Binary tree</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
@@ -618,11 +599,20 @@ character set）就出现了，它的出现就是为了解决刚刚说到的这�
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/django.html">
+                    <span class="label label-default">Django</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
                 </a>
             </li> 
 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Send content to clipboard in ipython</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/bootstrap.min.css" type="text/css"/>
+     <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/footer.css" type="text/css"/>
+    <link href="http://blog.michaelyin.info/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://blog.michaelyin.info/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://blog.michaelyin.info/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.js"></script>
+    <link href="http://blog.michaelyin.info/theme/fancybox/jquery.fancybox.css" rel="stylesheet">
+    
+    <link href="http://blog.michaelyin.info/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Michaelyin's Blog ATOM Feed"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://blog.michaelyin.info" class="navbar-brand">Michaelyin's Blog</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                   <li>
+                    <a href="http://blog.michaelyin.info/archives.html">Archives</a>
+                   </li>
+                    <li>
+                        <a href="http://blog.michaelyin.info/about.html">About</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" id="txtSearch" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse --> </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row">
+<section id="content">
+    <article>
+        <header class="page-header">
+            <h1>
+                Send content to clipboard in ipython
+            </h1>
+        </header>
+        <div class="entry-content">
+            <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        13 Apr 2015
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/ipython.html">
+    <span class="label label-default">ipython</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+            <p>Some time I need to copy very long string from ipython to some where such as web browser, this operation is little annoying if the string is too long. I think I can make this operation more comfortable. After some little test and here is my solution.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">IPython.core.magic</span> <span class="kn">import</span> <span class="n">register_line_magic</span>
+<span class="nd">@register_line_magic</span>
+<span class="k">def</span> <span class="nf">clip</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="n">global_dict</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">global_dict</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">global_dict</span><span class="p">[</span><span class="n">line</span><span class="p">]</span>
+    <span class="kn">import</span> <span class="nn">os</span>    
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">&quot;echo &#39;</span><span class="si">%s</span><span class="s">&#39; | pbcopy&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+<span class="k">del</span> <span class="n">clip</span>
+</pre></div>
+
+
+<div class="highlight"><pre>In <span class="o">[</span>1<span class="o">]</span>: <span class="nv">a</span> <span class="o">=</span> <span class="s2">&quot;test &quot;</span> * 10
+
+In <span class="o">[</span>2<span class="o">]</span>: a
+Out<span class="o">[</span>2<span class="o">]</span>: <span class="s1">&#39;test test test test test test test test test test &#39;</span>
+
+In <span class="o">[</span>3<span class="o">]</span>: %clip a
+</pre></div>
+
+
+<p>Now if you press cmd + v, if will paste the <code>'test test test test test test test test test test '</code></p>
+<p>We use register_line_magic to register this method as magic method so I can call it in ipython. Since my OS is OSX so I use <code>pbcopy</code> to make this done.</p>
+<p><strong>If you are using Linux, you can check this <a href="https://gist.github.com/nova77/5403446">post</a></strong></p>
+        </div>
+        <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+            var disqus_identifier = 'send-content-to-clipboard-in-ipython';
+            var disqus_url = 'http://blog.michaelyin.info/2015/04/13/send-content-to-clipboard-in-ipython/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+    </article>
+</section>
+            </div>
+        </div>
+    </div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+            Copyright © 
+            <a href="http://blog.michaelyin.info">Michaelyin's Blog</a>        &nbsp;&nbsp;|&nbsp;&nbsp;Powered By
+            <a rel="external" title="Pelican" class="link" href="http://getpelican.com/">Pelican</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/michael-yin/">Theme</a>
+        </p>
+    </div>
+</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://blog.michaelyin.info/theme/js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="http://blog.michaelyin.info/theme/js/respond.min.js"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']] ,
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+
+    <script type="text/javascript"
+       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+
+    <script>
+    $().ready(function() {
+        $("#txtSearch").keypress(function(event) {
+             if (event.which == 13 && ($("#txtSearch").val().length > 0)) {
+                event.preventDefault();
+                var keywords = " " + $("#txtSearch").val();
+                var url = encodeURIComponent(keywords);
+                url = "https://www.google.com/search?q=site:http://blog.michaelyin.info" + url;
+                window.location.href = url; 
+        }});
+
+        $(".entry-content a.fancy").fancybox({
+            autoHeight: true,
+            autoHeight: true
+        });
+    
+    });
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'michael-yin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>

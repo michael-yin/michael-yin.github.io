@@ -63,6 +63,36 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/">Install Nodejs on Ubuntu</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        14 Dec 2013
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/nodejs.html">
+    <span class="label label-default">NodeJs</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>I just installed Nodejs on ubuntu through package manager <a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager">(more detail
+)</a> and found there were some problems.</p>
+<p>When using npm might get something like this</p>
+<div class="highlight"><pre>npm ERR! Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span>
+npm ERR!  <span class="o">{</span> <span class="o">[</span>Error: EACCES, symlink <span class="s1">&#39;../lib/node_modules/spm/bin/spm&#39;</span><span class="o">]</span>
+npm ERR!   errno: 3,
+npm ...</pre></div>
+                    <a href="http://blog.michaelyin.info/2013/12/14/install-nodejs-on-ubuntu/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2013/12/10/make-python-module-editable/">Make python module editable</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -378,42 +408,6 @@ PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">CodeKata-Data Munging</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        03 Mar 2013
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/codekata.html">
-    <span class="label label-default">CodeKata</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>这次的CodeKata主要训练的是正则的使用，之前了解正则是在Asp.net的URL处理上，比如进行URL的重写需要进行正则的匹配，这次正好学习学习。</p>
-<p>第一个问题是对天气数据的提取，取出温度分布最小的那一天，使用正则中的group就可以很方便的取出相应的数据</p>
-<p>第二个问题是根据英超成绩找出净胜球最接近0的球队原理和上一个相同，考察的也是正则表达式中的group，后面的无关数据不需要匹配，所以只要能确保解析到我要的数据就OK了。</p>
-<p>第三个问题是对前两个问题的代码进行分析，提取出共用的部分，进行重用。考察前两个问题的代码，发现文件读取，正则处理，都是很类似的逻辑，所以将这部分进行提取抽象成一个类，将正则，相关参数和文件路径抽象成类，这样的话代码维护性也比较好，废话不多说，上代码</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span>
-
-<span class="k">class</span> <span class="nc">Input</span><span class="p">():</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">firstindex</span><span class="p">,</span> <span class="n">secindex</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">firstindex</span> <span class="o">=</span> <span class="n">firstindex</span>
-        <span class="bp">self ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2013/03/03/codekata-data-munging/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index.html">&laquo;</a>
@@ -524,77 +518,47 @@ PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/blogengine.html">
-                    <span class="label label-default">Blogengine</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/python.html">
                     <span class="label label-default">python</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/blogengine.html">
+                    <span class="label label-default">Blogengine</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/scrapy.html">
                     <span class="label label-default">scrapy</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
                     <span class="label label-default">数组分割</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/heritrix.html">
                     <span class="label label-default">Heritrix</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/selenium.html">
-                    <span class="label label-default">selenium</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/django.html">
-                    <span class="label label-default">Django</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/float.html">
                     <span class="label label-default">float</span>
@@ -602,11 +566,35 @@ PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ipython.html">
+                    <span class="label label-default">ipython</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/binary-tree.html">
                     <span class="label label-default">Binary tree</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/you-xiang.html">
                     <span class="label label-default">邮箱</span>
@@ -614,11 +602,20 @@ PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进
                 <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
                     <span class="label label-default">动态规划</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/django.html">
+                    <span class="label label-default">Django</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
                 </a>
             </li> 
 
