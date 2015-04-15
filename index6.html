@@ -63,6 +63,39 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/06/character-encoding/">字符编码那些事儿</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        06 Dec 2010
+    </span>
+
+
+
+<span class="published">
+<i class="icon-tags"></i>
+<a href="http://blog.michaelyin.info/tag/utf-8.html">
+    <span class="label label-default">utf-8</span>
+</a>
+<a href="http://blog.michaelyin.info/tag/gb2312.html">
+    <span class="label label-default">gb2312</span>
+</a>
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>这几天专门花时间好好看了下字符编码的东西，在这里写篇随笔把知识好好梳理一下。</p>
+<p>讲到字符编码，还是从最基本的ASCII讲起咯。</p>
+<p>在计算机刚开始使用时候，人们必须用计算机里面的01这样的二进制组合来表示一些基本的英文字母和字符,当然了，每个人都可以有自己的一套编码标准来完成这个看似简单的功能，不过，为了不同的计算机系统之间能够相互通信而不产生混乱，那么所有的计算机就必须采用相同的编码标准，所以美国的标准化组织就出台了ASCII编码标准，统一规定了上述符号和字母用哪些二进制来表示。在这里要加的一点是，标准ASCII只用了7位，最前面的一位是用来做奇偶校验的。比如英文字母a在ASCII编码中用二进制01100001表示，十六进制就是61.</p>
+<p>使用了ASCII编码后，原本的问题得到了很好的解决。但是，这里又有了新的问题，它并不能对其他非英语国家有很好的支持。比如，我如何编码汉字，日本文字，朝鲜文字，阿拉伯语，还有俄罗斯语等等。由于汉字这样的文字数目较多，用一个Byte(也就是8
+bit)来提供编码方案显然是不现实的，这时，双字节字符集（DBCS：double-byte
+character set）就出现了，它的出现就是为了解决刚刚说到的这个问题的。</p>
+<p>先来解释下什么是DBCS,DBCS简单的说就是使用两个Byte来表示一个字符，而且DBCS的最初的还是ASCII代码，所以说DBCS是兼容ASCII的。而且它表示ASCII只用了一个Byte,这里说一个问题，假设给了你一连串的Byte数组，你解码的时候如何知道这个Byte的解码需要用到他的下一个Byte呢 ...</p>
+                    <a href="http://blog.michaelyin.info/2010/12/06/character-encoding/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/11/26/blogengine-BlogSettings/">BlogEngine中的BlogSettings</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -349,32 +382,6 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/10/05/authority-design-study/">权限设计学习总结</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        05 Oct 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>看着师兄师姐忙着笔试，找工作，不知不觉已经过去一年了。。明年就轮到自己了。。。加油。。。</p>
-<p>以前对权限两字的理解一直不是很清楚，甚至可以说是错误，连用户登录我一直都都以为是属于权限管理里面的，前几天看了园子里面的两篇文章，顺便又乘机查了下相关的资料，感觉对于权限这两个字又有了全新的认识。</p>
-<p>先来百度百科里面对权限管理的解释：权限管理，一般指根据系统设置的安全规则或者安全策略，用户<strong>可以访问而且只能访问</strong>自己被授权的资源，不多不少。权限管理几乎出现在任何系统里面，只要有用户和密码的系统。PS用户登陆属于用户身份认证，本质上并不属于权限管理，不应该将盖帘混淆。</p>
-<p>其实说简单点，权限管理也就是让有权限的用户得到授权的资源，这个资源可以是具体的数据，也可以是某种抽象的功能。它的本质就是这个。如何判断用户是否有权限并将没有权限的用户阻止掉访问资源，这个就是权限的管控，比如Asp.Net中可以通过Page_Load,HttpModule等等进行管控，实现的方式是多种多样的，但是实现的本质其实并没有多大的差别。</p>
-<p>管控的大致步骤就是首先得到用户，然后得到资源，对资源和用户进行匹配，如果不匹配则进行阻止的操作，比如跳向提示页面，或者隐藏相应的控件。</p>
-<p>项目中经常使用的权限判定方法就是将需要进行权限管理页面继承自一个实现了管控方法的页面基类BasePage,判定方法写在页面初始化的事件中，然后根据复写的属性值来进行判定，实现管控。</p>
-<p>提到权限设计，有个名词在这里也就有必要交代一下。RBAC,基于角色的访问控制（Role-Based ...</p>
-                    <a href="http://blog.michaelyin.info/2010/10/05/authority-design-study/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index5.html">&laquo;</a>
@@ -438,6 +445,12 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 </a>
             </li>
             <li>
+                <a href="http://blog.michaelyin.info/category/mac.html">
+                    <i class="icon-folder-open icon-large"></i>
+                    Mac
+                </a>
+            </li>
+            <li>
                 <a href="http://blog.michaelyin.info/category/net.html">
                     <i class="icon-folder-open icon-large"></i>
                     .Net
@@ -485,38 +498,32 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/bugnet.html">
-                    <span class="label label-default">Bugnet</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/python.html">
                     <span class="label label-default">python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
                     <span class="label label-default">Blogengine</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/bugnet.html">
+                    <span class="label label-default">Bugnet</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/scrapy.html">
                     <span class="label label-default">scrapy</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/checkio.html">
-                    <span class="label label-default">checkio</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/java.html">
                     <span class="label label-default">Java</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/checkio.html">
+                    <span class="label label-default">checkio</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/codekata.html">
                     <span class="label label-default">CodeKata</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bit.html">
-                    <span class="label label-default">bit</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/phantomjs.html">
                     <span class="label label-default">phantomjs</span>
@@ -524,65 +531,74 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/tag/proxy.html">
                     <span class="label label-default">proxy</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/float.html">
-                    <span class="label label-default">float</span>
+                <a href="http://blog.michaelyin.info/tag/selenium.html">
+                    <span class="label label-default">selenium</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
                     <span class="label label-default">Bloom Filter</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/selenium.html">
-                    <span class="label label-default">selenium</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ipython.html">
-                    <span class="label label-default">ipython</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/net.html">
-                    <span class="label label-default">.Net</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/hashtable.html">
-                    <span class="label label-default">Hashtable</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
+                <a href="http://blog.michaelyin.info/tag/bit.html">
+                    <span class="label label-default">bit</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/django.html">
                     <span class="label label-default">Django</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/kml.html">
-                    <span class="label label-default">Kml</span>
+                <a href="http://blog.michaelyin.info/tag/net.html">
+                    <span class="label label-default">.Net</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/mac.html">
+                    <span class="label label-default">Mac</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/gb2312.html">
                     <span class="label label-default">gb2312</span>
                 </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/float.html">
+                    <span class="label label-default">float</span>
+                </a>
                 <a href="http://blog.michaelyin.info/tag/pip.html">
                     <span class="label label-default">pip</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ipython.html">
+                    <span class="label label-default">ipython</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/kml.html">
+                    <span class="label label-default">Kml</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/hashtable.html">
+                    <span class="label label-default">Hashtable</span>
                 </a>
             </li> 
 
