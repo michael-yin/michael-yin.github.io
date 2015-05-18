@@ -63,6 +63,32 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2013/04/21/laomaotao/">由老毛桃想到的</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        21 Apr 2013
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>由于装Ubuntu
+12.04的时候好像是由于硬盘参数不对导致无法安装，需要在进入系统前使用工具进行修复。不过哥的PC光驱已经不能正常弹出，除非使用大头针，更坑爹的是，上次搬家的时候把系统启动盘弄丢了。。。</p>
+<p>然后再搜索能否通过硬盘的方式加载Windows
+PE系统，在百度给的相关搜索里面看到了老毛桃这个软件，进入网站看了一下以后，顿时觉得自己OUT了。。。</p>
+<p>这个软件可以将常用的工具放到U盘中，在BIOS中配置好以后就能够通过U盘自动（<a href="http://www.laomaotao.net/help/2012/1225/1414.html">猛击这里</a>），效果和光盘启动是一样的，里面也带了各种常用的工具。对于一般的系统修复，检查来说，已经足够了。除此之外，这个软件提供了对ISO的处理，并能将ISO烧录到U盘中进行启动。省去了刻录光盘的繁琐。（ISO模式暂未亲测）</p>
+<p>也正是因为这个软件，让我觉得以后买PC，光驱或许不是必选项了。。。回想前几年，基本只是在对系统进行引导启动的时候用一用光驱。</p>
+<p>软件背后，让我反思的是我们看问题的思维。以前看起来理所当然的解决方案，放到现在未必就是最合理的，唯一能做的，就是不断地提高自己。</p>
+                    <a href="http://blog.michaelyin.info/2013/04/21/laomaotao/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2013/04/15/the-project/">老板的那些项目（一）</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -359,39 +385,6 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/">Heritrix之旅之ToeThread</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        07 Oct 2011
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>Heritrix是一个多线程的程序，里面使用工作线程来处理url，这些工作线程称为torThreads，这些toethread统一的被ToePool所管理,Toepool通过setSize方法来管理运行的toethread数目</p>
-<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSize</span><span class="o">(</span><span class="kt">int</span> <span class="n">newsize</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">targetSize</span> <span class="o">=</span> <span class="n">newsize</span><span class="o">;</span>
-    <span class="kt">int</span> <span class="n">difference</span> <span class="o">=</span> <span class="n">newsize</span> <span class="o">-</span> <span class="n">getToeCount</span><span class="o">();</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">difference</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// must create threads</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">difference</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">startNewThread</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-        <span class="c1">// must retire extra threads</span>
-        <span class="kt">int</span> <span class="n">retainedToes</span> <span class="o">=</span> <span class="n">targetSize</span><span class="o">;</span>
-        <span class="n">Thread</span><span class="o">[]</span> <span class="n">toes</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getToes</span><span class="o">();</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">toes</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index2.html">&laquo;</a>
@@ -410,6 +403,8 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                         href="http://blog.michaelyin.info/index6.html">6</a></li>
                 <li class=""><a
                         href="http://blog.michaelyin.info/index7.html">7</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index8.html">8</a></li>
                 <li class="next"><a
                         href="http://blog.michaelyin.info/index4.html">&raquo;</a></li>
         </ul>
@@ -508,11 +503,11 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">python</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
                     <span class="label label-default">Blogengine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
@@ -520,35 +515,74 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                 <a href="http://blog.michaelyin.info/tag/scrapy.html">
                     <span class="label label-default">scrapy</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/selenium.html">
                     <span class="label label-default">selenium</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/mac.html">
+                    <span class="label label-default">Mac</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ipython.html">
+                    <span class="label label-default">ipython</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/django.html">
                     <span class="label label-default">Django</span>
@@ -556,56 +590,17 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
                 <a href="http://blog.michaelyin.info/tag/net.html">
                     <span class="label label-default">.Net</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/mac.html">
-                    <span class="label label-default">Mac</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/float.html">
                     <span class="label label-default">float</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ipython.html">
-                    <span class="label label-default">ipython</span>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/kml.html">
                     <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>

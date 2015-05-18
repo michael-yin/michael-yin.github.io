@@ -63,6 +63,39 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/">Heritrix之旅之ToeThread</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        07 Oct 2011
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>Heritrix是一个多线程的程序，里面使用工作线程来处理url，这些工作线程称为torThreads，这些toethread统一的被ToePool所管理,Toepool通过setSize方法来管理运行的toethread数目</p>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSize</span><span class="o">(</span><span class="kt">int</span> <span class="n">newsize</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">targetSize</span> <span class="o">=</span> <span class="n">newsize</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">difference</span> <span class="o">=</span> <span class="n">newsize</span> <span class="o">-</span> <span class="n">getToeCount</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">difference</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// must create threads</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">difference</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">startNewThread</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">// must retire extra threads</span>
+        <span class="kt">int</span> <span class="n">retainedToes</span> <span class="o">=</span> <span class="n">targetSize</span><span class="o">;</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">toes</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getToes</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">toes</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2011/10/07/heritrix-toethread/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2011/09/14/c-plusplus-operator/">C语言中自增的疑惑</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -382,37 +415,6 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2011/03/19/blogengine-widget/">BlogEngine中的widget机制</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        19 Mar 2011
-    </span>
-
-
-
-<span class="published">
-<i class="icon-tags"></i>
-<a href="http://blog.michaelyin.info/tag/blogengine.html">
-    <span class="label label-default">BlogEngine</span>
-</a>
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>BlogEngine中的widget机制支持在页面可添加一些小的widget，这个功能当时还是特别吸引我的，现在简单的说下实现的原理。</p>
-<p>所有的widget都在一个WidgetZone的容器内，这个容器继承自PlaceHolder，而这个容器是在自定义theme中的模板页中用到的，当这个控件加载的时候，它从数据库中找到关于widget的配置信息。这个配置信息也是DataStore的方式提取和存储的。</p>
-<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;</span>
-<span class="nt">&lt;WidgetData</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-<span class="na">xmlns:xsd=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;Settings&gt;</span><span class="ni">&amp;lt;</span>widgets<span class="ni">&amp;gt;&amp;lt;</span>widget
-  id=&quot;b7d72394-7556-4a5b-87ed-c63cbdc915fb&quot; title=&quot;Administration&quot;
-  showTitle=&quot;True&quot;<span class="ni">&amp;gt;</span>Administration<span class="ni">&amp;lt;</span>/widget<span class="ni">&amp;gt;&amp;lt ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2011/03/19/blogengine-widget/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index3.html">&laquo;</a>
@@ -431,6 +433,8 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
                         href="http://blog.michaelyin.info/index6.html">6</a></li>
                 <li class=""><a
                         href="http://blog.michaelyin.info/index7.html">7</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index8.html">8</a></li>
                 <li class="next"><a
                         href="http://blog.michaelyin.info/index5.html">&raquo;</a></li>
         </ul>
@@ -529,11 +533,11 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">python</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
                     <span class="label label-default">Blogengine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
@@ -541,35 +545,74 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
                 <a href="http://blog.michaelyin.info/tag/scrapy.html">
                     <span class="label label-default">scrapy</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/selenium.html">
                     <span class="label label-default">selenium</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/mac.html">
+                    <span class="label label-default">Mac</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ipython.html">
+                    <span class="label label-default">ipython</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/django.html">
                     <span class="label label-default">Django</span>
@@ -577,56 +620,17 @@ Cookie 的域或路径内的页发出请求时，浏览器将确定该 Cookie
                 <a href="http://blog.michaelyin.info/tag/net.html">
                     <span class="label label-default">.Net</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/mac.html">
-                    <span class="label label-default">Mac</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/float.html">
                     <span class="label label-default">float</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ipython.html">
-                    <span class="label label-default">ipython</span>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/kml.html">
                     <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>

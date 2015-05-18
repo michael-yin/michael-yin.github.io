@@ -63,6 +63,42 @@
             <div class="row">
 <div class="col-lg-9">
             <article>
+                <h2><a href="http://blog.michaelyin.info/2010/12/08/heap-sort/">算法排序之堆排序</a></h2>
+                <div class="well well-sm"><div>
+    <span class="published">
+        <i class="icon-calendar"></i>
+        08 Dec 2010
+    </span>
+
+
+
+<span class="published">
+ </span>
+</div><!-- /.post-info --></div>
+                <div class="summary"><p>堆排序的重点在于对堆的理解，首先堆是一种数组对象，同时，它也可以被视为一棵完全二叉树，树中的每个节点从上到下，从左到右和数组中的每个元素是一一对应的，二叉树的每一层都是填满的，除了最后一层以外。</p>
+<p>比如数组中的第一个元素就是二叉树的根节点，第二个就是元素就是根节点的左边的子节点，而第三个节点就是根节点的右边的子节点，然后第四个节点就是根节点的左边的子节点的左边的子节点，这样以此类推。</p>
+<p>通过给定的节点的数组下标，我们可以求出该节点的左边子节点的坐标和右边子节点的坐标。</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">Left</span><span class="p">(</span><span class="kt">int</span> <span class="n">parent</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="m">2</span> <span class="p">*</span> <span class="n">parent</span><span class="p">)</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">Right</span><span class="p">(</span><span class="kt">int</span> <span class="n">parent</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="m">2</span> <span class="p">*</span> <span class="n">parent</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="err">```</span><span class="n">csharp</span>
+
+<span class="err">堆有两种，一种是最大堆，一种是最小堆，最大堆的性质就是每个母节点都比它的子节点大，最小堆的性质则相反。我们这里的排序就用最大堆来排序。</span>
+
+<span class="n">Heapify</span><span class="err">这个方法用来保持最大堆的母节点总是比子节点大这个特性，将数组坐标</span><span class="n">i</span><span class="err">和数组输入，它从母节点</span><span class="n">i</span><span class="err">处开始比较，如果发现子节点比母节点大 ...</span></pre></div>
+                    <a href="http://blog.michaelyin.info/2010/12/08/heap-sort/">
+                        <span class="label label-primary tag-2">More...</span>
+                    </a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="http://blog.michaelyin.info/2010/12/06/character-encoding/">字符编码那些事儿</a></h2>
                 <div class="well well-sm"><div>
     <span class="published">
@@ -353,35 +389,6 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="http://blog.michaelyin.info/2010/10/08/css-js-in-masterpage/">母版页中的js和css文件引用路径的问题</a></h2>
-                <div class="well well-sm"><div>
-    <span class="published">
-        <i class="icon-calendar"></i>
-        08 Oct 2010
-    </span>
-
-
-
-<span class="published">
- </span>
-</div><!-- /.post-info --></div>
-                <div class="summary"><p>今天在做项目的时候发现了母版页中引用css文件和js文件路径在内容页中发生路径错误。</p>
-<p>先来说说问题发生的情况吧，比如我在一个母版页中引用了一个js文件和一个css样式表文件，路径是使用的相对路径，代码是这样子的</p>
-<div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;../css/dtree.css&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;../js/dtree.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</pre></div>
-
-
-<p>母版页我放在项目文件MasterPage文件夹中，脚本文件和css文件我分别放在相应的文件夹中，在Design模式中这也是可见的，然后我加入内容页，内容页假设我放在网站根目录下面，然后放入内容，进入后台进行编程，基本上完成以后想看看效果，就F5进行了调试，不过缺发现js没有起作用，在IE下查看源文件，发现引用处的css和js的路径发生了变化，如下所示</p>
-<div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;css/dtree.css&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;../js ...</span></pre></div>
-                    <a href="http://blog.michaelyin.info/2010/10/08/css-js-in-masterpage/">
-                        <span class="label label-primary tag-2">More...</span>
-                    </a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="http://blog.michaelyin.info/index5.html">&laquo;</a>
@@ -400,6 +407,8 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                         href="http://blog.michaelyin.info/index6.html">6</a></li>
                 <li class=""><a
                         href="http://blog.michaelyin.info/index7.html">7</a></li>
+                <li class=""><a
+                        href="http://blog.michaelyin.info/index8.html">8</a></li>
                 <li class="next"><a
                         href="http://blog.michaelyin.info/index7.html">&raquo;</a></li>
         </ul>
@@ -498,11 +507,11 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
 
 
             <li class="list-group-item">
-                <a href="http://blog.michaelyin.info/tag/python.html">
-                    <span class="label label-default">python</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/blogengine.html">
                     <span class="label label-default">Blogengine</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/python.html">
+                    <span class="label label-default">python</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bugnet.html">
                     <span class="label label-default">Bugnet</span>
@@ -510,35 +519,74 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/tag/scrapy.html">
                     <span class="label label-default">scrapy</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/java.html">
-                    <span class="label label-default">Java</span>
-                </a>
                 <a href="http://blog.michaelyin.info/tag/checkio.html">
                     <span class="label label-default">checkio</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
-                    <span class="label label-default">数组分割</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/codekata.html">
-                    <span class="label label-default">CodeKata</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/heritrix.html">
-                    <span class="label label-default">Heritrix</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
-                    <span class="label label-default">phantomjs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/proxy.html">
-                    <span class="label label-default">proxy</span>
+                <a href="http://blog.michaelyin.info/tag/java.html">
+                    <span class="label label-default">Java</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/selenium.html">
                     <span class="label label-default">selenium</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
-                    <span class="label label-default">Bloom Filter</span>
+                <a href="http://blog.michaelyin.info/tag/codekata.html">
+                    <span class="label label-default">CodeKata</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/shu-zu-fen-ge.html">
+                    <span class="label label-default">数组分割</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/phantomjs.html">
+                    <span class="label label-default">phantomjs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/heritrix.html">
+                    <span class="label label-default">Heritrix</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/nodejs.html">
+                    <span class="label label-default">NodeJs</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/byte.html">
+                    <span class="label label-default">byte</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/bit.html">
                     <span class="label label-default">bit</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/utf-8.html">
+                    <span class="label label-default">utf-8</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dictionary.html">
+                    <span class="label label-default">Dictionary</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/proxy.html">
+                    <span class="label label-default">proxy</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
+                    <span class="label label-default">账号</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
+                    <span class="label label-default">邮箱</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
+                    <span class="label label-default">动态规划</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
+                    <span class="label label-default">雅虎</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/mac.html">
+                    <span class="label label-default">Mac</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
+                    <span class="label label-default">Binary tree</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/ipython.html">
+                    <span class="label label-default">ipython</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
+                    <span class="label label-default">bullet-and-wall</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/bloom-filter.html">
+                    <span class="label label-default">Bloom Filter</span>
+                </a>
+                <a href="http://blog.michaelyin.info/tag/gb2312.html">
+                    <span class="label label-default">gb2312</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/django.html">
                     <span class="label label-default">Django</span>
@@ -546,56 +594,17 @@ server,XML等。只需要通过修改Web.Config文件中的响应配置节就可
                 <a href="http://blog.michaelyin.info/tag/net.html">
                     <span class="label label-default">.Net</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/mac.html">
-                    <span class="label label-default">Mac</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/gb2312.html">
-                    <span class="label label-default">gb2312</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/byte.html">
-                    <span class="label label-default">byte</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/zhang-hao.html">
-                    <span class="label label-default">账号</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/bullet-and-wall.html">
-                    <span class="label label-default">bullet-and-wall</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/subsonic.html">
-                    <span class="label label-default">Subsonic</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/utf-8.html">
-                    <span class="label label-default">utf-8</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/nodejs.html">
-                    <span class="label label-default">NodeJs</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ya-hu.html">
-                    <span class="label label-default">雅虎</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/you-xiang.html">
-                    <span class="label label-default">邮箱</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/binary-tree.html">
-                    <span class="label label-default">Binary tree</span>
+                <a href="http://blog.michaelyin.info/tag/pip.html">
+                    <span class="label label-default">pip</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/float.html">
                     <span class="label label-default">float</span>
                 </a>
-                <a href="http://blog.michaelyin.info/tag/pip.html">
-                    <span class="label label-default">pip</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/ipython.html">
-                    <span class="label label-default">ipython</span>
+                <a href="http://blog.michaelyin.info/tag/subsonic.html">
+                    <span class="label label-default">Subsonic</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/kml.html">
                     <span class="label label-default">Kml</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dictionary.html">
-                    <span class="label label-default">Dictionary</span>
-                </a>
-                <a href="http://blog.michaelyin.info/tag/dong-tai-gui-hua.html">
-                    <span class="label label-default">动态规划</span>
                 </a>
                 <a href="http://blog.michaelyin.info/tag/hashtable.html">
                     <span class="label label-default">Hashtable</span>
