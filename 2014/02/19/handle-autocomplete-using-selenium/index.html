@@ -87,9 +87,9 @@
             <p>Selenium is a so great tool to make web ui test, in some cases, we have to make it work with some ajax autocomplete like jquery ui autocomplete.</p>
 <p>First you need to understand how the autocomplete work. Most plugin will create a ul which contain data get from the server by ajax, and insert the ul into the body, then display it for user to <code>click</code> by mouse or <code>enter</code> by keydown.</p>
 <p>When the page load, you can see the ul has no children</p>
-<p><img alt="" src="http://blog.michaelyin.info/images/2014/02/19/e92007dc30df24d24f0e6ed3fc00c479.png" /></p>
+<p><img alt="" src="/images/2014/02/19/e92007dc30df24d24f0e6ed3fc00c479.png" /></p>
 <p>Then I type in some word in the input to make the plugin make ajax query</p>
-<p><img alt="" src="http://blog.michaelyin.info/images/2014/02/19/054d9a4a88cbb254d9aa0d9d9d02056c.png" /></p>
+<p><img alt="" src="/images/2014/02/19/054d9a4a88cbb254d9aa0d9d9d02056c.png" /></p>
 <p>As you can see, plugin use the data returned from server create li in ul element and display it, so how to make Selenium wait for ajax complete? Selenium provide WebDriverWait which can 
 wait for something done.</p>
 <p>The next thing to do is to choose the item, user can <code>click</code> or <code>enter</code> to choose the item, so there are at least two ways to make selenium work with autocomplete</p>

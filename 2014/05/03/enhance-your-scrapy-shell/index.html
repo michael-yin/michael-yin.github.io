@@ -91,7 +91,7 @@
 <p>So I dive into the scrapy source code to find a way to make me feel better when using scrapy shell. Here is my solution.</p>
 <h4>Less import</h4>
 <p>re, json, urlparse, copy module is very useful lib in writing spiders, if they are available when we star to write code in scrapy shell that will be very good. So let us get started.</p>
-<p>edit the scrapy/utils/console.py in scrapy source code</p>
+<p>edit the <code>scrapy/utils/console.py</code> in scrapy source code</p>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">urlparse</span><span class="o">,</span> <span class="nn">copy</span>
 </pre></div>
 
@@ -172,6 +172,55 @@
             <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">banner</span><span class="o">=</span><span class="n">banner</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="n">namespace</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">SystemExit</span><span class="p">:</span> <span class="c"># raised when using exit() in python code.interact</span>
         <span class="k">pass</span>
+</pre></div>
+
+
+<h4>Update on 2015-05-27</h4>
+<p>I think it is better to use scrapy shell with ipytho profile. So I modified <code>scrapy/utils/console.py</code> to get this done.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">start_python_console</span><span class="p">(</span><span class="n">namespace</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">noipython</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">banner</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Start Python console binded to the given namespace. If IPython is</span>
+<span class="sd">    available, an IPython console will be started instead, unless `noipython`</span>
+<span class="sd">    is True. Also, tab completion will be used on Unix systems.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">namespace</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">namespace</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span> <span class="c"># use IPython if available</span>
+            <span class="k">if</span> <span class="n">noipython</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">start_ipython</span>
+                <span class="n">start_ipython</span><span class="p">([],</span> <span class="n">user_ns</span><span class="o">=</span><span class="n">namespace</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">ipdb</span><span class="p">;</span> <span class="n">ipdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">code</span>
+            <span class="k">try</span><span class="p">:</span> <span class="c"># readline module is only available on unix systems</span>
+                <span class="kn">import</span> <span class="nn">readline</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">rlcompleter</span>
+                <span class="n">readline</span><span class="o">.</span><span class="n">parse_and_bind</span><span class="p">(</span><span class="s">&quot;tab:complete&quot;</span><span class="p">)</span>
+            <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">banner</span><span class="o">=</span><span class="n">banner</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="n">namespace</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">SystemExit</span><span class="p">:</span> <span class="c"># raised when using exit() in python code.interact</span>
+        <span class="k">pass</span>
+</pre></div>
+
+
+<p>I created a file called <code>$home/.ipython/profile_default/startup/01-scrapy.py</code> which contains this</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">urlparse</span><span class="o">,</span> <span class="nn">copy</span>
+
+<span class="kn">import</span> <span class="nn">difflib</span>
+
+<span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span> <span class="n">str2</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">str1</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">str2</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">Differ</span><span class="p">()</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
 </pre></div>
         </div>
         <!-- /.entry-content -->

@@ -3,7 +3,7 @@
 &lt;p&gt;Actually there is not very good post about the mouse pointer in Mac, that is why I write this blog post.&lt;/p&gt;
 &lt;h4&gt;1. Change system mouse cursor size&lt;/h4&gt;
 &lt;p&gt;OSX does not have options for changing the color of the mouse pointer, but you can change the size of if in  &lt;code&gt;System Preferences &amp;gt; Accessibility &amp;gt; Display&lt;/code&gt; to make the mouse pointer bigger.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2015/04/15/31b922e514426cc38ec888cde1480f45.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2015/04/15/31b922e514426cc38ec888cde1480f45.png" /&gt;&lt;/p&gt;
 &lt;h4&gt;2. Add something around the cursor&lt;/h4&gt;
 &lt;p&gt;You can use some 3-party software such as &lt;a href="http://www.2point5fish.com/"&gt;Mouse locator&lt;/a&gt; to creates a green crosshair of sorts around the cursor making it easy to identify. I did not test this way but you can try as you like.&lt;/p&gt;
 &lt;h4&gt;3. Change system mouse cursor image&lt;/h4&gt;
@@ -12,7 +12,7 @@
 &lt;p&gt;After changing the mouse pointer by using Mousecape, I found the cursor looks still bad in iTerm2 app, then I realized that &lt;strong&gt;some app such as iTerm2 might use the image of its local file instead of global&lt;/strong&gt;. Actually I got that somebody have the same problem since the mouse cursor is not invisible in darkground xcode.&lt;/p&gt;
 &lt;p&gt;Many people like set the iTerm2 background to dark, so if we change the image file used by iTerm2 to show the mouse cursor, then our problem can be fixed. Here we go&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Download this cursor image &lt;img alt="" src="http://blog.michaelyin.info/images/2015/04/15/f2303b905732d22b5c3503aaa3eacb70.png" /&gt; to your mac&lt;/li&gt;
+&lt;li&gt;Download this cursor image &lt;img alt="" src="/images/2015/04/15/f2303b905732d22b5c3503aaa3eacb70.png" /&gt; to your mac&lt;/li&gt;
 &lt;li&gt;Enter the directory &lt;code&gt;/Applications/iTerm.app/Contents/Resources&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Rename the IBarCursor.tiff to IBarCursor.tiff.bak, IBarCursorXMR.tiff to IBarCursorXMR.tiff.bak&lt;/li&gt;
 &lt;li&gt;Put the downloaded image to this directory and rename it to IBarCursor.png and IBarCursorXMR.png&lt;/li&gt;

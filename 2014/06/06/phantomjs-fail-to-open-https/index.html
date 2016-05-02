@@ -98,9 +98,9 @@
 <p>Phantomjs doc have said it will use system ca certificate by default. So we now have two option. One is import the ca certificate into the system location, the other is use <code>--ssl-certificates-path=</code> change the location used by Phantomjs. I will choose first one.</p>
 <h5>Export ca certificate</h5>
 <p>Now we need to get the ca certificate first, open your browser, type in the https address, and click the address and a window popup just like this</p>
-<p><img alt="" src="http://blog.michaelyin.info/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /></p>
+<p><img alt="" src="/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /></p>
 <p>Click the certificate infomation to see the detail about the certificate</p>
-<p><img alt="" src="http://blog.michaelyin.info/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /></p>
+<p><img alt="" src="/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /></p>
 <p>Click detail, and you can see the Certificate Hierarchy, <strong>You need to export the every certificate in the Certificate Hierarchy, so in this example you need to export 4 file</strong></p>
 <p>Open the exported file with text editor, you can see the first line and last line is <code>-----BEGIN CERTIFICATE-----</code>, <code>-----END CERTIFICATE-----</code> and the content is base64 coded, in some relevent doc this format is called .crt(certificate)</p>
 <h5>Import the crt to system</h5>

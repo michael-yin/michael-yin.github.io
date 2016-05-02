@@ -90,7 +90,7 @@
 <p>Some newbie developer think the expression supported by scrapy is difficult to learn, but the truth is, compared to the methods like find_by_id, find_by_name in some framework, the xpath, css, and re expression is very extensible and easy to maintain, then work well even in some complex situation. </p>
 <p>The xpath and css method is recommended by me to use in your spider since then are easier to write and maintain than re methods.</p>
 <p>When you try to use xpath to extract info from web pages, I think XPath Helper is a cool tool you should not miss (a extension for chrome, you can find similar plugins in firefox).</p>
-<p><img alt="" src="http://blog.michaelyin.info/images/2014/03/02/8536ee054bcfd0eac8e192d40dfc027b.png" /></p>
+<p><img alt="" src="/images/2014/03/02/8536ee054bcfd0eac8e192d40dfc027b.png" /></p>
 <p>Here is how you use it. Press <code>ctrl+shift+x</code> to open XPath Helper, and you can see the tool bar. You can type your xpath query string in the toolbar, and the result of the xpath will show on the right side and in the web page the selected content will have a yellow backgroud, which is very easy to check if the xpath expression is right.</p>
 <p>If you do not want to install extention to make this done, google chrome have built-in support to query xpath and css expression. Take a look at <code>$()</code> and <code>$x()</code> in console.</p>
 <p>BTW, at some time , the html you get by your web browser might not the same with the html by your spider. That is normaly caused by two factors, first is useraget. Scrapy use its own useragent by default, which can be detected by web server and send back meaningless html. The other factor is ip address if your browser use some proxy, so you need to make sure spider use the same proxy.</p>
@@ -104,12 +104,12 @@
 
 <p>the --spider is the name of your spider and -c is the name of the callback method 
 , after downloading html, scrapy will call that method to print out the result like this</p>
-<p><img alt="" src="http://blog.michaelyin.info/images/2014/03/02/e239fe1ccf58a90a35f170677a8b141c.png" /></p>
+<p><img alt="" src="/images/2014/03/02/e239fe1ccf58a90a35f170677a8b141c.png" /></p>
 <p>Make sure to use this to test your methods and it will save your a lot of time later, trust me!</p>
 <h3>Scrapy shell</h3>
 <p>When the spider raise some error in processing specific page, you need to figure out why spider did not work as expected. You can use parse mathod talked above, or you can use <code>scrapy shell</code> under this circumstance.</p>
 <p>Type <code>scrapy shell url_of_page</code> can open scrapy shell and I will talk the most important commands here, you can check the doc later to find out other usages.</p>
-<p><img alt="" src="http://blog.michaelyin.info/images/2014/03/02/918570a030a0274d6a22fbbb63b4af98.png" /></p>
+<p><img alt="" src="/images/2014/03/02/918570a030a0274d6a22fbbb63b4af98.png" /></p>
 <ul>
 <li><code>sel</code>: you can use sel.xpath sel.css to test your expression in this web page, this can quickly find out the error</li>
 <li><code>view</code>: you can call this <code>view(response)</code> to open the page in your browser</li>

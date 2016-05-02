@@ -1,5 +1,319 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/michaelyin.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2015-05-18T02:15:00+08:00</updated><entry><title>How to disable ghostdriver.log when using selenium</title><link href="http://blog.michaelyin.info/2015/05/18/how-to-disable-ghostdriver-log-when-using-selenium/" rel="alternate"></link><updated>2015-05-18T02:15:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2015-05-18:2015/05/18/how-to-disable-ghostdriver-log-when-using-selenium/</id><summary type="html">&lt;p&gt;When I am using selenium with phantomjs, it will always create a log file called &lt;code&gt;ghostdriver.log&lt;/code&gt; in the directory, which is very annoying sometime.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michaelyin's Blog</title><link href="http://blog.michaelyin.info/" rel="alternate"></link><link href="http://blog.michaelyin.info/feeds/michaelyin.atom.xml" rel="self"></link><id>http://blog.michaelyin.info/</id><updated>2016-04-29T02:46:00+08:00</updated><entry><title>upwork helper Part 3 job analyzer</title><link href="http://blog.michaelyin.info/2016/04/29/upwork_helper_part_3/" rel="alternate"></link><updated>2016-04-29T02:46:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2016-04-29:2016/04/29/upwork_helper_part_3/</id><summary type="html">&lt;p&gt;As I said before, the third part is a application which analyze the job data and return back some useful data based on statistical analysis.&lt;/p&gt;
+&lt;p&gt;The package used in this program:&lt;/p&gt;
+&lt;p&gt;nltk (Amazing library to play with natural language, in this application, I use it to analyze the job info such as job keywords)
+pandas (Make me easy to use data structures and data analysis tools, in this article, I use it to manipunate job data)
+matplotlib (Produces publication quality figures)&lt;/p&gt;
+&lt;h3&gt;1. Which tech should I learn first?&lt;/h3&gt;
+&lt;p&gt;There are so many tech you can see in the job list, I am sure you have a big question about which tech you should learn to quickly get a job on freelancer market like upwork&lt;/p&gt;
+&lt;p&gt;To make this question easy to answer, we can make a program to show a chart to help us know the demand of specific tech&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2016/04/29/e4d90d9171ac0822112045295fbb6c40.png" /&gt;&lt;/p&gt;
+&lt;p&gt;The figure above is a line chart which told us the job count under specific programming language during about 6 months. We can draw conclution from the figure that web development still need deveoper especially for php programmer, and ios seems a good try.&lt;/p&gt;
+&lt;h3&gt;2. Which tech should I learn next?&lt;/h3&gt;
+&lt;p&gt;Assum you have learned Python and now you can get some entry job on upwork, congratulations! After some work, you have noticed that if you want to be more competitive when applying job, some more skills have to be learned. For example, nowadays, more and more job demand web developer have experience with basic frontend skills and mobile development skills, which make them better cooperate with other develoeprs.&lt;/p&gt;
+&lt;p&gt;Every job have skills, title, job desciption, by analyzing the word frequency of the text, we can have an idea which word is popular under specific category. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="n"&gt;analyze_skills&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;python&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;day&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;60&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;Out&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+&lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1415&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;development&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;345&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;web&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;335&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;310&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;300&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;scraping&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;257&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;php&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;221&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;framework&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;217&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;programming&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;181&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;administration&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;170&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;django&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;162&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;html5&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;152&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;mysql&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;148&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;amazon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;140&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;design&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;135&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;c&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;134&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;api&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;111&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;app&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;106&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;postgresql&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;106&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;system&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;104&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;linux&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;103&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;ruby&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;97&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;java&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;96&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;jquery&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;86&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;odoo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;86&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;sql&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;83&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;css3&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;82&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;services&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;angularjs&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;78&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;78&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;css&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;71&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;mining&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;70&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;learning&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;70&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;openerp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;70&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;machine&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;69&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;bootstrap&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;67&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;microsoft&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;67&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;website&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;61&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;analysis&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;55&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;excel&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;55&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;android&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;54&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;git&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;54&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;google&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;53&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;json&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;52&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;crawler&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;51&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;node&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;48&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;47&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;mongodb&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;46&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;writing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;research&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;twitter&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;perl&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;41&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;network&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;41&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;flask&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;rails&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;36&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;science&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;scripting&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;ios&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;statistics&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;apache&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;numpy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;rest&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;34&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;ec2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;34&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;internet&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;pi&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;raspberry&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;ubuntu&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;processing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;net&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;31&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;database&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;31&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;devops&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;selenium&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;english&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;docker&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;wordpress&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;scrapy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;ajax&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;27&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;opencv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;27&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;shell&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;software&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;iphone&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;mobile&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;xml&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;github&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;bash&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;testing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;windows&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;adobe&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;language&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;management&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;analytics&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;modeling&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;graphic&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;objective&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;nginx&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;19&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;s3&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;entry&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;security&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;ui&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="nltk"></category><category term="pandas"></category></entry><entry><title>upwork helper Part 2 job viewer</title><link href="http://blog.michaelyin.info/2016/04/28/upwork_helper_part_2/" rel="alternate"></link><updated>2016-04-28T12:57:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2016-04-28:2016/04/28/upwork_helper_part_2/</id><summary type="html">&lt;p&gt;As I said in the last post, the second part of the program which help me better find work on upwork is a web app which display the job data in better UI, there are many options to do this job, django seems a good choice because django has a a very good doc and tons of package for future expansion.&lt;/p&gt;
+&lt;p&gt;Now I need to choose a frontend framework to help me develop web app quickly, bootstrap3 seems the best option.&lt;/p&gt;
+&lt;h4&gt;1. Job viewer&lt;/h4&gt;
+&lt;p&gt;Create data model called Job in the django model like this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Job&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Meta&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;db_table&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;job&amp;#39;&lt;/span&gt;
+
+    &lt;span class="n"&gt;job_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CharField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;skills&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CharField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;db_index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;category&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;sub_category&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;job_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="n"&gt;date_created&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DateTimeField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db_index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;duration&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;snippet&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;workload&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a class="fancy" href="/images/2016/04/28/6c5d7e7637bdb8d967a086b9625d186a.png"&gt;&lt;img alt="" class="fancy" height="600px" src="/images/2016/04/28/6c5d7e7637bdb8d967a086b9625d186a.png" width="450px" /&gt;&lt;/a&gt;&lt;a class="fancy" href="/images/2016/04/28/4f682ada7b5bf25933f227dc69f6c34c.png"&gt;&lt;img alt="" class="fancy" height="600px" src="/images/2016/04/28/4f682ada7b5bf25933f227dc69f6c34c.png" width="450px" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now the job info such as job description and title can be seen clearly, if I want to see more detail about the client who post the job, I can click the detail button, I can see all the history job about the client so I can know if this client professional.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2016/04/28/b6f212359a8ed891cb928d8e3d436a61.png" /&gt;&lt;/p&gt;
+&lt;h4&gt;2. Job search&lt;/h4&gt;
+&lt;p&gt;To make web app support job search, Haystack is imported because it features a unified, familiar API that allows you to plug in different search backends without having to modify your code&lt;/p&gt;
+&lt;p&gt;class JobList(ListView):
+    queryset = SearchQuerySet().all()
+    paginate_by = 10
+    template_name = 'job/list.html'
+    context_object_name = "jobs"&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;get_queryset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;term&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GET&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;JobList&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;get_queryset&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;term&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;order_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;date_created&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You can see the search code is consist with django, which is very easy to use.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2016/04/28/b3d795ed41497f144bebf23ab3ffe965.png" /&gt;&lt;/p&gt;</summary><category term="python"></category><category term="django"></category></entry><entry><title>upwork helper Part 1 job spider</title><link href="http://blog.michaelyin.info/2016/04/28/upwork_helper_part_1/" rel="alternate"></link><updated>2016-04-28T09:31:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2016-04-28:2016/04/28/upwork_helper_part_1/</id><summary type="html">&lt;h2&gt;Intro:&lt;/h2&gt;
+&lt;p&gt;Upwork, formerly Elance-oDesk, is a global freelancing platform where businesses and independent professionals connect and collaborate remotely. It is one of the largest freelancer marketplaces. I have started to work on this platform since 2014 as a software developer. When I am using upwork to find interesting job to post, it seems the results are not very satisfied and the web page displaying the detail of the job is not very straightforward. So I decided to write a program to make me feel better to deal with job info on Upwork. Considering that this program need to get the job data from upwork, return web page which have better UI, do some statistic job to help freelancer find job, I choose to use Python to do this job.&lt;/p&gt;
+&lt;p&gt;Here it is.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2016/04/28/6fa56b5d26f2c4f65077a99af959bc7d.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;As you can see, there are mainly three components contained in this program. The first part is a spider focus on fetching data from upwork and insert the data into the database. Fortunately, Upwork has provided a official python package to help me get this job done without processing html. The second part is a web app which display the job data in better UI, there are many options to do this job, django seems a good choice. The third part is a application which analyze the job data and return some data based on statistical analysis. For example, I can know from the data what tech is becoming popular, what type of job I can find if I learn some tech (Someone will not learn PHP if he does not want to develop web app).&lt;/p&gt;
+&lt;p&gt;Now I will introduce the program part by part, let's start from first part, the spider. You can find all the code below at &lt;a href="https://github.com/michael-yin/upwork_spider"&gt;here&lt;/a&gt; &lt;/p&gt;
+&lt;h3&gt;Spider&lt;/h3&gt;
+&lt;p&gt;Upwork has provided officlal API in many different languages such as python, php, ruby, java and so on. All you need is to follow the API Reference.
+First, register an application for an key pair at https://www.upwork.com/services/api/apply, and then, install upwork-python in an empty virtualenv(If you have no idea what is virtualenv, please check http://docs.python-guide.org/en/latest/dev/virtualenvs/). How to use upwork-python? Dont worry, in the upwork-python project(https://github.com/upwork/python-upwork), you can find directory named example, there is a good tutorial about how to use upwork-python.&lt;/p&gt;
+&lt;p&gt;Now we start to use upwork-python to serach the job which have python keyword based on example in the package.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;upwork&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pprint&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;pprint&lt;/span&gt;
+
+&lt;span class="n"&gt;PUBLIC_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;SECRET_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;desktop_app&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Emulation of desktop app.&lt;/span&gt;
+&lt;span class="sd"&gt;    Your keys should be created with project type &amp;quot;Desktop&amp;quot;.&lt;/span&gt;
+&lt;span class="sd"&gt;    Returns: ``upwork.Client`` instance ready to work.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Emulating desktop app&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;public_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PUBLIC_KEY&lt;/span&gt;
+    &lt;span class="n"&gt;secret_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SECRET_KEY&lt;/span&gt;
+
+    &lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;upwork&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;public_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;secret_key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;verifier&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;Please enter the verification code you get &amp;#39;&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;following this link:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;{0}&lt;/span&gt;&lt;span class="se"&gt;\n\n&lt;/span&gt;&lt;span class="s"&gt;&amp;gt; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_authorize_url&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Retrieving keys.... &amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token_secret&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;verifier&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;OK&amp;#39;&lt;/span&gt;
+
+    &lt;span class="c"&gt;# For further use you can store ``access_toket`` and&lt;/span&gt;
+    &lt;span class="c"&gt;# ``access_token_secret`` somewhere&lt;/span&gt;
+    &lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;upwork&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;public_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;secret_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                          &lt;span class="n"&gt;oauth_access_token&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                          &lt;span class="n"&gt;oauth_access_token_secret&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;access_token_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;desktop_app&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Get jobs&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;pprint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;provider_v2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search_jobs&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;q&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}))&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Exception at &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt; &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;last_method&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;last_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you run the python script above, you will get a list of python jobs in json format. However, the shortcoming of the script is, everytime you run the python script, you need to copy the auth url, paste it in the web brower and then copy the verifier back to make the spider pass the auth, which is not easy to use. Can we make the program automatically auth without any interuption of human? Of course!
+Now I will intro a better way to do this. We can use some tech to control web browsers to get the url and return the verifier back. Considering that Selenium allows for automated control of real browsers on real operating systems and now it can control a headless browser named phantomjs, we can integrate these function into the spider.&lt;/p&gt;
+&lt;p&gt;Because phantomjs is written by nodejs so we need to install it by using npm, so first, we install node, npm by using nvm(maybe the best node version manager, you can find it on github), second, pip install selenium, now we can make the spider automatically pass the auth, here is the code snippet&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_verifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;log in and get to work&amp;quot;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;page_source&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;try to login in {browser.current_url}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="c"&gt;#try to login&lt;/span&gt;
+        &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;quot;//input[@id=&amp;#39;login_username&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send_keys&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;USERNAME&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;quot;//input[@id=&amp;#39;login_password&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send_keys&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PASSWORD&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;//div[@class=&amp;#39;checkbox&amp;#39;]//label&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;click&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;quot;//button[@type=&amp;#39;submit&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;click&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;use password to login in&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;use cookies to login in&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;auth_get_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;auth_get_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    authorize access and get the token then return back&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;//div[@class=&amp;#39;oNote&amp;#39;]&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;quot;//button[@type=&amp;#39;submit&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;click&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_element_by_xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;//div[@class=&amp;#39;oNote&amp;#39;]&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;
+    &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rindex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;=&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we can make the spider automatically pass the auth, which is very convenient, but the spider only return a few jobs and then quit out , can we make the spider search jobs continuously and make the spider more extendable? The answer is yes.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;lock&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;RLock&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_client&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;get_client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;&amp;quot;&amp;quot;Emulation of desktop app.&lt;/span&gt;
+        &lt;span class="n"&gt;Your&lt;/span&gt; &lt;span class="n"&gt;keys&lt;/span&gt; &lt;span class="n"&gt;should&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;project&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Desktop&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+        &lt;span class="nl"&gt;Returns:&lt;/span&gt; &lt;span class="err"&gt;``&lt;/span&gt;&lt;span class="n"&gt;odesk&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Client&lt;/span&gt;&lt;span class="err"&gt;``&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt; &lt;span class="n"&gt;ready&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;work&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;upwork&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PUBLIC_KEY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SECRET_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_authorize_url&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;USERNAME&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;PASSWORD&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+            &lt;span class="nl"&gt;try:&lt;/span&gt;
+                &lt;span class="n"&gt;browser&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;create_browser&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+                &lt;span class="n"&gt;verifier&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_verifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;except&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;raise&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+            &lt;span class="nl"&gt;finally:&lt;/span&gt;
+                &lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="nl"&gt;else:&lt;/span&gt;
+            &lt;span class="n"&gt;verifier&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;Please&lt;/span&gt; &lt;span class="n"&gt;enter&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;verification&lt;/span&gt; &lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+                &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;following&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+        &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;Retrieving&lt;/span&gt; &lt;span class="n"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;....&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token_secret&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;verifier&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;OK&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;upwork&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PUBLIC_KEY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SECRET_KEY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                              &lt;span class="n"&gt;oauth_access_token&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                              &lt;span class="n"&gt;oauth_access_token_secret&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;access_token_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;search_jobs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;search_jobs enter lock&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+            &lt;span class="nl"&gt;try:&lt;/span&gt;
+                &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;threading&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;currentThread&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;search_jobs get lock&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;provider_v2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search_jobs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;threading&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;currentThread&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;search_jobs get result&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;
+            &lt;span class="n"&gt;except&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;LOGGER&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note that RLock is used to make it work in multithread program, so we can use it in this way&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#Job_Finder is a subclass of Thread&lt;/span&gt;
+&lt;span class="n"&gt;job_finder&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Job_Finder&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;KEY_LS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;job_finder&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can add some methods to extract the job info and insert the data into the db for later use, in the next post, I will describe the web app which make user check job in cleaner UI.&lt;/p&gt;
+&lt;p&gt;Thanks for your patience, you can check all the code above at &lt;a href="https://github.com/michael-yin/upwork_spider"&gt;here&lt;/a&gt; , I have pushed the code.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>How to disable ghostdriver.log when using selenium</title><link href="http://blog.michaelyin.info/2015/05/18/how-to-disable-ghostdriver-log-when-using-selenium/" rel="alternate"></link><updated>2015-05-18T02:15:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2015-05-18:2015/05/18/how-to-disable-ghostdriver-log-when-using-selenium/</id><summary type="html">&lt;p&gt;When I am using selenium with phantomjs, it will always create a log file called &lt;code&gt;ghostdriver.log&lt;/code&gt; in the directory, which is very annoying sometime.&lt;/p&gt;
 &lt;p&gt;So I dive into the source code and find a way to fix this problem.&lt;/p&gt;
 &lt;p&gt;Here is the code to launch phantomjs, the file is located in &lt;code&gt;$VIRTUALENV/lib/python2.7/site-packages/selenium/webdriver/phantomjs/service.py&lt;/code&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;port&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt;
@@ -49,7 +363,7 @@
 &lt;p&gt;Actually there is not very good post about the mouse pointer in Mac, that is why I write this blog post.&lt;/p&gt;
 &lt;h4&gt;1. Change system mouse cursor size&lt;/h4&gt;
 &lt;p&gt;OSX does not have options for changing the color of the mouse pointer, but you can change the size of if in  &lt;code&gt;System Preferences &amp;gt; Accessibility &amp;gt; Display&lt;/code&gt; to make the mouse pointer bigger.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2015/04/15/31b922e514426cc38ec888cde1480f45.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2015/04/15/31b922e514426cc38ec888cde1480f45.png" /&gt;&lt;/p&gt;
 &lt;h4&gt;2. Add something around the cursor&lt;/h4&gt;
 &lt;p&gt;You can use some 3-party software such as &lt;a href="http://www.2point5fish.com/"&gt;Mouse locator&lt;/a&gt; to creates a green crosshair of sorts around the cursor making it easy to identify. I did not test this way but you can try as you like.&lt;/p&gt;
 &lt;h4&gt;3. Change system mouse cursor image&lt;/h4&gt;
@@ -58,7 +372,7 @@
 &lt;p&gt;After changing the mouse pointer by using Mousecape, I found the cursor looks still bad in iTerm2 app, then I realized that &lt;strong&gt;some app such as iTerm2 might use the image of its local file instead of global&lt;/strong&gt;. Actually I got that somebody have the same problem since the mouse cursor is not invisible in darkground xcode.&lt;/p&gt;
 &lt;p&gt;Many people like set the iTerm2 background to dark, so if we change the image file used by iTerm2 to show the mouse cursor, then our problem can be fixed. Here we go&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Download this cursor image &lt;img alt="" src="http://blog.michaelyin.info/images/2015/04/15/f2303b905732d22b5c3503aaa3eacb70.png" /&gt; to your mac&lt;/li&gt;
+&lt;li&gt;Download this cursor image &lt;img alt="" src="/images/2015/04/15/f2303b905732d22b5c3503aaa3eacb70.png" /&gt; to your mac&lt;/li&gt;
 &lt;li&gt;Enter the directory &lt;code&gt;/Applications/iTerm.app/Contents/Resources&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Rename the IBarCursor.tiff to IBarCursor.tiff.bak, IBarCursorXMR.tiff to IBarCursorXMR.tiff.bak&lt;/li&gt;
 &lt;li&gt;Put the downloaded image to this directory and rename it to IBarCursor.png and IBarCursorXMR.png&lt;/li&gt;
@@ -275,9 +589,9 @@ Use &lt;span class="s2"&gt;&amp;quot;scrapy&amp;quot;&lt;/span&gt; to see availa
 &lt;p&gt;Phantomjs doc have said it will use system ca certificate by default. So we now have two option. One is import the ca certificate into the system location, the other is use &lt;code&gt;--ssl-certificates-path=&lt;/code&gt; change the location used by Phantomjs. I will choose first one.&lt;/p&gt;
 &lt;h5&gt;Export ca certificate&lt;/h5&gt;
 &lt;p&gt;Now we need to get the ca certificate first, open your browser, type in the https address, and click the address and a window popup just like this&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Click the certificate infomation to see the detail about the certificate&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Click detail, and you can see the Certificate Hierarchy, &lt;strong&gt;You need to export the every certificate in the Certificate Hierarchy, so in this example you need to export 4 file&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Open the exported file with text editor, you can see the first line and last line is &lt;code&gt;-----BEGIN CERTIFICATE-----&lt;/code&gt;, &lt;code&gt;-----END CERTIFICATE-----&lt;/code&gt; and the content is base64 coded, in some relevent doc this format is called .crt(certificate)&lt;/p&gt;
 &lt;h5&gt;Import the crt to system&lt;/h5&gt;
@@ -301,7 +615,7 @@ sudo dpkg-reconfigure ca-certificates
 &lt;p&gt;So I dive into the scrapy source code to find a way to make me feel better when using scrapy shell. Here is my solution.&lt;/p&gt;
 &lt;h4&gt;Less import&lt;/h4&gt;
 &lt;p&gt;re, json, urlparse, copy module is very useful lib in writing spiders, if they are available when we star to write code in scrapy shell that will be very good. So let us get started.&lt;/p&gt;
-&lt;p&gt;edit the scrapy/utils/console.py in scrapy source code&lt;/p&gt;
+&lt;p&gt;edit the &lt;code&gt;scrapy/utils/console.py&lt;/code&gt; in scrapy source code&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;urlparse&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;copy&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -382,6 +696,55 @@ sudo dpkg-reconfigure ca-certificates
             &lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;interact&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;SystemExit&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c"&gt;# raised when using exit() in python code.interact&lt;/span&gt;
         &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Update on 2015-05-27&lt;/h4&gt;
+&lt;p&gt;I think it is better to use scrapy shell with ipytho profile. So I modified &lt;code&gt;scrapy/utils/console.py&lt;/code&gt; to get this done.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;start_python_console&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;noipython&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Start Python console binded to the given namespace. If IPython is&lt;/span&gt;
+&lt;span class="sd"&gt;    available, an IPython console will be started instead, unless `noipython`&lt;/span&gt;
+&lt;span class="sd"&gt;    is True. Also, tab completion will be used on Unix systems.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;namespace&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;namespace&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c"&gt;# use IPython if available&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;noipython&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;start_ipython&lt;/span&gt;
+                &lt;span class="n"&gt;start_ipython&lt;/span&gt;&lt;span class="p"&gt;([],&lt;/span&gt; &lt;span class="n"&gt;user_ns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;ipdb&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;ipdb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_trace&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;code&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c"&gt;# readline module is only available on unix systems&lt;/span&gt;
+                &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;readline&lt;/span&gt;
+            &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;pass&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;rlcompleter&lt;/span&gt;
+                &lt;span class="n"&gt;readline&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse_and_bind&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;tab:complete&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;interact&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;SystemExit&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c"&gt;# raised when using exit() in python code.interact&lt;/span&gt;
+        &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I created a file called &lt;code&gt;$home/.ipython/profile_default/startup/01-scrapy.py&lt;/code&gt; which contains this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;urlparse&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;copy&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;difflib&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;compare&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;str1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;str2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;str1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;splitlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;str2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;splitlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;difflib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Differ&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;diff&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compare&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="scrapy"></category><category term="python"></category></entry><entry><title>Convert 8-bit byte to signed int in python</title><link href="http://blog.michaelyin.info/2014/03/09/convert-8bit-byte-to-signed-int/" rel="alternate"></link><updated>2014-03-09T11:37:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-03-09:2014/03/09/convert-8bit-byte-to-signed-int/</id><summary type="html">&lt;p&gt;Python has provided library to handle bit maniputation in most cases, however, I can not find a good way to convert a 8-bit single byte to signed int type using built-in lib.&lt;/p&gt;
 &lt;h3&gt;Scenario&lt;/h3&gt;
 &lt;p&gt;Here is scenario, some newbie Java developer need to hash the password and save it to database, he did not convert to hash result to hex string but just called toString to save it to database.&lt;/p&gt;
@@ -424,7 +787,7 @@ sudo dpkg-reconfigure ca-certificates
 &lt;p&gt;Some newbie developer think the expression supported by scrapy is difficult to learn, but the truth is, compared to the methods like find_by_id, find_by_name in some framework, the xpath, css, and re expression is very extensible and easy to maintain, then work well even in some complex situation. &lt;/p&gt;
 &lt;p&gt;The xpath and css method is recommended by me to use in your spider since then are easier to write and maintain than re methods.&lt;/p&gt;
 &lt;p&gt;When you try to use xpath to extract info from web pages, I think XPath Helper is a cool tool you should not miss (a extension for chrome, you can find similar plugins in firefox).&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/03/02/8536ee054bcfd0eac8e192d40dfc027b.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/03/02/8536ee054bcfd0eac8e192d40dfc027b.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Here is how you use it. Press &lt;code&gt;ctrl+shift+x&lt;/code&gt; to open XPath Helper, and you can see the tool bar. You can type your xpath query string in the toolbar, and the result of the xpath will show on the right side and in the web page the selected content will have a yellow backgroud, which is very easy to check if the xpath expression is right.&lt;/p&gt;
 &lt;p&gt;If you do not want to install extention to make this done, google chrome have built-in support to query xpath and css expression. Take a look at &lt;code&gt;$()&lt;/code&gt; and &lt;code&gt;$x()&lt;/code&gt; in console.&lt;/p&gt;
 &lt;p&gt;BTW, at some time , the html you get by your web browser might not the same with the html by your spider. That is normaly caused by two factors, first is useraget. Scrapy use its own useragent by default, which can be detected by web server and send back meaningless html. The other factor is ip address if your browser use some proxy, so you need to make sure spider use the same proxy.&lt;/p&gt;
@@ -438,12 +801,12 @@ sudo dpkg-reconfigure ca-certificates
 
 &lt;p&gt;the --spider is the name of your spider and -c is the name of the callback method 
 , after downloading html, scrapy will call that method to print out the result like this&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/03/02/e239fe1ccf58a90a35f170677a8b141c.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/03/02/e239fe1ccf58a90a35f170677a8b141c.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Make sure to use this to test your methods and it will save your a lot of time later, trust me!&lt;/p&gt;
 &lt;h3&gt;Scrapy shell&lt;/h3&gt;
 &lt;p&gt;When the spider raise some error in processing specific page, you need to figure out why spider did not work as expected. You can use parse mathod talked above, or you can use &lt;code&gt;scrapy shell&lt;/code&gt; under this circumstance.&lt;/p&gt;
 &lt;p&gt;Type &lt;code&gt;scrapy shell url_of_page&lt;/code&gt; can open scrapy shell and I will talk the most important commands here, you can check the doc later to find out other usages.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/03/02/918570a030a0274d6a22fbbb63b4af98.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/03/02/918570a030a0274d6a22fbbb63b4af98.png" /&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;sel&lt;/code&gt;: you can use sel.xpath sel.css to test your expression in this web page, this can quickly find out the error&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;view&lt;/code&gt;: you can call this &lt;code&gt;view(response)&lt;/code&gt; to open the page in your browser&lt;/li&gt;
@@ -474,9 +837,9 @@ sudo dpkg-reconfigure ca-certificates
 &lt;p&gt;I hope the tips above can really help you, and after that, you can dive in scrapy doc to find other useful tools.&lt;/p&gt;</summary><category term="scrapy"></category></entry><entry><title>Handle autocomplete using selenium</title><link href="http://blog.michaelyin.info/2014/02/19/handle-autocomplete-using-selenium/" rel="alternate"></link><updated>2014-02-19T08:00:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2014-02-19:2014/02/19/handle-autocomplete-using-selenium/</id><summary type="html">&lt;p&gt;Selenium is a so great tool to make web ui test, in some cases, we have to make it work with some ajax autocomplete like jquery ui autocomplete.&lt;/p&gt;
 &lt;p&gt;First you need to understand how the autocomplete work. Most plugin will create a ul which contain data get from the server by ajax, and insert the ul into the body, then display it for user to &lt;code&gt;click&lt;/code&gt; by mouse or &lt;code&gt;enter&lt;/code&gt; by keydown.&lt;/p&gt;
 &lt;p&gt;When the page load, you can see the ul has no children&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/02/19/e92007dc30df24d24f0e6ed3fc00c479.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/02/19/e92007dc30df24d24f0e6ed3fc00c479.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Then I type in some word in the input to make the plugin make ajax query&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/02/19/054d9a4a88cbb254d9aa0d9d9d02056c.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/02/19/054d9a4a88cbb254d9aa0d9d9d02056c.png" /&gt;&lt;/p&gt;
 &lt;p&gt;As you can see, plugin use the data returned from server create li in ul element and display it, so how to make Selenium wait for ajax complete? Selenium provide WebDriverWait which can 
 wait for something done.&lt;/p&gt;
 &lt;p&gt;The next thing to do is to choose the item, user can &lt;code&gt;click&lt;/code&gt; or &lt;code&gt;enter&lt;/code&gt; to choose the item, so there are at least two ways to make selenium work with autocomplete&lt;/p&gt;
@@ -1439,7 +1802,7 @@ Notation)就是常用的将操作符放在操作数中间的算术表达式。�
 &lt;li&gt;前缀，中缀，后缀表达式与二叉树的表示&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这三个表达式其实与二叉树是有这很紧密的联系的，a+b*c-(d+e)这个中缀表达式我们将其操作符当做内节点，操作数当做叶子节点，这样的话就能够画出这个中缀表达式所对应的二叉树 &lt;strong&gt;原图有误，已经更正 by michaelyin @ 2014-01-18&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/01/18/9d0405ffd074d3ca1333d7d4f981e507.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/01/18/9d0405ffd074d3ca1333d7d4f981e507.png" /&gt;&lt;/p&gt;
 &lt;p&gt;如果我们对这个中缀表达式进行前序和后序遍历，则输出的结果就是其对应的前缀和后缀表达式。&lt;/p&gt;
 &lt;p&gt;本篇Blog我所参考的资料&lt;/p&gt;
 &lt;ul&gt;
@@ -3300,12 +3663,12 @@ server将它附加到你本机数据库中（数据库在APP_Data文件夹中）
 &lt;p&gt;Shared放的是所用到的母版页。&lt;/p&gt;
 &lt;p&gt;UserControls放的是用户控件，需要提到的xslt文件，FCKeditor。&lt;/p&gt;
 &lt;p&gt;Old_App_Code中放的是需要用到的App_Code,UIL中放的是BugNET.UserInterfaceLayer下的类，Pop3Reader下放的是读取邮件时需要用到的类，DAL和BLL是干什么的就不用我多说了吧。。&lt;/p&gt;</summary><category term="Bugnet"></category></entry><entry><title>Bugnet学习总结（2）数据库</title><link href="http://blog.michaelyin.info/2010/07/19/bugnet-study-2/" rel="alternate"></link><updated>2010-07-19T07:50:00+08:00</updated><author><name>Michaelyin</name></author><id>tag:blog.michaelyin.info,2010-07-19:2010/07/19/bugnet-study-2/</id><summary type="html">&lt;p&gt;由于Bugnet使用了Membership,所以数据库中会有aspnet_Applications这样以aspnet开头的表名，而这其中和user相关的权限的表诸如aspnet_UsersInRoles，aspnet_Roles，这些表在实际项目运行中是没有用到的，关于membership中的表的联系以及表的具体含义，请参考这篇文章。&lt;a href="http://www.cnblogs.com/hjf1223/archive/2006/08/27/487890.html"&gt;请猛击这里&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/01/18/679212a40c5d1d0af435db4edf7f6841.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;接下来的就是具体的业务表了，在业务表中，比较重要的就是Project，Bug这两张表。&lt;/p&gt;
 &lt;p&gt;aspnet_Users和UserRoles，Roles，RolePermission,Permission,UserProjects组成了基于Project的权限管理模块所需要的表，表名所对应的意思看起来是一目了然的，在这里也就不多说了。。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/01/18/9a04e8852198f626432189e499a67af9.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/01/18/9a04e8852198f626432189e499a67af9.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;在Bugnet里你创建一个Project的话，项目创建者可以在里面事先添加一些你自定义的属性，你可以决定项目成员在提交内容的时候是否必须填写这个自定义属性，这个自定义属性值你可以设定成Text,Dropdownlist,等等，关于这个功能，具体是在ProjectCustomFields，ProjectCustomFieldSelection，ProjectCustomFieldType，ProjectCustomFieldValues这几个表中实现的。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/01/18/6fa4c110b4629d29cbea2f1b843a1399.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/01/18/6fa4c110b4629d29cbea2f1b843a1399.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;剩下的表基本上都是以Bug为中心，BugAttachment保存上传的附件，BugComment保存评论，BugHistory保存Issue的历史，BugNotification保存Issue相关的需要通知的User,Component保存Project的分类，RelatedBug保存相关Issue关系。另外的几个表都是比如Status，Type都是起着字典表的作用。标识着Issue的状态和类别。&lt;/p&gt;
 &lt;p&gt;HostSettings保存着Bugnet整体相关的设置。Log则是Log4net进行日志记录的地方。&lt;/p&gt;
 &lt;p&gt;表基本上介绍完了，Bugnet在数据操作上基本是使用Ado调用存储过程来完成数据操作的，在这一点上我也是有点不理解，如果说使用存储过程是为了性能，那它代码可以优化的地方不是没有，比如它使用的是自带的分页，而没有自己写分页，这样在数据量达到一定程度时性能肯定会首影响，而且更让我感到有点疑惑的是，代码里面使用了Datafaactory来生成需要的对象，那你为什么具体的数据操作代码要放到数据库里面去？不是要分离么？&lt;/p&gt;

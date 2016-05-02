@@ -13,9 +13,9 @@
 &lt;p&gt;Phantomjs doc have said it will use system ca certificate by default. So we now have two option. One is import the ca certificate into the system location, the other is use &lt;code&gt;--ssl-certificates-path=&lt;/code&gt; change the location used by Phantomjs. I will choose first one.&lt;/p&gt;
 &lt;h5&gt;Export ca certificate&lt;/h5&gt;
 &lt;p&gt;Now we need to get the ca certificate first, open your browser, type in the https address, and click the address and a window popup just like this&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/06/06/56fdd5c8eead099f2096d7f0a5a4816f.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Click the certificate infomation to see the detail about the certificate&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://blog.michaelyin.info/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2014/06/06/b4f01d84bb4abea2224427e13a954937.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Click detail, and you can see the Certificate Hierarchy, &lt;strong&gt;You need to export the every certificate in the Certificate Hierarchy, so in this example you need to export 4 file&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Open the exported file with text editor, you can see the first line and last line is &lt;code&gt;-----BEGIN CERTIFICATE-----&lt;/code&gt;, &lt;code&gt;-----END CERTIFICATE-----&lt;/code&gt; and the content is base64 coded, in some relevent doc this format is called .crt(certificate)&lt;/p&gt;
 &lt;h5&gt;Import the crt to system&lt;/h5&gt;
